@@ -1,0 +1,139 @@
+{
+  "rewrites": [
+    {
+      "source": "/",
+      "destination": "/crawford-homepage.html"
+    },
+    {
+      "source": "/coaching",
+      "destination": "/crawford-coaching.html"
+    },
+    {
+      "source": "/whole",
+      "destination": "/crawford-whole.html"
+    },
+    {
+      "source": "/synergize",
+      "destination": "/crawford-synergize.html"
+    },
+    {
+      "source": "/growth-zone",
+      "destination": "/crawford-growth-zone.html"
+    },
+    {
+      "source": "/feelings",
+      "destination": "/crawford-feelings.html"
+    },
+    {
+      "source": "/core-values",
+      "destination": "/crawford-core-values.html"
+    },
+    {
+      "source": "/timer",
+      "destination": "/crawford-timer.html"
+    },
+    {
+      "source": "/strengths",
+      "destination": "/crawford-strengths.html"
+    },
+    {
+      "source": "/motivation",
+      "destination": "/crawford-motivation.html"
+    },
+    {
+      "source": "/optimism",
+      "destination": "/crawford-optimism.html"
+    },
+    {
+      "source": "/about",
+      "destination": "/crawford-about.html"
+    },
+    {
+      "source": "/contact",
+      "destination": "/crawford-contact.html"
+    },
+    {
+      "source": "/writing",
+      "destination": "/crawford-writing.html"
+    },
+    {
+      "source": "/writing/all",
+      "destination": "/crawford-writing-all.html"
+    },
+    {
+      "source": "/writing/1-the-need-beneath-the-want",
+      "destination": "/blogs/crawford-writing-1-need-beneath-the-want.html"
+    },
+    {
+      "source": "/writing/2-dont-wait-for-the-proof",
+      "destination": "/blogs/crawford-writing-2-dont-wait-for-the-proof.html"
+    },
+    {
+      "source": "/writing/11-interrupted-training-the-art-of-coming-back-well",
+      "destination": "/blogs/crawford-writing-11-interrupted-training-the-art-of-coming-back-well.html"
+    },
+    {
+      "source": "/writing/12-the-price-of-being-right-at-any-cost",
+      "destination": "/blogs/crawford-writing-12-the-price-of-being-right-at-any-cost.html"
+    },
+    {
+      "source": "/writing/13-the-quiet-side",
+      "destination": "/blogs/crawford-writing-13-the-quiet-side.html"
+    },
+    {
+      "source": "/writing/14-a-failed-tactic-is-not-a-failed-strategy",
+      "destination": "/blogs/crawford-writing-14-a-failed-tactic-is-not-a-failed-strategy.html"
+    },
+    {
+      "source": "/writing/15-becoming-a-snacker",
+      "destination": "/blogs/crawford-writing-15-becoming-a-snacker.html"
+    },
+    {
+      "source": "/writing/3-theree28099s-so-much-more-to-cardio",
+      "destination": "/blogs/crawford-writing-3-theree28099s-so-much-more-to-cardio.html"
+    },
+    {
+      "source": "/writing/4-the-power-of-the-pack",
+      "destination": "/blogs/crawford-writing-4-the-power-of-the-pack.html"
+    },
+    {
+      "source": "/writing/6-the-problem-with-advice",
+      "destination": "/blogs/crawford-writing-6-the-problem-with-advice.html"
+    },
+    {
+      "source": "/writing/7-feed-the-fire-dont-starve-the-flame",
+      "destination": "/blogs/crawford-writing-7-feed-the-fire-dont-starve-the-flame.html"
+    },
+    {
+      "source": "/writing/8-the-paradox-of-happiness",
+      "destination": "/blogs/crawford-writing-8-the-paradox-of-happiness.html"
+    },
+    {
+      "source": "/writing/9-letting-the-holidays-be-messy",
+      "destination": "/blogs/crawford-writing-9-letting-the-holidays-be-messy.html"
+    },
+    {
+      "source": "/writing/5-requisition-form-muscle-edition",
+      "destination": "/blogs/crawford-writing-5-requisition-form-muscle-edition.html"
+    },
+    {
+      "source": "/writing/10-new-year-new-start",
+      "destination": "/blogs/crawford-writing-10-new-year-new-start.html"
+    },
+    {
+      "source": "/subscribe",
+      "destination": "/crawford-subscribe.html"
+    },
+    {
+      "source": "/assistant",
+      "destination": "/crawford-assistant.html"
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/blog",
+      "destination": "/writing",
+      "permanent": true
+    }
+  ]
+}
