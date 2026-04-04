@@ -1,869 +1,1266 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Contact — Crawford Coaching</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
-<style>
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Contact — Crawford Coaching</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Jost:wght@200;300;400;500&display=swap"
+            rel="stylesheet"
+        />
+        <style>
+            *,
+            *::before,
+            *::after {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
 
-:root {
-  --ink:        #0e0f10;
-  --slate:      #1c2330;
-  --slate-mid:  #232f3e;
-  --fog:        #3d4a58;
-  --mist:       #7a8fa3;
-  --pale:       #c8d4de;
-  --white:      #f5f3ef;
-  --brand-blue: #2d86c4;
-  --brand-blue-light: #4fa3d8;
-  --serif-display: 'Cormorant Garamond', Georgia, serif;
-  --serif-body:    'Libre Baskerville', Georgia, serif;
-  --sans:          'Jost', sans-serif;
-}
+            :root {
+                --ink: #0e0f10;
+                --slate: #1c2330;
+                --slate-mid: #232f3e;
+                --fog: #3d4a58;
+                --mist: #7a8fa3;
+                --pale: #c8d4de;
+                --white: #f5f3ef;
+                --brand-blue: #2d86c4;
+                --brand-blue-light: #4fa3d8;
+                --serif-display: "Cormorant Garamond", Georgia, serif;
+                --serif-body: "Libre Baskerville", Georgia, serif;
+                --sans: "Jost", sans-serif;
+            }
 
-html { scroll-behavior: smooth; }
+            html {
+                scroll-behavior: smooth;
+            }
 
-body {
-  background: var(--ink);
-  color: var(--white);
-  font-family: var(--serif-body);
-  font-size: 16px;
-  line-height: 1.8;
-  -webkit-font-smoothing: antialiased;
-}
+            body {
+                background: var(--ink);
+                color: var(--white);
+                font-family: var(--serif-body);
+                font-size: 16px;
+                line-height: 1.8;
+                -webkit-font-smoothing: antialiased;
+            }
 
-/* ── NAV ── */
-.nav {
-  position: fixed;
-  top: 0; left: 0; right: 0;
-  z-index: 100;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 1.6rem clamp(1.5rem, 4vw, 3.5rem);
-  background: rgba(14,15,16,0.85);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(255,255,255,0.05);
-}
-.nav__logo { display: inline-flex; align-items: center; text-decoration: none; }
-.nav__logo img { height: 36px; width: auto; display: block; }
-.nav__links { display: flex; gap: 2.5rem; list-style: none; }
-.nav__links a {
-  font-family: var(--sans); font-weight: 300;
-  font-size: 0.78rem; letter-spacing: 0.18em;
-  text-transform: uppercase; color: var(--pale);
-  text-decoration: none; opacity: 0.85;
-  transition: opacity 0.2s, color 0.2s;
-}
-.nav__links a:hover { opacity: 1; color: var(--white); }
-.nav__links a.active { color: var(--brand-blue); opacity: 1; }
-.nav__cta {
-  font-family: var(--sans); font-weight: 400;
-  font-size: 0.75rem; letter-spacing: 0.16em;
-  text-transform: uppercase; color: var(--white);
-  text-decoration: none;
-  border: 1px solid rgba(245,243,239,0.45);
-  padding: 0.5rem 1.3rem; border-radius: 1px;
-  transition: background 0.25s, border-color 0.25s;
-}
-.nav__cta:hover { background: rgba(245,243,239,0.1); border-color: rgba(245,243,239,0.8); }
+            /* ── NAV ── */
+            .nav {
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                z-index: 100;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 1.6rem clamp(1.5rem, 4vw, 3.5rem);
+                background: rgba(14, 15, 16, 0.85);
+                backdrop-filter: blur(12px);
+                -webkit-backdrop-filter: blur(12px);
+                border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            }
+            .nav__logo {
+                display: inline-flex;
+                align-items: center;
+                text-decoration: none;
+            }
+            .nav__logo img {
+                height: 36px;
+                width: auto;
+                display: block;
+            }
+            .nav__links {
+                display: flex;
+                gap: 2.5rem;
+                list-style: none;
+            }
+            .nav__links a {
+                font-family: var(--sans);
+                font-weight: 300;
+                font-size: 0.78rem;
+                letter-spacing: 0.18em;
+                text-transform: uppercase;
+                color: var(--pale);
+                text-decoration: none;
+                opacity: 0.85;
+                transition:
+                    opacity 0.2s,
+                    color 0.2s;
+            }
+            .nav__links a:hover {
+                opacity: 1;
+                color: var(--white);
+            }
+            .nav__links a.active {
+                color: var(--brand-blue);
+                opacity: 1;
+            }
+            .nav__cta {
+                font-family: var(--sans);
+                font-weight: 400;
+                font-size: 0.75rem;
+                letter-spacing: 0.16em;
+                text-transform: uppercase;
+                color: var(--white);
+                text-decoration: none;
+                border: 1px solid rgba(245, 243, 239, 0.45);
+                padding: 0.5rem 1.3rem;
+                border-radius: 1px;
+                transition:
+                    background 0.25s,
+                    border-color 0.25s;
+            }
+            .nav__cta:hover {
+                background: rgba(245, 243, 239, 0.1);
+                border-color: rgba(245, 243, 239, 0.8);
+            }
 
-/* ─── MOBILE NAV ─────────────────────── */
-.nav__toggle {
-  display: none;
-  width: 44px;
-  height: 44px;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 0.5rem;
-  z-index: 200;
-  -webkit-tap-highlight-color: transparent;
-}
-.nav__toggle span {
-  display: block;
-  width: 22px;
-  height: 1.5px;
-  background: var(--pale);
-  margin: 5px 0;
-  transition: transform 0.3s ease, opacity 0.2s ease;
-  transform-origin: center;
-}
-.nav__toggle.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
-.nav__toggle.open span:nth-child(2) { opacity: 0; }
-.nav__toggle.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+            /* ─── MOBILE NAV ─────────────────────── */
+            .nav__toggle {
+                display: none;
+                width: 44px;
+                height: 44px;
+                align-items: center;
+                justify-content: center;
+                flex-direction: column;
+                background: none;
+                border: none;
+                cursor: pointer;
+                padding: 0.5rem;
+                z-index: 200;
+                -webkit-tap-highlight-color: transparent;
+            }
+            .nav__toggle span {
+                display: block;
+                width: 22px;
+                height: 1.5px;
+                background: var(--pale);
+                margin: 5px 0;
+                transition:
+                    transform 0.3s ease,
+                    opacity 0.2s ease;
+                transform-origin: center;
+            }
+            .nav__toggle.open span:nth-child(1) {
+                transform: translateY(6.5px) rotate(45deg);
+            }
+            .nav__toggle.open span:nth-child(2) {
+                opacity: 0;
+            }
+            .nav__toggle.open span:nth-child(3) {
+                transform: translateY(-6.5px) rotate(-45deg);
+            }
 
-.nav__overlay {
-  display: none;
-  position: fixed;
-  inset: 0;
-  z-index: 90;
-  background: rgba(14,15,16,0.97);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 0;
-  opacity: 0;
-  transition: opacity 0.35s ease;
-}
-.nav__overlay.open { display: flex; opacity: 1; }
-.nav__overlay a {
-  font-family: var(--sans);
-  font-weight: 300;
-  font-size: 1.1rem;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--pale);
-  text-decoration: none;
-  padding: 0.9rem 0;
-  opacity: 0.85;
-  transition: color 0.2s, opacity 0.2s;
-}
-.nav__overlay a:hover,
-.nav__overlay a.active {
-  opacity: 1;
-  color: var(--white);
-}
-.nav__overlay .nav__overlay-cta {
-  margin-top: 2rem;
-  font-family: var(--sans);
-  font-weight: 400;
-  font-size: 0.85rem;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--white);
-  text-decoration: none;
-  border: 1px solid rgba(245,243,239,0.5);
-  padding: 0.7rem 2rem;
-  border-radius: 1px;
-  transition: background 0.25s, border-color 0.25s;
-}
-.nav__overlay .nav__overlay-cta:hover {
-  background: rgba(245,243,239,0.1);
-  border-color: rgba(245,243,239,0.8);
-}
-.nav__toggle:focus-visible,
-.nav__overlay a:focus-visible,
-.nav__overlay .nav__overlay-cta:focus-visible {
-  outline: 2px solid var(--white);
-  outline-offset: 4px;
-}
+            .nav__overlay {
+                display: none;
+                position: fixed;
+                inset: 0;
+                z-index: 90;
+                background: rgba(14, 15, 16, 0.97);
+                backdrop-filter: blur(20px);
+                -webkit-backdrop-filter: blur(20px);
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                gap: 0;
+                opacity: 0;
+                transition: opacity 0.35s ease;
+            }
+            .nav__overlay.open {
+                display: flex;
+                opacity: 1;
+            }
+            .nav__overlay a {
+                font-family: var(--sans);
+                font-weight: 300;
+                font-size: 1.1rem;
+                letter-spacing: 0.2em;
+                text-transform: uppercase;
+                color: var(--pale);
+                text-decoration: none;
+                padding: 0.9rem 0;
+                opacity: 0.85;
+                transition:
+                    color 0.2s,
+                    opacity 0.2s;
+            }
+            .nav__overlay a:hover,
+            .nav__overlay a.active {
+                opacity: 1;
+                color: var(--white);
+            }
+            .nav__overlay .nav__overlay-cta {
+                margin-top: 2rem;
+                font-family: var(--sans);
+                font-weight: 400;
+                font-size: 0.85rem;
+                letter-spacing: 0.16em;
+                text-transform: uppercase;
+                color: var(--white);
+                text-decoration: none;
+                border: 1px solid rgba(245, 243, 239, 0.5);
+                padding: 0.7rem 2rem;
+                border-radius: 1px;
+                transition:
+                    background 0.25s,
+                    border-color 0.25s;
+            }
+            .nav__overlay .nav__overlay-cta:hover {
+                background: rgba(245, 243, 239, 0.1);
+                border-color: rgba(245, 243, 239, 0.8);
+            }
+            .nav__toggle:focus-visible,
+            .nav__overlay a:focus-visible,
+            .nav__overlay .nav__overlay-cta:focus-visible {
+                outline: 2px solid var(--white);
+                outline-offset: 4px;
+            }
 
-/* ── PAGE HERO ── */
-.page-hero {
-  min-height: 40vh;
-  display: flex;
-  align-items: flex-end;
-  padding: 8rem clamp(1.5rem, 4vw, 3.5rem) 4rem;
-  background: var(--slate);
-}
-.page-hero__content { max-width: 800px; }
-.page-hero__label {
-  font-family: var(--sans); font-weight: 400;
-  font-size: 0.68rem; letter-spacing: 0.3em;
-  text-transform: uppercase; color: var(--brand-blue);
-  margin-bottom: 1.5rem;
-  display: flex; align-items: center; gap: 0.8rem;
-}
-.page-hero__label::before {
-  content: ''; display: block;
-  width: 28px; height: 1px;
-  background: var(--brand-blue);
-}
-.page-hero__title {
-  font-family: var(--serif-display);
-  font-weight: 300;
-  font-size: clamp(2.4rem, 5vw, 3.6rem);
-  line-height: 1.1;
-  color: var(--white);
-}
-.page-hero__sub {
-  font-family: var(--serif-body);
-  font-size: 0.95rem;
-  color: var(--pale);
-  margin-top: 1.2rem;
-  max-width: 560px;
-}
+            /* ── PAGE HERO ── */
+            .page-hero {
+                min-height: 40vh;
+                display: flex;
+                align-items: flex-end;
+                padding: 8rem clamp(1.5rem, 4vw, 3.5rem) 4rem;
+                background: var(--slate);
+            }
+            .page-hero__content {
+                max-width: 800px;
+            }
+            .page-hero__label {
+                font-family: var(--sans);
+                font-weight: 400;
+                font-size: 0.68rem;
+                letter-spacing: 0.3em;
+                text-transform: uppercase;
+                color: var(--brand-blue);
+                margin-bottom: 1.5rem;
+                display: flex;
+                align-items: center;
+                gap: 0.8rem;
+            }
+            .page-hero__label::before {
+                content: "";
+                display: block;
+                width: 28px;
+                height: 1px;
+                background: var(--brand-blue);
+            }
+            .page-hero__title {
+                font-family: var(--serif-display);
+                font-weight: 300;
+                font-size: clamp(2.4rem, 5vw, 3.6rem);
+                line-height: 1.1;
+                color: var(--white);
+            }
+            .page-hero__sub {
+                font-family: var(--serif-body);
+                font-size: 0.95rem;
+                color: var(--pale);
+                margin-top: 1.2rem;
+                max-width: 560px;
+            }
 
-/* ── CONTACT GRID ── */
-.contact {
-  padding: 5rem clamp(1.5rem, 4vw, 3.5rem);
-  background: var(--slate-mid);
-}
-.contact__inner {
-  max-width: 1100px;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: 1.4fr 1fr;
-  gap: 5rem;
-  align-items: start;
-}
+            /* ── CONTACT GRID ── */
+            .contact {
+                padding: 5rem clamp(1.5rem, 4vw, 3.5rem);
+                background: var(--slate-mid);
+            }
+            .contact__inner {
+                max-width: 1100px;
+                margin: 0 auto;
+                display: grid;
+                grid-template-columns: 1.4fr 1fr;
+                gap: 5rem;
+                align-items: start;
+            }
 
-/* ── FORM ── */
-.form__group { margin-bottom: 1.8rem; }
-.form__label {
-  display: block;
-  font-family: var(--sans); font-weight: 400;
-  font-size: 0.72rem; letter-spacing: 0.18em;
-  text-transform: uppercase; color: var(--mist);
-  margin-bottom: 0.6rem;
-}
-.form__input,
-.form__textarea {
-  width: 100%;
-  font-family: var(--serif-body);
-  font-size: 0.92rem;
-  color: var(--white);
-  background: var(--slate);
-  border: 1px solid var(--fog);
-  border-radius: 2px;
-  padding: 0.85rem 1rem;
-  transition: border-color 0.3s;
-  outline: none;
-}
-.form__input:focus,
-.form__textarea:focus {
-  border-color: var(--brand-blue);
-}
-.form__input::placeholder,
-.form__textarea::placeholder {
-  color: var(--fog);
-  font-style: italic;
-}
-.form__textarea {
-  min-height: 160px;
-  resize: vertical;
-}
-/* Honeypot — hidden from humans */
-.form__honey { display: none; }
-.form__submit {
-  display: inline-block;
-  font-family: var(--sans); font-weight: 400;
-  font-size: 0.78rem; letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--white);
-  background: transparent;
-  border: 1px solid var(--brand-blue);
-  padding: 0.85rem 2.2rem;
-  border-radius: 1px;
-  cursor: pointer;
-  transition: background 0.3s, border-color 0.3s;
-}
-.form__submit:hover {
-  background: var(--brand-blue);
-  border-color: var(--brand-blue);
-}
+            /* ── FORM ── */
+            .form__group {
+                margin-bottom: 1.8rem;
+            }
+            .form__label {
+                display: block;
+                font-family: var(--sans);
+                font-weight: 400;
+                font-size: 0.72rem;
+                letter-spacing: 0.18em;
+                text-transform: uppercase;
+                color: var(--mist);
+                margin-bottom: 0.6rem;
+            }
+            .form__input,
+            .form__textarea {
+                width: 100%;
+                font-family: var(--serif-body);
+                font-size: 0.92rem;
+                color: var(--white);
+                background: var(--slate);
+                border: 1px solid var(--fog);
+                border-radius: 2px;
+                padding: 0.85rem 1rem;
+                transition: border-color 0.3s;
+                outline: none;
+            }
+            .form__input:focus,
+            .form__textarea:focus {
+                border-color: var(--brand-blue);
+            }
+            .form__input::placeholder,
+            .form__textarea::placeholder {
+                color: var(--fog);
+                font-style: italic;
+            }
+            .form__textarea {
+                min-height: 160px;
+                resize: vertical;
+            }
+            /* Honeypot — hidden from humans */
+            .form__honey {
+                display: none;
+            }
+            .form__submit {
+                display: inline-block;
+                font-family: var(--sans);
+                font-weight: 400;
+                font-size: 0.78rem;
+                letter-spacing: 0.18em;
+                text-transform: uppercase;
+                color: var(--white);
+                background: transparent;
+                border: 1px solid var(--brand-blue);
+                padding: 0.85rem 2.2rem;
+                border-radius: 1px;
+                cursor: pointer;
+                transition:
+                    background 0.3s,
+                    border-color 0.3s;
+            }
+            .form__submit:hover {
+                background: var(--brand-blue);
+                border-color: var(--brand-blue);
+            }
 
-/* ── SIDEBAR INFO ── */
-.info { padding-top: 0.5rem; }
-.info__block { margin-bottom: 2.5rem; }
-.info__label {
-  font-family: var(--sans); font-weight: 400;
-  font-size: 0.68rem; letter-spacing: 0.25em;
-  text-transform: uppercase; color: var(--brand-blue);
-  margin-bottom: 0.8rem;
-  display: flex; align-items: center; gap: 0.6rem;
-}
-.info__label::before {
-  content: ''; display: block;
-  width: 18px; height: 1px;
-  background: var(--brand-blue);
-}
-.info__text {
-  font-family: var(--serif-body);
-  font-size: 0.92rem;
-  line-height: 1.8;
-  color: var(--pale);
-}
-.info__text a {
-  color: var(--pale);
-  text-decoration: underline;
-  text-underline-offset: 3px;
-  transition: color 0.2s;
-}
-.info__text a:hover { color: var(--white); }
-.info__text .footer__social a {
-  color: var(--pale);
-  text-decoration: none;
-}
-.info__text .footer__social a:hover { color: var(--white); }
+            /* ── SIDEBAR INFO ── */
+            .info {
+                padding-top: 0.5rem;
+            }
+            .info__block {
+                margin-bottom: 2.5rem;
+            }
+            .info__label {
+                font-family: var(--sans);
+                font-weight: 400;
+                font-size: 0.68rem;
+                letter-spacing: 0.25em;
+                text-transform: uppercase;
+                color: var(--brand-blue);
+                margin-bottom: 0.8rem;
+                display: flex;
+                align-items: center;
+                gap: 0.6rem;
+            }
+            .info__label::before {
+                content: "";
+                display: block;
+                width: 18px;
+                height: 1px;
+                background: var(--brand-blue);
+            }
+            .info__text {
+                font-family: var(--serif-body);
+                font-size: 0.92rem;
+                line-height: 1.8;
+                color: var(--pale);
+            }
+            .info__text a {
+                color: var(--pale);
+                text-decoration: underline;
+                text-underline-offset: 3px;
+                transition: color 0.2s;
+            }
+            .info__text a:hover {
+                color: var(--white);
+            }
+            .info__text .footer__social a {
+                color: var(--pale);
+                text-decoration: none;
+            }
+            .info__text .footer__social a:hover {
+                color: var(--white);
+            }
 
-/* ── BOOKING CTA ── */
-.booking {
-  padding: 4.5rem clamp(1.5rem, 4vw, 3.5rem);
-  background: var(--slate);
-  text-align: center;
-}
-.booking__heading {
-  font-family: var(--serif-display);
-  font-weight: 300;
-  font-size: clamp(1.8rem, 3.5vw, 2.6rem);
-  line-height: 1.2;
-  color: var(--white);
-  margin-bottom: 1rem;
-}
-.booking__sub {
-  font-family: var(--serif-body);
-  font-size: 0.92rem;
-  color: var(--pale);
-  margin-bottom: 2.5rem;
-  max-width: 480px;
-  margin-left: auto; margin-right: auto;
-}
-.cta-btn {
-  display: inline-block;
-  font-family: var(--sans); font-weight: 400;
-  font-size: 0.78rem; letter-spacing: 0.18em;
-  text-transform: uppercase; color: var(--white);
-  text-decoration: none;
-  border: 1px solid var(--brand-blue);
-  padding: 0.85rem 2.2rem; border-radius: 1px;
-  transition: background 0.3s, border-color 0.3s;
-}
-.cta-btn:hover {
-  background: var(--brand-blue);
-  border-color: var(--brand-blue);
-}
+            /* ── BOOKING CTA ── */
+            .booking {
+                padding: 4.5rem clamp(1.5rem, 4vw, 3.5rem);
+                background: var(--slate);
+                text-align: center;
+            }
+            .booking__heading {
+                font-family: var(--serif-display);
+                font-weight: 300;
+                font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+                line-height: 1.2;
+                color: var(--white);
+                margin-bottom: 1rem;
+            }
+            .booking__sub {
+                font-family: var(--serif-body);
+                font-size: 0.92rem;
+                color: var(--pale);
+                margin-bottom: 2.5rem;
+                max-width: 480px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+            .cta-btn {
+                display: inline-block;
+                font-family: var(--sans);
+                font-weight: 400;
+                font-size: 0.78rem;
+                letter-spacing: 0.18em;
+                text-transform: uppercase;
+                color: var(--white);
+                text-decoration: none;
+                border: 1px solid var(--brand-blue);
+                padding: 0.85rem 2.2rem;
+                border-radius: 1px;
+                transition:
+                    background 0.3s,
+                    border-color 0.3s;
+            }
+            .cta-btn:hover {
+                background: var(--brand-blue);
+                border-color: var(--brand-blue);
+            }
 
+            .footer__social {
+                display: flex;
+                gap: 1.2rem;
+                align-items: center;
+            }
+            .footer__social a {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: var(--mist);
+                transition: color 0.2s;
+            }
+            .footer__social a:hover {
+                color: var(--pale);
+            }
+            .footer__social svg {
+                width: 18px;
+                height: 18px;
+                fill: currentColor;
+            }
 
-.footer__social {
-  display: flex;
-  gap: 1.2rem;
-  align-items: center;
-}
-.footer__social a {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--mist);
-  transition: color 0.2s;
-}
-.footer__social a:hover { color: var(--pale); }
-.footer__social svg {
-  width: 18px;
-  height: 18px;
-  fill: currentColor;
-}
+            /* ─── MAILING LIST SIGNUP ─────────── */
+            .signup {
+                background: var(--slate);
+                border-top: 1px solid rgba(255, 255, 255, 0.06);
+                padding: 4rem 3.5rem;
+            }
+            .signup__inner {
+                max-width: 1100px;
+                margin: 0 auto;
+                display: flex;
+                align-items: center;
+                gap: 4rem;
+                flex-wrap: wrap;
+            }
+            .signup__text {
+                flex: 1;
+                min-width: 200px;
+            }
+            .signup__label {
+                font-family: var(--sans);
+                font-weight: 300;
+                font-size: 0.68rem;
+                letter-spacing: 0.28em;
+                text-transform: uppercase;
+                color: var(--brand-blue);
+                margin-bottom: 0.5rem;
+            }
+            .signup__heading {
+                font-family: var(--serif-display);
+                font-weight: 300;
+                font-style: italic;
+                font-size: clamp(1.2rem, 2vw, 1.6rem);
+                color: var(--white);
+                line-height: 1.3;
+            }
+            .signup__form {
+                display: flex;
+                gap: 0;
+                flex: 2;
+                min-width: 280px;
+            }
+            .signup__input {
+                .signup__prefs {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 0.65rem;
+                    margin-top: 0.9rem;
+                }
+                .signup__pref {
+                    display: flex;
+                    align-items: flex-start;
+                    gap: 0.6rem;
+                    font-family: var(--sans);
+                    font-weight: 300;
+                    font-size: 0.75rem;
+                    line-height: 1.5;
+                    color: var(--mist);
+                }
+                .signup__pref input {
+                    margin-top: 0.15rem;
+                    accent-color: var(--brand-blue);
+                }
+                flex: 1;
+                background: rgba(245, 243, 239, 0.06);
+                border: 1px solid rgba(255, 255, 255, 0.12);
+                border-right: none;
+                color: var(--white);
+                font-family: var(--sans);
+                font-weight: 300;
+                font-size: 0.82rem;
+                padding: 0.75rem 1rem;
+                outline: none;
+                transition:
+                    border-color 0.2s,
+                    background 0.2s;
+            }
+            .signup__input:first-of-type {
+                border-right: 1px solid rgba(255, 255, 255, 0.06);
+            }
+            .signup__input::placeholder {
+                color: var(--fog);
+            }
+            .signup__input:focus {
+                background: rgba(245, 243, 239, 0.1);
+                border-color: rgba(45, 134, 196, 0.5);
+            }
+            .signup__btn {
+                background: var(--brand-blue);
+                border: 1px solid var(--brand-blue);
+                color: var(--white);
+                font-family: var(--sans);
+                font-weight: 400;
+                font-size: 0.72rem;
+                letter-spacing: 0.18em;
+                text-transform: uppercase;
+                padding: 0.75rem 1.5rem;
+                cursor: pointer;
+                transition: background 0.2s;
+                white-space: nowrap;
+            }
+            .signup__btn:hover {
+                background: var(--brand-blue-light);
+            }
+            .signup__note {
+                font-family: var(--serif-body);
+                font-style: italic;
+                font-size: 0.9rem;
+                color: var(--mist);
+                margin-top: 1rem;
+            }
+            @media (max-width: 768px) {
+                .signup {
+                    padding: 3rem 1.8rem;
+                }
+                .signup__inner {
+                    flex-direction: column;
+                    gap: 2rem;
+                }
+                .signup__form {
+                    flex-direction: column;
+                }
+                .signup__input {
+                    border-right: 1px solid rgba(255, 255, 255, 0.12) !important;
+                    border-bottom: none;
+                }
+                .signup__input:last-of-type {
+                    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+                }
+            }
 
+            /* ── FOOTER ── */
+            .footer {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 3rem clamp(1.5rem, 4vw, 3.5rem);
+                background: var(--ink);
+                border-top: 1px solid rgba(255, 255, 255, 0.08);
+                flex-wrap: wrap;
+                gap: 1.5rem;
+            }
+            .footer__logo img {
+                height: 32px;
+                width: auto;
+                display: block;
+            }
+            .footer__copy {
+                font-family: var(--sans);
+                font-size: 0.75rem;
+                color: var(--mist);
+            }
+            .footer__links {
+                display: flex;
+                gap: 2rem;
+                list-style: none;
+                flex-wrap: wrap;
+            }
+            .footer__links a {
+                font-family: var(--sans);
+                font-size: 0.75rem;
+                color: var(--mist);
+                text-decoration: none;
+                transition: color 0.2s;
+            }
+            .footer__links a:hover {
+                color: var(--pale);
+            }
 
-/* ─── MAILING LIST SIGNUP ─────────── */
-.signup {
-  background: var(--slate);
-  border-top: 1px solid rgba(255,255,255,0.06);
-  padding: 4rem 3.5rem;
-}
-.signup__inner {
-  max-width: 1100px;
-  margin: 0 auto;
-  display: flex;
-  align-items: center;
-  gap: 4rem;
-  flex-wrap: wrap;
-}
-.signup__text { flex: 1; min-width: 200px; }
-.signup__label {
-  font-family: var(--sans);
-  font-weight: 300;
-  font-size: 0.68rem;
-  letter-spacing: 0.28em;
-  text-transform: uppercase;
-  color: var(--brand-blue);
-  margin-bottom: 0.5rem;
-}
-.signup__heading {
-  font-family: var(--serif-display);
-  font-weight: 300;
-  font-style: italic;
-  font-size: clamp(1.2rem, 2vw, 1.6rem);
-  color: var(--white);
-  line-height: 1.3;
-}
-.signup__form {
-  display: flex;
-  gap: 0;
-  flex: 2;
-  min-width: 280px;
-}
-.signup__input {
-.signup__prefs {
-  display: flex;
-  flex-direction: column;
-  gap: 0.65rem;
-  margin-top: 0.9rem;
-}
-.signup__pref {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.6rem;
-  font-family: var(--sans);
-  font-weight: 300;
-  font-size: 0.75rem;
-  line-height: 1.5;
-  color: var(--mist);
-}
-.signup__pref input {
-  margin-top: 0.15rem;
-  accent-color: var(--brand-blue);
-}
-  flex: 1;
-  background: rgba(245,243,239,0.06);
-  border: 1px solid rgba(255,255,255,0.12);
-  border-right: none;
-  color: var(--white);
-  font-family: var(--sans);
-  font-weight: 300;
-  font-size: 0.82rem;
-  padding: 0.75rem 1rem;
-  outline: none;
-  transition: border-color 0.2s, background 0.2s;
-}
-.signup__input:first-of-type { border-right: 1px solid rgba(255,255,255,0.06); }
-.signup__input::placeholder { color: var(--fog); }
-.signup__input:focus { background: rgba(245,243,239,0.1); border-color: rgba(45,134,196,0.5); }
-.signup__btn {
-  background: var(--brand-blue);
-  border: 1px solid var(--brand-blue);
-  color: var(--white);
-  font-family: var(--sans);
-  font-weight: 400;
-  font-size: 0.72rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  padding: 0.75rem 1.5rem;
-  cursor: pointer;
-  transition: background 0.2s;
-  white-space: nowrap;
-}
-.signup__btn:hover { background: var(--brand-blue-light); }
-.signup__note {
-  font-family: var(--serif-body);
-  font-style: italic;
-  font-size: 0.9rem;
-  color: var(--mist);
-  margin-top: 1rem;
-}
-@media (max-width: 768px) {
-  .signup { padding: 3rem 1.8rem; }
-  .signup__inner { flex-direction: column; gap: 2rem; }
-  .signup__form { flex-direction: column; }
-  .signup__input { border-right: 1px solid rgba(255,255,255,0.12) !important; border-bottom: none; }
-  .signup__input:last-of-type { border-bottom: 1px solid rgba(255,255,255,0.12); }
-}
+            /* ── RESPONSIVE ── */
+            @media (max-width: 768px) {
+                .contact__inner {
+                    grid-template-columns: 1fr;
+                    gap: 3rem;
+                }
+                .nav__links {
+                    gap: 1.5rem;
+                }
+                .footer {
+                    flex-direction: column;
+                    text-align: center;
+                }
+                .footer__links {
+                    justify-content: center;
+                }
+            }
+            @media (max-width: 900px) {
+                .nav__toggle {
+                    display: block;
+                }
+                .nav__links {
+                    display: none !important;
+                }
+                .nav__cta {
+                    display: none;
+                }
+            }
 
-/* ── FOOTER ── */
-.footer {
-  display: flex; align-items: center;
-  justify-content: space-between;
-  padding: 3rem clamp(1.5rem, 4vw, 3.5rem);
-  background: var(--ink);
-  border-top: 1px solid rgba(255,255,255,0.08);
-  flex-wrap: wrap; gap: 1.5rem;
-}
-.footer__logo img { height: 32px; width: auto; display: block; }
-.footer__copy { font-family: var(--sans); font-size: 0.75rem; color: var(--mist); }
-.footer__links { display: flex; gap: 2rem; list-style: none; flex-wrap: wrap; }
-.footer__links a {
-  font-family: var(--sans); font-size: 0.75rem;
-  color: var(--mist); text-decoration: none;
-  transition: color 0.2s;
-}
-.footer__links a:hover { color: var(--pale); }
+            /* ─── PHASE 2 MOBILE SAFETY ─────────── */
+            img {
+                max-width: 100%;
+            }
 
-/* ── RESPONSIVE ── */
-@media (max-width: 768px) {
-  .contact__inner { grid-template-columns: 1fr; gap: 3rem; }
-  .nav__links { gap: 1.5rem; }
-  .footer { flex-direction: column; text-align: center; }
-  .footer__links { justify-content: center; }
-}
-@media (max-width: 900px) {
-  .nav__toggle { display: block; }
-  .nav__links { display: none !important; }
-  .nav__cta { display: none; }
-}
+            @media (max-width: 900px) {
+                .page-hero__label,
+                .form__label,
+                .info__label,
+                .signup__label,
+                .footer__copy,
+                .footer__links a {
+                    font-size: max(0.75rem, 12px);
+                }
 
-/* ─── PHASE 2 MOBILE SAFETY ─────────── */
-img { max-width: 100%; }
+                .form__input,
+                .form__textarea,
+                .signup__input {
+                    min-height: 44px;
+                    font-size: 1rem;
+                }
 
-@media (max-width: 900px) {
-  .page-hero__label,
-  .form__label,
-  .info__label,
-  .signup__label,
-  .footer__copy,
-  .footer__links a {
-    font-size: max(0.75rem, 12px);
-  }
+                .form__submit,
+                .cta-btn,
+                .signup__btn,
+                .nav__overlay .nav__overlay-cta {
+                    min-height: 44px;
+                    align-items: center;
+                    justify-content: center;
+                }
 
-  .form__input,
-  .form__textarea,
-  .signup__input {
-    min-height: 44px;
-    font-size: 1rem;
-  }
+                .contact__inner {
+                    grid-template-columns: 1fr;
+                    gap: 2.5rem;
+                }
 
-  .form__submit,
-  .cta-btn,
-  .signup__btn,
-  .nav__overlay .nav__overlay-cta {
-    min-height: 44px;
-    align-items: center;
-    justify-content: center;
-  }
+                .info {
+                    padding-top: 0;
+                }
 
-  .contact__inner {
-    grid-template-columns: 1fr;
-    gap: 2.5rem;
-  }
+                .form__submit,
+                .cta-btn {
+                    width: 100%;
+                    max-width: 360px;
+                }
 
-  .info {
-    padding-top: 0;
-  }
+                .signup {
+                    padding: 3rem 1.8rem;
+                }
 
-  .form__submit,
-  .cta-btn {
-    width: 100%;
-    max-width: 360px;
-  }
+                .signup__inner {
+                    flex-direction: column;
+                    gap: 2rem;
+                    align-items: stretch;
+                }
 
-  .signup {
-    padding: 3rem 1.8rem;
-  }
+                .signup__form {
+                    flex-direction: column;
+                    min-width: 0;
+                    width: 100%;
+                }
 
-  .signup__inner {
-    flex-direction: column;
-    gap: 2rem;
-    align-items: stretch;
-  }
+                .signup__input {
+                    border-right: 1px solid rgba(255, 255, 255, 0.12) !important;
+                    border-bottom: none;
+                }
 
-  .signup__form {
-    flex-direction: column;
-    min-width: 0;
-    width: 100%;
-  }
+                .signup__input:last-of-type {
+                    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+                }
 
-  .signup__input {
-    border-right: 1px solid rgba(255,255,255,0.12) !important;
-    border-bottom: none;
-  }
+                .footer {
+                    align-items: center;
+                    text-align: center;
+                }
 
-  .signup__input:last-of-type {
-    border-bottom: 1px solid rgba(255,255,255,0.12);
-  }
+                .footer__logo {
+                    margin: 0 auto;
+                }
 
-  .footer {
-    align-items: center;
-    text-align: center;
-  }
+                .footer__links {
+                    flex-wrap: wrap;
+                    justify-content: center;
+                    gap: 1rem 1.4rem;
+                }
 
-  .footer__logo {
-    margin: 0 auto;
-  }
-
-  .footer__links {
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 1rem 1.4rem;
-  }
-
-  .footer__social {
-    width: 100%;
-    justify-content: center;
-  }
-}
-</style>
-</head>
-<body>
-
-<!-- ── NAV ── -->
-<nav class="nav">
-  <a href="/" class="nav__logo">
-    <img src="./extracted-images/cc-logo.png" alt="Crawford Coaching">
-  </a>
-  <ul class="nav__links">
-    <li><a href="/coaching">Coaching</a></li>
-    <li><a href="/whole">WHOLE</a></li>
-    <li><a href="/synergize">Synergize Fitness</a></li>
-    <li><a href="/growth-zone">Growth Zone</a></li>
-    <li><a href="/about">About</a></li>
-    <li><a href="/writing">Writing</a></li>
-    <li><a href="/contact" class="active">Contact</a></li>
-  </ul>
-  <a href="https://calendar.app.google/R66fNg5m7w3aKPKd6" class="nav__cta" target="_blank">Book a Call</a>
-  <button class="nav__toggle" aria-label="Menu" aria-controls="site-menu" aria-expanded="false">
-    <span></span><span></span><span></span>
-  </button>
-</nav>
-
-<div class="nav__overlay" id="site-menu" aria-hidden="true">
-  <a href="/coaching">Coaching</a>
-  <a href="/whole">WHOLE</a>
-  <a href="/synergize">Synergize Fitness</a>
-  <a href="/growth-zone">Growth Zone</a>
-  <a href="/about">About</a>
-  <a href="/writing">Writing</a>
-  <a href="/contact" class="active">Contact</a>
-  <a href="https://calendar.app.google/R66fNg5m7w3aKPKd6" class="nav__overlay-cta" target="_blank">Book a Call</a>
-</div>
-
-<!-- ── PAGE HERO ── -->
-<section class="page-hero">
-  <div class="page-hero__content">
-    <p class="page-hero__label">Contact</p>
-    <h1 class="page-hero__title">Get in Touch</h1>
-    <p class="page-hero__sub">Whether you have a question about coaching, training, or just want to say hello, I'd love to hear from you.</p>
-  </div>
-</section>
-
-<!-- ── CONTACT SECTION ── -->
-<section class="contact">
-  <div class="contact__inner">
-
-    <!-- FORM -->
-    <form action="#" method="POST">
-      <!-- Honeypot for bot protection (hidden) -->
-      <div class="form__honey">
-        <label for="website">Website</label>
-        <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
-      </div>
-
-      <div class="form__group">
-        <label class="form__label" for="name">Name</label>
-        <input class="form__input" type="text" id="name" name="name" placeholder="Your name" required>
-      </div>
-
-      <div class="form__group">
-        <label class="form__label" for="email">Email</label>
-        <input class="form__input" type="email" id="email" name="email" placeholder="you@example.com" required>
-      </div>
-
-      <div class="form__group">
-        <label class="form__label" for="message">Message</label>
-        <textarea class="form__textarea" id="message" name="message" placeholder="What's on your mind?" required></textarea>
-      </div>
-
-      <button type="submit" class="form__submit">Send Message</button>
-    </form>
-
-    <!-- DIRECT INFO -->
-    <aside class="info">
-      <div class="info__block">
-        <p class="info__label">Email</p>
-        <p class="info__text"><a href="mailto:scott@crawford-coaching.ca">scott@crawford-coaching.ca</a></p>
-      </div>
-
-      <div class="info__block">
-        <p class="info__label">Phone</p>
-        <p class="info__text"><a href="tel:+16133293114">(613) 329-3114</a></p>
-      </div>
-
-      <div class="info__block">
-        <p class="info__label">Location</p>
-        <p class="info__text">544 Gore Road<br>Kingston, ON K7L 0C3</p>
-      </div>
-
-      <div class="info__block">
-        <p class="info__label">Social</p>
-        <div class="info__text">
-          <div class="footer__social">
-            <a href="https://www.instagram.com/scott.crawford.coaching/" target="_blank" aria-label="Instagram">
-              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+                .footer__social {
+                    width: 100%;
+                    justify-content: center;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <!-- ── NAV ── -->
+        <nav class="nav">
+            <a href="/" class="nav__logo">
+                <img
+                    src="./extracted-images/cc-logo.png"
+                    alt="Crawford Coaching"
+                />
             </a>
-            <a href="https://www.linkedin.com/in/scott-crawford-acc-9043b91a1/" target="_blank" aria-label="LinkedIn">
-              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-            </a>
-            <a href="https://www.facebook.com/CrawfordCoachingKingston" target="_blank" aria-label="Facebook">
-              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
-            </a>
-          </div>
+            <ul class="nav__links">
+                <li><a href="/coaching">Coaching</a></li>
+                <li><a href="/whole">WHOLE</a></li>
+                <li><a href="/synergize">Synergize Fitness</a></li>
+                <li><a href="/growth-zone">Growth Zone</a></li>
+                <li><a href="/about">About</a></li>
+                <li><a href="/writing">Writing</a></li>
+                <li><a href="/contact" class="active">Contact</a></li>
+            </ul>
+            <a
+                href="https://calendar.app.google/R66fNg5m7w3aKPKd6"
+                class="nav__cta"
+                target="_blank"
+                >Book a Call</a
+            >
+            <button
+                class="nav__toggle"
+                aria-label="Menu"
+                aria-controls="site-menu"
+                aria-expanded="false"
+            >
+                <span></span><span></span><span></span>
+            </button>
+        </nav>
+
+        <div class="nav__overlay" id="site-menu" aria-hidden="true">
+            <a href="/coaching">Coaching</a>
+            <a href="/whole">WHOLE</a>
+            <a href="/synergize">Synergize Fitness</a>
+            <a href="/growth-zone">Growth Zone</a>
+            <a href="/about">About</a>
+            <a href="/writing">Writing</a>
+            <a href="/contact" class="active">Contact</a>
+            <a
+                href="https://calendar.app.google/R66fNg5m7w3aKPKd6"
+                class="nav__overlay-cta"
+                target="_blank"
+                >Book a Call</a
+            >
         </div>
-      </div>
-    </aside>
 
-  </div>
-</section>
+        <!-- ── PAGE HERO ── -->
+        <section class="page-hero">
+            <div class="page-hero__content">
+                <p class="page-hero__label">Contact</p>
+                <h1 class="page-hero__title">Get in Touch</h1>
+                <p class="page-hero__sub">
+                    Whether you have a question about coaching, training, or
+                    just want to say hello, I'd love to hear from you.
+                </p>
+            </div>
+        </section>
 
-<!-- ── BOOKING CTA ── -->
-<section class="booking">
-  <h2 class="booking__heading">Prefer to talk live?</h2>
-  <p class="booking__sub">Book a free discovery call and we'll figure out the right next step together.</p>
-  <a href="https://calendar.app.google/R66fNg5m7w3aKPKd6" class="cta-btn" target="_blank">Book a Discovery Call</a>
-</section>
+        <!-- ── CONTACT SECTION ── -->
+        <section class="contact">
+            <div class="contact__inner">
+                <!-- FORM -->
+                <form
+                    id="contact-form"
+                    action="https://api.web3forms.com/submit"
+                    method="POST"
+                >
+                    <!-- Web3Forms access key -->
+                    <input
+                        type="hidden"
+                        name="access_key"
+                        value="378b95b4-2cce-464f-98d2-47ccb664819e"
+                    />
+                    <!-- Email subject line -->
+                    <input
+                        type="hidden"
+                        name="subject"
+                        value="New message from Crawford Coaching contact form"
+                    />
+                    <!-- Honeypot for bot protection -->
+                    <input
+                        type="checkbox"
+                        name="botcheck"
+                        style="display: none"
+                    />
 
+                    <div class="form__group">
+                        <label class="form__label" for="name">Name</label>
+                        <input
+                            class="form__input"
+                            type="text"
+                            id="name"
+                            name="name"
+                            placeholder="Your name"
+                            required
+                        />
+                    </div>
 
-<!-- ══ MAILING LIST ══════════════════════════════════════════ -->
-<section class="signup">
-  <div class="signup__inner">
-    <div class="signup__text">
-      <p class="signup__label">Stay in touch</p>
-      <p class="signup__heading">Practical ideas on coaching, fitness, and living well.</p>
-    </div>
-    <form class="signup__form" onsubmit="handleSignup(event)">
-      <input class="signup__input" type="text" name="name" placeholder="Your name" required>
-      <input class="signup__input" type="email" name="email" placeholder="Your email" required>
-      <button class="signup__btn" type="submit">Subscribe</button>
-    </form>
-    <div class="signup__prefs">
-      <label class="signup__pref"><input type="checkbox" name="newsletterOptIn" checked> Subscribe to newsletter (coaching, fitness, and living well)</label>
-      <label class="signup__pref"><input type="checkbox" name="updatesOptIn"> Receive occasional program updates</label>
-    </div>
-    <p class="signup__note" id="signup-confirm" style="display:none;">Thanks — I'll be in touch.</p>
-  </div>
-</section>
-<script>
-var DATA_HANDLER = 'https://yxndmpwqvdatkujcukdv.supabase.co/functions/v1/data-handler';
-function logEvent(source, action, offer) {
-  fetch(DATA_HANDLER, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ action: 'engagement_log', payload: { source: source, action: action, offer: offer } })
-  }).catch(function() {});
-}
-function subscribeToMailchimp(email, firstName, lastName, callback) {
-  const endpoint = 'https://crawford-coaching.us14.list-manage.com/subscribe/post-json?u=e727034e036e2258448e9a4bb&id=15d939f894&f_id=0009b6e5f0';
-  const params = {
-    EMAIL: email,
-    FNAME: firstName,
-    LNAME: lastName || '',
-    b_e727034e036e2258448e9a4bb_15d939f894: '',
-    tags: 40196068
-  };
-  
-  const queryString = Object.keys(params)
-    .map(key => encodeURIComponent(key) + '=' + encodeURIComponent(params[key]))
-    .join('&');
-  
-  const script = document.createElement('script');
-  const callbackName = 'mailchimpCallback' + Date.now();
-  window[callbackName] = function(data) {
-    delete window[callbackName];
-    script.remove();
-    callback(data);
-  };
-  
-  script.src = endpoint + '&c=' + callbackName + '&' + queryString;
-  script.onerror = () => {
-    delete window[callbackName];
-    script.remove();
-    callback({ result: 'error', msg: 'Subscription error' });
-  };
-  document.head.appendChild(script);
-}
+                    <div class="form__group">
+                        <label class="form__label" for="email">Email</label>
+                        <input
+                            class="form__input"
+                            type="email"
+                            id="email"
+                            name="email"
+                            placeholder="you@example.com"
+                            required
+                        />
+                    </div>
 
-function handleSignup(e) {
-  e.preventDefault();
-  logEvent('crawford-site/contact', 'newsletter_signup', 'newsletter');
-  const form = e.target;
-  const nameInput = form.name.value.trim();
-  const nameParts = nameInput.split(/\s+/);
-  const firstName = nameParts[0] || '';
-  const lastName = nameParts.slice(1).join(' ') || '';
-  const email = form.email.value.trim();
-  const prefs = form.parentElement.querySelector('.signup__prefs');
-  const confirmMsg = document.getElementById('signup-confirm');
-  
-  subscribeToMailchimp(email, firstName, lastName, (response) => {
-    form.style.display = 'none';
-    if (prefs) prefs.style.display = 'none';
-    
-    if (response.result === 'success') {
-      confirmMsg.textContent = 'Thanks! Check your email to confirm your subscription.';
-      confirmMsg.style.color = 'var(--pale)';
-    } else {
-      confirmMsg.textContent = 'There was an issue with your subscription. Please try again.';
-      confirmMsg.style.color = '#ff6b6b';
-    }
-    confirmMsg.style.display = 'block';
-  });
-}
-</script>
-<!-- ── FOOTER ── -->
-<footer class="footer">
-  <a href="/" class="footer__logo">
-    <img src="./extracted-images/cc-logo.png" alt="Crawford Coaching">
-  </a>
-    <ul class="footer__links">
-    <li><a href="/coaching">Coaching</a></li>
-    <li><a href="/whole">WHOLE</a></li>
-    <li><a href="/synergize">Synergize Fitness</a></li>
-    <li><a href="/growth-zone">Growth Zone</a></li>
-    <li><a href="/about">About</a></li>
-    <li><a href="/writing">Writing</a></li>
-    <li><a href="/contact">Contact</a></li>
-  </ul>
-  <p class="footer__copy">&copy; 2026 Crawford Coaching</p>
-</footer>
+                    <div class="form__group">
+                        <label class="form__label" for="message">Message</label>
+                        <textarea
+                            class="form__textarea"
+                            id="message"
+                            name="message"
+                            placeholder="What's on your mind?"
+                            required
+                        ></textarea>
+                    </div>
 
-<script>
-(function() {
-  const toggle = document.querySelector('.nav__toggle');
-  const overlay = document.querySelector('.nav__overlay');
-  if (!toggle || !overlay) return;
+                    <button
+                        type="submit"
+                        class="form__submit"
+                        id="contact-submit"
+                    >
+                        Send Message
+                    </button>
+                    <p
+                        id="contact-result"
+                        style="
+                            display: none;
+                            margin-top: 1rem;
+                            font-family: var(--font-body);
+                            font-size: 0.95rem;
+                        "
+                    ></p>
+                </form>
 
-  let closeTimer = null;
-  const closeMenu = () => {
-    toggle.classList.remove('open');
-    toggle.setAttribute('aria-expanded', 'false');
-    overlay.classList.remove('open');
-    const activeEl = document.activeElement;
-    if (activeEl && overlay.contains(activeEl)) {
-      activeEl.blur();
-    }
-    overlay.setAttribute('aria-hidden', 'true');
-    toggle.focus();
-    document.body.style.overflow = '';
-    if (closeTimer) clearTimeout(closeTimer);
-    closeTimer = setTimeout(() => {
-      overlay.style.display = 'none';
-    }, 350);
-  };
+                <!-- DIRECT INFO -->
+                <aside class="info">
+                    <div class="info__block">
+                        <p class="info__label">Email</p>
+                        <p class="info__text">
+                            <a href="mailto:scott@crawford-coaching.ca"
+                                >scott@crawford-coaching.ca</a
+                            >
+                        </p>
+                    </div>
 
-  const openMenu = () => {
-    if (closeTimer) clearTimeout(closeTimer);
-    toggle.classList.add('open');
-    toggle.setAttribute('aria-expanded', 'true');
-    overlay.style.display = 'flex';
-    overlay.setAttribute('aria-hidden', 'false');
-    requestAnimationFrame(() => overlay.classList.add('open'));
-    document.body.style.overflow = 'hidden';
-  };
+                    <div class="info__block">
+                        <p class="info__label">Phone</p>
+                        <p class="info__text">
+                            <a href="tel:+16133293114">(613) 329-3114</a>
+                        </p>
+                    </div>
 
-  toggle.addEventListener('click', function() {
-    if (toggle.classList.contains('open')) {
-      closeMenu();
-    } else {
-      openMenu();
-    }
-  });
+                    <div class="info__block">
+                        <p class="info__label">Location</p>
+                        <p class="info__text">
+                            544 Gore Road<br />Kingston, ON K7L 0C3
+                        </p>
+                    </div>
 
-  overlay.querySelectorAll('a').forEach((anchor) => {
-    anchor.addEventListener('click', closeMenu);
-  });
+                    <div class="info__block">
+                        <p class="info__label">Social</p>
+                        <div class="info__text">
+                            <div class="footer__social">
+                                <a
+                                    href="https://www.instagram.com/scott.crawford.coaching/"
+                                    target="_blank"
+                                    aria-label="Instagram"
+                                >
+                                    <svg
+                                        viewBox="0 0 24 24"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                        <path
+                                            d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"
+                                        />
+                                    </svg>
+                                </a>
+                                <a
+                                    href="https://www.linkedin.com/in/scott-crawford-acc-9043b91a1/"
+                                    target="_blank"
+                                    aria-label="LinkedIn"
+                                >
+                                    <svg
+                                        viewBox="0 0 24 24"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                        <path
+                                            d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"
+                                        />
+                                    </svg>
+                                </a>
+                                <a
+                                    href="https://www.facebook.com/CrawfordCoachingKingston"
+                                    target="_blank"
+                                    aria-label="Facebook"
+                                >
+                                    <svg
+                                        viewBox="0 0 24 24"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                        <path
+                                            d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"
+                                        />
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+        </section>
 
-  document.addEventListener('keydown', function(event) {
-    if (event.key === 'Escape' && toggle.classList.contains('open')) {
-      closeMenu();
-    }
-  });
+        <!-- ── BOOKING CTA ── -->
+        <section class="booking">
+            <h2 class="booking__heading">Prefer to talk live?</h2>
+            <p class="booking__sub">
+                Book a free discovery call and we'll figure out the right next
+                step together.
+            </p>
+            <a
+                href="https://calendar.app.google/R66fNg5m7w3aKPKd6"
+                class="cta-btn"
+                target="_blank"
+                >Book a Discovery Call</a
+            >
+        </section>
 
-  window.addEventListener('resize', function() {
-    if (window.innerWidth > 900 && toggle.classList.contains('open')) {
-      closeMenu();
-    }
-  });
-})();
-</script>
+        <!-- ══ MAILING LIST ══════════════════════════════════════════ -->
+        <section class="signup">
+            <div class="signup__inner">
+                <div class="signup__text">
+                    <p class="signup__label">Stay in touch</p>
+                    <p class="signup__heading">
+                        Practical ideas on coaching, fitness, and living well.
+                    </p>
+                </div>
+                <form class="signup__form" onsubmit="handleSignup(event)">
+                    <input
+                        class="signup__input"
+                        type="text"
+                        name="name"
+                        placeholder="Your name"
+                        required
+                    />
+                    <input
+                        class="signup__input"
+                        type="email"
+                        name="email"
+                        placeholder="Your email"
+                        required
+                    />
+                    <button class="signup__btn" type="submit">Subscribe</button>
+                </form>
+                <div class="signup__prefs">
+                    <label class="signup__pref"
+                        ><input
+                            type="checkbox"
+                            name="newsletterOptIn"
+                            checked
+                        />
+                        Subscribe to newsletter (coaching, fitness, and living
+                        well)</label
+                    >
+                    <label class="signup__pref"
+                        ><input type="checkbox" name="updatesOptIn" /> Receive
+                        occasional program updates</label
+                    >
+                </div>
+                <p
+                    class="signup__note"
+                    id="signup-confirm"
+                    style="display: none"
+                >
+                    Thanks — I'll be in touch.
+                </p>
+            </div>
+        </section>
+        <script>
+            // ── CONTACT FORM ──
+            (function () {
+                const form = document.getElementById("contact-form");
+                const btn = document.getElementById("contact-submit");
+                const result = document.getElementById("contact-result");
+                if (!form) return;
 
-  <script src="https://website-assistant-sandy.vercel.app/chat-widget.js"></script>
-</body>
+                form.addEventListener("submit", async function (e) {
+                    e.preventDefault();
+                    btn.disabled = true;
+                    btn.textContent = "Sending…";
+                    result.style.display = "none";
+
+                    const data = new FormData(form);
+                    try {
+                        const res = await fetch(
+                            "https://api.web3forms.com/submit",
+                            {
+                                method: "POST",
+                                body: data,
+                            },
+                        );
+                        const json = await res.json();
+                        if (json.success) {
+                            form.reset();
+                            result.textContent =
+                                "Message sent! I'll be in touch soon.";
+                            result.style.color = "var(--accent, #4caf8a)";
+                        } else {
+                            result.textContent =
+                                "Something went wrong. Please try again or email me directly.";
+                            result.style.color = "#e05252";
+                        }
+                    } catch (err) {
+                        result.textContent =
+                            "Something went wrong. Please try again or email me directly.";
+                        result.style.color = "#e05252";
+                    }
+
+                    result.style.display = "block";
+                    btn.disabled = false;
+                    btn.textContent = "Send Message";
+                });
+            })();
+
+            // ── DATA HANDLER / NEWSLETTER ──
+            var DATA_HANDLER =
+                "https://yxndmpwqvdatkujcukdv.supabase.co/functions/v1/data-handler";
+            function logEvent(source, action, offer) {
+                fetch(DATA_HANDLER, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        action: "engagement_log",
+                        payload: {
+                            source: source,
+                            action: action,
+                            offer: offer,
+                        },
+                    }),
+                }).catch(function () {});
+            }
+            function subscribeToMailchimp(
+                email,
+                firstName,
+                lastName,
+                callback,
+            ) {
+                const endpoint =
+                    "https://crawford-coaching.us14.list-manage.com/subscribe/post-json?u=e727034e036e2258448e9a4bb&id=15d939f894&f_id=0009b6e5f0";
+                const params = {
+                    EMAIL: email,
+                    FNAME: firstName,
+                    LNAME: lastName || "",
+                    b_e727034e036e2258448e9a4bb_15d939f894: "",
+                    tags: 40196068,
+                };
+
+                const queryString = Object.keys(params)
+                    .map(
+                        (key) =>
+                            encodeURIComponent(key) +
+                            "=" +
+                            encodeURIComponent(params[key]),
+                    )
+                    .join("&");
+
+                const script = document.createElement("script");
+                const callbackName = "mailchimpCallback" + Date.now();
+                window[callbackName] = function (data) {
+                    delete window[callbackName];
+                    script.remove();
+                    callback(data);
+                };
+
+                script.src =
+                    endpoint + "&c=" + callbackName + "&" + queryString;
+                script.onerror = () => {
+                    delete window[callbackName];
+                    script.remove();
+                    callback({ result: "error", msg: "Subscription error" });
+                };
+                document.head.appendChild(script);
+            }
+
+            function handleSignup(e) {
+                e.preventDefault();
+                logEvent(
+                    "crawford-site/contact",
+                    "newsletter_signup",
+                    "newsletter",
+                );
+                const form = e.target;
+                const nameInput = form.name.value.trim();
+                const nameParts = nameInput.split(/\s+/);
+                const firstName = nameParts[0] || "";
+                const lastName = nameParts.slice(1).join(" ") || "";
+                const email = form.email.value.trim();
+                const prefs =
+                    form.parentElement.querySelector(".signup__prefs");
+                const confirmMsg = document.getElementById("signup-confirm");
+
+                subscribeToMailchimp(email, firstName, lastName, (response) => {
+                    form.style.display = "none";
+                    if (prefs) prefs.style.display = "none";
+
+                    if (response.result === "success") {
+                        confirmMsg.textContent =
+                            "Thanks! Check your email to confirm your subscription.";
+                        confirmMsg.style.color = "var(--pale)";
+                    } else {
+                        confirmMsg.textContent =
+                            "There was an issue with your subscription. Please try again.";
+                        confirmMsg.style.color = "#ff6b6b";
+                    }
+                    confirmMsg.style.display = "block";
+                });
+            }
+        </script>
+        <!-- ── FOOTER ── -->
+        <footer class="footer">
+            <a href="/" class="footer__logo">
+                <img
+                    src="./extracted-images/cc-logo.png"
+                    alt="Crawford Coaching"
+                />
+            </a>
+            <ul class="footer__links">
+                <li><a href="/coaching">Coaching</a></li>
+                <li><a href="/whole">WHOLE</a></li>
+                <li><a href="/synergize">Synergize Fitness</a></li>
+                <li><a href="/growth-zone">Growth Zone</a></li>
+                <li><a href="/about">About</a></li>
+                <li><a href="/writing">Writing</a></li>
+                <li><a href="/contact">Contact</a></li>
+            </ul>
+            <p class="footer__copy">&copy; 2026 Crawford Coaching</p>
+        </footer>
+
+        <script>
+            (function () {
+                const toggle = document.querySelector(".nav__toggle");
+                const overlay = document.querySelector(".nav__overlay");
+                if (!toggle || !overlay) return;
+
+                let closeTimer = null;
+                const closeMenu = () => {
+                    toggle.classList.remove("open");
+                    toggle.setAttribute("aria-expanded", "false");
+                    overlay.classList.remove("open");
+                    const activeEl = document.activeElement;
+                    if (activeEl && overlay.contains(activeEl)) {
+                        activeEl.blur();
+                    }
+                    overlay.setAttribute("aria-hidden", "true");
+                    toggle.focus();
+                    document.body.style.overflow = "";
+                    if (closeTimer) clearTimeout(closeTimer);
+                    closeTimer = setTimeout(() => {
+                        overlay.style.display = "none";
+                    }, 350);
+                };
+
+                const openMenu = () => {
+                    if (closeTimer) clearTimeout(closeTimer);
+                    toggle.classList.add("open");
+                    toggle.setAttribute("aria-expanded", "true");
+                    overlay.style.display = "flex";
+                    overlay.setAttribute("aria-hidden", "false");
+                    requestAnimationFrame(() => overlay.classList.add("open"));
+                    document.body.style.overflow = "hidden";
+                };
+
+                toggle.addEventListener("click", function () {
+                    if (toggle.classList.contains("open")) {
+                        closeMenu();
+                    } else {
+                        openMenu();
+                    }
+                });
+
+                overlay.querySelectorAll("a").forEach((anchor) => {
+                    anchor.addEventListener("click", closeMenu);
+                });
+
+                document.addEventListener("keydown", function (event) {
+                    if (
+                        event.key === "Escape" &&
+                        toggle.classList.contains("open")
+                    ) {
+                        closeMenu();
+                    }
+                });
+
+                window.addEventListener("resize", function () {
+                    if (
+                        window.innerWidth > 900 &&
+                        toggle.classList.contains("open")
+                    ) {
+                        closeMenu();
+                    }
+                });
+            })();
+        </script>
+
+        <script src="https://website-assistant-sandy.vercel.app/chat-widget.js"></script>
+    </body>
 </html>
