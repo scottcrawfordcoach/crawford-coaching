@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Growth Zone — Crawford Coaching</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --ink:        #0e0f10;
+  --slate:      #1c2330;
+  --slate-mid:  #232f3e;
+  --fog:        #3d4a58;
+  --mist:       #7a8fa3;
+  --pale:       #c8d4de;
+  --white:      #f5f3ef;
+  --brand-blue: #2d86c4;
+  --brand-blue-light: #4fa3d8;
+  --syn-orange: #e8632b;
+  --syn-orange-light: #f2844e;
+  --serif-display: 'Cormorant Garamond', Georgia, serif;
+  --serif-body:    'Libre Baskerville', Georgia, serif;
+  --sans:          'Jost', sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--ink);
+  color: var(--white);
+  font-family: var(--serif-body);
+  font-size: 16px;
+  line-height: 1.8;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── NAV ── */
+.nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.6rem clamp(1.5rem, 4vw, 3.5rem);
+  background: rgba(14,15,16,0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.nav__logo { display: inline-flex; align-items: center; text-decoration: none; }
+.nav__logo img { height: 36px; width: auto; display: block; }
+.nav__links { display: flex; gap: 2.5rem; list-style: none; }
+.nav__links a {
+  font-family: var(--sans); font-weight: 300;
+  font-size: 0.78rem; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--pale);
+  text-decoration: none; opacity: 0.85;
+  transition: opacity 0.2s, color 0.2s;
+}
+.nav__links a:hover { opacity: 1; color: var(--white); }
+.nav__links a.active { color: var(--brand-blue); opacity: 1; }
+.nav__cta {
+  font-family: var(--sans); font-weight: 400;
+  font-size: 0.75rem; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--white);
+  text-decoration: none;
+  border: 1px solid rgba(245,243,239,0.45);
+  padding: 0.5rem 1.3rem; border-radius: 1px;
+  transition: background 0.25s, border-color 0.25s;
+}
+.nav__cta:hover { background: rgba(245,243,239,0.1); border-color: rgba(245,243,239,0.8); }
+
+/* ─── MOBILE NAV ─────────────────────── */
+.nav__toggle {
+  display: none;
+  width: 44px;
+  height: 44px;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  z-index: 200;
+  -webkit-tap-highlight-color: transparent;
+}
+.nav__toggle span {
+  display: block;
+  width: 22px;
+  height: 1.5px;
+  background: var(--pale);
+  margin: 5px 0;
+  transition: transform 0.3s ease, opacity 0.2s ease;
+  transform-origin: center;
+}
+.nav__toggle.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+.nav__toggle.open span:nth-child(2) { opacity: 0; }
+.nav__toggle.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+.nav__overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  background: rgba(14,15,16,0.97);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+.nav__overlay.open { display: flex; opacity: 1; }
+.nav__overlay a {
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 1.1rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--pale);
+  text-decoration: none;
+  padding: 0.9rem 0;
+  opacity: 0.85;
+  transition: color 0.2s, opacity 0.2s;
+}
+.nav__overlay a:hover,
+.nav__overlay a.active {
+  opacity: 1;
+  color: var(--white);
+}
+.nav__overlay .nav__overlay-cta {
+  margin-top: 2rem;
+  font-family: var(--sans);
+  font-weight: 400;
+  font-size: 0.85rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--white);
+  text-decoration: none;
+  border: 1px solid rgba(245,243,239,0.5);
+  padding: 0.7rem 2rem;
+  border-radius: 1px;
+  transition: background 0.25s, border-color 0.25s;
+}
+.nav__overlay .nav__overlay-cta:hover {
+  background: rgba(245,243,239,0.1);
+  border-color: rgba(245,243,239,0.8);
+}
+.nav__toggle:focus-visible,
+.nav__overlay a:focus-visible,
+.nav__overlay .nav__overlay-cta:focus-visible {
+  outline: 2px solid var(--white);
+  outline-offset: 4px;
+}
+
+/* ── PAGE HERO ── */
+.page-hero {
+  min-height: 40vh;
+  display: flex;
+  align-items: flex-end;
+  padding: 8rem clamp(1.5rem, 4vw, 3.5rem) 4rem;
+  background: var(--slate);
+}
+.page-hero__content {
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+  }
+.page-hero__label {
+  font-family: var(--sans); font-weight: 400;
+  font-size: 0.68rem; letter-spacing: 0.3em;
+  text-transform: uppercase; color: var(--brand-blue);
+  margin-bottom: 1.5rem;
+  display: flex; align-items: center; gap: 0.8rem;
+}
+.page-hero__label::before {
+  content: ''; display: block;
+  width: 28px; height: 1px;
+  background: var(--brand-blue);
+}
+.page-hero__title {
+  font-family: var(--serif-display);
+  font-weight: 300;
+  font-size: clamp(2.4rem, 5vw, 3.6rem);
+  line-height: 1.1;
+  color: var(--white);
+}
+.page-hero__sub {
+  font-family: var(--serif-body);
+  font-size: 0.95rem;
+  color: var(--pale);
+  margin-top: 1.2rem;
+  max-width: 560px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ── TOOLS GRID ── */
+.tools {
+  padding: 5rem clamp(1.5rem, 4vw, 3.5rem);
+  background: var(--slate-mid);
+}
+.tools__inner {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.tools__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 2.5rem;
+}
+
+/* ── TOOL CARD ── */
+.tool-card {
+  background: var(--slate);
+  border: 1px solid var(--fog);
+  border-radius: 2px;
+  padding: 2.5rem 2.2rem;
+  transition: border-color 0.3s, transform 0.3s;
+  display: flex;
+  flex-direction: column;
+}
+.tool-card:hover {
+  border-color: var(--brand-blue);
+  transform: translateY(-2px);
+}
+.tool-card__icon {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  line-height: 1;
+}
+.tool-card__title {
+  font-family: var(--serif-display);
+  font-weight: 400;
+  font-size: 1.6rem;
+  line-height: 1.2;
+  color: var(--white);
+  margin-bottom: 1rem;
+}
+.tool-card__desc {
+  font-family: var(--serif-body);
+  font-size: 0.88rem;
+  line-height: 1.75;
+  color: var(--pale);
+  margin-bottom: 2rem;
+  flex-grow: 1;
+}
+.tool-card__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--sans); font-weight: 400;
+  font-size: 0.75rem; letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--brand-blue);
+  text-decoration: none;
+  transition: color 0.2s, gap 0.2s;
+}
+.tool-card__link:hover {
+  color: var(--brand-blue-light);
+  gap: 0.8rem;
+}
+.tool-card__link::after {
+  content: '→';
+  font-size: 1rem;
+}
+.tool-card__link--physical {
+  color: var(--syn-orange);
+}
+.tool-card__link--physical:hover {
+  color: var(--syn-orange-light);
+}
+
+.tool-card--coming-soon {
+  opacity: 0.6;
+  pointer-events: none;
+}
+.tool-card__soon {
+  display: inline-block;
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 0.65rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--mist);
+  border: 1px solid var(--fog);
+  padding: 0.3rem 0.8rem;
+}
+
+
+.footer__social {
+  display: flex;
+  gap: 1.2rem;
+  align-items: center;
+}
+.footer__social a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--mist);
+  transition: color 0.2s;
+}
+.footer__social a:hover { color: var(--pale); }
+.footer__social svg {
+  width: 18px;
+  height: 18px;
+  fill: currentColor;
+}
+
+/* ── FOOTER ── */
+.footer {
+  display: flex; align-items: center;
+  justify-content: space-between;
+  padding: 3rem clamp(1.5rem, 4vw, 3.5rem);
+  background: var(--ink);
+  border-top: 1px solid rgba(255,255,255,0.08);
+  flex-wrap: wrap; gap: 1.5rem;
+}
+.footer__logo img { height: 32px; width: auto; display: block; }
+.footer__copy { font-family: var(--sans); font-size: 0.75rem; color: var(--mist); }
+.footer__links { display: flex; gap: 2rem; list-style: none; flex-wrap: wrap; }
+.footer__links a {
+  font-family: var(--sans); font-size: 0.75rem;
+  color: var(--mist); text-decoration: none;
+  transition: color 0.2s;
+}
+.footer__links a:hover { color: var(--pale); }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  .tools__grid { grid-template-columns: 1fr; }
+  .nav__links { gap: 1.5rem; }
+  .footer { flex-direction: column; text-align: center; }
+  .footer__links { justify-content: center; }
+}
+@media (max-width: 900px) {
+  .nav__toggle { display: block; }
+  .nav__links { display: none !important; }
+  .nav__cta { display: none; }
+}
+
+/* ─── PHASE 2 MOBILE SAFETY ─────────── */
+img { max-width: 100%; }
+
+@media (max-width: 900px) {
+  .page-hero__label,
+  .tool-card__link,
+  .footer__copy,
+  .footer__links a {
+    font-size: max(0.75rem, 12px);
+  }
+
+  .tools {
+    padding: 4rem 1.8rem;
+  }
+
+  .tool-card {
+    padding: 2rem 1.5rem;
+  }
+
+  .nav__overlay .nav__overlay-cta,
+  .tool-card__link {
+    min-height: 44px;
+    align-items: center;
+  }
+
+  .footer {
+    align-items: center;
+    text-align: center;
+  }
+
+  .footer__links {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem 1.4rem;
+  }
+
+  .footer__logo {
+    margin: 0 auto;
+  }
+
+  .footer__social {
+    width: 100%;
+    justify-content: center;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav class="nav">
+  <a href="/" class="nav__logo">
+    <img src="./extracted-images/cc-logo.png" alt="Crawford Coaching">
+  </a>
+  <ul class="nav__links">
+    <li><a href="/coaching">Coaching</a></li>
+    <li><a href="/whole">WHOLE</a></li>
+    <li><a href="/synergize">Synergize Fitness</a></li>
+    <li><a href="/growth-zone" class="active">Growth Zone</a></li>
+    <li><a href="/about">About</a></li>
+    <li><a href="/writing">Writing</a></li>
+    <li><a href="/contact">Contact</a></li>
+  </ul>
+  <a href="https://calendar.app.google/R66fNg5m7w3aKPKd6" class="nav__cta" target="_blank">Book a Call</a>
+  <button class="nav__toggle" aria-label="Menu" aria-controls="site-menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="nav__overlay" id="site-menu" aria-hidden="true">
+  <a href="/coaching">Coaching</a>
+  <a href="/whole">WHOLE</a>
+  <a href="/synergize">Synergize Fitness</a>
+  <a href="/growth-zone" class="active">Growth Zone</a>
+  <a href="/about">About</a>
+  <a href="/writing">Writing</a>
+  <a href="/contact">Contact</a>
+  <a href="https://calendar.app.google/R66fNg5m7w3aKPKd6" class="nav__overlay-cta" target="_blank">Book a Call</a>
+</div>
+
+<!-- ── PAGE HERO ── -->
+<section class="page-hero">
+  <div class="page-hero__content">
+    <p class="page-hero__label">Self-Discovery</p>
+    <h1 class="page-hero__title">Growth Zone</h1>
+    <p class="page-hero__sub">A collection of exercises and tools for building self-awareness and keeping you moving. Know yourself better, and you'll have a clearer sense of what to do next.</p>
+    <p class="page-hero__sub" style="margin-top:.6rem; font-size:.92rem; opacity:.78;">These are quick snapshots to help you think — not formal psychological assessments. They're designed to encourage introspection in the pursuit of growth. A credentialed Coach or Counsellor can help you unpack these findings and work towards meaningful change.</p>
+  </div>
+</section>
+
+<!-- ── TOOLS GRID ── -->
+<section class="tools">
+  <div class="tools__inner">
+    <div class="tools__grid">
+
+      <!-- INTERVAL TIMER -->
+      <div class="tool-card">
+        <div class="tool-card__icon">⏱</div>
+        <h2 class="tool-card__title">Interval Timer</h2>
+        <p class="tool-card__desc">A configurable EMOM and interval timer with a built-in workout builder. Set your rounds, work and rest periods, and go. No signup, no ads. Just a clean timer that works.</p>
+        <a href="/timer" class="tool-card__link tool-card__link--physical">Launch Timer</a>
+      </div>
+
+      <!-- CORE VALUES -->
+      <div class="tool-card">
+        <div class="tool-card__icon">🧭</div>
+        <h2 class="tool-card__title">Core Values Exercise</h2>
+        <p class="tool-card__desc">Most people have a sense of what they value, but haven't taken the time to name it clearly. This exercise helps you sort and prioritise what matters most, so your goals have something real to anchor to.</p>
+        <a href="/core-values" class="tool-card__link">Start Exercise</a>
+      </div>
+
+      <!-- CHARACTER STRENGTHS -->
+      <div class="tool-card">
+        <div class="tool-card__icon">💪</div>
+        <h2 class="tool-card__title">Character Strengths</h2>
+        <p class="tool-card__desc">Based on the VIA framework, this exercise helps you identify the strengths that come most naturally to you. Understanding how you're wired is a better starting point than focusing on what you're not.</p>
+        <a href="/strengths" class="tool-card__link">Take the Quiz</a>
+      </div>
+
+      <!-- MOTIVATION & SELF-DETERMINATION -->
+      <div class="tool-card">
+        <div class="tool-card__icon">🔥</div>
+        <h2 class="tool-card__title">Motivation & Self-Determination</h2>
+        <p class="tool-card__desc">Motivation is not one thing. This exercise helps you understand how your three core motivational needs — autonomy, mastery, and purpose — are being met right now, and where they might need attention.</p>
+        <a href="/motivation" class="tool-card__link">Explore Your Motivation</a>
+      </div>
+
+      <!-- OPTIMISM & EXPLANATORY STYLE -->
+      <div class="tool-card">
+        <div class="tool-card__icon">🔭</div>
+        <h2 class="tool-card__title">Optimism & Explanatory Style</h2>
+        <p class="tool-card__desc">How you explain setbacks to yourself shapes how you respond to them. This tool helps you understand your explanatory style, and whether it's working for you or against you.</p>
+        <a href="/optimism" class="tool-card__link">Begin Exercise</a>
+      </div>
+
+      <!-- FEELINGS NAMING GUIDE -->
+      <div class="tool-card">
+        <div class="tool-card__icon">🗺️</div>
+        <h2 class="tool-card__title">Feelings Naming Guide</h2>
+        <p class="tool-card__desc">Naming what you're feeling with precision is one of the most underrated skills in coaching and self-reflection. This guide gives you the vocabulary to get more specific. Because "stressed" and "overwhelmed" aren't the same thing.</p>
+        <a href="/feelings" class="tool-card__link">Open Guide</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer class="footer">
+  <a href="/" class="footer__logo">
+    <img src="./extracted-images/cc-logo.png" alt="Crawford Coaching">
+  </a>
+    <ul class="footer__links">
+    <li><a href="/coaching">Coaching</a></li>
+    <li><a href="/whole">WHOLE</a></li>
+    <li><a href="/synergize">Synergize Fitness</a></li>
+    <li><a href="/growth-zone">Growth Zone</a></li>
+    <li><a href="/about">About</a></li>
+    <li><a href="/writing">Writing</a></li>
+    <li><a href="/contact">Contact</a></li>
+  </ul>
+  <p class="footer__copy">&copy; 2026 Crawford Coaching</p>
+  <div class="footer__social">
+    <a href="https://www.instagram.com/scott.crawford.coaching/" target="_blank" aria-label="Instagram">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+    </a>
+    <a href="https://www.linkedin.com/in/scott-crawford-acc-9043b91a1/" target="_blank" aria-label="LinkedIn">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+    </a>
+    <a href="https://www.facebook.com/CrawfordCoachingKingston" target="_blank" aria-label="Facebook">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+    </a>
+  </div>
+</footer>
+
+<script>
+(function() {
+  const toggle = document.querySelector('.nav__toggle');
+  const overlay = document.querySelector('.nav__overlay');
+  if (!toggle || !overlay) return;
+
+  let closeTimer = null;
+  const closeMenu = () => {
+    toggle.classList.remove('open');
+    toggle.setAttribute('aria-expanded', 'false');
+    overlay.classList.remove('open');
+    const activeEl = document.activeElement;
+    if (activeEl && overlay.contains(activeEl)) {
+      activeEl.blur();
+    }
+    overlay.setAttribute('aria-hidden', 'true');
+    toggle.focus();
+    document.body.style.overflow = '';
+    if (closeTimer) clearTimeout(closeTimer);
+    closeTimer = setTimeout(() => {
+      overlay.style.display = 'none';
+    }, 350);
+  };
+
+  const openMenu = () => {
+    if (closeTimer) clearTimeout(closeTimer);
+    toggle.classList.add('open');
+    toggle.setAttribute('aria-expanded', 'true');
+    overlay.style.display = 'flex';
+    overlay.setAttribute('aria-hidden', 'false');
+    requestAnimationFrame(() => overlay.classList.add('open'));
+    document.body.style.overflow = 'hidden';
+  };
+
+  toggle.addEventListener('click', function() {
+    if (toggle.classList.contains('open')) {
+      closeMenu();
+    } else {
+      openMenu();
+    }
+  });
+
+  overlay.querySelectorAll('a').forEach((anchor) => {
+    anchor.addEventListener('click', closeMenu);
+  });
+
+  document.addEventListener('keydown', function(event) {
+    if (event.key === 'Escape' && toggle.classList.contains('open')) {
+      closeMenu();
+    }
+  });
+
+  window.addEventListener('resize', function() {
+    if (window.innerWidth > 900 && toggle.classList.contains('open')) {
+      closeMenu();
+    }
+  });
+})();
+</script>
+
+  <script src="https://website-assistant-sandy.vercel.app/chat-widget.js"></script>
+</body>
+</html>

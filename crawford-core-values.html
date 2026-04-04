@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Core Values Exercise — Crawford Coaching</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --ink:        #0e0f10;
+  --slate:      #1c2330;
+  --slate-mid:  #232f3e;
+  --fog:        #3d4a58;
+  --mist:       #7a8fa3;
+  --pale:       #c8d4de;
+  --white:      #f5f3ef;
+  --brand-blue: #2d86c4;
+  --brand-blue-light: #4fa3d8;
+  --brand-blue-dim: rgba(45,134,196,0.15);
+  --brand-blue-border: rgba(45,134,196,0.5);
+  --serif-display: 'Cormorant Garamond', Georgia, serif;
+  --serif-body:    'Libre Baskerville', Georgia, serif;
+  --sans:          'Jost', sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--ink);
+  color: var(--white);
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.8;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── NAV ── */
+.nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.6rem clamp(1.5rem, 4vw, 3.5rem);
+  background: rgba(14,15,16,0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.nav__logo { display: inline-flex; align-items: center; text-decoration: none; }
+.nav__logo img { height: 36px; width: auto; display: block; }
+.nav__links { display: flex; gap: 2.5rem; list-style: none; }
+.nav__links a {
+  font-family: var(--sans); font-weight: 300;
+  font-size: 0.78rem; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--pale);
+  text-decoration: none; opacity: 0.85;
+  transition: opacity 0.2s, color 0.2s;
+}
+.nav__links a:hover { opacity: 1; color: var(--white); }
+.nav__links a.active { color: var(--brand-blue); opacity: 1; }
+.nav__cta {
+  font-family: var(--sans); font-weight: 400;
+  font-size: 0.75rem; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--white);
+  text-decoration: none;
+  border: 1px solid rgba(245,243,239,0.45);
+  padding: 0.5rem 1.3rem; border-radius: 1px;
+  transition: background 0.25s, border-color 0.25s;
+}
+.nav__cta:hover { background: rgba(245,243,239,0.1); border-color: rgba(245,243,239,0.8); }
+
+/* ── MOBILE NAV ── */
+.nav__toggle {
+  display: none;
+  width: 44px; height: 44px;
+  align-items: center; justify-content: center; flex-direction: column;
+  background: none; border: none; cursor: pointer; padding: 0.5rem;
+  z-index: 200;
+  -webkit-tap-highlight-color: transparent;
+}
+.nav__toggle span {
+  display: block; width: 22px; height: 1.5px;
+  background: var(--pale); margin: 5px 0;
+  transition: transform 0.3s ease, opacity 0.2s ease;
+  transform-origin: center;
+}
+.nav__toggle.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+.nav__toggle.open span:nth-child(2) { opacity: 0; }
+.nav__toggle.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+.nav__overlay {
+  display: none;
+  position: fixed; inset: 0; z-index: 90;
+  background: rgba(14,15,16,0.97);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  flex-direction: column; align-items: center; justify-content: center;
+  gap: 0; opacity: 0; transition: opacity 0.35s ease;
+}
+.nav__overlay.open { opacity: 1; }
+.nav__overlay a {
+  font-family: var(--sans); font-weight: 300;
+  font-size: 1.05rem; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--pale);
+  text-decoration: none; padding: 1.1rem 2rem;
+  transition: color 0.2s;
+}
+.nav__overlay a:hover, .nav__overlay a.active { color: var(--white); }
+.nav__overlay-cta {
+  margin-top: 1.5rem;
+  border: 1px solid rgba(245,243,239,0.4);
+  padding: 0.8rem 2rem;
+}
+
+@media (max-width: 900px) {
+  .nav__toggle { display: flex; }
+  .nav__links { display: none !important; }
+  .nav__cta { display: none; }
+}
+
+/* ── EXERCISE WRAPPER ── */
+.exercise-page {
+  padding-top: 80px;
+}
+
+/* ── SCREENS ── */
+.screen { display: none; animation: fadeIn 0.4s ease; }
+.screen.active { display: block; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+.stage {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 3rem 1.5rem 5rem;
+}
+
+/* ── TYPOGRAPHY ── */
+.eyebrow {
+  font-family: var(--sans); font-weight: 300;
+  font-size: 0.7rem; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--brand-blue);
+  margin-bottom: 1.2rem;
+}
+
+h1.display {
+  font-family: var(--serif-display); font-weight: 300;
+  font-size: clamp(2.2rem, 5vw, 3.2rem);
+  line-height: 1.15; color: var(--white);
+  margin-bottom: 1.6rem;
+}
+
+h2.section-title {
+  font-family: var(--serif-display); font-weight: 400;
+  font-size: clamp(1.5rem, 3.5vw, 2rem);
+  line-height: 1.2; color: var(--white);
+  margin-bottom: 1rem;
+}
+
+.body-text {
+  font-family: var(--sans); font-weight: 300;
+  font-size: 0.95rem; line-height: 1.9;
+  color: var(--pale); margin-bottom: 1.2rem;
+  max-width: 620px;
+}
+
+.divider {
+  width: 40px; height: 1px;
+  background: var(--brand-blue);
+  margin: 2rem 0;
+}
+
+/* ── EXAMPLES BLOCK ── */
+.examples-block {
+  border-left: 2px solid var(--brand-blue-border);
+  padding: 1rem 1.5rem;
+  margin: 1.5rem 0 2.5rem;
+  background: rgba(45,134,196,0.05);
+}
+.examples-block p {
+  font-family: var(--sans); font-weight: 300;
+  font-size: 0.85rem; line-height: 1.8; color: var(--mist);
+}
+.examples-block p + p { margin-top: 0.6rem; }
+.examples-label {
+  font-family: var(--sans); font-weight: 400;
+  font-size: 0.7rem; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--brand-blue);
+  margin-bottom: 0.6rem;
+}
+
+/* ── BUTTONS ── */
+.btn-blue {
+  display: inline-block;
+  font-family: var(--sans); font-weight: 400;
+  font-size: 0.72rem; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--white);
+  border: 1px solid var(--brand-blue);
+  background: var(--brand-blue);
+  padding: 0.85rem 2.4rem; cursor: pointer;
+  border-radius: 1px;
+  transition: background 0.2s, border-color 0.2s;
+  margin-top: 1rem;
+}
+.btn-blue:hover { background: var(--brand-blue-light); border-color: var(--brand-blue-light); }
+.btn-blue:disabled { opacity: 0.3; cursor: not-allowed; }
+
+.btn-ghost {
+  display: inline-block;
+  font-family: var(--sans); font-weight: 300;
+  font-size: 0.72rem; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--pale);
+  border: 1px solid rgba(200,212,222,0.3);
+  background: transparent;
+  padding: 0.85rem 2rem; cursor: pointer;
+  border-radius: 1px;
+  transition: border-color 0.2s, color 0.2s, background 0.2s;
+  margin-top: 1rem;
+}
+.btn-ghost:hover {
+  border-color: rgba(200,212,222,0.6);
+  color: var(--white);
+  background: rgba(200,212,222,0.08);
+}
+
+.btn-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+/* ── STATUS BAR ── */
+.status-bar {
+  font-family: var(--sans); font-weight: 300;
+  font-size: 0.78rem; letter-spacing: 0.08em;
+  color: var(--mist); margin-bottom: 1.5rem;
+  min-height: 1.4em;
+}
+.status-bar span { color: var(--brand-blue); font-weight: 400; }
+
+/* ── VALUES GRID ── */
+.values-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 0.5rem; margin: 1.5rem 0 2rem;
+}
+
+.value-tag {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 42px;
+  font-family: var(--sans); font-weight: 300;
+  font-size: 0.78rem; letter-spacing: 0.1em;
+  text-align: center;
+  color: var(--pale);
+  border: 1px solid rgba(200,212,222,0.2);
+  padding: 0.45rem 1rem; cursor: pointer;
+  border-radius: 1px; background: transparent;
+  transition: all 0.15s ease;
+  user-select: none;
+}
+.value-tag:hover:not(.locked) {
+  border-color: rgba(200,212,222,0.55); color: var(--white);
+}
+.value-tag.selected {
+  background: var(--brand-blue);
+  border-color: var(--brand-blue); color: var(--white);
+}
+.value-tag.core-selected {
+  background: transparent;
+  border-color: var(--brand-blue); border-width: 2px;
+  color: var(--brand-blue-light); font-weight: 400;
+}
+.value-tag.locked { cursor: not-allowed; }
+
+.instruction-note {
+  font-family: var(--sans); font-weight: 300;
+  font-size: 0.82rem; color: var(--mist);
+  font-style: italic; margin-bottom: 2rem; line-height: 1.7;
+}
+
+/* ── REFLECTION SCREEN ── */
+.q-block {
+  margin-bottom: 2rem; padding-bottom: 2rem;
+  border-bottom: 1px solid rgba(200,212,222,0.08);
+}
+.q-block:last-child { border-bottom: none; }
+
+.q-label {
+  font-family: var(--sans); font-weight: 300;
+  font-size: 0.68rem; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--brand-blue);
+  margin-bottom: 0.5rem;
+}
+.q-text {
+  font-family: var(--serif-display); font-weight: 400;
+  font-size: 1.25rem; line-height: 1.5;
+  color: var(--white); margin-bottom: 0.6rem;
+}
+.q-sub {
+  font-family: var(--sans); font-weight: 300;
+  font-size: 0.82rem; line-height: 1.75; color: var(--mist);
+}
+
+.core-display {
+  display: flex; flex-wrap: wrap;
+  gap: 0.8rem; margin: 1rem 0 2rem;
+}
+.core-pill {
+  font-family: var(--serif-display); font-weight: 400;
+  font-size: 1.3rem; font-style: italic;
+  color: var(--brand-blue-light);
+  padding: 0.4rem 1.2rem;
+  border: 1px solid var(--brand-blue-border);
+  border-radius: 1px; background: var(--brand-blue-dim);
+}
+
+.reflection-note {
+  background: rgba(45,134,196,0.06);
+  border: 1px solid rgba(45,134,196,0.2);
+  border-radius: 1px; padding: 1.4rem 1.8rem; margin: 2rem 0;
+}
+.reflection-note p {
+  font-family: var(--sans); font-weight: 300;
+  font-size: 0.85rem; line-height: 1.85; color: var(--pale);
+}
+.reflection-note .rn-title {
+  font-family: var(--sans); font-weight: 400;
+  font-size: 0.68rem; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--brand-blue);
+  margin-bottom: 0.7rem;
+}
+
+.restart-link {
+  font-family: var(--sans); font-weight: 300;
+  font-size: 0.75rem; letter-spacing: 0.12em;
+  color: var(--mist); cursor: pointer;
+  text-decoration: underline; text-underline-offset: 3px;
+  background: none; border: none; margin-top: 2rem; display: block;
+}
+.restart-link:hover { color: var(--pale); }
+
+/* ── FOOTER ── */
+.footer {
+  display: flex; align-items: center;
+  justify-content: space-between;
+  padding: 3rem clamp(1.5rem, 4vw, 3.5rem);
+  background: var(--ink);
+  border-top: 1px solid rgba(255,255,255,0.08);
+  flex-wrap: wrap; gap: 1.5rem;
+}
+.footer__logo img { height: 32px; width: auto; display: block; }
+.footer__copy { font-family: var(--sans); font-size: 0.75rem; color: var(--mist); }
+.footer__links { display: flex; gap: 2rem; list-style: none; flex-wrap: wrap; }
+.footer__links a {
+  font-family: var(--sans); font-size: 0.75rem;
+  color: var(--mist); text-decoration: none; transition: color 0.2s;
+}
+.footer__links a:hover { color: var(--pale); }
+.footer__social { display: flex; gap: 1.2rem; align-items: center; }
+.footer__social a { display: flex; align-items: center; justify-content: center; color: var(--mist); transition: color 0.2s; }
+.footer__social a:hover { color: var(--pale); }
+.footer__social svg { width: 18px; height: 18px; fill: currentColor; }
+
+@media (max-width: 768px) {
+  .footer { flex-direction: column; text-align: center; }
+  .footer__links { justify-content: center; }
+  .footer__logo { margin: 0 auto; }
+  .footer__social { width: 100%; justify-content: center; }
+}
+</style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav class="nav">
+  <a href="/" class="nav__logo">
+    <img src="./extracted-images/cc-logo.png" alt="Crawford Coaching">
+  </a>
+  <ul class="nav__links">
+    <li><a href="/coaching">Coaching</a></li>
+    <li><a href="/whole">WHOLE</a></li>
+    <li><a href="/synergize">Synergize Fitness</a></li>
+    <li><a href="/growth-zone" class="active">Growth Zone</a></li>
+    <li><a href="/about">About</a></li>
+    <li><a href="/writing">Writing</a></li>
+    <li><a href="/contact">Contact</a></li>
+  </ul>
+  <a href="https://calendar.app.google/R66fNg5m7w3aKPKd6" class="nav__cta" target="_blank">Book a Call</a>
+  <button class="nav__toggle" aria-label="Menu" aria-controls="site-menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="nav__overlay" id="site-menu" aria-hidden="true">
+  <a href="/coaching">Coaching</a>
+  <a href="/whole">WHOLE</a>
+  <a href="/synergize">Synergize Fitness</a>
+  <a href="/growth-zone" class="active">Growth Zone</a>
+  <a href="/about">About</a>
+  <a href="/writing">Writing</a>
+  <a href="/contact">Contact</a>
+  <a href="https://calendar.app.google/R66fNg5m7w3aKPKd6" class="nav__overlay-cta" target="_blank">Book a Call</a>
+</div>
+
+<!-- ── EXERCISE ── -->
+<div class="exercise-page">
+
+  <div id="screen-intro" class="screen active">
+    <div class="stage">
+      <p class="eyebrow">Growth Zone Exercise</p>
+      <h1 class="display">Know What You<br>Stand For</h1>
+      <div class="divider"></div>
+      <p class="body-text">Most people make decisions by instinct, and instinct is often right. But when you know your core values, you stop wondering why certain decisions feel right and others feel wrong even when they look good on paper. Your values are the operating system running in the background of every choice you make.</p>
+      <p class="body-text">Identifying them doesn't constrain you. It gives you a language for yourself and a compass that works even when things get complicated.</p>
+
+      <div class="examples-block">
+        <p class="examples-label">How people use their core values</p>
+        <p>When facing a hard decision, they ask: <em>Which option honours what I actually care about?</em></p>
+        <p>When something feels off, they ask: <em>Which of my values is being compromised here?</em></p>
+        <p>When setting goals, they filter through: <em>Does this align with who I'm trying to be, not just what I'm trying to achieve?</em></p>
+      </div>
+
+      <p class="body-text">This exercise takes about 10 to 15 minutes. There's no right answer, only honest ones.</p>
+      <button class="btn-blue" onclick="showScreen('screen-ten')">Start the exercise</button>
+    </div>
+  </div>
+
+  <div id="screen-ten" class="screen">
+    <div class="stage">
+      <p class="eyebrow">Step 1 of 2</p>
+      <h2 class="section-title">Select your first ten.</h2>
+      <p class="body-text">Work through this list and pick the ten values that resonate most, the words that feel like <em>you</em>. Try to move relatively quickly. Your instincts here are more useful than your analysis.</p>
+      <p class="instruction-note">Once you've selected ten, a button will appear to continue. You can still toggle selections on and off, but you can't hold more than ten at once.</p>
+      <div class="status-bar">Selected: <span id="count-ten">0</span> / 10</div>
+      <div class="values-grid" id="grid-ten"></div>
+      <div class="btn-row">
+        <button class="btn-ghost" onclick="showScreen('screen-intro')">&larr; Back</button>
+        <button class="btn-blue" id="btn-proceed-ten" disabled onclick="proceedToCore()">Continue &rarr;</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="screen-core" class="screen">
+    <div class="stage">
+      <p class="eyebrow">Step 2 of 2</p>
+      <h2 class="section-title">Find your core.</h2>
+      <p class="body-text">These are the ten values that resonated most. Now comes the harder work.</p>
+      <p class="body-text">Look at this list and ask yourself: if you had to live by only two or three of these, the ones that sit underneath everything else, the ones you'd defend even at personal cost, which would they be?</p>
+      <p class="instruction-note">Select 2 values to continue. You may choose a third, but not a fourth.</p>
+      <div class="status-bar" id="status-core">Selected: <span id="count-core">0</span> &nbsp;choose at least 2</div>
+      <div class="values-grid" id="grid-core"></div>
+      <div class="btn-row">
+        <button class="btn-ghost" onclick="showScreen('screen-ten')">&larr; Back</button>
+        <button class="btn-blue" id="btn-proceed-core" disabled onclick="proceedToReflect()">See my core values &rarr;</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="screen-reflect" class="screen">
+    <div class="stage">
+      <p class="eyebrow">Your Core Values</p>
+      <h2 class="section-title">Now the real work begins.</h2>
+      <div class="core-display" id="core-display"></div>
+      <p class="body-text">Naming a value is just the first step. What matters is how you make it real, in the way you work, the relationships you invest in, and the decisions you make when things are hard.</p>
+      <div class="divider"></div>
+      <p style="font-family:var(--sans);font-weight:300;font-size:0.72rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--brand-blue);margin-bottom:1.8rem;">Questions to sit with</p>
+
+      <div class="q-block">
+        <p class="q-label">On identity</p>
+        <p class="q-text">When are you most fully yourself?</p>
+        <p class="q-sub">Think of a moment, recent or not, when you felt completely aligned. What were you doing? Who were you with? What does that tell you about which of your core values was being honoured?</p>
+      </div>
+
+      <div class="q-block">
+        <p class="q-label">On friction</p>
+        <p class="q-text">Where does the resistance keep showing up?</p>
+        <p class="q-sub">Recurring frustration is often a values signal. Think about what reliably drains you, bothers you, or makes you dig in. Is there a value underneath that friction, something you keep needing that keeps going unmet?</p>
+      </div>
+
+      <div class="q-block">
+        <p class="q-label">On courage</p>
+        <p class="q-text">What would you do differently if you lived these more fully?</p>
+        <p class="q-sub">Not as self-criticism, but as honest curiosity. Where are the gaps between what you say matters and how you actually spend your time, energy, or attention?</p>
+      </div>
+
+      <div class="q-block">
+        <p class="q-label">On decisions</p>
+        <p class="q-text">What choice have you been putting off that these values might help clarify?</p>
+        <p class="q-sub">Bring a specific situation to mind. Run it through each of your core values. Does one path honour them more than the other? Does the answer surprise you?</p>
+      </div>
+
+      <div class="q-block">
+        <p class="q-label">On legacy</p>
+        <p class="q-text">How would the people who know you best describe what you stand for?</p>
+        <p class="q-sub">And how close is that to what you want the answer to be?</p>
+      </div>
+
+      <div class="reflection-note">
+        <p class="rn-title">Carrying this forward</p>
+        <p>You don't need to frame this on a wall. Try writing your core values somewhere you'll see them during ordinary moments: the top of a journal page, a note in your phone, the corner of a whiteboard. The goal isn't to memorise them. It's to keep them close enough that they show up in real time.</p>
+        <p style="margin-top:0.8rem;">When a decision feels hard, pause and ask: <em>What would someone who genuinely holds [your value] do here?</em> You often already know.</p>
+      </div>
+
+      <button class="btn-ghost" onclick="showScreen('screen-core')">&larr; Back to core values</button>
+      <button class="restart-link" onclick="restart()">&larr; Start over</button>
+    </div>
+  </div>
+
+</div>
+
+<!-- ── FOOTER ── -->
+<footer class="footer">
+  <a href="/" class="footer__logo">
+    <img src="./extracted-images/cc-logo.png" alt="Crawford Coaching">
+  </a>
+  <ul class="footer__links">
+    <li><a href="/coaching">Coaching</a></li>
+    <li><a href="/whole">WHOLE</a></li>
+    <li><a href="/synergize">Synergize Fitness</a></li>
+    <li><a href="/growth-zone">Growth Zone</a></li>
+    <li><a href="/about">About</a></li>
+    <li><a href="/writing">Writing</a></li>
+    <li><a href="/contact">Contact</a></li>
+  </ul>
+  <p class="footer__copy">&copy; 2026 Crawford Coaching</p>
+  <div class="footer__social">
+    <a href="https://www.instagram.com/scott.crawford.coaching/" target="_blank" aria-label="Instagram">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+    </a>
+    <a href="https://www.linkedin.com/in/scott-crawford-acc-9043b91a1/" target="_blank" aria-label="LinkedIn">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+    </a>
+    <a href="https://www.facebook.com/CrawfordCoachingKingston" target="_blank" aria-label="Facebook">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+    </a>
+  </div>
+</footer>
+
+<script>
+const ALL_VALUES = [
+  "Accountability","Achievement","Adventure","Authenticity","Balance",
+  "Belonging","Boldness","Calmness","Candour","Collaboration",
+  "Commitment","Community","Compassion","Connection","Courage",
+  "Creativity","Curiosity","Depth","Dignity","Discipline",
+  "Empathy","Excellence","Fairness","Faith","Family",
+  "Freedom","Generosity","Grace","Gratitude","Growth",
+  "Honesty","Honour","Humility","Impact","Independence",
+  "Integrity","Intuition","Joy","Justice","Kindness",
+  "Leadership","Learning","Loyalty","Mastery","Mindfulness",
+  "Nature","Openness","Patience","Perseverance","Play",
+  "Purpose","Resilience","Responsibility","Security","Self-respect",
+  "Service","Simplicity","Spirituality","Stewardship","Strength",
+  "Trust","Truth","Vulnerability","Wisdom","Wonder"
+];
+
+let tenSelected = new Set();
+let coreSelected = new Set();
+let tenFinal = [];
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+function buildTenGrid() {
+  const grid = document.getElementById('grid-ten');
+  grid.innerHTML = '';
+  ALL_VALUES.forEach(v => {
+    const tag = document.createElement('button');
+    tag.className = 'value-tag';
+    tag.textContent = v;
+    tag.dataset.value = v;
+    tag.onclick = () => toggleTen(v, tag);
+    grid.appendChild(tag);
+  });
+}
+
+function toggleTen(v, el) {
+  if (tenSelected.has(v)) {
+    tenSelected.delete(v);
+  } else {
+    if (tenSelected.size >= 10) return;
+    tenSelected.add(v);
+  }
+  updateTenUI();
+}
+
+function updateTenUI() {
+  const count = tenSelected.size;
+  document.getElementById('count-ten').textContent = count;
+  document.getElementById('btn-proceed-ten').disabled = count < 10;
+  document.querySelectorAll('#grid-ten .value-tag').forEach(tag => {
+    const v = tag.dataset.value;
+    const isSel = tenSelected.has(v);
+    tag.classList.toggle('selected', isSel);
+    tag.classList.toggle('locked', !isSel && count >= 10);
+  });
+}
+
+function proceedToCore() {
+  tenFinal = [...tenSelected];
+  coreSelected.clear();
+  buildCoreGrid();
+  showScreen('screen-core');
+}
+
+function buildCoreGrid() {
+  const grid = document.getElementById('grid-core');
+  grid.innerHTML = '';
+  tenFinal.forEach(v => {
+    const tag = document.createElement('button');
+    tag.className = 'value-tag';
+    tag.textContent = v;
+    tag.dataset.value = v;
+    tag.onclick = () => toggleCore(v, tag);
+    grid.appendChild(tag);
+  });
+  updateCoreUI();
+}
+
+function toggleCore(v, el) {
+  if (coreSelected.has(v)) {
+    coreSelected.delete(v);
+  } else {
+    if (coreSelected.size >= 3) return;
+    coreSelected.add(v);
+  }
+  updateCoreUI();
+}
+
+function updateCoreUI() {
+  const count = coreSelected.size;
+  let msg = '';
+  if (count === 0) msg = 'choose at least 2';
+  else if (count === 1) msg = 'choose at least one more';
+  else if (count === 2) msg = 'you may choose one more, or continue';
+  else msg = 'maximum reached';
+  document.getElementById('status-core').innerHTML = 'Selected: <span>' + count + '</span> &nbsp;' + msg;
+  document.getElementById('btn-proceed-core').disabled = count < 2;
+  document.querySelectorAll('#grid-core .value-tag').forEach(tag => {
+    const v = tag.dataset.value;
+    const isSel = coreSelected.has(v);
+    tag.classList.toggle('core-selected', isSel);
+    tag.classList.toggle('locked', !isSel && count >= 3);
+  });
+}
+
+function proceedToReflect() {
+  const display = document.getElementById('core-display');
+  display.innerHTML = '';
+  [...coreSelected].forEach(v => {
+    const pill = document.createElement('div');
+    pill.className = 'core-pill';
+    pill.textContent = v;
+    display.appendChild(pill);
+  });
+  showScreen('screen-reflect');
+}
+
+function restart() {
+  tenSelected.clear();
+  coreSelected.clear();
+  tenFinal = [];
+  buildTenGrid();
+  showScreen('screen-intro');
+}
+
+buildTenGrid();
+</script>
+
+<script src="https://website-assistant-sandy.vercel.app/chat-widget.js"></script>
+</body>
+</html>

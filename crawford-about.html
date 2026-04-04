@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About — Crawford Coaching</title>
+<meta name="description" content="Meet Scott Crawford — ICF Associate Certified Coach and personal trainer in Kingston, Ontario. Direct, collaborative coaching for people who are capable and stuck.">
+<link rel="canonical" href="https://crawford-coaching.ca/about">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Crawford Coaching">
+<meta property="og:title" content="About — Crawford Coaching">
+<meta property="og:description" content="Meet Scott Crawford — ICF Associate Certified Coach and personal trainer in Kingston, Ontario.">
+<meta property="og:url" content="https://crawford-coaching.ca/about">
+<meta property="og:image" content="https://crawford-coaching.ca/cc-logo.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="About — Crawford Coaching">
+<meta name="twitter:description" content="Meet Scott Crawford — ICF Associate Certified Coach and personal trainer in Kingston, Ontario.">
+<meta name="twitter:image" content="https://crawford-coaching.ca/cc-logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --ink:        #0e0f10;
+  --slate:      #1c2330;
+  --slate-mid:  #232f3e;
+  --fog:        #3d4a58;
+  --mist:       #7a8fa3;
+  --pale:       #c8d4de;
+  --white:      #f5f3ef;
+  --brand-blue: #2d86c4;
+  --brand-blue-light: #4fa3d8;
+  --serif-display: 'Cormorant Garamond', Georgia, serif;
+  --serif-body:    'Libre Baskerville', Georgia, serif;
+  --sans:          'Jost', sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--ink);
+  color: var(--white);
+  font-family: var(--serif-body);
+  font-size: 16px;
+  line-height: 1.8;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── NAV ── */
+.nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.6rem clamp(1.5rem, 4vw, 3.5rem);
+  background: rgba(14,15,16,0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.nav__logo { display: inline-flex; align-items: center; text-decoration: none; }
+.nav__logo img { height: 36px; width: auto; display: block; }
+.nav__links { display: flex; gap: 2.5rem; list-style: none; }
+.nav__links a {
+  font-family: var(--sans); font-weight: 300;
+  font-size: 0.78rem; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--pale);
+  text-decoration: none; opacity: 0.85;
+  transition: opacity 0.2s, color 0.2s;
+}
+.nav__links a:hover { opacity: 1; color: var(--white); }
+.nav__links a.active { color: var(--brand-blue); opacity: 1; }
+.nav__cta {
+  font-family: var(--sans); font-weight: 400;
+  font-size: 0.75rem; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--white);
+  text-decoration: none;
+  border: 1px solid rgba(245,243,239,0.45);
+  padding: 0.5rem 1.3rem; border-radius: 1px;
+  transition: background 0.25s, border-color 0.25s;
+}
+.nav__cta:hover { background: rgba(245,243,239,0.1); border-color: rgba(245,243,239,0.8); }
+
+/* ─── MOBILE NAV ─────────────────────── */
+.nav__toggle {
+  display: none;
+  width: 44px;
+  height: 44px;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  z-index: 200;
+  -webkit-tap-highlight-color: transparent;
+}
+.nav__toggle span {
+  display: block;
+  width: 22px;
+  height: 1.5px;
+  background: var(--pale);
+  margin: 5px 0;
+  transition: transform 0.3s ease, opacity 0.2s ease;
+  transform-origin: center;
+}
+.nav__toggle.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+.nav__toggle.open span:nth-child(2) { opacity: 0; }
+.nav__toggle.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+.nav__overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  background: rgba(14,15,16,0.97);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+.nav__overlay.open { display: flex; opacity: 1; }
+.nav__overlay a {
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 1.1rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--pale);
+  text-decoration: none;
+  padding: 0.9rem 0;
+  opacity: 0.85;
+  transition: color 0.2s, opacity 0.2s;
+}
+.nav__overlay a:hover,
+.nav__overlay a.active {
+  opacity: 1;
+  color: var(--white);
+}
+.nav__overlay .nav__overlay-cta {
+  margin-top: 2rem;
+  font-family: var(--sans);
+  font-weight: 400;
+  font-size: 0.85rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--white);
+  text-decoration: none;
+  border: 1px solid rgba(245,243,239,0.5);
+  padding: 0.7rem 2rem;
+  border-radius: 1px;
+  transition: background 0.25s, border-color 0.25s;
+}
+.nav__overlay .nav__overlay-cta:hover {
+  background: rgba(245,243,239,0.1);
+  border-color: rgba(245,243,239,0.8);
+}
+.nav__toggle:focus-visible,
+.nav__overlay a:focus-visible,
+.nav__overlay .nav__overlay-cta:focus-visible {
+  outline: 2px solid var(--white);
+  outline-offset: 4px;
+}
+
+/* ── PAGE HERO ── */
+.page-hero {
+  min-height: 45vh;
+  display: flex;
+  align-items: flex-end;
+  padding: 8rem clamp(1.5rem, 4vw, 3.5rem) 4rem;
+  background: var(--slate);
+  position: relative;
+}
+.page-hero__content { max-width: 800px; }
+.page-hero__label {
+  font-family: var(--sans); font-weight: 400;
+  font-size: 0.68rem; letter-spacing: 0.3em;
+  text-transform: uppercase; color: var(--brand-blue);
+  margin-bottom: 1.5rem;
+  display: flex; align-items: center; gap: 0.8rem;
+}
+.page-hero__label::before {
+  content: ''; display: block;
+  width: 28px; height: 1px;
+  background: var(--brand-blue);
+}
+.page-hero__title {
+  font-family: var(--serif-display);
+  font-weight: 300;
+  font-size: clamp(2.4rem, 5vw, 3.6rem);
+  line-height: 1.1;
+  color: var(--white);
+}
+
+.page-hero__sub {
+  font-family: var(--serif-body);
+  font-style: italic;
+  font-size: 1rem;
+  color: var(--mist);
+  margin-top: 1rem;
+}
+
+/* ── ABOUT BIO SECTION ── */
+.about {
+  padding: 6rem clamp(1.5rem, 4vw, 3.5rem);
+  background: var(--slate-mid);
+}
+.about__inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 340px 1fr;
+  gap: 4rem;
+  align-items: start;
+}
+.about__photo-wrap { position: relative; }
+.about__photo {
+  width: 100%;
+  object-fit: cover;
+  object-position: top center;
+  border-radius: 2px;
+  display: block;
+  background: var(--fog);
+}
+.about__frame {
+  position: absolute;
+  bottom: -12px; left: -12px;
+  width: 100%; height: 100%;
+  border: 1px solid var(--brand-blue);
+  opacity: 0.25;
+  border-radius: 2px;
+  pointer-events: none;
+}
+.about__body p {
+  font-family: var(--serif-body);
+  font-size: 0.95rem;
+  line-height: 1.85;
+  color: var(--pale);
+  margin-bottom: 1.4rem;
+}
+.about__creds {
+  margin-top: 2rem;
+  display: flex; gap: 1.5rem; flex-wrap: wrap;
+}
+.about__cred {
+  font-family: var(--sans); font-weight: 400;
+  font-size: 0.72rem; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--mist);
+  padding: 0.35rem 0.8rem;
+  border: 1px solid rgba(122,143,163,0.25);
+  border-radius: 1px;
+}
+
+/* ── CTA SECTION ── */
+.cta-section {
+  padding: 5rem clamp(1.5rem, 4vw, 3.5rem);
+  background: var(--slate);
+  text-align: center;
+}
+.cta-section__heading {
+  font-family: var(--serif-display);
+  font-weight: 300;
+  font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+  line-height: 1.2;
+  color: var(--white);
+  margin-bottom: 1.5rem;
+}
+.cta-section__sub {
+  font-family: var(--serif-body);
+  font-size: 0.92rem;
+  color: var(--pale);
+  margin-bottom: 2.5rem;
+  max-width: 520px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.cta-btn {
+  display: inline-block;
+  font-family: var(--sans); font-weight: 400;
+  font-size: 0.78rem; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--white);
+  text-decoration: none;
+  border: 1px solid var(--brand-blue);
+  padding: 0.85rem 2.2rem; border-radius: 1px;
+  transition: background 0.3s, border-color 0.3s;
+}
+.cta-btn:hover {
+  background: var(--brand-blue);
+  border-color: var(--brand-blue);
+}
+
+
+.footer__social {
+  display: flex;
+  gap: 1.2rem;
+  align-items: center;
+}
+.footer__social a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--mist);
+  transition: color 0.2s;
+}
+.footer__social a:hover { color: var(--pale); }
+.footer__social svg {
+  width: 18px;
+  height: 18px;
+  fill: currentColor;
+}
+
+/* ── FOOTER ── */
+.footer {
+  display: flex; align-items: center;
+  justify-content: space-between;
+  padding: 3rem clamp(1.5rem, 4vw, 3.5rem);
+  background: var(--ink);
+  border-top: 1px solid rgba(255,255,255,0.08);
+  flex-wrap: wrap; gap: 1.5rem;
+}
+.footer__logo img { height: 32px; width: auto; display: block; }
+.footer__copy { font-family: var(--sans); font-size: 0.75rem; color: var(--mist); }
+.footer__links { display: flex; gap: 2rem; list-style: none; flex-wrap: wrap; }
+.footer__links a {
+  font-family: var(--sans); font-size: 0.75rem;
+  color: var(--mist); text-decoration: none;
+  transition: color 0.2s;
+}
+.footer__links a:hover { color: var(--pale); }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  .about__inner { grid-template-columns: 1fr; gap: 2.5rem; }
+  .about__photo-wrap { max-width: 320px; }
+  .nav__links { gap: 1.5rem; }
+  .footer { flex-direction: column; text-align: center; }
+  .footer__links { justify-content: center; }
+}
+@media (max-width: 900px) {
+  .nav__toggle { display: block; }
+  .nav__links { display: none !important; }
+  .nav__cta { display: none; }
+}
+
+/* ─── PHASE 2 MOBILE SAFETY ─────────── */
+img { max-width: 100%; }
+
+@media (max-width: 900px) {
+  .page-hero__label,
+  .about__cred,
+  .footer__copy,
+  .footer__links a {
+    font-size: max(0.75rem, 12px);
+  }
+
+  .about__photo-wrap {
+    width: min(100%, 340px);
+    margin: 0 auto;
+  }
+
+  .cta-btn,
+  .nav__overlay .nav__overlay-cta {
+    min-height: 44px;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .cta-btn {
+    width: min(100%, 340px);
+  }
+
+  .footer {
+    align-items: center;
+    text-align: center;
+  }
+
+  .footer__logo {
+    margin: 0 auto;
+  }
+
+  .footer__links {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem 1.4rem;
+  }
+
+  .footer__social {
+    width: 100%;
+    justify-content: center;
+  }
+}
+</style>
+<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Scott Crawford",
+  "url": "https://crawford-coaching.ca/about",
+  "image": "https://crawford-coaching.ca/scottmountain.webp",
+  "jobTitle": "Coach & Personal Trainer",
+  "description": "ICF Associate Certified Coach and ISSA Certified Personal Trainer in Kingston, Ontario.",
+  "worksFor": {
+    "@type": "Organization",
+    "name": "Crawford Coaching",
+    "url": "https://crawford-coaching.ca"
+  },
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Kingston",
+    "addressRegion": "ON",
+    "addressCountry": "CA"
+  },
+  "hasCredential": [
+    { "@type": "EducationalOccupationalCredential", "credentialCategory": "certification", "name": "ICF Associate Certified Coach" },
+    { "@type": "EducationalOccupationalCredential", "credentialCategory": "certification", "name": "ISSA Certified Personal Trainer" }
+  ]
+}</script>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav class="nav">
+  <a href="/" class="nav__logo">
+    <!-- Replace src with base64 logo data from logo_base64.txt -->
+    <img src="./extracted-images/cc-logo.png" alt="Crawford Coaching">
+  </a>
+  <ul class="nav__links">
+    <li><a href="/coaching">Coaching</a></li>
+    <li><a href="/whole">WHOLE</a></li>
+    <li><a href="/synergize">Synergize Fitness</a></li>
+    <li><a href="/growth-zone">Growth Zone</a></li>
+    <li><a href="/about" class="active">About</a></li>
+    <li><a href="/writing">Writing</a></li>
+    <li><a href="/contact">Contact</a></li>
+  </ul>
+  <a href="https://calendar.app.google/R66fNg5m7w3aKPKd6" class="nav__cta" target="_blank">Book a Call</a>
+  <button class="nav__toggle" aria-label="Menu" aria-controls="site-menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="nav__overlay" id="site-menu" aria-hidden="true">
+  <a href="/coaching">Coaching</a>
+  <a href="/whole">WHOLE</a>
+  <a href="/synergize">Synergize Fitness</a>
+  <a href="/growth-zone">Growth Zone</a>
+  <a href="/about" class="active">About</a>
+  <a href="/writing">Writing</a>
+  <a href="/contact">Contact</a>
+  <a href="https://calendar.app.google/R66fNg5m7w3aKPKd6" class="nav__overlay-cta" target="_blank">Book a Call</a>
+</div>
+
+<!-- ── PAGE HERO ── -->
+<section class="page-hero">
+  <div class="page-hero__content">
+    <p class="page-hero__label">About</p>
+    <h1 class="page-hero__title">Scott Crawford</h1>
+    <p class="page-hero__sub">Coach. Trainer. Straight talker.</p>
+  </div>
+</section>
+
+<!-- ── BIO ── -->
+<section class="about">
+  <div class="about__inner">
+    <div class="about__photo-wrap">
+      <!-- Replace src with actual headshot image -->
+      <img class="about__photo" src="./scottmountain.webp" alt="Scott Crawford">
+      <div class="about__frame"></div>
+    </div>
+    <div>
+      <div class="about__body">
+        <p>I work with people who are capable, self-aware, and stuck. Not because they lack information or discipline. Something beneath the surface hasn't been looked at honestly yet. That's where the work starts.</p>
+
+        <p>My path to this work was anything but direct. I stayed home with my kids while my wife built her medical career. I did renovation work, flipped houses, learned to cook in the kitchen I designed and installed. I picked things up, put them down, and followed whatever was in front of me.</p>
+
+        <p>I came to coaching through personal training. I kept noticing that what was holding my clients back had very little to do with their fitness. So I got trained as a coach. It was the first thing that made complete sense of everything I'd done before.</p>
+
+        <p>I'm an Associate Certified Coach with the International Coaching Federation and a Certified Personal Trainer. I run a small group fitness studio in Kingston, Ontario, and I've developed WHOLE, a 16-week group coaching program built around the belief that lasting change doesn't come from better plans alone. It comes from the self-understanding that makes a plan actually work.</p>
+
+        <p>My approach is direct and collaborative. I'll ask the questions that are easy to avoid, hold you to what you said mattered, and meet you where you actually are, not where you think you should be. No judgment. No performance required.</p>
+
+        <p>Outside of the work, I'm usually outdoors. Hiking, cycling, or out on the water yacht racing with whatever wind is on offer. At home in Kingston with my wife (a physician) and our two daughters. Occasionally playing guitar. Never quite as well as I'd like.</p>
+      </div>
+      <div class="about__creds">
+        <span class="about__cred">ICF Associate Certified Coach</span>
+        <span class="about__cred">ISSA Certified Personal Trainer</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CTA ── -->
+<section class="cta-section">
+  <h2 class="cta-section__heading">Want to work together?</h2>
+  <p class="cta-section__sub">Book a free conversation. No pitch, no pressure. Just a chance to see if the work makes sense for where you are right now.</p>
+  <a href="https://calendar.app.google/R66fNg5m7w3aKPKd6" class="cta-btn" target="_blank">Book a Free Conversation</a>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer class="footer">
+  <a href="/" class="footer__logo">
+    <img src="./extracted-images/cc-logo.png" alt="Crawford Coaching">
+  </a>
+    <ul class="footer__links">
+    <li><a href="/coaching">Coaching</a></li>
+    <li><a href="/whole">WHOLE</a></li>
+    <li><a href="/synergize">Synergize Fitness</a></li>
+    <li><a href="/growth-zone">Growth Zone</a></li>
+    <li><a href="/about">About</a></li>
+    <li><a href="/writing">Writing</a></li>
+    <li><a href="/contact">Contact</a></li>
+  </ul>
+  <p class="footer__copy">&copy; 2026 Crawford Coaching</p>
+  <div class="footer__social">
+    <a href="https://www.instagram.com/scott.crawford.coaching/" target="_blank" aria-label="Instagram">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+    </a>
+    <a href="https://www.linkedin.com/in/scott-crawford-acc-9043b91a1/" target="_blank" aria-label="LinkedIn">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+    </a>
+    <a href="https://www.facebook.com/CrawfordCoachingKingston" target="_blank" aria-label="Facebook">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+    </a>
+  </div>
+</footer>
+
+<script>
+(function() {
+  const toggle = document.querySelector('.nav__toggle');
+  const overlay = document.querySelector('.nav__overlay');
+  if (!toggle || !overlay) return;
+
+  let closeTimer = null;
+  const closeMenu = () => {
+    toggle.classList.remove('open');
+    toggle.setAttribute('aria-expanded', 'false');
+    overlay.classList.remove('open');
+    const activeEl = document.activeElement;
+    if (activeEl && overlay.contains(activeEl)) {
+      activeEl.blur();
+    }
+    overlay.setAttribute('aria-hidden', 'true');
+    toggle.focus();
+    document.body.style.overflow = '';
+    if (closeTimer) clearTimeout(closeTimer);
+    closeTimer = setTimeout(() => {
+      overlay.style.display = 'none';
+    }, 350);
+  };
+
+  const openMenu = () => {
+    if (closeTimer) clearTimeout(closeTimer);
+    toggle.classList.add('open');
+    toggle.setAttribute('aria-expanded', 'true');
+    overlay.style.display = 'flex';
+    overlay.setAttribute('aria-hidden', 'false');
+    requestAnimationFrame(() => overlay.classList.add('open'));
+    document.body.style.overflow = 'hidden';
+  };
+
+  toggle.addEventListener('click', function() {
+    if (toggle.classList.contains('open')) {
+      closeMenu();
+    } else {
+      openMenu();
+    }
+  });
+
+  overlay.querySelectorAll('a').forEach((anchor) => {
+    anchor.addEventListener('click', closeMenu);
+  });
+
+  document.addEventListener('keydown', function(event) {
+    if (event.key === 'Escape' && toggle.classList.contains('open')) {
+      closeMenu();
+    }
+  });
+
+  window.addEventListener('resize', function() {
+    if (window.innerWidth > 900 && toggle.classList.contains('open')) {
+      closeMenu();
+    }
+  });
+})();
+</script>
+
+  <script src="https://website-assistant-sandy.vercel.app/chat-widget.js"></script>
+</body>
+</html>

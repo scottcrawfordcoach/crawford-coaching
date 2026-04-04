@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Subscribe — Crawford Coaching</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --ink:        #0e0f10;
+  --slate:      #1c2330;
+  --slate-mid:  #232f3e;
+  --fog:        #3d4a58;
+  --mist:       #7a8fa3;
+  --pale:       #c8d4de;
+  --white:      #f5f3ef;
+  --brand-blue: #2d86c4;
+  --brand-blue-light: #4fa3d8;
+  --serif-display: 'Cormorant Garamond', Georgia, serif;
+  --serif-body:    'Libre Baskerville', Georgia, serif;
+  --sans:          'Jost', sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--ink);
+  color: var(--white);
+  font-family: var(--serif-body);
+  font-size: 16px;
+  line-height: 1.8;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── NAV ── */
+.nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.6rem clamp(1.5rem, 4vw, 3.5rem);
+  background: rgba(14,15,16,0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.nav__logo { display: inline-flex; align-items: center; text-decoration: none; }
+.nav__logo img { height: 36px; width: auto; display: block; }
+.nav__links { display: flex; gap: 2.5rem; list-style: none; }
+.nav__links a {
+  font-family: var(--sans); font-weight: 300;
+  font-size: 0.78rem; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--pale);
+  text-decoration: none; opacity: 0.85;
+  transition: opacity 0.2s, color 0.2s;
+}
+.nav__links a:hover { opacity: 1; color: var(--white); }
+.nav__cta {
+  font-family: var(--sans); font-weight: 400;
+  font-size: 0.75rem; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--white);
+  text-decoration: none;
+  border: 1px solid rgba(245,243,239,0.45);
+  padding: 0.5rem 1.3rem; border-radius: 1px;
+  transition: background 0.25s, border-color 0.25s;
+}
+.nav__cta:hover { background: rgba(245,243,239,0.1); border-color: rgba(245,243,239,0.8); }
+
+/* ─── MOBILE NAV ─────────────────────── */
+.nav__toggle {
+  display: none;
+  width: 44px; height: 44px;
+  align-items: center; justify-content: center; flex-direction: column;
+  background: none; border: none; cursor: pointer;
+  padding: 0.5rem; z-index: 200;
+  -webkit-tap-highlight-color: transparent;
+}
+.nav__toggle span {
+  display: block; width: 22px; height: 1.5px;
+  background: var(--pale); margin: 5px 0;
+  transition: transform 0.3s ease, opacity 0.2s ease;
+  transform-origin: center;
+}
+.nav__toggle.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+.nav__toggle.open span:nth-child(2) { opacity: 0; }
+.nav__toggle.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+.nav__overlay {
+  display: none; position: fixed; inset: 0; z-index: 90;
+  background: rgba(14,15,16,0.97);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  flex-direction: column; align-items: center; justify-content: center;
+  gap: 0; opacity: 0; transition: opacity 0.35s ease;
+}
+.nav__overlay.open { display: flex; opacity: 1; }
+.nav__overlay a {
+  font-family: var(--sans); font-weight: 300;
+  font-size: 1.1rem; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--pale);
+  text-decoration: none; padding: 0.9rem 0;
+  opacity: 0.85; transition: color 0.2s, opacity 0.2s;
+}
+.nav__overlay a:hover,
+.nav__overlay a.active { opacity: 1; color: var(--white); }
+.nav__overlay .nav__overlay-cta {
+  margin-top: 2rem;
+  font-family: var(--sans); font-weight: 400;
+  font-size: 0.82rem; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--white);
+  text-decoration: none;
+  border: 1px solid rgba(245,243,239,0.45);
+  padding: 0.65rem 1.5rem; border-radius: 1px;
+  transition: background 0.25s, border-color 0.25s;
+}
+.nav__overlay .nav__overlay-cta:hover {
+  background: rgba(245,243,239,0.1); border-color: rgba(245,243,239,0.8);
+}
+
+/* ── PAGE HERO ── */
+.page-hero {
+  padding: 10rem clamp(1.5rem, 4vw, 3.5rem) 4rem;
+  text-align: center;
+}
+.page-hero__label {
+  font-family: var(--sans); font-weight: 300;
+  font-size: 0.68rem; letter-spacing: 0.3em;
+  text-transform: uppercase; color: var(--brand-blue);
+  margin-bottom: 1.2rem;
+  display: flex; align-items: center; justify-content: center; gap: 0.8rem;
+}
+.page-hero__label::before,
+.page-hero__label::after {
+  content: ''; display: block;
+  width: 28px; height: 1px;
+  background: var(--brand-blue); opacity: 0.5;
+}
+.page-hero__heading {
+  font-family: var(--serif-display);
+  font-weight: 300;
+  font-size: clamp(2rem, 4.5vw, 3.2rem);
+  line-height: 1.15;
+  color: var(--white);
+  margin-bottom: 1.2rem;
+}
+.page-hero__sub {
+  font-family: var(--serif-body);
+  font-size: 0.95rem;
+  color: var(--pale);
+  max-width: 520px;
+  margin: 0 auto;
+  line-height: 1.8;
+}
+
+/* ── SUBSCRIBE SECTION ── */
+.subscribe {
+  padding: 0 clamp(1.5rem, 4vw, 3.5rem) 5rem;
+}
+.subscribe__inner {
+  max-width: 520px;
+  margin: 0 auto;
+}
+
+/* ── FORM ── */
+.form__group { margin-bottom: 1.8rem; }
+.form__label {
+  display: block;
+  font-family: var(--sans); font-weight: 400;
+  font-size: 0.72rem; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--mist);
+  margin-bottom: 0.6rem;
+}
+.form__label .required {
+  color: var(--brand-blue);
+  margin-left: 0.15rem;
+}
+.form__input {
+  width: 100%;
+  font-family: var(--serif-body);
+  font-size: 0.92rem;
+  color: var(--white);
+  background: var(--slate);
+  border: 1px solid var(--fog);
+  border-radius: 2px;
+  padding: 0.85rem 1rem;
+  transition: border-color 0.3s;
+  outline: none;
+}
+.form__input:focus {
+  border-color: var(--brand-blue);
+}
+.form__input::placeholder {
+  color: var(--fog);
+  font-style: italic;
+}
+
+/* ── SUBMIT ── */
+.form__submit {
+  display: inline-block;
+  font-family: var(--sans); font-weight: 400;
+  font-size: 0.78rem; letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--white);
+  background: transparent;
+  border: 1px solid var(--brand-blue);
+  padding: 0.85rem 2.6rem;
+  border-radius: 1px;
+  cursor: pointer;
+  transition: background 0.3s, border-color 0.3s;
+}
+.form__submit:hover {
+  background: var(--brand-blue);
+  border-color: var(--brand-blue);
+}
+
+/* ── HONEYPOT ── */
+.form__honey { position: absolute; left: -5000px; }
+
+/* ── PRIVACY NOTE ── */
+.form__privacy {
+  font-family: var(--serif-body);
+  font-style: italic;
+  font-size: 0.78rem;
+  color: var(--mist);
+  margin-top: 1.8rem;
+  line-height: 1.7;
+}
+
+/* ── RESPONSES ── */
+.form__response {
+  display: none;
+  font-family: var(--serif-body);
+  font-size: 0.88rem;
+  padding: 0.8rem 1rem;
+  border-radius: 2px;
+  margin-bottom: 1.5rem;
+}
+.form__response--error {
+  color: #e8632b;
+  background: rgba(232,99,43,0.08);
+  border: 1px solid rgba(232,99,43,0.2);
+}
+.form__response--success {
+  color: var(--pale);
+  background: rgba(45,134,196,0.08);
+  border: 1px solid rgba(45,134,196,0.2);
+}
+
+/* ── FOOTER ── */
+.footer {
+  display: flex; align-items: center;
+  justify-content: space-between;
+  padding: 3rem clamp(1.5rem, 4vw, 3.5rem);
+  background: var(--ink);
+  border-top: 1px solid rgba(255,255,255,0.08);
+  flex-wrap: wrap; gap: 1.5rem;
+}
+.footer__logo img { height: 32px; width: auto; display: block; }
+.footer__copy { font-family: var(--sans); font-size: 0.75rem; color: var(--mist); }
+.footer__links { display: flex; gap: 2rem; list-style: none; flex-wrap: wrap; }
+.footer__links a {
+  font-family: var(--sans); font-size: 0.75rem;
+  color: var(--mist); text-decoration: none;
+  transition: color 0.2s;
+}
+.footer__links a:hover { color: var(--pale); }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+  .nav__toggle { display: flex; }
+  .nav__links { display: none !important; }
+  .nav__cta { display: none; }
+}
+@media (max-width: 768px) {
+  .page-hero { padding-top: 8rem; }
+  .footer { flex-direction: column; text-align: center; }
+  .footer__links { justify-content: center; }
+  .form__submit { width: 100%; max-width: 360px; }
+}
+
+/* ─── MOBILE SAFETY ─────────── */
+img { max-width: 100%; }
+@media (max-width: 900px) {
+  .page-hero__label,
+  .form__label,
+  .footer__copy,
+  .footer__links a {
+    font-size: max(0.75rem, 12px);
+  }
+  .form__input {
+    min-height: 44px;
+    font-size: 1rem;
+  }
+  .form__submit,
+  .nav__overlay .nav__overlay-cta {
+    min-height: 44px;
+    align-items: center;
+    justify-content: center;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav class="nav">
+  <a href="/" class="nav__logo">
+    <img src="./extracted-images/cc-logo.png" alt="Crawford Coaching">
+  </a>
+  <button class="nav__toggle" aria-label="Toggle navigation" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+  <ul class="nav__links">
+    <li><a href="/coaching">Coaching</a></li>
+    <li><a href="/whole">WHOLE</a></li>
+    <li><a href="/synergize">Synergize</a></li>
+    <li><a href="/growth-zone">Growth Zone</a></li>
+    <li><a href="/about">About</a></li>
+    <li><a href="/writing">Writing</a></li>
+    <li><a href="/contact">Contact</a></li>
+  </ul>
+  <a href="https://calendar.app.google/R66fNg5m7w3aKPKd6" class="nav__cta" target="_blank">Book a Call</a>
+</nav>
+
+<!-- ── MOBILE OVERLAY ── -->
+<div class="nav__overlay" aria-hidden="true">
+  <a href="/">Home</a>
+  <a href="/coaching">Coaching</a>
+  <a href="/whole">WHOLE</a>
+  <a href="/synergize">Synergize</a>
+  <a href="/growth-zone">Growth Zone</a>
+  <a href="/about">About</a>
+  <a href="/writing">Writing</a>
+  <a href="/contact">Contact</a>
+  <a href="https://calendar.app.google/R66fNg5m7w3aKPKd6" class="nav__overlay-cta" target="_blank">Book a Call</a>
+</div>
+
+<!-- ── PAGE HERO ── -->
+<section class="page-hero">
+  <p class="page-hero__label">Stay connected</p>
+  <h1 class="page-hero__heading">Ideas worth sitting with</h1>
+  <p class="page-hero__sub">Practical writing on coaching, fitness, and the work of living well. No noise, no fluff. Just things that might be useful.</p>
+</section>
+
+<!-- ── SUBSCRIBE FORM ── -->
+<section class="subscribe">
+  <div class="subscribe__inner">
+
+    <div class="form__response form__response--error" id="mc-error"></div>
+    <div class="form__response form__response--success" id="mc-success"></div>
+
+    <form
+      action="https://crawford-coaching.us14.list-manage.com/subscribe/post?u=e727034e036e2258448e9a4bb&amp;id=15d939f894&amp;f_id=0009b6e5f0"
+      method="post"
+      id="mc-embedded-subscribe-form"
+      name="mc-embedded-subscribe-form"
+      target="_blank"
+      novalidate
+    >
+
+      <div class="form__group">
+        <label class="form__label" for="mce-FNAME">First name <span class="required">*</span></label>
+        <input class="form__input" type="text" name="FNAME" id="mce-FNAME" required placeholder="Your first name">
+      </div>
+
+      <div class="form__group">
+        <label class="form__label" for="mce-LNAME">Last name</label>
+        <input class="form__input" type="text" name="LNAME" id="mce-LNAME" placeholder="Your last name">
+      </div>
+
+      <div class="form__group">
+        <label class="form__label" for="mce-EMAIL">Email address <span class="required">*</span></label>
+        <input class="form__input" type="email" name="EMAIL" id="mce-EMAIL" required placeholder="you@example.com">
+      </div>
+
+      <!-- Honeypot -->
+      <div class="form__honey" aria-hidden="true">
+        <input type="text" name="b_e727034e036e2258448e9a4bb_15d939f894" tabindex="-1" value="">
+      </div>
+
+      <!-- Hidden tag from original form -->
+      <input type="hidden" name="tags" value="40196068">
+
+      <button class="form__submit" type="submit" name="subscribe" id="mc-embedded-subscribe">Subscribe</button>
+
+      <p class="form__privacy">Your information stays with me. No spam, no sharing. Unsubscribe any time.</p>
+
+    </form>
+
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer class="footer">
+  <a href="/" class="footer__logo">
+    <img src="./extracted-images/cc-logo.png" alt="Crawford Coaching">
+  </a>
+  <ul class="footer__links">
+    <li><a href="/coaching">Coaching</a></li>
+    <li><a href="/whole">WHOLE</a></li>
+    <li><a href="/synergize">Synergize Fitness</a></li>
+    <li><a href="/growth-zone">Growth Zone</a></li>
+    <li><a href="/about">About</a></li>
+    <li><a href="/writing">Writing</a></li>
+    <li><a href="/contact">Contact</a></li>
+  </ul>
+  <p class="footer__copy">&copy; 2026 Crawford Coaching</p>
+</footer>
+
+<script>
+(function() {
+  const toggle = document.querySelector('.nav__toggle');
+  const overlay = document.querySelector('.nav__overlay');
+  if (!toggle || !overlay) return;
+
+  let closeTimer = null;
+  const closeMenu = () => {
+    toggle.classList.remove('open');
+    toggle.setAttribute('aria-expanded', 'false');
+    overlay.classList.remove('open');
+    const activeEl = document.activeElement;
+    if (activeEl && overlay.contains(activeEl)) activeEl.blur();
+    overlay.setAttribute('aria-hidden', 'true');
+    toggle.focus();
+    document.body.style.overflow = '';
+    if (closeTimer) clearTimeout(closeTimer);
+    closeTimer = setTimeout(() => { overlay.style.display = 'none'; }, 350);
+  };
+
+  const openMenu = () => {
+    if (closeTimer) clearTimeout(closeTimer);
+    toggle.classList.add('open');
+    toggle.setAttribute('aria-expanded', 'true');
+    overlay.style.display = 'flex';
+    overlay.setAttribute('aria-hidden', 'false');
+    requestAnimationFrame(() => overlay.classList.add('open'));
+    document.body.style.overflow = 'hidden';
+  };
+
+  toggle.addEventListener('click', function() {
+    toggle.classList.contains('open') ? closeMenu() : openMenu();
+  });
+  overlay.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && toggle.classList.contains('open')) closeMenu();
+  });
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 900 && toggle.classList.contains('open')) closeMenu();
+  });
+})();
+</script>
+
+<script src="https://website-assistant-sandy.vercel.app/chat-widget.js"></script>
+</body>
+</html>

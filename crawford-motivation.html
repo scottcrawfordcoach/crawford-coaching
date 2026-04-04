@@ -1,0 +1,1786 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Motivation &amp; Self-Determination — Crawford Coaching</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --ink:        #0e0f10;
+  --slate:      #1c2330;
+  --slate-mid:  #232f3e;
+  --fog:        #3d4a58;
+  --mist:       #7a8fa3;
+  --pale:       #c8d4de;
+  --white:      #f5f3ef;
+  --brand-blue: #2d86c4;
+  --brand-blue-light: #4fa3d8;
+  --serif-display: 'Cormorant Garamond', Georgia, serif;
+  --serif-body:    'Libre Baskerville', Georgia, serif;
+  --sans:          'Jost', sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--ink);
+  color: var(--white);
+  font-family: var(--serif-body);
+  font-size: 16px;
+  line-height: 1.8;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+}
+
+/* ── NAV ── */
+.nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.6rem clamp(1.5rem, 4vw, 3.5rem);
+  background: rgba(14,15,16,0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.nav__logo { display: inline-flex; align-items: center; text-decoration: none; }
+.nav__logo img { height: 36px; width: auto; display: block; }
+.nav__links { display: flex; gap: 2.5rem; list-style: none; }
+.nav__links a {
+  font-family: var(--sans); font-weight: 300;
+  font-size: 0.78rem; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--pale);
+  text-decoration: none; opacity: 0.85;
+  transition: opacity 0.2s, color 0.2s;
+}
+.nav__links a:hover { opacity: 1; color: var(--white); }
+.nav__links a.active { color: var(--brand-blue); opacity: 1; }
+.nav__cta {
+  font-family: var(--sans); font-weight: 400;
+  font-size: 0.75rem; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--white);
+  text-decoration: none;
+  border: 1px solid rgba(245,243,239,0.45);
+  padding: 0.5rem 1.3rem; border-radius: 1px;
+  transition: background 0.25s, border-color 0.25s;
+}
+.nav__cta:hover { background: rgba(245,243,239,0.1); border-color: rgba(245,243,239,0.8); }
+
+/* ─── MOBILE NAV ─────────────────────── */
+.nav__toggle {
+  display: none;
+  width: 44px;
+  height: 44px;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  z-index: 200;
+  -webkit-tap-highlight-color: transparent;
+}
+.nav__toggle span {
+  display: block;
+  width: 22px;
+  height: 1.5px;
+  background: var(--pale);
+  margin: 5px 0;
+  transition: transform 0.3s ease, opacity 0.2s ease;
+  transform-origin: center;
+}
+.nav__toggle.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+.nav__toggle.open span:nth-child(2) { opacity: 0; }
+.nav__toggle.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+.nav__overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  background: rgba(14,15,16,0.97);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+.nav__overlay.open { display: flex; opacity: 1; }
+.nav__overlay a {
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 1.1rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--pale);
+  text-decoration: none;
+  padding: 0.9rem 0;
+  opacity: 0.85;
+  transition: color 0.2s, opacity 0.2s;
+}
+.nav__overlay a:hover,
+.nav__overlay a.active {
+  opacity: 1;
+  color: var(--white);
+}
+.nav__overlay .nav__overlay-cta {
+  margin-top: 2rem;
+  font-family: var(--sans);
+  font-weight: 400;
+  font-size: 0.85rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--white);
+  text-decoration: none;
+  border: 1px solid rgba(245,243,239,0.5);
+  padding: 0.7rem 2rem;
+  border-radius: 1px;
+  transition: background 0.25s, border-color 0.25s;
+}
+.nav__overlay .nav__overlay-cta:hover {
+  background: rgba(245,243,239,0.1);
+  border-color: rgba(245,243,239,0.8);
+}
+.nav__toggle:focus-visible,
+.nav__overlay a:focus-visible,
+.nav__overlay .nav__overlay-cta:focus-visible {
+  outline: 2px solid var(--white);
+  outline-offset: 4px;
+}
+
+/* ── FOOTER ── */
+.footer {
+  display: flex; align-items: center;
+  justify-content: space-between;
+  padding: 3rem clamp(1.5rem, 4vw, 3.5rem);
+  background: var(--ink);
+  border-top: 1px solid rgba(255,255,255,0.08);
+  flex-wrap: wrap; gap: 1.5rem;
+}
+.footer__logo img { height: 32px; width: auto; display: block; }
+.footer__copy { font-family: var(--sans); font-size: 0.75rem; color: var(--mist); }
+.footer__links { display: flex; gap: 2rem; list-style: none; flex-wrap: wrap; }
+.footer__links a {
+  font-family: var(--sans); font-size: 0.75rem;
+  color: var(--mist); text-decoration: none;
+  transition: color 0.2s;
+}
+.footer__links a:hover { color: var(--pale); }
+.footer__social {
+  display: flex;
+  gap: 1.2rem;
+  align-items: center;
+}
+.footer__social a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--mist);
+  transition: color 0.2s;
+}
+.footer__social a:hover { color: var(--pale); }
+.footer__social svg {
+  width: 18px;
+  height: 18px;
+  fill: currentColor;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  .footer { flex-direction: column; text-align: center; }
+  .footer__links { justify-content: center; }
+}
+@media (max-width: 900px) {
+  .nav__toggle { display: block; }
+  .nav__links { display: none !important; }
+  .nav__cta { display: none; }
+}
+
+img { max-width: 100%; }
+
+/* ── SCREENS ── */
+.screen { display: none; min-height: 100vh; }
+.screen.active { display: flex; flex-direction: column; }
+
+/* ── INTRO SCREEN ── */
+.intro {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 2rem;
+  text-align: center;
+}
+.intro__inner {
+  max-width: 640px;
+  animation: fadeUp 0.8s ease forwards;
+}
+.intro__label {
+  font-family: var(--sans);
+  font-weight: 400;
+  font-size: 0.68rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--brand-blue-light);
+  margin-bottom: 1.6rem;
+}
+.intro__title {
+  font-family: var(--serif-display);
+  font-weight: 300;
+  font-size: clamp(2.4rem, 5vw, 3.8rem);
+  line-height: 1.08;
+  color: var(--white);
+  margin-bottom: 2rem;
+}
+.intro__title em {
+  font-style: italic;
+  color: var(--pale);
+}
+.intro__body {
+  font-family: var(--serif-body);
+  font-size: 0.95rem;
+  line-height: 1.9;
+  color: var(--mist);
+  margin-bottom: 2.5rem;
+}
+.intro__body strong {
+  color: var(--pale);
+  font-weight: 700;
+}
+.intro__meta {
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 0.82rem;
+  color: var(--mist);
+  margin-bottom: 2.5rem;
+  letter-spacing: 0.04em;
+}
+.intro__name-group {
+  margin-bottom: 2.5rem;
+}
+.intro__name-label {
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 0.78rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--pale);
+  margin-bottom: 0.6rem;
+}
+.intro__name-input {
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 1rem;
+  color: var(--white);
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--mist);
+  padding: 0.6rem 0;
+  width: 100%;
+  max-width: 320px;
+  text-align: center;
+  outline: none;
+  transition: border-color 0.3s;
+}
+.intro__name-input::placeholder { color: var(--mist); }
+.intro__name-input:focus { border-color: var(--brand-blue); }
+
+.btn-start {
+  display: inline-block;
+  font-family: var(--sans);
+  font-weight: 400;
+  font-size: 0.78rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--white);
+  background: var(--brand-blue);
+  border: none;
+  padding: 0.95rem 2.8rem;
+  border-radius: 1px;
+  cursor: pointer;
+  transition: background 0.25s, transform 0.2s;
+}
+.btn-start:hover { background: var(--brand-blue-light); transform: translateY(-1px); }
+.btn-start:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+
+/* ── QUIZ SCREEN ── */
+.quiz {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  position: relative;
+}
+.quiz__inner {
+  max-width: 680px;
+  width: 100%;
+  text-align: center;
+}
+
+/* Progress */
+.progress {
+  margin-bottom: 3rem;
+}
+.progress__bar {
+  width: 100%;
+  height: 2px;
+  background: var(--fog);
+  position: relative;
+  margin-bottom: 1rem;
+}
+.progress__fill {
+  position: absolute;
+  top: 0; left: 0;
+  height: 100%;
+  background: var(--brand-blue);
+  transition: width 0.4s ease;
+}
+.progress__text {
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--mist);
+}
+
+/* Pillar label */
+.quiz__pillar {
+  font-family: var(--sans);
+  font-weight: 400;
+  font-size: 0.65rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--brand-blue-light);
+  margin-bottom: 1rem;
+  opacity: 0.7;
+}
+
+/* Question */
+.quiz__question {
+  font-family: var(--serif-display);
+  font-weight: 300;
+  font-style: italic;
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  line-height: 1.35;
+  color: var(--white);
+  margin-bottom: 3rem;
+  min-height: 3.5em;
+  animation: fadeIn 0.35s ease;
+}
+
+/* Rating scale */
+.rating {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 2.5rem;
+  flex-wrap: wrap;
+}
+.rating__option {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  padding: 0.8rem 0.6rem;
+  border-radius: 1px;
+  transition: background 0.2s;
+  min-width: 80px;
+}
+.rating__option:hover { background: rgba(45,134,196,0.06); }
+.rating__circle {
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--fog);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 0.9rem;
+  color: var(--mist);
+  transition: all 0.25s;
+}
+.rating__option:hover .rating__circle {
+  border-color: var(--brand-blue);
+  color: var(--brand-blue-light);
+}
+.rating__option.selected .rating__circle {
+  background: var(--brand-blue);
+  border-color: var(--brand-blue);
+  color: var(--white);
+}
+.rating__label {
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 0.62rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--fog);
+  text-align: center;
+  line-height: 1.3;
+  max-width: 80px;
+}
+.rating__option.selected .rating__label { color: var(--mist); }
+
+/* Nav buttons */
+.quiz__nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 400px;
+  margin: 0 auto;
+}
+.quiz__btn {
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 0.78rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--pale);
+  background: transparent;
+  border: 1px solid rgba(245,243,239,0.2);
+  padding: 0.6rem 1.6rem;
+  cursor: pointer;
+  border-radius: 1px;
+  transition: all 0.2s;
+}
+.quiz__btn:hover { border-color: rgba(245,243,239,0.5); color: var(--white); }
+.quiz__btn:disabled { opacity: 0.2; cursor: not-allowed; }
+.quiz__btn--next {
+  background: var(--brand-blue);
+  border-color: var(--brand-blue);
+  color: var(--white);
+}
+.quiz__btn--next:hover { background: var(--brand-blue-light); border-color: var(--brand-blue-light); }
+.quiz__btn--next:disabled { opacity: 0.3; background: var(--fog); border-color: var(--fog); }
+
+/* ── RESULTS SCREEN ── */
+.results {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 4rem 2rem;
+}
+.results__inner {
+  max-width: 760px;
+  width: 100%;
+  animation: fadeUp 0.8s ease forwards;
+}
+.results__header {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+.results__label {
+  font-family: var(--sans);
+  font-weight: 400;
+  font-size: 0.68rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--brand-blue-light);
+  margin-bottom: 1.2rem;
+}
+.results__title {
+  font-family: var(--serif-display);
+  font-weight: 300;
+  font-size: clamp(2rem, 4vw, 3rem);
+  line-height: 1.1;
+  color: var(--white);
+  margin-bottom: 1rem;
+}
+.results__subtitle {
+  font-family: var(--serif-body);
+  font-style: italic;
+  font-size: 0.92rem;
+  line-height: 1.8;
+  color: var(--mist);
+  max-width: 540px;
+  margin: 0 auto;
+}
+
+/* ── Pillar cards ── */
+.pillars {
+  margin-bottom: 4rem;
+}
+.pillars__heading {
+  font-family: var(--sans);
+  font-weight: 400;
+  font-size: 0.68rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--brand-blue-light);
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+.pillars__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: rgba(255,255,255,0.04);
+}
+.pillar-card {
+  background: var(--ink);
+  padding: 2.5rem 2rem;
+  text-align: center;
+  transition: background 0.3s;
+}
+.pillar-card:hover { background: rgba(45,134,196,0.04); }
+.pillar-card__icon {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  line-height: 1;
+}
+.pillar-card__name {
+  font-family: var(--serif-display);
+  font-weight: 400;
+  font-size: 1.4rem;
+  color: var(--white);
+  margin-bottom: 0.6rem;
+}
+.pillar-card__score {
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 2.4rem;
+  color: var(--brand-blue-light);
+  line-height: 1;
+  margin-bottom: 0.4rem;
+}
+.pillar-card__max {
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  color: var(--fog);
+  margin-bottom: 1rem;
+}
+.pillar-card__band {
+  display: inline-block;
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 0.62rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  padding: 0.3rem 0.8rem;
+  border: 1px solid;
+  margin-bottom: 1.2rem;
+}
+.pillar-card__band--high { color: #6abf8a; border-color: rgba(106,191,138,0.3); }
+.pillar-card__band--mod-high { color: var(--brand-blue-light); border-color: rgba(79,163,216,0.3); }
+.pillar-card__band--mod-low { color: #d4a855; border-color: rgba(212,168,85,0.3); }
+.pillar-card__band--low { color: #c47a6a; border-color: rgba(196,122,106,0.3); }
+.pillar-card__bar {
+  width: 100%;
+  height: 3px;
+  background: var(--fog);
+  position: relative;
+  margin-bottom: 1.2rem;
+}
+.pillar-card__bar-fill {
+  position: absolute;
+  top: 0; left: 0;
+  height: 100%;
+  background: var(--brand-blue);
+  transition: width 0.8s ease;
+}
+.pillar-card__desc {
+  font-family: var(--serif-body);
+  font-style: italic;
+  font-size: 0.82rem;
+  line-height: 1.7;
+  color: var(--mist);
+}
+
+/* ── Spectrum visual ── */
+.spectrum {
+  margin-bottom: 4rem;
+}
+.spectrum__heading {
+  font-family: var(--sans);
+  font-weight: 400;
+  font-size: 0.68rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--brand-blue-light);
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+.spectrum__item {
+  margin-bottom: 2rem;
+  padding: 1.8rem 2rem;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.04);
+}
+.spectrum__item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 1rem;
+}
+.spectrum__item-name {
+  font-family: var(--serif-display);
+  font-weight: 400;
+  font-size: 1.15rem;
+  color: var(--white);
+}
+.spectrum__item-score {
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 0.82rem;
+  color: var(--mist);
+}
+.spectrum__track {
+  width: 100%;
+  height: 4px;
+  background: var(--fog);
+  position: relative;
+  margin-bottom: 0.8rem;
+}
+.spectrum__marker {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 12px;
+  height: 12px;
+  background: var(--brand-blue);
+  border: 2px solid var(--white);
+  transition: left 0.8s ease;
+}
+.spectrum__labels {
+  display: flex;
+  justify-content: space-between;
+}
+.spectrum__labels span {
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 0.58rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--fog);
+}
+
+/* ── Reflection section ── */
+.reflection {
+  margin-bottom: 4rem;
+}
+.reflection__heading {
+  font-family: var(--sans);
+  font-weight: 400;
+  font-size: 0.68rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--brand-blue-light);
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+.reflection__intro {
+  font-family: var(--serif-body);
+  font-size: 0.92rem;
+  line-height: 1.85;
+  color: var(--mist);
+  text-align: center;
+  max-width: 560px;
+  margin: 0 auto 2.5rem;
+}
+.reflection__pillar {
+  margin-bottom: 2.5rem;
+  padding: 2rem 2.2rem;
+  border: 1px solid rgba(45,134,196,0.1);
+  background: rgba(45,134,196,0.02);
+}
+.reflection__pillar-name {
+  font-family: var(--sans);
+  font-weight: 400;
+  font-size: 0.65rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--brand-blue-light);
+  margin-bottom: 1rem;
+}
+.reflection__question {
+  font-family: var(--serif-body);
+  font-size: 0.88rem;
+  line-height: 1.75;
+  color: var(--pale);
+  margin-bottom: 0.8rem;
+  padding-left: 1.2rem;
+  position: relative;
+}
+.reflection__question::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.65em;
+  width: 4px;
+  height: 4px;
+  background: var(--fog);
+}
+.reflection__question:last-child { margin-bottom: 0; }
+
+/* ── Interpretive note ── */
+.results__note {
+  margin-bottom: 4rem;
+  padding: 2.5rem 3rem;
+  border: 1px solid rgba(45,134,196,0.12);
+  background: rgba(45,134,196,0.03);
+}
+.results__note-heading {
+  font-family: var(--sans);
+  font-weight: 400;
+  font-size: 0.65rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--brand-blue-light);
+  margin-bottom: 1.2rem;
+}
+.results__note-text {
+  font-family: var(--serif-body);
+  font-size: 0.88rem;
+  line-height: 1.85;
+  color: var(--mist);
+  margin-bottom: 1rem;
+}
+.results__note-text:last-child { margin-bottom: 0; }
+.results__note-text strong {
+  color: var(--pale);
+  font-weight: 700;
+}
+@media (max-width: 600px) {
+  .results__note { padding: 2rem 1.5rem; }
+}
+
+/* CTAs */
+.results__ctas {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  background: rgba(255,255,255,0.04);
+  margin-bottom: 3rem;
+}
+.cta-card {
+  background: var(--ink);
+  padding: 2.2rem 2.5rem;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  transition: background 0.3s;
+}
+.cta-card:hover { background: rgba(45,134,196,0.03); }
+.cta-card__icon {
+  font-size: 1.6rem;
+  flex-shrink: 0;
+}
+.cta-card__content { flex: 1; }
+.cta-card__text {
+  font-family: var(--serif-body);
+  font-size: 0.88rem;
+  line-height: 1.7;
+  color: var(--mist);
+  margin-bottom: 0.6rem;
+}
+.cta-card__link {
+  font-family: var(--sans);
+  font-weight: 400;
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--brand-blue-light);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.cta-card__link:hover { color: var(--white); }
+.cta-card__link::after { content: ' →'; }
+
+/* Download / restart */
+.results__download {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+.btn-download {
+  display: inline-block;
+  font-family: var(--sans);
+  font-weight: 400;
+  font-size: 0.78rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--white);
+  background: var(--brand-blue);
+  border: none;
+  padding: 0.95rem 2.8rem;
+  border-radius: 1px;
+  cursor: pointer;
+  transition: background 0.25s, transform 0.2s;
+}
+.btn-download:hover { background: var(--brand-blue-light); transform: translateY(-1px); }
+
+.results__restart {
+  text-align: center;
+}
+.btn-restart {
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--fog);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.btn-restart:hover { color: var(--pale); }
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 600px) {
+  .rating {
+    gap: 0.25rem;
+  }
+  .rating__option {
+    min-width: 60px;
+    padding: 0.6rem 0.3rem;
+  }
+  .rating__circle {
+    width: 36px;
+    height: 36px;
+    font-size: 0.82rem;
+  }
+  .rating__label {
+    font-size: 0.55rem;
+    max-width: 60px;
+  }
+  .pillars__grid {
+    grid-template-columns: 1fr;
+  }
+  .cta-card {
+    flex-direction: column;
+    text-align: center;
+    gap: 1rem;
+    padding: 2rem 1.5rem;
+  }
+  .reflection__pillar {
+    padding: 1.5rem;
+  }
+  .spectrum__item {
+    padding: 1.5rem;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav class="nav">
+  <a href="/" class="nav__logo">
+    <img src="./extracted-images/cc-logo.png" alt="Crawford Coaching">
+  </a>
+  <ul class="nav__links">
+    <li><a href="/coaching">Coaching</a></li>
+    <li><a href="/whole">WHOLE</a></li>
+    <li><a href="/synergize">Synergize Fitness</a></li>
+    <li><a href="/growth-zone" class="active">Growth Zone</a></li>
+    <li><a href="/about">About</a></li>
+    <li><a href="/writing">Writing</a></li>
+    <li><a href="/contact">Contact</a></li>
+  </ul>
+  <a href="https://calendar.app.google/R66fNg5m7w3aKPKd6" class="nav__cta" target="_blank">Book a Call</a>
+  <button class="nav__toggle" aria-label="Menu" aria-controls="site-menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="nav__overlay" id="site-menu" aria-hidden="true">
+  <a href="/coaching">Coaching</a>
+  <a href="/whole">WHOLE</a>
+  <a href="/synergize">Synergize Fitness</a>
+  <a href="/growth-zone" class="active">Growth Zone</a>
+  <a href="/about">About</a>
+  <a href="/writing">Writing</a>
+  <a href="/contact">Contact</a>
+  <a href="https://calendar.app.google/R66fNg5m7w3aKPKd6" class="nav__overlay-cta" target="_blank">Book a Call</a>
+</div>
+
+<!-- ═══════════ INTRO ═══════════ -->
+<div class="screen active" id="screen-intro">
+  <div class="intro">
+    <div class="intro__inner">
+      <p class="intro__label">Growth Zone</p>
+      <h1 class="intro__title">Motivation &amp;<br><em>Self-Determination</em></h1>
+      <p class="intro__body">
+        Motivation is not one thing. Research in Self-Determination Theory identifies three psychological needs that drive lasting motivation: <strong>autonomy, mastery, and purpose.</strong> When these needs are met, motivation tends to take care of itself. When they are not, even the best intentions can stall.
+      </p>
+      <p class="intro__body">
+        This exercise helps you understand where your motivation is strongest and where it may be running thin. You will rate 18 short statements about your current experience. There are no right or wrong answers. Just respond based on how things actually feel right now, not how you think they should feel.
+      </p>
+      <p class="intro__meta">18 questions · about 3-4 minutes</p>
+      <div class="intro__name-group">
+        <p class="intro__name-label">Your first name (for your summary)</p>
+        <input type="text" class="intro__name-input" id="user-name" placeholder="Optional" autocomplete="given-name">
+      </div>
+      <button class="btn-start" id="btn-start" onclick="startQuiz()">Begin</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ QUIZ ═══════════ -->
+<div class="screen" id="screen-quiz">
+  <div class="quiz">
+    <div class="quiz__inner">
+      <div class="progress">
+        <div class="progress__bar">
+          <div class="progress__fill" id="progress-fill"></div>
+        </div>
+        <p class="progress__text" id="progress-text">Question 1 of 18</p>
+      </div>
+
+      <p class="quiz__pillar" id="quiz-pillar"></p>
+      <p class="quiz__question" id="quiz-question"></p>
+
+      <div class="rating" id="rating">
+        <div class="rating__option" data-value="1" onclick="selectRating(1)">
+          <div class="rating__circle">1</div>
+          <span class="rating__label">Not like me</span>
+        </div>
+        <div class="rating__option" data-value="2" onclick="selectRating(2)">
+          <div class="rating__circle">2</div>
+          <span class="rating__label">A little like me</span>
+        </div>
+        <div class="rating__option" data-value="3" onclick="selectRating(3)">
+          <div class="rating__circle">3</div>
+          <span class="rating__label">Somewhat like me</span>
+        </div>
+        <div class="rating__option" data-value="4" onclick="selectRating(4)">
+          <div class="rating__circle">4</div>
+          <span class="rating__label">Like me</span>
+        </div>
+        <div class="rating__option" data-value="5" onclick="selectRating(5)">
+          <div class="rating__circle">5</div>
+          <span class="rating__label">Very much like me</span>
+        </div>
+      </div>
+
+      <div class="quiz__nav">
+        <button class="quiz__btn" id="btn-prev" onclick="prevQuestion()" disabled>Back</button>
+        <button class="quiz__btn quiz__btn--next" id="btn-next" onclick="nextQuestion()" disabled>Next</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ RESULTS ═══════════ -->
+<div class="screen" id="screen-results">
+  <div class="results">
+    <div class="results__inner">
+      <div class="results__header">
+        <p class="results__label">Your Results</p>
+        <h2 class="results__title" id="results-title">Your Motivation Profile</h2>
+        <p class="results__subtitle">This is a snapshot of how your three core motivational needs are being met right now. Higher scores suggest a need that is well-supported. Lower scores may point to where your motivation is losing traction.</p>
+      </div>
+
+      <div class="pillars">
+        <p class="pillars__heading">The Three Pillars</p>
+        <div class="pillars__grid" id="pillars-grid"></div>
+      </div>
+
+      <div class="spectrum">
+        <p class="spectrum__heading">Your Scores on the Spectrum</p>
+        <div id="spectrum-list"></div>
+      </div>
+
+      <div class="reflection" id="reflection-section"></div>
+
+      <div class="results__note">
+        <p class="results__note-heading">How to read your results</p>
+        <p class="results__note-text">
+          Self-Determination Theory holds that autonomy, mastery, and purpose are not personality traits. They are needs. Everyone has all three. The question is whether your current circumstances are supporting them or working against them.
+        </p>
+        <p class="results__note-text">
+          <strong>A lower score is not a failing.</strong> It is information. It means that particular need may not be getting enough oxygen right now. That could be a function of your job, your relationships, a life transition, or simply a season you are moving through. The reflection questions above are designed to help you think about what might shift.
+        </p>
+        <p class="results__note-text">
+          These results reflect how things feel right now, not how they will always be. If you take this again in a few months, your profile may look quite different. That is the point. Motivation is not fixed. It responds to the conditions around it.
+        </p>
+      </div>
+
+      <div class="results__ctas">
+        <div class="cta-card">
+          <div class="cta-card__icon">💪</div>
+          <div class="cta-card__content">
+            <p class="cta-card__text">Understanding your strengths can add another dimension to your motivation profile. People who lean into their natural strengths tend to experience more autonomy and mastery in their daily lives.</p>
+            <a class="cta-card__link" href="/strengths">Take the Character Strengths Exercise</a>
+          </div>
+        </div>
+        <div class="cta-card">
+          <div class="cta-card__icon">🧭</div>
+          <div class="cta-card__content">
+            <p class="cta-card__text">Motivation often falters when what you are doing is disconnected from what you value. The Core Values exercise can help you check whether your goals are anchored to something real.</p>
+            <a class="cta-card__link" href="/growth-zone">Explore the Growth Zone</a>
+          </div>
+        </div>
+        <div class="cta-card">
+          <div class="cta-card__icon">📞</div>
+          <div class="cta-card__content">
+            <p class="cta-card__text">If your results surfaced something worth exploring further, a coaching conversation is a good place to work through what is getting in the way and what might help.</p>
+            <a class="cta-card__link" href="https://calendar.app.google/R66fNg5m7w3aKPKd6" target="_blank" rel="noopener">Book a free intro call</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="results__download">
+        <button class="btn-download" onclick="downloadSummary()">Download Summary</button>
+      </div>
+      <div class="results__restart">
+        <button class="btn-restart" onclick="restart()">Start Over</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ═══════════════════════════════════════════════════════════════
+   MOTIVATION & SELF-DETERMINATION — QUESTION BANK & SCORING
+   Based on SDT (Deci & Ryan) with question design informed by
+   the ISSA Transformation Specialist framework.
+   ═══════════════════════════════════════════════════════════════ */
+
+const PILLARS = {
+  autonomy: {
+    name: 'Autonomy',
+    icon: '🔓',
+    shortDesc: 'The sense that you have meaningful choice in how you spend your time and energy.',
+    highDesc: 'You are experiencing a strong sense of agency in your life right now. You feel like you have real say in what you do and how you do it. This tends to fuel motivation naturally.',
+    lowDesc: 'Your sense of choice may be running thin right now. When autonomy is low, things can start to feel obligatory rather than chosen, and motivation tends to suffer as a result.'
+  },
+  mastery: {
+    name: 'Mastery',
+    icon: '🎯',
+    shortDesc: 'The feeling that you are competent, growing, and getting better at things that matter to you.',
+    highDesc: 'You feel capable and like you are building on your skills. A strong sense of mastery gives you confidence to take on challenges and sustains effort over time.',
+    lowDesc: 'You may be feeling uncertain about your abilities or unclear about how to improve. When mastery is low, tasks can feel overwhelming rather than engaging.'
+  },
+  purpose: {
+    name: 'Purpose',
+    icon: '🔥',
+    shortDesc: 'The belief that what you are doing matters, that your efforts connect to something beyond the immediate task.',
+    highDesc: 'You feel connected to something meaningful. Your efforts feel purposeful and appreciated. This kind of alignment is one of the strongest drivers of sustained motivation.',
+    lowDesc: 'You may be feeling disconnected from the deeper reasons behind what you are doing. When purpose is low, even productive days can leave you feeling flat.'
+  }
+};
+
+const QUESTIONS = [
+  // ── AUTONOMY (6 questions) ──
+  { id: 'a1', pillar: 'autonomy',
+    text: 'I have meaningful say in how I spend most of my time.' },
+  { id: 'a2', pillar: 'autonomy',
+    text: 'The things I do each day feel like choices I have made, not obligations imposed on me.' },
+  { id: 'a3', pillar: 'autonomy',
+    text: 'I can decide how I approach most of the tasks and responsibilities in my life.' },
+  { id: 'a4', pillar: 'autonomy',
+    text: 'I feel free to express what I think and feel in the settings that matter most to me.' },
+  { id: 'a5', pillar: 'autonomy',
+    text: 'When I set goals, they reflect what I actually want, not what someone else expects.' },
+  { id: 'a6', pillar: 'autonomy',
+    text: 'I have enough flexibility in my daily life to do things in a way that suits me.' },
+
+  // ── MASTERY (6 questions) ──
+  { id: 'm1', pillar: 'mastery',
+    text: 'I feel confident in my ability to handle the main responsibilities in my life.' },
+  { id: 'm2', pillar: 'mastery',
+    text: 'I am actively learning or getting better at something that matters to me.' },
+  { id: 'm3', pillar: 'mastery',
+    text: 'When I face a challenge, I feel equipped to work through it rather than overwhelmed by it.' },
+  { id: 'm4', pillar: 'mastery',
+    text: 'I can see clear progress in at least one area of my life over the past few months.' },
+  { id: 'm5', pillar: 'mastery',
+    text: 'I know what steps to take next in the areas where I am trying to improve.' },
+  { id: 'm6', pillar: 'mastery',
+    text: 'I could teach someone else how to do at least one thing I do well.' },
+
+  // ── PURPOSE (6 questions) ──
+  { id: 'p1', pillar: 'purpose',
+    text: 'I feel connected to the people around me in a way that matters.' },
+  { id: 'p2', pillar: 'purpose',
+    text: 'My daily efforts feel like they contribute to something beyond just getting through the day.' },
+  { id: 'p3', pillar: 'purpose',
+    text: 'I have a clear sense of what is most important to me right now.' },
+  { id: 'p4', pillar: 'purpose',
+    text: 'The work I do, paid or otherwise, feels like it has a real impact on someone or something.' },
+  { id: 'p5', pillar: 'purpose',
+    text: 'I feel appreciated for the effort I put into the things that matter to me.' },
+  { id: 'p6', pillar: 'purpose',
+    text: 'When I think about why I do what I do, the answer feels clear and meaningful.' },
+];
+
+const REFLECTION_QUESTIONS = {
+  autonomy: [
+    'What is one area of your life where you wish you had more choice or control?',
+    'Where in your week do you feel most free to do things your way? What makes that different?',
+    'Is there a commitment or obligation you are carrying that no longer reflects what you actually want?',
+    'What is one small decision you could reclaim this week that would make your day feel more like your own?'
+  ],
+  mastery: [
+    'What is something you used to find difficult that you are now better at? What helped?',
+    'Where are you feeling stuck or uncertain about your abilities right now?',
+    'If you could get better at one thing over the next three months, what would make the biggest difference?',
+    'What kind of feedback or support would help you feel more confident in the areas where you are growing?'
+  ],
+  purpose: [
+    'When do your efforts feel like they matter most? What is different about those moments?',
+    'Who would be most affected if you stopped doing what you are doing? How does that connect to your motivation?',
+    'Is there a gap between what you are spending your energy on and what you say matters most to you?',
+    'What is one thing you could do this week that would feel genuinely meaningful, not just productive?'
+  ]
+};
+
+/* ── Shuffle questions but keep pillar grouping loosely intact ── */
+function shuffle(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+function buildQuestionSequence() {
+  // Interleave pillars: take 2 from each pillar in rotation, shuffled within each batch
+  const byPillar = {
+    autonomy: shuffle(QUESTIONS.filter(q => q.pillar === 'autonomy').map(q => ({...q}))),
+    mastery:  shuffle(QUESTIONS.filter(q => q.pillar === 'mastery').map(q => ({...q}))),
+    purpose:  shuffle(QUESTIONS.filter(q => q.pillar === 'purpose').map(q => ({...q}))),
+  };
+  const sequence = [];
+  const pillars = ['autonomy', 'mastery', 'purpose'];
+  for (let round = 0; round < 2; round++) {
+    for (const p of shuffle([...pillars])) {
+      // Take 3 questions per pillar per round (2 rounds x 3 = 6 per pillar)
+      for (let i = 0; i < 3; i++) {
+        const q = byPillar[p].shift();
+        if (q) sequence.push(q);
+      }
+    }
+  }
+  return sequence;
+}
+
+let questions = buildQuestionSequence();
+let currentQ = 0;
+let answers = {};
+let userName = '';
+
+/* ── QUIZ FLOW ── */
+function startQuiz() {
+  userName = document.getElementById('user-name').value.trim();
+  showScreen('screen-quiz');
+  renderQuestion();
+}
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+function renderQuestion() {
+  const q = questions[currentQ];
+
+  document.getElementById('progress-fill').style.width = ((currentQ + 1) / questions.length * 100) + '%';
+  document.getElementById('progress-text').textContent = `Question ${currentQ + 1} of ${questions.length}`;
+  document.getElementById('quiz-pillar').textContent = PILLARS[q.pillar].name;
+  document.getElementById('quiz-question').textContent = q.text;
+
+  const prev = answers[q.id] || null;
+  document.querySelectorAll('.rating__option').forEach(opt => {
+    opt.classList.remove('selected');
+    if (prev !== null && parseInt(opt.dataset.value) === prev) {
+      opt.classList.add('selected');
+    }
+  });
+
+  document.getElementById('btn-prev').disabled = (currentQ === 0);
+  document.getElementById('btn-next').textContent = (currentQ === questions.length - 1) ? 'See Results' : 'Next';
+  document.getElementById('btn-next').disabled = !prev;
+}
+
+function selectRating(value) {
+  const q = questions[currentQ];
+  answers[q.id] = value;
+
+  document.querySelectorAll('.rating__option').forEach(opt => {
+    opt.classList.toggle('selected', parseInt(opt.dataset.value) === value);
+  });
+
+  document.getElementById('btn-next').disabled = false;
+}
+
+function nextQuestion() {
+  if (currentQ < questions.length - 1) {
+    currentQ++;
+    renderQuestion();
+  } else {
+    calculateResults();
+  }
+}
+
+function prevQuestion() {
+  if (currentQ > 0) {
+    currentQ--;
+    renderQuestion();
+  }
+}
+
+/* ── SCORING ── */
+function calculateResults() {
+  const scores = {};
+  const pillarKeys = ['autonomy', 'mastery', 'purpose'];
+
+  pillarKeys.forEach(p => {
+    const pillarQs = QUESTIONS.filter(q => q.pillar === p);
+    let total = 0;
+    pillarQs.forEach(q => {
+      total += answers[q.id] || 3;
+    });
+    scores[p] = {
+      raw: total,
+      max: pillarQs.length * 5,
+      avg: total / pillarQs.length,
+      pct: total / (pillarQs.length * 5) * 100
+    };
+  });
+
+  // Band assignment (based on 6-30 scale: 6 questions x 1-5)
+  pillarKeys.forEach(p => {
+    const raw = scores[p].raw;
+    if (raw >= 25)      scores[p].band = 'high';
+    else if (raw >= 19) scores[p].band = 'mod-high';
+    else if (raw >= 13) scores[p].band = 'mod-low';
+    else                scores[p].band = 'low';
+
+    scores[p].bandLabel = {
+      'high': 'Strong',
+      'mod-high': 'Moderate',
+      'mod-low': 'Developing',
+      'low': 'Needs Attention'
+    }[scores[p].band];
+  });
+
+  renderResults(scores);
+}
+
+/* ── RESULTS RENDERING ── */
+function renderResults(scores) {
+  const pillarKeys = ['autonomy', 'mastery', 'purpose'];
+
+  // Title
+  const title = userName
+    ? `${userName}'s Motivation Profile`
+    : 'Your Motivation Profile';
+  document.getElementById('results-title').textContent = title;
+
+  // Pillar cards
+  const grid = document.getElementById('pillars-grid');
+  grid.innerHTML = '';
+  pillarKeys.forEach(p => {
+    const s = scores[p];
+    const info = PILLARS[p];
+    const desc = (s.band === 'high' || s.band === 'mod-high') ? info.highDesc : info.lowDesc;
+    const card = document.createElement('div');
+    card.className = 'pillar-card';
+    card.innerHTML = `
+      <div class="pillar-card__icon">${info.icon}</div>
+      <div class="pillar-card__name">${info.name}</div>
+      <div class="pillar-card__score">${s.raw}</div>
+      <div class="pillar-card__max">out of ${s.max}</div>
+      <div class="pillar-card__band pillar-card__band--${s.band}">${s.bandLabel}</div>
+      <div class="pillar-card__bar">
+        <div class="pillar-card__bar-fill" style="width: ${s.pct}%"></div>
+      </div>
+      <div class="pillar-card__desc">${desc}</div>
+    `;
+    grid.appendChild(card);
+  });
+
+  // Spectrum
+  const spectrumList = document.getElementById('spectrum-list');
+  spectrumList.innerHTML = '';
+  pillarKeys.forEach(p => {
+    const s = scores[p];
+    const info = PILLARS[p];
+    const item = document.createElement('div');
+    item.className = 'spectrum__item';
+    item.innerHTML = `
+      <div class="spectrum__item-header">
+        <span class="spectrum__item-name">${info.name}</span>
+        <span class="spectrum__item-score">${s.raw} / ${s.max}</span>
+      </div>
+      <div class="spectrum__track">
+        <div class="spectrum__marker" style="left: ${s.pct}%"></div>
+      </div>
+      <div class="spectrum__labels">
+        <span>Low ${info.name.toLowerCase()}</span>
+        <span>High ${info.name.toLowerCase()}</span>
+      </div>
+    `;
+    spectrumList.appendChild(item);
+  });
+
+  // Reflection section — show for all pillars, ordered lowest-first
+  const reflectionSection = document.getElementById('reflection-section');
+  const sorted = [...pillarKeys].sort((a, b) => scores[a].raw - scores[b].raw);
+
+  let reflectionHTML = `
+    <p class="reflection__heading">Reflection Questions</p>
+    <p class="reflection__intro">These questions are designed to help you think more carefully about what your scores might mean. Start with the area where your score was lowest. There is no need to answer them all at once.</p>
+  `;
+
+  sorted.forEach(p => {
+    const info = PILLARS[p];
+    const qs = REFLECTION_QUESTIONS[p];
+    reflectionHTML += `<div class="reflection__pillar">
+      <p class="reflection__pillar-name">${info.name} — ${scores[p].bandLabel} (${scores[p].raw}/${scores[p].max})</p>
+      ${qs.map(q => `<p class="reflection__question">${q}</p>`).join('')}
+    </div>`;
+  });
+
+  reflectionSection.innerHTML = reflectionHTML;
+
+  showScreen('screen-results');
+
+  // Store for download
+  window._motivationResults = { scores, userName, date: new Date() };
+}
+
+function restart() {
+  currentQ = 0;
+  answers = {};
+  questions = buildQuestionSequence();
+  showScreen('screen-intro');
+}
+
+/* ── DOWNLOAD SUMMARY ── */
+function downloadSummary() {
+  const r = window._motivationResults;
+  if (!r) return;
+
+  const name = r.userName || 'Your';
+  const dateStr = r.date.toLocaleDateString('en-CA', { year: 'numeric', month: 'long', day: 'numeric' });
+  const pillarKeys = ['autonomy', 'mastery', 'purpose'];
+  const sorted = [...pillarKeys].sort((a, b) => r.scores[a].raw - r.scores[b].raw);
+
+  let html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>${name === 'Your' ? 'Motivation' : name + "'s Motivation"} Profile</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
+<style>
+  @page { margin: 1in 0.8in; }
+  @media print { body { -webkit-print-color-adjust: exact; print-color-adjust: exact; } }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Libre Baskerville', Georgia, serif;
+    font-size: 11pt;
+    line-height: 1.7;
+    color: #1c2330;
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 2rem;
+  }
+  .header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid #c8d4de;
+  }
+  .header__brand {
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: #7a8fa3;
+    margin-bottom: 0.8rem;
+  }
+  .header__title {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-weight: 300;
+    font-size: 2rem;
+    line-height: 1.15;
+    color: #0e0f10;
+    margin-bottom: 0.4rem;
+  }
+  .header__date {
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
+    font-size: 0.8rem;
+    color: #7a8fa3;
+  }
+  .section-label {
+    font-family: 'Jost', sans-serif;
+    font-weight: 400;
+    font-size: 0.6rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: #2d86c4;
+    margin-bottom: 1rem;
+    margin-top: 2rem;
+  }
+  .pillar-row {
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+  .pillar-box {
+    flex: 1;
+    text-align: center;
+    padding: 1.5rem 1rem;
+    border: 1px solid #e0e0e0;
+  }
+  .pillar-box__name {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-weight: 500;
+    font-size: 1.1rem;
+    color: #0e0f10;
+    margin-bottom: 0.4rem;
+  }
+  .pillar-box__score {
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
+    font-size: 1.8rem;
+    color: #2d86c4;
+    line-height: 1;
+    margin-bottom: 0.2rem;
+  }
+  .pillar-box__max {
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
+    font-size: 0.7rem;
+    color: #7a8fa3;
+    margin-bottom: 0.5rem;
+  }
+  .pillar-box__band {
+    font-family: 'Jost', sans-serif;
+    font-weight: 400;
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #3d4a58;
+  }
+  .bar-container {
+    margin-bottom: 1.5rem;
+  }
+  .bar-label {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.3rem;
+  }
+  .bar-label span {
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
+    font-size: 0.78rem;
+    color: #3d4a58;
+  }
+  .bar-track {
+    width: 100%;
+    height: 4px;
+    background: #e8e8e8;
+    position: relative;
+  }
+  .bar-fill {
+    position: absolute;
+    top: 0; left: 0;
+    height: 100%;
+    background: #2d86c4;
+  }
+  .reflection-block {
+    margin-bottom: 1.5rem;
+    padding: 1.2rem 1.5rem;
+    border: 1px solid rgba(45,134,196,0.2);
+    background: rgba(45,134,196,0.03);
+  }
+  .reflection-block__name {
+    font-family: 'Jost', sans-serif;
+    font-weight: 400;
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #2d86c4;
+    margin-bottom: 0.6rem;
+  }
+  .reflection-block__q {
+    font-size: 0.85rem;
+    color: #3d4a58;
+    line-height: 1.6;
+    margin-bottom: 0.5rem;
+    padding-left: 1rem;
+    position: relative;
+  }
+  .reflection-block__q::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.55em;
+    width: 4px;
+    height: 4px;
+    background: #c8d4de;
+  }
+  .reflection-block__q:last-child { margin-bottom: 0; }
+  .note-section {
+    margin-top: 2rem;
+    padding: 1.5rem 1.8rem;
+    border: 1px solid rgba(45,134,196,0.2);
+    background: rgba(45,134,196,0.03);
+  }
+  .note-heading {
+    font-family: 'Jost', sans-serif;
+    font-weight: 400;
+    font-size: 0.6rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: #2d86c4;
+    margin-bottom: 0.8rem;
+  }
+  .note-text {
+    font-size: 0.85rem;
+    color: #3d4a58;
+    line-height: 1.7;
+    margin-bottom: 0.8rem;
+  }
+  .note-text:last-child { margin-bottom: 0; }
+  .note-text strong { color: #1c2330; }
+  .footer-section {
+    margin-top: 2.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #c8d4de;
+  }
+  .footer-text {
+    font-size: 0.85rem;
+    color: #3d4a58;
+    margin-bottom: 1rem;
+    line-height: 1.7;
+  }
+  .footer-link {
+    font-family: 'Jost', sans-serif;
+    font-weight: 400;
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #2d86c4;
+    text-decoration: none;
+  }
+  .footer-cta { margin-bottom: 1.2rem; }
+  .footer-brand {
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
+    font-size: 0.7rem;
+    color: #7a8fa3;
+    text-align: center;
+    margin-top: 2rem;
+    letter-spacing: 0.1em;
+  }
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="header__brand">Crawford Coaching · Growth Zone</div>
+  <h1 class="header__title">${name === 'Your' ? 'Motivation Profile' : name + "'s Motivation Profile"}</h1>
+  <div class="header__date">${dateStr}</div>
+</div>
+
+<div class="section-label">The Three Pillars</div>
+<div class="pillar-row">
+  ${pillarKeys.map(p => {
+    const s = r.scores[p];
+    const info = PILLARS[p];
+    return `<div class="pillar-box">
+      <div class="pillar-box__name">${info.name}</div>
+      <div class="pillar-box__score">${s.raw}</div>
+      <div class="pillar-box__max">out of ${s.max}</div>
+      <div class="pillar-box__band">${s.bandLabel}</div>
+    </div>`;
+  }).join('')}
+</div>
+
+${pillarKeys.map(p => {
+  const s = r.scores[p];
+  const info = PILLARS[p];
+  return `<div class="bar-container">
+    <div class="bar-label">
+      <span>${info.name}</span>
+      <span>${s.raw} / ${s.max}</span>
+    </div>
+    <div class="bar-track"><div class="bar-fill" style="width:${s.pct}%"></div></div>
+  </div>`;
+}).join('')}
+
+<div class="section-label">Reflection Questions</div>
+${sorted.map(p => {
+  const info = PILLARS[p];
+  const qs = REFLECTION_QUESTIONS[p];
+  const s = r.scores[p];
+  return `<div class="reflection-block">
+    <div class="reflection-block__name">${info.name} — ${s.bandLabel} (${s.raw}/${s.max})</div>
+    ${qs.map(q => `<div class="reflection-block__q">${q}</div>`).join('')}
+  </div>`;
+}).join('')}
+
+<div class="note-section">
+  <div class="note-heading">How to read your results</div>
+  <p class="note-text">Self-Determination Theory holds that autonomy, mastery, and purpose are not personality traits. They are needs. Everyone has all three. The question is whether your current circumstances are supporting them or working against them.</p>
+  <p class="note-text"><strong>A lower score is not a failing.</strong> It is information. It means that particular need may not be getting enough oxygen right now. That could be a function of your job, your relationships, a life transition, or simply a season you are moving through.</p>
+  <p class="note-text">These results reflect how things feel right now, not how they will always be. If you take this again in a few months, your profile may look quite different. Motivation is not fixed. It responds to the conditions around it.</p>
+</div>
+
+<div class="footer-section">
+  <div class="footer-cta">
+    <div class="footer-text">Understanding your strengths can add another dimension to your motivation profile. Try the Character Strengths exercise in the Growth Zone.</div>
+    <a class="footer-link" href="https://crawford-coaching.ca/strengths">Take the Character Strengths Exercise &rarr;</a>
+  </div>
+  <div class="footer-cta">
+    <div class="footer-text">Want to talk through what you have found? A coaching conversation is a good place to figure out what to do with this kind of self-knowledge.</div>
+    <a class="footer-link" href="https://calendar.app.google/R66fNg5m7w3aKPKd6">Book a free intro call &rarr;</a>
+  </div>
+</div>
+
+<div class="footer-brand">crawford-coaching.ca</div>
+</body>
+</html>`;
+
+  const blob = new Blob([html], { type: 'text/html' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `motivation-profile${r.userName ? '-' + r.userName.toLowerCase() : ''}.html`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+/* ── KEYBOARD SUPPORT ── */
+document.addEventListener('keydown', (e) => {
+  const quizScreen = document.getElementById('screen-quiz');
+  if (!quizScreen.classList.contains('active')) return;
+
+  if (e.key >= '1' && e.key <= '5') {
+    selectRating(parseInt(e.key));
+  } else if (e.key === 'ArrowRight' || e.key === 'Enter') {
+    if (!document.getElementById('btn-next').disabled) nextQuestion();
+  } else if (e.key === 'ArrowLeft') {
+    if (!document.getElementById('btn-prev').disabled) prevQuestion();
+  }
+});
+</script>
+
+<!-- ── FOOTER ── -->
+<footer class="footer">
+  <a href="/" class="footer__logo">
+    <img src="./extracted-images/cc-logo.png" alt="Crawford Coaching">
+  </a>
+  <ul class="footer__links">
+    <li><a href="/coaching">Coaching</a></li>
+    <li><a href="/whole">WHOLE</a></li>
+    <li><a href="/synergize">Synergize Fitness</a></li>
+    <li><a href="/growth-zone">Growth Zone</a></li>
+    <li><a href="/about">About</a></li>
+    <li><a href="/writing">Writing</a></li>
+    <li><a href="/contact">Contact</a></li>
+  </ul>
+  <p class="footer__copy">&copy; 2026 Crawford Coaching</p>
+  <div class="footer__social">
+    <a href="https://www.instagram.com/scott.crawford.coaching/" target="_blank" aria-label="Instagram">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+    </a>
+    <a href="https://www.linkedin.com/in/scott-crawford-acc-9043b91a1/" target="_blank" aria-label="LinkedIn">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+    </a>
+    <a href="https://www.facebook.com/CrawfordCoachingKingston" target="_blank" aria-label="Facebook">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+    </a>
+  </div>
+</footer>
+
+<script>
+(function() {
+  const toggle = document.querySelector('.nav__toggle');
+  const overlay = document.querySelector('.nav__overlay');
+  if (!toggle || !overlay) return;
+
+  let closeTimer = null;
+  const closeMenu = () => {
+    toggle.classList.remove('open');
+    toggle.setAttribute('aria-expanded', 'false');
+    overlay.classList.remove('open');
+    const activeEl = document.activeElement;
+    if (activeEl && overlay.contains(activeEl)) {
+      activeEl.blur();
+    }
+    overlay.setAttribute('aria-hidden', 'true');
+    toggle.focus();
+    document.body.style.overflow = '';
+    if (closeTimer) clearTimeout(closeTimer);
+    closeTimer = setTimeout(() => {
+      overlay.style.display = 'none';
+    }, 350);
+  };
+
+  const openMenu = () => {
+    if (closeTimer) clearTimeout(closeTimer);
+    toggle.classList.add('open');
+    toggle.setAttribute('aria-expanded', 'true');
+    overlay.style.display = 'flex';
+    overlay.setAttribute('aria-hidden', 'false');
+    requestAnimationFrame(() => overlay.classList.add('open'));
+    document.body.style.overflow = 'hidden';
+  };
+
+  toggle.addEventListener('click', function() {
+    if (toggle.classList.contains('open')) {
+      closeMenu();
+    } else {
+      openMenu();
+    }
+  });
+
+  overlay.querySelectorAll('a').forEach((anchor) => {
+    anchor.addEventListener('click', closeMenu);
+  });
+
+  document.addEventListener('keydown', function(event) {
+    if (event.key === 'Escape' && toggle.classList.contains('open')) {
+      closeMenu();
+    }
+  });
+
+  window.addEventListener('resize', function() {
+    if (window.innerWidth > 900 && toggle.classList.contains('open')) {
+      closeMenu();
+    }
+  });
+})();
+</script>
+
+<script src="https://website-assistant-sandy.vercel.app/chat-widget.js"></script>
+</body>
+</html>

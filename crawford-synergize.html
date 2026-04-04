@@ -1,0 +1,1395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Synergize Fitness — Crawford Coaching</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --ink:        #0e0f10;
+  --slate:      #1c2330;
+  --slate-mid:  #232f3e;
+  --fog:        #3d4a58;
+  --mist:       #7a8fa3;
+  --pale:       #c8d4de;
+  --white:      #f5f3ef;
+  --brand-blue: #2d86c4;
+  --brand-blue-light: #4fa3d8;
+  --syn-orange: #e8632b;
+  --syn-orange-light: #f2844e;
+  --syn-amber:  #f5a623;
+  --serif-display: 'Cormorant Garamond', Georgia, serif;
+  --serif-body:    'Libre Baskerville', Georgia, serif;
+  --sans:          'Jost', sans-serif;
+}
+
+html, body {
+  background: var(--ink);
+  color: var(--white);
+  font-family: var(--sans);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* ─── NAV ─────────────────────────────── */
+.nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.6rem 3.5rem;
+  background: rgba(14,15,16,0.85);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.nav__logo {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+}
+.nav__logo img {
+  height: 36px;
+  width: auto;
+  display: block;
+}
+.nav__links {
+  display: flex; gap: 2.5rem; list-style: none;
+}
+.nav__links a {
+  font-family: var(--sans); font-weight: 300;
+  font-size: 0.78rem; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--pale);
+  text-decoration: none; opacity: 0.85;
+  transition: opacity 0.2s, color 0.2s;
+}
+.nav__links a:hover { opacity: 1; color: var(--white); }
+.nav__links a.active { color: var(--syn-orange); opacity: 1; }
+.nav__cta {
+  font-family: var(--sans); font-weight: 400;
+  font-size: 0.75rem; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--white);
+  text-decoration: none; border: 1px solid rgba(245,243,239,0.45);
+  padding: 0.5rem 1.3rem; border-radius: 1px;
+  transition: background 0.25s, border-color 0.25s;
+}
+.nav__cta:hover { background: rgba(245,243,239,0.1); border-color: rgba(245,243,239,0.8); }
+
+/* ─── MOBILE NAV ─────────────────────── */
+.nav__toggle {
+  display: none;
+  width: 44px;
+  height: 44px;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  z-index: 200;
+  -webkit-tap-highlight-color: transparent;
+}
+.nav__toggle span {
+  display: block;
+  width: 22px;
+  height: 1.5px;
+  background: var(--pale);
+  margin: 5px 0;
+  transition: transform 0.3s ease, opacity 0.2s ease;
+  transform-origin: center;
+}
+.nav__toggle.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+.nav__toggle.open span:nth-child(2) { opacity: 0; }
+.nav__toggle.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+.nav__overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  background: rgba(14,15,16,0.97);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+.nav__overlay.open { display: flex; opacity: 1; }
+.nav__overlay a {
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 1.1rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--pale);
+  text-decoration: none;
+  padding: 0.9rem 0;
+  opacity: 0.85;
+  transition: color 0.2s, opacity 0.2s;
+}
+.nav__overlay a:hover,
+.nav__overlay a.active {
+  opacity: 1;
+  color: var(--white);
+}
+.nav__overlay .nav__overlay-cta {
+  margin-top: 2rem;
+  font-family: var(--sans);
+  font-weight: 400;
+  font-size: 0.85rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--white);
+  text-decoration: none;
+  border: 1px solid rgba(245,243,239,0.5);
+  padding: 0.7rem 2rem;
+  border-radius: 1px;
+  transition: background 0.25s, border-color 0.25s;
+}
+.nav__overlay .nav__overlay-cta:hover {
+  background: rgba(245,243,239,0.1);
+  border-color: rgba(245,243,239,0.8);
+}
+.nav__toggle:focus-visible,
+.nav__overlay a:focus-visible,
+.nav__overlay .nav__overlay-cta:focus-visible {
+  outline: 2px solid var(--white);
+  outline-offset: 4px;
+}
+
+/* ─── PAGE HERO ──────────────────────── */
+.page-hero {
+  position: relative;
+  height: 100vh;
+  min-height: 600px;
+  overflow: hidden;
+}
+.page-hero__image {
+  position: absolute; inset: 0;
+  background: url('./extracted-images/homepage-003.webp') center center / cover no-repeat;
+}
+.page-hero__overlay {
+  position: absolute; inset: 0;
+  background:
+    linear-gradient(to bottom,
+      rgba(14,15,16,0.4) 0%,
+      rgba(14,15,16,0.1) 40%,
+      rgba(14,15,16,0.75) 100%
+    );
+}
+.page-hero__content {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  padding: 0 3.5rem 4rem;
+  opacity: 0;
+  animation: fade-up 1.2s ease 0.4s forwards;
+}
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.page-hero__tag {
+  font-family: var(--sans); font-weight: 400;
+  font-size: 0.68rem; letter-spacing: 0.3em;
+  text-transform: uppercase; color: var(--syn-orange);
+  margin-bottom: 1rem;
+  display: flex; align-items: center; gap: 0.8rem;
+}
+.page-hero__tag::before {
+  content: ''; display: block;
+  width: 28px; height: 1px;
+  background: var(--syn-orange);
+}
+.page-hero__headline {
+  font-family: var(--serif-display);
+  font-weight: 300;
+  font-size: clamp(2.4rem, 5vw, 4rem);
+  line-height: 1.1;
+  color: var(--white);
+  max-width: 700px;
+  margin-bottom: 1rem;
+}
+.page-hero__sub {
+  font-family: var(--serif-body);
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--pale);
+  max-width: 520px;
+}
+
+/* ─── IS THIS YOU? ───────────────────── */
+.isyou {
+  padding: 6rem 3.5rem;
+  max-width: 900px;
+  margin: 0 auto;
+}
+.isyou__label {
+  font-family: var(--sans); font-weight: 400;
+  font-size: 0.68rem; letter-spacing: 0.3em;
+  text-transform: uppercase; color: var(--syn-orange);
+  margin-bottom: 2.5rem;
+  display: flex; align-items: center; gap: 0.8rem;
+}
+.isyou__label::before {
+  content: ''; display: block;
+  width: 28px; height: 1px;
+  background: var(--syn-orange);
+}
+.isyou__questions {
+  list-style: none;
+  display: flex; flex-direction: column; gap: 2rem;
+}
+.isyou__q {
+  font-family: var(--serif-display);
+  font-weight: 400;
+  font-size: clamp(1.4rem, 2.5vw, 1.8rem);
+  line-height: 1.4;
+  color: var(--white);
+  padding-left: 2rem;
+  border-left: 2px solid var(--syn-orange);
+  opacity: 0;
+  animation: fade-up 0.8s ease forwards;
+}
+.isyou__q:nth-child(1) { animation-delay: 0.2s; }
+.isyou__q:nth-child(2) { animation-delay: 0.4s; }
+.isyou__q:nth-child(3) { animation-delay: 0.6s; }
+.isyou__q:nth-child(4) { animation-delay: 0.8s; }
+.isyou__bridge {
+  font-family: var(--serif-body);
+  font-size: 1rem;
+  line-height: 1.8;
+  color: var(--pale);
+  margin-top: 3rem;
+  max-width: 640px;
+}
+
+/* ─── SYNERGIZE WAVE DIVIDER ─────────── */
+.wave-divider {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  height: 180px;
+}
+.wave-divider__img {
+  position: absolute;
+  bottom: 0;
+  left: -5%;
+  width: 110%;
+  height: auto;
+  opacity: 0.3;
+}
+
+/* ─── WHAT IT IS ─────────────────────── */
+.whatis {
+  padding: 6rem 3.5rem;
+  background: var(--slate);
+  position: relative;
+  overflow: hidden;
+}
+.whatis__inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+.whatis__label {
+  font-family: var(--sans); font-weight: 400;
+  font-size: 0.68rem; letter-spacing: 0.3em;
+  text-transform: uppercase; color: var(--syn-orange);
+  margin-bottom: 1.5rem;
+  display: flex; align-items: center; gap: 0.8rem;
+}
+.whatis__label::before {
+  content: ''; display: block;
+  width: 28px; height: 1px;
+  background: var(--syn-orange);
+}
+.whatis__headline {
+  font-family: var(--serif-display);
+  font-weight: 300;
+  font-size: clamp(1.8rem, 3vw, 2.6rem);
+  line-height: 1.15;
+  color: var(--white);
+  margin-bottom: 2rem;
+}
+.whatis__body p {
+  font-family: var(--serif-body);
+  font-size: 0.95rem;
+  line-height: 1.8;
+  color: var(--pale);
+  margin-bottom: 1.2rem;
+}
+.whatis__body p strong {
+  color: var(--white); font-weight: 700;
+}
+.whatis__image-side {
+  position: relative;
+}
+.whatis__photo {
+  width: 100%;
+  aspect-ratio: 3/4;
+  object-fit: cover;
+  border-radius: 2px;
+  display: block;
+}
+.whatis__frame {
+  position: absolute;
+  top: -12px; right: -12px;
+  width: 100%; height: 100%;
+  border: 1px solid var(--syn-orange);
+  opacity: 0.25;
+  border-radius: 2px;
+  pointer-events: none;
+}
+
+/* ─── WHAT TO EXPECT ─────────────────── */
+.expect {
+  padding: 6rem 3.5rem;
+  max-width: 900px;
+  margin: 0 auto;
+}
+.expect__label {
+  font-family: var(--sans); font-weight: 400;
+  font-size: 0.68rem; letter-spacing: 0.3em;
+  text-transform: uppercase; color: var(--syn-orange);
+  margin-bottom: 2rem;
+  display: flex; align-items: center; gap: 0.8rem;
+}
+.expect__label::before {
+  content: ''; display: block;
+  width: 28px; height: 1px;
+  background: var(--syn-orange);
+}
+.expect__headline {
+  font-family: var(--serif-display);
+  font-weight: 300;
+  font-size: clamp(1.8rem, 3vw, 2.6rem);
+  line-height: 1.15;
+  color: var(--white);
+  margin-bottom: 3rem;
+}
+.expect__phases {
+  display: flex; flex-direction: column; gap: 2.5rem;
+}
+.expect__phase {
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+.expect__phase-marker {
+  font-family: var(--serif-display);
+  font-weight: 300;
+  font-size: 2.8rem;
+  line-height: 1;
+  color: rgba(232,99,43,0.2);
+  text-align: center;
+  padding-top: 0.2rem;
+}
+.expect__phase-title {
+  font-family: var(--sans);
+  font-weight: 400;
+  font-size: 1.05rem;
+  color: var(--white);
+  margin-bottom: 0.5rem;
+}
+.expect__phase-body {
+  font-family: var(--serif-body);
+  font-size: 0.9rem;
+  line-height: 1.8;
+  color: var(--pale);
+}
+.expect__pullquote {
+  margin-top: 3rem;
+  padding: 2rem 0 2rem 2rem;
+  border-left: 2px solid var(--syn-orange);
+  font-family: var(--serif-display);
+  font-weight: 400;
+  font-style: italic;
+  font-size: clamp(1.2rem, 2vw, 1.5rem);
+  line-height: 1.5;
+  color: var(--white);
+}
+
+/* ─── QUOTE + PHOTO SIDE BY SIDE ─────── */
+.quote-photo {
+  padding: 0;
+  background: var(--slate);
+}
+.quote-photo__inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 500px;
+}
+.quote-photo__text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 4rem 4rem 4rem 3.5rem;
+}
+.quote-photo__quote {
+  font-family: var(--serif-display);
+  font-weight: 400;
+  font-style: italic;
+  font-size: clamp(1.5rem, 2.5vw, 2rem);
+  line-height: 1.4;
+  color: var(--white);
+  border-left: 2px solid var(--syn-orange);
+  padding-left: 2rem;
+  margin-bottom: 1.5rem;
+}
+.quote-photo__sub {
+  font-family: var(--serif-body);
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: var(--mist);
+  padding-left: 2rem;
+}
+.quote-photo__image {
+  overflow: hidden;
+}
+.quote-photo__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* ─── COACH BIO ──────────────────────── */
+.coach {
+  padding: 6rem 3.5rem;
+  background: var(--slate);
+}
+.coach__inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 340px 1fr;
+  gap: 4rem;
+  align-items: center;
+}
+.coach__photo-wrap {
+  position: relative;
+}
+.coach__photo {
+  width: 100%;
+  aspect-ratio: 1/1;
+  object-fit: cover;
+  object-position: top center;
+  border-radius: 2px;
+  display: block;
+}
+.coach__frame {
+  position: absolute;
+  bottom: -12px; left: -12px;
+  width: 100%; height: 100%;
+  border: 1px solid var(--syn-orange);
+  opacity: 0.25;
+  border-radius: 2px;
+  pointer-events: none;
+}
+.coach__label {
+  font-family: var(--sans); font-weight: 400;
+  font-size: 0.68rem; letter-spacing: 0.3em;
+  text-transform: uppercase; color: var(--syn-orange);
+  margin-bottom: 1.5rem;
+  display: flex; align-items: center; gap: 0.8rem;
+}
+.coach__label::before {
+  content: ''; display: block;
+  width: 28px; height: 1px;
+  background: var(--syn-orange);
+}
+.coach__name {
+  font-family: var(--serif-display);
+  font-weight: 300;
+  font-size: clamp(1.8rem, 3vw, 2.6rem);
+  line-height: 1.15;
+  color: var(--white);
+  margin-bottom: 2rem;
+}
+.coach__body p {
+  font-family: var(--serif-body);
+  font-size: 0.95rem;
+  line-height: 1.8;
+  color: var(--pale);
+  margin-bottom: 1.2rem;
+}
+.coach__creds {
+  margin-top: 1.5rem;
+  display: flex; gap: 1.5rem; flex-wrap: wrap;
+}
+.coach__cred {
+  font-family: var(--sans);
+  font-weight: 400;
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--mist);
+  padding: 0.35rem 0.8rem;
+  border: 1px solid rgba(122,143,163,0.25);
+  border-radius: 1px;
+}
+
+/* ─── TESTIMONIALS ───────────────────── */
+.testimonials {
+  padding: 6rem 3.5rem;
+  max-width: 900px;
+  margin: 0 auto;
+}
+.testimonials__label {
+  font-family: var(--sans); font-weight: 400;
+  font-size: 0.68rem; letter-spacing: 0.3em;
+  text-transform: uppercase; color: var(--syn-orange);
+  margin-bottom: 3rem;
+  display: flex; align-items: center; gap: 0.8rem;
+}
+.testimonials__label::before {
+  content: ''; display: block;
+  width: 28px; height: 1px;
+  background: var(--syn-orange);
+}
+.testimonials__grid {
+  display: flex; flex-direction: column; gap: 2.5rem;
+}
+.testimonial {
+  padding-left: 2rem;
+  border-left: 2px solid rgba(232,99,43,0.35);
+}
+.testimonial__quote {
+  font-family: var(--serif-body);
+  font-size: 1.05rem;
+  line-height: 1.8;
+  color: var(--white);
+  font-style: italic;
+  margin-bottom: 0.8rem;
+}
+.testimonial__author {
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 0.8rem;
+  color: var(--mist);
+  letter-spacing: 0.08em;
+}
+
+/* ─── SCHEDULE COLLAPSIBLE ────────────── */
+.schedule {
+  padding: 2rem 3.5rem 4rem;
+  text-align: center;
+}
+.schedule__toggle {
+  font-family: var(--sans);
+  font-weight: 400;
+  font-size: 0.78rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--pale);
+  background: none;
+  border: 1px solid rgba(200,212,222,0.25);
+  padding: 0.7rem 1.8rem;
+  border-radius: 1px;
+  cursor: pointer;
+  transition: border-color 0.3s, color 0.3s;
+}
+.schedule__toggle:hover {
+  border-color: var(--syn-orange);
+  color: var(--white);
+}
+.schedule__toggle.open {
+  border-color: var(--syn-orange);
+  color: var(--syn-orange);
+}
+.schedule__arrow {
+  display: inline-block;
+  margin-left: 0.5rem;
+  transition: transform 0.3s;
+}
+.schedule__toggle.open .schedule__arrow {
+  transform: rotate(180deg);
+}
+.schedule__grid {
+  max-width: 700px;
+  margin: 0 auto;
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-height 0.5s ease, opacity 0.4s ease, margin-top 0.4s ease;
+}
+.schedule__grid.show {
+  max-height: 900px;
+  opacity: 1;
+  margin-top: 2rem;
+}
+.schedule__group {
+  margin-bottom: 1.5rem;
+  text-align: left;
+}
+.schedule__day {
+  font-family: var(--sans);
+  font-weight: 400;
+  font-size: 0.85rem;
+  letter-spacing: 0.1em;
+  color: var(--syn-orange);
+  margin-bottom: 0.6rem;
+  text-transform: uppercase;
+}
+.schedule__slots {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+.schedule__slot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.45rem 0;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+.schedule__time {
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 0.9rem;
+  color: var(--white);
+}
+.schedule__status {
+  font-family: var(--sans);
+  font-weight: 400;
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.2rem 0.6rem;
+  border-radius: 1px;
+}
+.schedule__status--open {
+  color: #5bbf6b;
+  border: 1px solid rgba(91,191,107,0.3);
+}
+.schedule__status--waitlist {
+  color: var(--syn-amber);
+  border: 1px solid rgba(245,166,35,0.3);
+}
+.schedule__note {
+  font-family: var(--serif-body);
+  font-size: 0.85rem;
+  color: var(--mist);
+  font-style: italic;
+}
+
+/* ─── TOOL CALLOUT ────────────────────── */
+.tool-callout {
+  padding: 0 3.5rem 2rem;
+}
+.tool-callout__inner {
+  max-width: 700px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  padding: 1rem 1.5rem;
+  border: 1px solid rgba(200,212,222,0.1);
+  border-radius: 2px;
+  background: rgba(255,255,255,0.02);
+}
+.tool-callout__icon {
+  font-size: 1.4rem;
+  flex-shrink: 0;
+}
+.tool-callout__text {
+  flex: 1;
+}
+.tool-callout__title {
+  font-family: var(--sans);
+  font-weight: 400;
+  font-size: 0.85rem;
+  color: var(--white);
+  margin-bottom: 0.15rem;
+}
+.tool-callout__desc {
+  font-family: var(--serif-body);
+  font-size: 0.8rem;
+  color: var(--mist);
+  line-height: 1.5;
+}
+.tool-callout__link {
+  font-family: var(--sans);
+  font-weight: 400;
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--syn-orange);
+  text-decoration: none;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: color 0.3s;
+}
+.tool-callout__link:hover {
+  color: var(--syn-orange-light);
+}
+
+/* ─── CTA ────────────────────────────── */
+.closing {
+  padding: 6rem 3.5rem 7rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(to bottom, var(--ink) 0%, var(--slate) 100%);
+}
+.closing__waves {
+  position: absolute;
+  bottom: -20%;
+  left: -10%;
+  width: 120%;
+  opacity: 0.12;
+  pointer-events: none;
+}
+.closing__label {
+  font-family: var(--sans); font-weight: 400;
+  font-size: 0.68rem; letter-spacing: 0.3em;
+  text-transform: uppercase; color: var(--syn-orange);
+  margin-bottom: 1.2rem;
+  position: relative;
+  z-index: 1;
+}
+.closing__headline {
+  font-family: var(--serif-display);
+  font-weight: 300;
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  color: var(--white);
+  margin-bottom: 1rem;
+  position: relative;
+  z-index: 1;
+}
+.closing__sub {
+  font-family: var(--serif-body);
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: var(--pale);
+  max-width: 480px;
+  margin: 0 auto 2rem;
+  position: relative;
+  z-index: 1;
+}
+.closing__btn {
+  display: inline-block;
+  font-family: var(--sans);
+  font-weight: 400;
+  font-size: 0.78rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--white);
+  text-decoration: none;
+  padding: 0.85rem 2.2rem;
+  background: var(--syn-orange);
+  border: 1px solid var(--syn-orange);
+  border-radius: 1px;
+  transition: background 0.3s, box-shadow 0.3s;
+  position: relative;
+  z-index: 1;
+}
+.closing__btn:hover {
+  background: var(--syn-orange-light);
+  box-shadow: 0 4px 24px rgba(232,99,43,0.35);
+}
+.closing__alt {
+  margin-top: 1.5rem;
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 0.85rem;
+  color: var(--mist);
+  position: relative;
+  z-index: 1;
+}
+.closing__alt a {
+  color: var(--syn-orange-light);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.2s;
+}
+.closing__alt a:hover { border-color: var(--syn-orange-light); }
+
+
+.footer__social {
+  display: flex;
+  gap: 1.2rem;
+  align-items: center;
+}
+.footer__social a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--mist);
+  transition: color 0.2s;
+}
+.footer__social a:hover { color: var(--pale); }
+.footer__social svg {
+  width: 18px;
+  height: 18px;
+  fill: currentColor;
+}
+
+/* ─── FOOTER ─────────────────────────── */
+.footer {
+  padding: 3rem 3.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  background: var(--slate);
+}
+.footer__logo {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+}
+.footer__logo img { height: 28px; width: auto; display: block; }
+.footer__links {
+  display: flex; gap: 2rem; list-style: none;
+}
+.footer__links a {
+  font-family: var(--sans); font-weight: 300;
+  font-size: 0.72rem; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--mist);
+  text-decoration: none; transition: color 0.2s;
+}
+.footer__links a:hover { color: var(--pale); }
+.footer__copy {
+  font-family: var(--sans); font-weight: 300;
+  font-size: 0.68rem; color: var(--mist);
+}
+
+/* ─── RESPONSIVE ─────────────────────── */
+@media (max-width: 900px) {
+  .nav { padding: 1.4rem 1.8rem; }
+  .page-hero__content { padding: 0 1.8rem 3rem; }
+  .isyou { padding: 4rem 1.8rem; }
+  .wave-divider { height: 100px; }
+  .whatis { padding: 4rem 1.8rem; }
+  .whatis__inner { grid-template-columns: 1fr; gap: 2.5rem; }
+  .expect { padding: 4rem 1.8rem; }
+  .expect__phase { grid-template-columns: 50px 1fr; gap: 1rem; }
+  .quote-photo__inner { grid-template-columns: 1fr; }
+  .quote-photo__text { padding: 3rem 1.8rem; }
+  .quote-photo__image { max-height: none; }
+  .quote-photo__img {
+    aspect-ratio: 4 / 5;
+    object-position: 50% 24%;
+  }
+  .coach { padding: 4rem 1.8rem; }
+  .coach__inner { grid-template-columns: 1fr; gap: 2.5rem; }
+  .coach__photo { max-width: 320px; }
+  .testimonials { padding: 4rem 1.8rem; }
+  .schedule { padding: 2rem 1.8rem 3rem; }
+  .tool-callout { padding: 0 1.8rem 2rem; }
+  .tool-callout__inner { flex-direction: column; text-align: center; }
+  .closing { padding: 4rem 1.8rem 5rem; }
+  .footer { padding: 2rem 1.8rem; flex-direction: column; gap: 1.2rem; text-align: center; }
+  .footer__links { flex-wrap: wrap; justify-content: center; gap: 1rem; }
+}
+@media (max-width: 900px) {
+  .nav__toggle { display: block; }
+  .nav__links { display: none !important; }
+  .nav__cta { display: none; }
+}
+
+/* ─── PHASE 2 MOBILE SAFETY ─────────── */
+img { max-width: 100%; }
+
+@media (max-width: 900px) {
+  .page-hero {
+    height: auto;
+    min-height: clamp(420px, 82svh, 680px);
+  }
+
+  .isyou__q {
+    padding-left: 1rem;
+    font-size: clamp(1.2rem, 5vw, 1.5rem);
+  }
+
+  .wave-divider {
+    height: clamp(72px, 18vw, 100px);
+  }
+
+  .expect__phase {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+
+  .expect__phase-marker {
+    text-align: left;
+    font-size: 2.1rem;
+    padding-top: 0;
+  }
+
+  .quote-photo__quote,
+  .quote-photo__sub {
+    padding-left: 1rem;
+  }
+
+  .tool-callout__link {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .page-hero__tag,
+  .isyou__label,
+  .whatis__label,
+  .expect__label,
+  .coach__label,
+  .testimonials__label,
+  .closing__label,
+  .footer__copy,
+  .footer__links a {
+    font-size: max(0.75rem, 12px);
+  }
+
+  .schedule__toggle,
+  .closing__btn,
+
+@media (min-width: 700px) and (max-width: 900px) {
+  .quote-photo__img {
+    aspect-ratio: 16 / 10;
+    object-position: 50% 20%;
+  }
+}
+  .tool-callout__link,
+  .nav__overlay .nav__overlay-cta {
+    min-height: 44px;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .footer {
+    align-items: center;
+    text-align: center;
+  }
+
+  .footer__logo {
+    margin: 0 auto;
+  }
+
+  .footer__links {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem 1.4rem;
+  }
+
+  .footer__social {
+    width: 100%;
+    justify-content: center;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- ══ NAV ═════════════════════════════════════════════════ -->
+<nav class="nav">
+  <a href="/" class="nav__logo">
+    <img src="./extracted-images/cc-logo.png" alt="Crawford Coaching">
+  </a>
+  <ul class="nav__links">
+    <li><a href="/coaching">Coaching</a></li>
+    <li><a href="/whole">WHOLE</a></li>
+    <li><a href="/synergize" class="active">Synergize Fitness</a></li>
+    <li><a href="/growth-zone">Growth Zone</a></li>
+    <li><a href="/about">About</a></li>
+    <li><a href="/writing">Writing</a></li>
+    <li><a href="/contact">Contact</a></li>
+  </ul>
+  <a href="https://calendar.app.google/cBsPtjyxJZSuz6Jo7" class="nav__cta" target="_blank">Book Intro</a>
+  <button class="nav__toggle" aria-label="Menu" aria-controls="site-menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="nav__overlay" id="site-menu" aria-hidden="true">
+  <a href="/coaching">Coaching</a>
+  <a href="/whole">WHOLE</a>
+  <a href="/synergize" class="active">Synergize Fitness</a>
+  <a href="/growth-zone">Growth Zone</a>
+  <a href="/about">About</a>
+  <a href="/writing">Writing</a>
+  <a href="/contact">Contact</a>
+  <a href="https://calendar.app.google/cBsPtjyxJZSuz6Jo7" class="nav__overlay-cta" target="_blank">Book Intro</a>
+</div>
+
+<!-- ══ HERO ════════════════════════════════════════════════ -->
+<section class="page-hero">
+  <div class="page-hero__image"></div>
+  <div class="page-hero__overlay"></div>
+  <div class="page-hero__content">
+    <p class="page-hero__tag">Synergize Group Fitness</p>
+    <h1 class="page-hero__headline">Small group. Real coaching.<br>No judgment.</h1>
+    <p class="page-hero__sub">
+      A private boutique gym in Kingston's east end. Five or six people, a certified coach, and an hour that changes your week.
+    </p>
+  </div>
+</section>
+
+<!-- ══ IS THIS YOU? ════════════════════════════════════════ -->
+<section class="isyou">
+  <p class="isyou__label">Sound familiar?</p>
+  <ul class="isyou__questions">
+    <li class="isyou__q">Your home workout routine went stale three months ago and the equipment is gathering dust?</li>
+    <li class="isyou__q">You're new to exercise, or coming back after a long break, and don't know where to start?</li>
+    <li class="isyou__q">You know you need to move more, but you're not a "gym person" and the idea of a commercial gym makes you want to hide?</li>
+    <li class="isyou__q">You do fine when someone else runs the session, but left to your own devices, you just... don't?</li>
+  </ul>
+  <p class="isyou__bridge">
+    If any of that landed, you're exactly who Synergize exists for. Not athletes. Not fitness influencers. Regular people who want to feel stronger, more capable, and more energized. With someone who knows how to get them there.
+  </p>
+</section>
+
+<!-- ══ SYNERGIZE WAVE DIVIDER ═════════════════════════════ -->
+<div class="wave-divider">
+  <img class="wave-divider__img" src="./extracted-images/synergize-001.png" alt="">
+</div>
+
+<!-- ══ WHAT SYNERGIZE IS ══════════════════════════════════ -->
+<section class="whatis">
+  <div class="whatis__inner">
+    <div class="whatis__text-side">
+      <p class="whatis__label">What it is</p>
+      <h2 class="whatis__headline">Functional strength and conditioning in a space built for real people</h2>
+      <div class="whatis__body">
+        <p>
+          Synergize is a <strong>private boutique gym</strong>. Not a franchise, not a basement with a bench press. It's a fully equipped training space where small groups of five or six people work through coached sessions built around functional strength and conditioning.
+        </p>
+        <p>
+          Every session is <strong>adaptive, not prescriptive</strong>. I programme the workout; you do what you can. Nobody's watching the clock on your reps. Nobody cares what weight you're lifting. The only expectation is that you show up.
+        </p>
+        <p>
+          The groups are small enough that I can coach everyone individually within the session. Over time, these groups become more than training partners. They become people who hold each other accountable, celebrate each other's progress, and genuinely look forward to seeing each other.
+        </p>
+      </div>
+    </div>
+    <div class="whatis__image-side">
+      <img class="whatis__photo" src="./extracted-images/synergize-002.webp" alt="Training at Synergize">
+      <div class="whatis__frame"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ WHAT TO EXPECT OVER TIME ═══════════════════════════ -->
+<section class="expect">
+  <p class="expect__label">The journey</p>
+  <h2 class="expect__headline">What to expect as you train</h2>
+  <div class="expect__phases">
+    <div class="expect__phase">
+      <div class="expect__phase-marker">01</div>
+      <div>
+        <p class="expect__phase-title">The first few sessions</p>
+        <p class="expect__phase-body">
+          You'll probably discover you're stronger than you thought. The movements might be unfamiliar, but the coach is right there, cueing and adjusting in real time. Most people leave their first session surprised, both by what they could do and by how good it feels afterward.
+        </p>
+      </div>
+    </div>
+    <div class="expect__phase">
+      <div class="expect__phase-marker">02</div>
+      <div>
+        <p class="expect__phase-title">Weeks two through four</p>
+        <p class="expect__phase-body">
+          The routine starts to feel like yours. You remember the movements. The weights go up, not because you're suddenly stronger, but because your technique is improving and your confidence is catching up with your ability. The post-session energy high becomes something you chase. And somewhere in here, quietly, something shifts: you start to feel capable. Not in a mirror-selfie way. In a "my body can actually do things" way. That's the beginning of a different relationship with the body you have.
+        </p>
+      </div>
+    </div>
+    <div class="expect__phase">
+      <div class="expect__phase-marker">03</div>
+      <div>
+        <p class="expect__phase-title">Month two and beyond</p>
+        <p class="expect__phase-body">
+          Body composition starts to shift. Clothes fit differently. The weights you're lifting go up, and movements that felt impossible at first become part of your warm-up. The group dynamic has solidified. You have your people, and missing a session feels wrong.
+        </p>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<!-- ══ PULLQUOTE + PHOTO ══════════════════════════════════ -->
+<section class="quote-photo">
+  <div class="quote-photo__inner">
+    <div class="quote-photo__text">
+      <blockquote class="quote-photo__quote">
+        Weightlifting is a sport for enthusiasts.<br>But lifting weights is for everyone.
+      </blockquote>
+      <p class="quote-photo__sub">
+        You don't need to be fit to start. You need to start to get fit.
+      </p>
+    </div>
+    <div class="quote-photo__image">
+      <img src="./extracted-images/synergize-003.webp" alt="Training at Synergize" class="quote-photo__img">
+    </div>
+  </div>
+</section><!-- ══ YOUR COACH ═════════════════════════════════════════ -->
+<section class="coach">
+  <div class="coach__inner">
+    <div class="coach__photo-wrap">
+      <img class="coach__photo" src="./extracted-images/synergize-004.webp" alt="Scott Crawford">
+      <div class="coach__frame"></div>
+    </div>
+    <div>
+      <p class="coach__label">Your coach</p>
+      <h2 class="coach__name">Scott Crawford</h2>
+      <div class="coach__body">
+        <p>
+          I started Synergize because I believe fitness shouldn't require bravery. Walking into a commercial gym cold is intimidating for most people, and it doesn't have to be the only option.
+        </p>
+        <p>
+          I'm a certified personal trainer and an ICF-credentialed coach. I've spent years studying how people change. Not just physically, but in every domain of their lives. I bring that understanding into every session.
+        </p>
+        <p>
+          I'm approaching 50. I understand what it means to train around injuries, responsibilities, and a body that doesn't recover like it used to. I train the way I coach my clients to train: consistently, intelligently, and with enough humility to know the difference between pushing through and being reckless.
+        </p>
+      </div>
+      <div class="coach__creds">
+        <span class="coach__cred">ISSA Certified Personal Trainer</span>
+        <span class="coach__cred">ICF Associate Certified Coach</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ TESTIMONIALS ════════════════════════════════════════ -->
+<section class="testimonials">
+  <p class="testimonials__label">From the group</p>
+  <div class="testimonials__grid">
+    <div class="testimonial">
+      <p class="testimonial__quote">
+        I have enjoyed attended classes with Scott since March of 2022. Scott is very knowledgeable and offers modifications to exercises based on where you are physically and how you want to improve. I enjoy the small group sizes and I have met some great people. I highly recommend contacting Scott if you are interested in learning more about how you can make gains in terms of strength and confidence. I am approaching 50 and I feel healthier that I was 10 years ago.
+      </p>
+      <p class="testimonial__author">Google Review ★★★★★</p>
+    </div>
+    <div class="testimonial">
+      <p class="testimonial__quote">
+        This is the kind of exercise I can commit to without hesitation — it's easy going in nature (although the workout isn't easy!), making accountability part of your own inner working model rather than drill sergeant modality. The group dynamics are lovely, and the workout is over before you know it. Diversity in exercises and humor through it makes the perfect combo.
+      </p>
+      <p class="testimonial__author">Google Review ★★★★★</p>
+    </div>
+    <div class="testimonial">
+      <p class="testimonial__quote">
+        Training sessions with Scott are never the same. He makes it fun and adapts everything based on your abilities. I have been going since the end of June and I am very motivated to continue.
+      </p>
+      <p class="testimonial__author">Google Review ★★★★★</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ SCHEDULE (COLLAPSIBLE) ═════════════════════════════ -->
+<section class="schedule">
+  <button class="schedule__toggle" onclick="toggleSchedule(this)">
+    View Class Schedule
+    <span class="schedule__arrow">▾</span>
+  </button>
+  <div class="schedule__grid" id="schedule-grid"></div>
+</section>
+
+<!-- ══ TOOL CALLOUT ═══════════════════════════════════════ -->
+<section class="tool-callout">
+  <div class="tool-callout__inner">
+    <div class="tool-callout__icon">⏱</div>
+    <div class="tool-callout__text">
+      <p class="tool-callout__title">Synergize Interval Timer</p>
+      <p class="tool-callout__desc">Build custom workouts and time your intervals. The same tool we use in class.</p>
+    </div>
+    <a href="/timer" class="tool-callout__link">Open Timer →</a>
+  </div>
+</section>
+
+<!-- ══ CLOSING CTA ════════════════════════════════════════ -->
+<section class="closing">
+  <img class="closing__waves" src="./extracted-images/synergize-001.png" alt="">
+  <p class="closing__label">Ready to start?</p>
+  <h2 class="closing__headline">Book a free intro session.</h2>
+  <p class="closing__sub">
+    I'd love to welcome you to the gym for a visit. No commitment, no sales pitch. Just a chance for you to say "hi," see the space and have an honest conversation about whether this is right for you.
+  </p>
+  <a href="https://calendar.app.google/cBsPtjyxJZSuz6Jo7" class="closing__btn" onclick="logEvent('crawford-site/synergize','cta_click','synergize')">Book Your Free Intro</a>
+  <p class="closing__alt">
+    Prefer email? <a href="mailto:scott@crawford-coaching.ca">scott@crawford-coaching.ca</a>
+  </p>
+</section>
+
+<!-- ══ FOOTER ══════════════════════════════════════════════ -->
+<footer class="footer">
+  <a href="/" class="footer__logo">
+    <img src="./extracted-images/cc-logo.png" alt="Crawford Coaching">
+  </a>
+  <ul class="footer__links">
+    <li><a href="/coaching">Coaching</a></li>
+    <li><a href="/synergize">Synergize Fitness</a></li>
+    <li><a href="/whole">WHOLE</a></li>
+    <li><a href="/growth-zone">Growth Zone</a></li>
+    <li><a href="/about">About</a></li>
+    <li><a href="/writing">Writing</a></li>
+    <li><a href="/contact">Contact</a></li>
+  </ul>
+  <p class="footer__copy">&copy; 2026 Crawford Coaching</p>
+  <div class="footer__social">
+    <a href="https://www.instagram.com/scott.crawford.coaching/" target="_blank" aria-label="Instagram">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+    </a>
+    <a href="https://www.linkedin.com/in/scott-crawford-acc-9043b91a1/" target="_blank" aria-label="LinkedIn">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+    </a>
+    <a href="https://www.facebook.com/CrawfordCoachingKingston" target="_blank" aria-label="Facebook">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+    </a>
+  </div>
+</footer>
+
+<script>
+(function() {
+  const toggle = document.querySelector('.nav__toggle');
+  const overlay = document.querySelector('.nav__overlay');
+  if (!toggle || !overlay) return;
+
+  let closeTimer = null;
+  const closeMenu = () => {
+    toggle.classList.remove('open');
+    toggle.setAttribute('aria-expanded', 'false');
+    overlay.classList.remove('open');
+    const activeEl = document.activeElement;
+    if (activeEl && overlay.contains(activeEl)) {
+      activeEl.blur();
+    }
+    overlay.setAttribute('aria-hidden', 'true');
+    toggle.focus();
+    document.body.style.overflow = '';
+    if (closeTimer) clearTimeout(closeTimer);
+    closeTimer = setTimeout(() => {
+      overlay.style.display = 'none';
+    }, 350);
+  };
+
+  const openMenu = () => {
+    if (closeTimer) clearTimeout(closeTimer);
+    toggle.classList.add('open');
+    toggle.setAttribute('aria-expanded', 'true');
+    overlay.style.display = 'flex';
+    overlay.setAttribute('aria-hidden', 'false');
+    requestAnimationFrame(() => overlay.classList.add('open'));
+    document.body.style.overflow = 'hidden';
+  };
+
+  toggle.addEventListener('click', function() {
+    if (toggle.classList.contains('open')) {
+      closeMenu();
+    } else {
+      openMenu();
+    }
+  });
+
+  overlay.querySelectorAll('a').forEach((anchor) => {
+    anchor.addEventListener('click', closeMenu);
+  });
+
+  document.addEventListener('keydown', function(event) {
+    if (event.key === 'Escape' && toggle.classList.contains('open')) {
+      closeMenu();
+    }
+  });
+
+  window.addEventListener('resize', function() {
+    if (window.innerWidth > 900 && toggle.classList.contains('open')) {
+      closeMenu();
+    }
+  });
+})();
+</script>
+
+  <script src="https://website-assistant-sandy.vercel.app/chat-widget.js"></script>
+
+  <script>
+    var DATA_HANDLER = 'https://yxndmpwqvdatkujcukdv.supabase.co/functions/v1/data-handler';
+
+    function logEvent(source, action, offer) {
+      fetch(DATA_HANDLER, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'engagement_log', payload: { source: source, action: action, offer: offer } })
+      }).catch(function() {});
+    }
+
+    var scheduleCache = null;
+
+    window.toggleSchedule = function (btn) {
+        btn.classList.toggle('open');
+        var grid = document.getElementById('schedule-grid');
+        grid.classList.toggle('show');
+
+        if (grid.classList.contains('show') && scheduleCache === null) {
+          logEvent('crawford-site/synergize', 'schedule_opened', 'synergize');
+          grid.innerHTML = '<p class="schedule__note" style="text-align:center;padding:1rem">Loading schedule…</p>';
+          fetch(DATA_HANDLER + '?action=class_schedule')
+            .then(function (r) { return r.json(); })
+            .then(function (json) {
+              if (json.error || !json.data) throw new Error(json.error || 'No data');
+              scheduleCache = json.data;
+              renderSchedule(grid, scheduleCache);
+            })
+            .catch(function () {
+              grid.innerHTML = '<p class="schedule__note" style="text-align:center;padding:1rem">Schedule temporarily unavailable — <a href="mailto:scott@crawford-coaching.ca">contact Scott</a>.</p>';
+            });
+        }
+      };
+
+      function renderSchedule(grid, rows) {
+        var groups = [
+          { label: 'Monday / Wednesday', days: ['Monday', 'Wednesday'] },
+          { label: 'Tuesday / Thursday', days: ['Tuesday', 'Thursday'] },
+          { label: 'Friday (Optional)',  days: ['Friday'], note: 'Open to all active members. No separate sign-up needed.' },
+        ];
+
+        var html = '';
+        groups.forEach(function (group) {
+          var groupRows = rows.filter(function (r) { return group.days.indexOf(r.day) !== -1; });
+
+          // Build ordered unique times from this group
+          var times = [];
+          groupRows.forEach(function (r) { if (times.indexOf(r.time) === -1) times.push(r.time); });
+
+          html += '<div class="schedule__group">';
+          html += '<p class="schedule__day">' + group.label + '</p>';
+          html += '<div class="schedule__slots">';
+
+          times.forEach(function (time) {
+            var spaces = groupRows
+              .filter(function (r) { return r.time === time; })
+              .map(function (r) { return r.freeSpaces; });
+            var maxSpaces = Math.max.apply(null, spaces);
+            var isOpen = maxSpaces > 0;
+            var statusClass = isOpen ? 'schedule__status--open' : 'schedule__status--waitlist';
+            var statusLabel = isOpen ? 'Spots Available' : 'Waitlist';
+            html += '<div class="schedule__slot">';
+            html += '<span class="schedule__time">' + time.toLowerCase() + '</span>';
+            html += '<span class="schedule__status ' + statusClass + '">' + statusLabel + '</span>';
+            html += '</div>';
+          });
+
+          html += '</div>';
+          if (group.note) html += '<p class="schedule__note">' + group.note + '</p>';
+          html += '</div>';
+        });
+
+        grid.innerHTML = html;
+      }
+  </script>
+</body>
+</html>

@@ -1,0 +1,1481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Feelings Naming Guide — Crawford Coaching</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --ink:        #0e0f10;
+  --slate:      #1c2330;
+  --slate-mid:  #232f3e;
+  --fog:        #3d4a58;
+  --mist:       #7a8fa3;
+  --pale:       #c8d4de;
+  --white:      #f5f3ef;
+  --brand-blue: #2d86c4;
+  --brand-blue-light: #4fa3d8;
+  --syn-orange: #e8632b;
+  --syn-orange-light: #f2844e;
+  --serif-display: 'Cormorant Garamond', Georgia, serif;
+  --serif-body:    'Libre Baskerville', Georgia, serif;
+  --sans:          'Jost', sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--ink);
+  color: var(--white);
+  font-family: var(--serif-body);
+  font-size: 16px;
+  line-height: 1.8;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── NAV ── */
+.nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.6rem clamp(1.5rem, 4vw, 3.5rem);
+  background: rgba(14,15,16,0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.nav__logo { display: inline-flex; align-items: center; text-decoration: none; }
+.nav__logo img { height: 36px; width: auto; display: block; }
+.nav__links { display: flex; gap: 2.5rem; list-style: none; }
+.nav__links a {
+  font-family: var(--sans); font-weight: 300;
+  font-size: 0.78rem; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--pale);
+  text-decoration: none; opacity: 0.85;
+  transition: opacity 0.2s, color 0.2s;
+}
+.nav__links a:hover { opacity: 1; color: var(--white); }
+.nav__links a.active { color: var(--brand-blue); opacity: 1; }
+.nav__cta {
+  font-family: var(--sans); font-weight: 400;
+  font-size: 0.75rem; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--white);
+  text-decoration: none;
+  border: 1px solid rgba(245,243,239,0.45);
+  padding: 0.5rem 1.3rem; border-radius: 1px;
+  transition: background 0.25s, border-color 0.25s;
+}
+.nav__cta:hover { background: rgba(245,243,239,0.1); border-color: rgba(245,243,239,0.8); }
+
+/* ─── MOBILE NAV ─────────────────────── */
+.nav__toggle {
+  display: none;
+  width: 44px;
+  height: 44px;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  z-index: 200;
+  -webkit-tap-highlight-color: transparent;
+}
+.nav__toggle span {
+  display: block;
+  width: 22px;
+  height: 1.5px;
+  background: var(--pale);
+  margin: 5px 0;
+  transition: transform 0.3s ease, opacity 0.2s ease;
+  transform-origin: center;
+}
+.nav__toggle.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+.nav__toggle.open span:nth-child(2) { opacity: 0; }
+.nav__toggle.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+.nav__overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  background: rgba(14,15,16,0.97);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+.nav__overlay.open { display: flex; opacity: 1; }
+.nav__overlay a {
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 1.1rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--pale);
+  text-decoration: none;
+  padding: 0.9rem 0;
+  opacity: 0.85;
+  transition: color 0.2s, opacity 0.2s;
+}
+.nav__overlay a:hover,
+.nav__overlay a.active {
+  opacity: 1;
+  color: var(--white);
+}
+.nav__overlay .nav__overlay-cta {
+  margin-top: 2rem;
+  font-family: var(--sans);
+  font-weight: 400;
+  font-size: 0.85rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--white);
+  text-decoration: none;
+  border: 1px solid rgba(245,243,239,0.5);
+  padding: 0.7rem 2rem;
+  border-radius: 1px;
+  transition: background 0.25s, border-color 0.25s;
+}
+.nav__overlay .nav__overlay-cta:hover {
+  background: rgba(245,243,239,0.1);
+  border-color: rgba(245,243,239,0.8);
+}
+.nav__toggle:focus-visible,
+.nav__overlay a:focus-visible,
+.nav__overlay .nav__overlay-cta:focus-visible {
+  outline: 2px solid var(--white);
+  outline-offset: 4px;
+}
+
+/* ── FOOTER ── */
+.footer__social {
+  display: flex;
+  gap: 1.2rem;
+  align-items: center;
+}
+.footer__social a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--mist);
+  transition: color 0.2s;
+}
+.footer__social a:hover { color: var(--pale); }
+.footer__social svg {
+  width: 18px;
+  height: 18px;
+  fill: currentColor;
+}
+.footer {
+  display: flex; align-items: center;
+  justify-content: space-between;
+  padding: 3rem clamp(1.5rem, 4vw, 3.5rem);
+  background: var(--ink);
+  border-top: 1px solid rgba(255,255,255,0.08);
+  flex-wrap: wrap; gap: 1.5rem;
+}
+.footer__logo img { height: 32px; width: auto; display: block; }
+.footer__copy { font-family: var(--sans); font-size: 0.75rem; color: var(--mist); }
+.footer__links { display: flex; gap: 2rem; list-style: none; flex-wrap: wrap; }
+.footer__links a {
+  font-family: var(--sans); font-size: 0.75rem;
+  color: var(--mist); text-decoration: none;
+  transition: color 0.2s;
+}
+.footer__links a:hover { color: var(--pale); }
+
+/* ── FNG PAGE ── */
+.fng-page {
+  background: var(--slate-mid);
+  min-height: calc(100vh - 80px);
+  padding-top: 8rem;
+  padding-bottom: 6rem;
+}
+
+.fng-wrap {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 0 clamp(1.5rem, 4vw, 3.5rem);
+}
+
+/* ── FNG HEADER ── */
+.fng-header {
+  margin-bottom: 3.6rem;
+}
+.fng-header__label {
+  font-family: var(--sans);
+  font-weight: 400;
+  font-size: 0.68rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--brand-blue);
+  margin-bottom: 1.2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+.fng-header__label::before {
+  content: '';
+  display: block;
+  width: 28px;
+  height: 1px;
+  background: var(--brand-blue);
+}
+.fng-header__title {
+  font-family: var(--serif-display);
+  font-weight: 300;
+  font-size: clamp(2rem, 4.5vw, 3rem);
+  line-height: 1.1;
+  color: var(--white);
+}
+
+/* ── FNG INTRO ── */
+.fng-intro__para {
+  font-family: var(--serif-body);
+  font-size: 0.93rem;
+  line-height: 1.9;
+  color: var(--pale);
+  margin-bottom: 1.4rem;
+  max-width: 640px;
+}
+.fng-btn-begin {
+  display: inline-block;
+  margin: 1.8rem 0 2.2rem;
+  font-family: var(--sans);
+  font-weight: 400;
+  font-size: 0.75rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--white);
+  background: none;
+  border: 1px solid rgba(245,243,239,0.45);
+  padding: 0.65rem 1.8rem;
+  border-radius: 1px;
+  cursor: pointer;
+  transition: background 0.25s, border-color 0.25s;
+  min-height: 44px;
+}
+.fng-btn-begin:hover {
+  background: rgba(245,243,239,0.1);
+  border-color: rgba(245,243,239,0.8);
+}
+.fng-note-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  color: var(--mist);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.2s;
+  min-height: 44px;
+}
+.fng-note-toggle:hover { color: var(--pale); }
+.fng-note-toggle__icon {
+  font-size: 1rem;
+  line-height: 1;
+  width: 16px;
+  text-align: center;
+  font-style: normal;
+}
+.fng-note {
+  margin-top: 1rem;
+  padding: 1.6rem;
+  background: rgba(14,15,16,0.35);
+  border-left: 2px solid var(--fog);
+  border-radius: 1px;
+}
+.fng-note p {
+  font-family: var(--serif-body);
+  font-size: 0.83rem;
+  line-height: 1.85;
+  color: var(--mist);
+  margin-bottom: 1rem;
+}
+.fng-note p:last-child { margin-bottom: 0; }
+.fng-eval-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin: 0.8rem 0;
+}
+.fng-eval-chip {
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 0.68rem;
+  letter-spacing: 0.07em;
+  color: var(--fog);
+  border: 1px solid var(--fog);
+  border-radius: 100px;
+  padding: 0.22rem 0.7rem;
+}
+
+/* ── FNG FLOW ── */
+.fng-tier { margin-bottom: 0; }
+.fng-tier__label {
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 0.65rem;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--mist);
+  margin-bottom: 1.1rem;
+}
+.fng-groups { display: flex; flex-direction: column; }
+.fng-group-label {
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 0.6rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--fog);
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin-bottom: 0.9rem;
+}
+.fng-group-label::after {
+  content: '';
+  flex: 1;
+  height: 0;
+  border-top: 1px dashed rgba(61,74,88,0.55);
+}
+.fng-group-sep {
+  height: 1px;
+  border: none;
+  border-top: 1px dashed rgba(61,74,88,0.4);
+  margin: 0.4rem 0 1.2rem;
+}
+.fng-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  margin-bottom: 1.2rem;
+}
+.fng-chip {
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 0.78rem;
+  letter-spacing: 0.07em;
+  padding: 0.45rem 1.15rem;
+  border-radius: 100px;
+  border: 1.5px solid;
+  background: transparent;
+  cursor: pointer;
+  transition: background 0.18s, opacity 0.18s, color 0.18s;
+  color: var(--pale);
+  line-height: 1;
+  min-height: 34px;
+  display: inline-flex;
+  align-items: center;
+}
+.fng-chip:hover { opacity: 1 !important; }
+.fng-chip.selected { color: #fff; }
+.fng-chip.faded { opacity: 0.35; }
+
+.fng-connector {
+  width: 2px;
+  height: 28px;
+  margin: 0 auto;
+  display: block;
+  opacity: 0.5;
+}
+
+/* ── FNG RESULT ── */
+.fng-result {
+  background: var(--slate);
+  border-radius: 2px;
+  border: 1px solid;
+  overflow: hidden;
+  text-align: center;
+}
+.fng-result__accent {
+  height: 3px;
+  width: 100%;
+  display: block;
+}
+.fng-result__inner {
+  padding: 2.8rem 2rem 2.4rem;
+}
+.fng-result__word {
+  font-family: var(--serif-display);
+  font-weight: 300;
+  font-size: clamp(2rem, 4vw, 2.6rem);
+  line-height: 1.1;
+  margin-bottom: 1rem;
+}
+.fng-result__caption {
+  font-family: var(--serif-body);
+  font-size: 0.88rem;
+  line-height: 1.75;
+  color: var(--pale);
+  max-width: 480px;
+  margin: 0 auto;
+}
+.fng-result__spacer { height: 2rem; }
+.fng-result__named {
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--fog);
+  margin-bottom: 1.4rem;
+}
+.fng-result__rule {
+  width: 40px;
+  height: 1px;
+  background: rgba(255,255,255,0.08);
+  margin: 0 auto 1.4rem;
+  border: none;
+  display: block;
+}
+.fng-result__closer {
+  font-family: var(--serif-body);
+  font-style: italic;
+  font-size: 0.85rem;
+  line-height: 1.75;
+  color: var(--mist);
+  max-width: 460px;
+  margin: 0 auto 2.2rem;
+}
+.fng-btn-reset {
+  display: inline-block;
+  font-family: var(--sans);
+  font-weight: 400;
+  font-size: 0.75rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--brand-blue);
+  background: none;
+  border: 1px solid rgba(45,134,196,0.3);
+  padding: 0.6rem 1.5rem;
+  border-radius: 1px;
+  cursor: pointer;
+  transition: background 0.25s;
+  min-height: 44px;
+}
+.fng-btn-reset:hover { background: rgba(45,134,196,0.08); }
+
+/* ── FNG REFERENCE ── */
+.fng-reference {
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 0.68rem;
+  color: var(--fog);
+  text-align: center;
+  margin-top: 3rem;
+  letter-spacing: 0.05em;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  .footer { flex-direction: column; text-align: center; }
+  .footer__links { justify-content: center; }
+}
+@media (max-width: 900px) {
+  .nav__toggle { display: flex; }
+  .nav__links { display: none !important; }
+  .nav__cta { display: none; }
+  .nav__overlay .nav__overlay-cta { min-height: 44px; }
+  .footer { align-items: center; text-align: center; }
+  .footer__links { flex-wrap: wrap; justify-content: center; gap: 1rem 1.4rem; }
+  .footer__logo { margin: 0 auto; }
+  .footer__social { width: 100%; justify-content: center; }
+}
+@media (max-width: 600px) {
+  .fng-chip {
+    font-size: 0.72rem;
+    padding: 0.42rem 1rem;
+  }
+  .fng-result__inner {
+    padding: 2rem 1.4rem 1.8rem;
+  }
+}
+img { max-width: 100%; }
+</style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav class="nav">
+  <a href="/" class="nav__logo">
+    <img src="./extracted-images/cc-logo.png" alt="Crawford Coaching">
+  </a>
+  <ul class="nav__links">
+    <li><a href="/coaching">Coaching</a></li>
+    <li><a href="/whole">WHOLE</a></li>
+    <li><a href="/synergize">Synergize Fitness</a></li>
+    <li><a href="/growth-zone" class="active">Growth Zone</a></li>
+    <li><a href="/about">About</a></li>
+    <li><a href="/writing">Writing</a></li>
+    <li><a href="/contact">Contact</a></li>
+  </ul>
+  <a href="https://calendar.app.google/R66fNg5m7w3aKPKd6" class="nav__cta" target="_blank">Book a Call</a>
+  <button class="nav__toggle" aria-label="Menu" aria-controls="site-menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="nav__overlay" id="site-menu" aria-hidden="true">
+  <a href="/coaching">Coaching</a>
+  <a href="/whole">WHOLE</a>
+  <a href="/synergize">Synergize Fitness</a>
+  <a href="/growth-zone" class="active">Growth Zone</a>
+  <a href="/about">About</a>
+  <a href="/writing">Writing</a>
+  <a href="/contact">Contact</a>
+  <a href="https://calendar.app.google/R66fNg5m7w3aKPKd6" class="nav__overlay-cta" target="_blank">Book a Call</a>
+</div>
+
+<!-- ── MAIN ── -->
+<main class="fng-page">
+  <div class="fng-wrap">
+
+    <div class="fng-header">
+      <p class="fng-header__label">Growth Zone</p>
+      <h1 class="fng-header__title">Feelings Naming Guide</h1>
+    </div>
+
+    <div id="fng-root"></div>
+
+    <p class="fng-reference">Taxonomy drawn from the NVC Feelings Inventory (Rosenberg&nbsp;/&nbsp;Bret Stein) and the Willcox Feelings Wheel.</p>
+
+  </div>
+</main>
+
+<!-- ── FOOTER ── -->
+<footer class="footer">
+  <a href="/" class="footer__logo">
+    <img src="./extracted-images/cc-logo.png" alt="Crawford Coaching">
+  </a>
+  <ul class="footer__links">
+    <li><a href="/coaching">Coaching</a></li>
+    <li><a href="/whole">WHOLE</a></li>
+    <li><a href="/synergize">Synergize Fitness</a></li>
+    <li><a href="/growth-zone">Growth Zone</a></li>
+    <li><a href="/about">About</a></li>
+    <li><a href="/writing">Writing</a></li>
+    <li><a href="/contact">Contact</a></li>
+  </ul>
+  <p class="footer__copy">&copy; 2026 Crawford Coaching</p>
+  <div class="footer__social">
+    <a href="https://www.instagram.com/scott.crawford.coaching/" target="_blank" aria-label="Instagram">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+    </a>
+    <a href="https://www.linkedin.com/in/scott-crawford-acc-9043b91a1/" target="_blank" aria-label="LinkedIn">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+    </a>
+    <a href="https://www.facebook.com/CrawfordCoachingKingston" target="_blank" aria-label="Facebook">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+    </a>
+  </div>
+</footer>
+
+<!-- ── HAMBURGER ── -->
+<script>
+(function() {
+  const toggle = document.querySelector('.nav__toggle');
+  const overlay = document.querySelector('.nav__overlay');
+  if (!toggle || !overlay) return;
+
+  let closeTimer = null;
+  const closeMenu = () => {
+    toggle.classList.remove('open');
+    toggle.setAttribute('aria-expanded', 'false');
+    overlay.classList.remove('open');
+    const activeEl = document.activeElement;
+    if (activeEl && overlay.contains(activeEl)) { activeEl.blur(); }
+    overlay.setAttribute('aria-hidden', 'true');
+    toggle.focus();
+    document.body.style.overflow = '';
+    if (closeTimer) clearTimeout(closeTimer);
+    closeTimer = setTimeout(() => { overlay.style.display = 'none'; }, 350);
+  };
+  const openMenu = () => {
+    if (closeTimer) clearTimeout(closeTimer);
+    toggle.classList.add('open');
+    toggle.setAttribute('aria-expanded', 'true');
+    overlay.style.display = 'flex';
+    overlay.setAttribute('aria-hidden', 'false');
+    requestAnimationFrame(() => overlay.classList.add('open'));
+    document.body.style.overflow = 'hidden';
+  };
+  toggle.addEventListener('click', function() {
+    toggle.classList.contains('open') ? closeMenu() : openMenu();
+  });
+  overlay.querySelectorAll('a').forEach((a) => a.addEventListener('click', closeMenu));
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && toggle.classList.contains('open')) closeMenu();
+  });
+  window.addEventListener('resize', function() {
+    if (window.innerWidth > 900 && toggle.classList.contains('open')) closeMenu();
+  });
+})();
+</script>
+
+<!-- ── FEELINGS NAMING GUIDE ── -->
+<script>
+(function() {
+
+  // ─── TAXONOMY ──────────────────────────────────────────────────────
+  // Structure: core → { color, families → { family → { feelings → { word: caption } } } }
+
+  var TAXONOMY = {
+
+    // ═══ NEEDS BEING MET ═══════════════════════════════════════════
+
+    Joyful: {
+      color: "#d4a843",
+      families: {
+        Happy: {
+          feelings: {
+            Ecstatic:     "Beyond happy. Almost too much joy to contain. A peak.",
+            Elated:       "High. Everything feels lifted. Often comes in a rush.",
+            Delighted:    "A bright, surprised pleasure. More buoyant than pleased.",
+            Pleased:      "Mild, genuine satisfaction. Not ecstatic — just glad.",
+            Cheerful:     "Bright and light. An upward energy that's social and easy.",
+            Thrilled:     "High-energy joy. Something good is happening or about to happen.",
+            Blissful:     "Deep, undisturbed happiness. Rare and complete."
+          }
+        },
+        Excited: {
+          feelings: {
+            Enthusiastic: "Active, forward-leaning excitement. You want to engage and contribute.",
+            Exhilarated:  "A rush. Often physical — your heart rate is up, and it feels good.",
+            Alive:        "Fully present and vibrating. The opposite of numb.",
+            Passionate:   "Burning interest or desire. Focused and consuming.",
+            Eager:        "Ready and leaning forward. Anticipation with energy behind it."
+          }
+        },
+        Grateful: {
+          feelings: {
+            Thankful:     "Recognising what someone gave you, and feeling lighter for it.",
+            Appreciative: "Noticing what's good and feeling actively glad for it.",
+            Touched:      "Something reached you in a way you didn't expect. Moved without being overwhelmed.",
+            Blessed:      "A sense of unearned good fortune. Humbling in a positive way.",
+            Relieved:     "The tension dropped. Something you feared didn't happen, or something hard ended."
+          }
+        },
+        Playful: {
+          feelings: {
+            Aroused:      "An energised alertness with an edge of excitement. More charged than simply interested.",
+            Cheeky:       "A lighthearted boldness. You're pushing a boundary, but with a grin.",
+            Free:         "Unbound. No weight on you right now. Different from peaceful — this has movement in it.",
+            Energetic:    "A buzzing readiness. More physical than emotional. You want to move.",
+            Amused:       "Something landed as funny or entertaining. Light pleasure without depth.",
+            Frisky:       "Playful energy with a physical edge. Light, teasing, alive."
+          }
+        },
+        Content: {
+          feelings: {
+            Fulfilled:    "A deep sense of completeness. What you needed has been met.",
+            Satisfied:    "Enough. Not craving more. A quiet completion.",
+            Joyful:       "A warm, full happiness. Quieter than ecstatic, deeper than pleased.",
+            Glad:         "Simple and clean. Something went well and you feel good about it."
+          }
+        }
+      }
+    },
+
+    Proud: {
+      color: "#c94040",
+      families: {
+        Confident: {
+          feelings: {
+            "Self-assured":   "Settled trust in yourself. Not proving anything. Just knowing.",
+            Poised:           "Calm under attention. Composed without effort.",
+            Brave:            "Willing to face what's difficult. The fear is there — you're moving anyway.",
+            Courageous:       "Acting despite fear, and knowing it. The fear is still there. You moved anyway.",
+            Bold:             "Stepping forward without waiting for permission. Decisive energy."
+          }
+        },
+        Successful: {
+          feelings: {
+            Accomplished:     "Something meaningful is complete. You did it, and you know it.",
+            Effective:        "Your actions are producing results. Competence in motion.",
+            Empowered:        "Agency unlocked. You can influence what happens next.",
+            Capable:          "Quiet certainty that you can handle what's in front of you.",
+            Powerful:         "A sense of agency. Not dominance — capability with reach."
+          }
+        },
+        Valued: {
+          feelings: {
+            Respected:        "Feeling seen and valued by others. A need for recognition being met.",
+            Fulfilled:        "What you gave mattered. The effort connected.",
+            Encouraged:       "Someone or something reinforced your direction. Wind at your back.",
+            Worthwhile:       "Knowing your presence and contribution count for something.",
+            "Self-confident": "Trust in your own capacity that comes from within, not from others."
+          }
+        }
+      }
+    },
+
+    Interested: {
+      color: "#b07cc3",
+      families: {
+        Curious: {
+          feelings: {
+            Inquisitive:  "Actively looking for answers. More deliberate than curious.",
+            Fascinated:   "Deeply pulled in. More intense than curious — you can't look away.",
+            Absorbed:     "Lost in something. Time disappears. Focus without effort.",
+            Engrossed:    "Completely taken by something. The world outside it faded.",
+            Captivated:   "Held by something beautiful or compelling. Willingly caught."
+          }
+        },
+        Engaged: {
+          feelings: {
+            Intrigued:    "Something caught your attention and you want to know more.",
+            Interested:   "Open and pulled toward. Not yet deep — but the hook is in.",
+            Stimulated:   "Mentally activated. Ideas are moving. The brain is enjoying itself.",
+            Inspired:     "Something sparked a new possibility in you. Energy to create or act.",
+            Creative:     "Something wants to come out. The internal pressure to make or express."
+          }
+        },
+        Attentive: {
+          feelings: {
+            Entranced:    "Drawn in completely. A trance-like focus — not forced, just absorbed.",
+            Mesmerised:   "Can't look away. Beauty or complexity has you held.",
+            Animated:     "Lit up. Your energy is visibly higher. Expressive and alive.",
+            Refreshed:    "Renewed. Whatever was depleted has been replenished.",
+            Alert:        "Tuned in. Your senses are sharper. Awake and aware."
+          }
+        }
+      }
+    },
+
+    Peaceful: {
+      color: "#5a8a5a",
+      families: {
+        Calm: {
+          feelings: {
+            Serene:       "Deep stillness. Nothing pulling at you. Smooth and undisturbed.",
+            Tranquil:     "Quiet. A landscape without weather. Peaceful and spacious.",
+            Quiet:        "The noise stopped. Not silence — just enough stillness to breathe.",
+            Centred:      "Balanced. Grounded in your own axis. Not swayed easily.",
+            Balanced:     "Everything in proportion. No part of your life is screaming for attention."
+          }
+        },
+        Relaxed: {
+          feelings: {
+            Comfortable:  "At ease in your environment. Nothing needs adjusting.",
+            "At ease":    "Settled. The vigilance has dropped. You can breathe.",
+            Rested:       "Recovered. Your reserves have been restored.",
+            Mellow:       "Soft, warm, low-key. Not much edge. Pleasantly flattened.",
+            Harmonious:   "Everything feels aligned. Internal and external match."
+          }
+        },
+        Content: {
+          feelings: {
+            Satisfied:    "Enough. Not craving more. A quiet completion.",
+            Grounded:     "Rooted. Connected to what's real and solid beneath you.",
+            Settled:      "The restlessness stopped. You've landed somewhere that fits.",
+            Congruent:    "Your inside matches your outside. No performance required."
+          }
+        }
+      }
+    },
+
+    Trusting: {
+      color: "#4a90b8",
+      families: {
+        Secure: {
+          feelings: {
+            Safe:         "No threat detected. Your nervous system has stood down.",
+            Assured:      "Confident that things will be okay. Evidence-based calm.",
+            Certain:      "No doubt. You know where you stand and it feels solid.",
+            Comforted:    "Something or someone eased the distress. You feel held.",
+            Protected:    "Someone or something is watching out for you. You can relax the vigilance."
+          }
+        },
+        Hopeful: {
+          feelings: {
+            Optimistic:   "Leaning toward the future with some confidence it'll work.",
+            Expectant:    "Waiting for something good. The anticipation is positive.",
+            Positive:     "A general lean toward the good. Not naive — just tilted toward possibility.",
+            Encouraged:   "Something reinforced your direction. Momentum confirmed.",
+            Relieved:     "The weight lifted. What you feared didn't materialise."
+          }
+        },
+        Confident: {
+          feelings: {
+            Convinced:    "No remaining doubt. You've landed on something solid.",
+            Friendly:     "Open and warm toward others. No defensiveness. Easy connection.",
+            Faithful:     "Steady belief in someone or something, even without proof.",
+            Open:         "Available. Willing to receive. Not guarded."
+          }
+        }
+      }
+    },
+
+    Loving: {
+      color: "#c97a8a",
+      families: {
+        Affectionate: {
+          feelings: {
+            Warm:          "A soft, general kindness. Not intense — just open and generous.",
+            Tender:        "Soft and exposed. Easily moved. Not weak — open.",
+            Fond:          "A settled, gentle liking. Not passionate — steady.",
+            Adoring:       "Looking at someone or something with deep, uncomplicated love.",
+            Caring:        "Attentive to someone else's needs. Love expressed through action."
+          }
+        },
+        Connected: {
+          feelings: {
+            Close:         "Emotional distance has collapsed. You feel together, not just near.",
+            Intimate:      "Walls down. More than warmth — there's vulnerability here, and it feels safe.",
+            Compassionate: "Feeling someone else's pain and wanting to ease it. Tender, not pitying.",
+            Devoted:       "Committed. Your attention and loyalty are given freely.",
+            Belonging:     "You're part of something. The group has a place for you in it."
+          }
+        },
+        Admiring: {
+          feelings: {
+            Reverent:      "Deep respect shading into awe. You're looking up, not across.",
+            Appreciative:  "Actively noticing and valuing what someone is or does.",
+            Fondness:      "A gentle, sustained warmth toward someone. Affection with history.",
+            Sensitive:     "Open and permeable. You're feeling everything a little more. Receptivity, not weakness."
+          }
+        }
+      }
+    },
+
+    // ═══ NEEDS NOT BEING MET ═══════════════════════════════════════
+
+    Angry: {
+      color: "#c0473a",
+      families: {
+        "Let down": {
+          feelings: {
+            Betrayed:     "Someone broke an agreement you were counting on. The pain is in the trust that was spent.",
+            Resentful:    "Old anger that didn't get resolved. It's compounding quietly.",
+            Disrespected: "Your dignity wasn't honoured. The anger is about how you were treated.",
+            Ridiculed:    "Mocked. The cruelty is in the audience — real or imagined.",
+            Indignant:    "Anger on principle. Something unfair happened, and it offends your sense of right.",
+            Violated:     "A boundary was crossed. The anger is protective."
+          }
+        },
+        Humiliated: {
+          feelings: {
+            Bitter:       "Anger that has aged into something harder. Often comes from repeated disappointment.",
+            Mad:          "Straightforward, hot anger. Less complex than resentful. More immediate.",
+            Furious:      "Intense, consuming anger. Hard to think clearly through it.",
+            Jealous:      "Someone has what you want, and it burns. Comparison plus desire plus threat.",
+            Enraged:      "Beyond furious. Rational thought has left the building."
+          }
+        },
+        Aggressive: {
+          feelings: {
+            Provoked:     "Someone did something that lit the fuse. The anger feels justified and directed.",
+            Hostile:      "A stance against. You're not just angry — you're oppositional.",
+            Infuriated:   "Like furious but with a sharper edge. Something specific set this off.",
+            Frustrated:   "Blocked. You're trying and it's not working. The anger is in the obstruction.",
+            Irritated:    "Low-heat friction. Not explosive — just wearing on you.",
+            Agitated:     "Restless anger. Can't sit still with it. Needs to go somewhere."
+          }
+        },
+        Critical: {
+          feelings: {
+            Distant:      "Pulled back. The anger has gone cold and you've withdrawn.",
+            Annoyed:      "Low-grade, persistent irritation. Not explosive — grinding.",
+            Withdrawn:    "You've removed yourself. Not peaceful distance — protective retreat.",
+            Sceptical:    "You don't buy it. Trust has been damaged and you're watching carefully.",
+            Dismissive:   "You've written something or someone off. The anger became a verdict.",
+            Numb:         "The feeling shut down. Often a sign that too much came too fast.",
+            Contemptuous: "Looking down on someone. Anger mixed with superiority. Corrosive."
+          }
+        }
+      }
+    },
+
+    Afraid: {
+      color: "#cc7a3a",
+      families: {
+        Scared: {
+          feelings: {
+            Frightened:   "Immediate, visceral fear. Something specific is threatening.",
+            Terrified:    "Fear at full volume. Paralysing, consuming. Hard to think past it.",
+            Panicked:     "Fear plus urgency. Fight-or-flight has kicked in and you're reacting, not choosing.",
+            Helpless:     "You can't see a move to make. Not lazy — genuinely stuck.",
+            Overwhelmed:  "Too many threats or demands at once. The fear is in the volume."
+          }
+        },
+        Anxious: {
+          feelings: {
+            Worried:      "Fear projected forward. Something bad might happen. Not yet — but maybe.",
+            Nervous:      "Anticipatory anxiety. Something is coming and you're not sure you're ready.",
+            Insecure:     "Uncertain about your standing or safety. The ground doesn't feel solid.",
+            Apprehensive: "A quiet dread. You sense something coming but can't name it clearly.",
+            Uneasy:       "Something is off. You can't point to it, but your body knows.",
+            Concerned:    "Worried but with care behind it. Not panicked — attentive and unsettled."
+          }
+        },
+        Vulnerable: {
+          feelings: {
+            Exposed:      "Feeling seen in a way you didn't choose. Vulnerable without consent.",
+            Fragile:      "Close to breaking. You can feel how thin the margin is.",
+            Susceptible:  "Open to being hurt. Your defences are down, and not by choice.",
+            Threatened:   "Something is aimed at you. Not paranoia — a real or perceived targeting.",
+            Inadequate:   "The task feels bigger than your ability. A gap between what's needed and what you have.",
+            Insignificant:"Feeling too small to matter. Different from inadequate — this is about relevance, not ability.",
+            Worthless:    "A deep sense of having nothing to offer. Painful and often disconnected from evidence."
+          }
+        }
+      }
+    },
+
+    Sad: {
+      color: "#5a7fa0",
+      families: {
+        Lonely: {
+          feelings: {
+            Isolated:     "Cut off. The aloneness isn't chosen. Different from solitude.",
+            Abandoned:    "Left behind by someone who was supposed to stay. The pain is in the leaving.",
+            Neglected:    "Overlooked. Not attacked — just forgotten. The wound is in the absence.",
+            Excluded:     "Kept out. Others are together and you are not. The door was closed.",
+            Homesick:     "Missing a place or a version of life that felt like home. Ache plus longing."
+          }
+        },
+        Hurt: {
+          feelings: {
+            Heartbroken:  "Something you loved broke or left. The pain is central and consuming.",
+            Disappointed: "What happened didn't meet what you expected. The gap hurts.",
+            "Let down":   "Someone didn't show up the way you needed. The sadness is relational.",
+            Wounded:      "Something hit you and the mark is still fresh.",
+            Empty:        "Nothing there. Not calm — hollow. The absence itself is distressing.",
+            Sorrowful:    "A deep, quiet sadness. Not sharp — heavy. It settles in.",
+            Inferior:     "Measuring yourself against others and falling short. The pain is comparative."
+          }
+        },
+        Depressed: {
+          feelings: {
+            Hopeless:     "The future holds nothing. Different from sad — this is the absence of possibility.",
+            Despairing:   "Active suffering with no exit visible. Heavier than hopeless — there's anguish in it.",
+            Miserable:    "Sustained unhappiness. Not a spike — a state.",
+            Powerless:    "No leverage. The situation is bigger than your ability to change it.",
+            Devastated:   "Flattened by loss or shock. The ground gave way.",
+            Grief:        "Loss that hasn't finished moving through you. It has its own timeline."
+          }
+        }
+      }
+    },
+
+    Disgusted: {
+      color: "#6b7a5a",
+      families: {
+        Disapproving: {
+          feelings: {
+            Judgemental:    "You've assessed and found it lacking. The disapproval has a moral dimension.",
+            Appalled:       "Deep moral shock. What you're seeing feels fundamentally wrong.",
+            Revolted:       "Visceral rejection. Beyond disagreement — this repels you.",
+            Horrified:      "Disgust plus shock. You can't believe what you're witnessing.",
+            Nauseated:      "Disgust felt in the body. Something is deeply off.",
+            Detestable:     "Active hatred of what you're encountering. Strong and sustained."
+          }
+        },
+        Disappointed: {
+          feelings: {
+            Repelled:       "Pushed away by something. Not anger — aversion.",
+            Awful:          "A broad, heavy unpleasantness. Diffuse but real.",
+            Loathing:       "Deep, settled hatred. Quieter than rage. More permanent.",
+            Averse:         "You don't want to go near it. A pulling-away impulse.",
+            Disillusioned:  "What you believed turned out to be less. The gap between expectation and reality hurts."
+          }
+        },
+        Contemptuous: {
+          feelings: {
+            Scornful:       "Dismissal with an edge. You think less of it or them.",
+            Disdainful:     "A cool, elevated rejection. Not hot — cold and final.",
+            Condescending:  "Looking down from a position of assumed superiority. Often unconscious.",
+            Repulsive:      "Deeply off-putting. Something in it triggers rejection."
+          }
+        }
+      }
+    },
+
+    Ashamed: {
+      color: "#7a6a8a",
+      families: {
+        Guilty: {
+          feelings: {
+            Remorseful:       "Wishing you could undo something. The regret has weight.",
+            Regretful:        "Looking back and wishing you'd chosen differently. Quieter than remorse.",
+            "Self-conscious": "Aware of being watched or judged. The spotlight is uncomfortable.",
+            Uncomfortable:    "Something doesn't fit. You're not at ease, but can't always name why.",
+            Awkward:          "The social situation doesn't flow. You feel out of step."
+          }
+        },
+        Embarrassed: {
+          feelings: {
+            Humiliated:   "Publicly reduced. The shame has an audience.",
+            Mortified:    "So embarrassed you want to disappear. Extreme self-consciousness.",
+            Flustered:    "Thrown off balance. Your composure broke and you felt it.",
+            Chagrined:    "Annoyed at yourself for a mistake. Self-directed irritation.",
+            Sheepish:     "Caught out. Mildly ashamed but not devastated. A bit of a wince."
+          }
+        },
+        Worthless: {
+          feelings: {
+            Inadequate:     "Not enough for what's being asked. The gap is painful.",
+            Inferior:       "Measuring yourself against others and coming up short.",
+            "Self-loathing":"Turned against yourself. The harshest inner critic.",
+            Disgraced:      "Your standing has been damaged. The shame is social and lasting.",
+            Pathetic:       "Seeing yourself as pitiable. Self-contempt with a layer of sadness."
+          }
+        }
+      }
+    },
+
+    Bad: {
+      color: "#7a6a5a",
+      families: {
+        Bored: {
+          feelings: {
+            Indifferent:  "Nothing here has your attention. Not hostile — just absent of investment.",
+            Apathetic:    "Deeper than bored. You've stopped caring, and that itself might be a signal.",
+            Listless:     "Low energy, no direction. Not sad exactly — just flat.",
+            Uninterested: "The thing in front of you doesn't pull you. No animosity — just no draw."
+          }
+        },
+        Stressed: {
+          feelings: {
+            Tired:        "Depleted. Could be physical, emotional, or both. You need recovery.",
+            Unfocused:    "Your attention won't land. Not confusion — more like mental fog.",
+            "Burned out": "Past tired. The reserves are gone and the motivation went with them.",
+            Drained:      "Emptied out. Different from tired — this implies something took the energy from you.",
+            Tense:        "Tight. Held. Your body is bracing even if your mind hasn't named why.",
+            Restless:     "Can't settle. Energy without direction. Your body wants to move but doesn't know where."
+          }
+        },
+        Pressured: {
+          feelings: {
+            Rushed:           "Not enough time, and you feel it in your body. Speed without choice.",
+            Overwhelmed:      "Too much, coming too fast. The system is at capacity.",
+            "Out of control": "You've lost your grip on the pace or the direction. Alarming, not just stressful.",
+            Frantic:          "Busy tipped into panic. Moving fast but losing accuracy."
+          }
+        },
+        Confused: {
+          feelings: {
+            Bewildered:   "Lost in the information. Too many inputs, no clear frame.",
+            Puzzled:      "Mildly stuck. Something doesn't add up, and you're turning it over.",
+            Disoriented:  "The map doesn't match the territory. You've lost your bearings.",
+            Unsettled:    "Not alarmed, but something is off. A low hum of unease.",
+            Perplexed:    "You can't make it make sense yet. Not distressed — just stuck at a puzzle.",
+            Hesitant:     "Holding back because something doesn't feel right. Caution, not laziness."
+          }
+        }
+      }
+    }
+
+  };
+
+  var CORE_MET     = ["Joyful", "Proud", "Interested", "Peaceful", "Trusting", "Loving"];
+  var CORE_NOT_MET = ["Angry", "Afraid", "Sad", "Disgusted", "Ashamed", "Bad"];
+
+  var CLOSER_TEXT = "Now that it's named honestly, you have something real to work with. Clear language gives you traction — with yourself, and with the people around you. You can get specific about what's driving it, and what you actually want and need.";
+
+  var NOT_FEELINGS = [
+    "Abandoned", "Attacked", "Betrayed", "Blamed", "Bullied",
+    "Cheated", "Coerced", "Criticized", "Dismissed", "Disrespected",
+    "Excluded", "Ignored", "Insulted", "Intimidated", "Let down",
+    "Manipulated", "Misunderstood", "Neglected", "Put down",
+    "Rejected", "Unappreciated", "Unheard", "Unloved", "Unwanted",
+    "Used", "Violated", "Wronged"
+  ];
+
+  // ─── STATE ─────────────────────────────────────────────────────────
+  var mode          = 'intro';
+  var selectedCore   = null;
+  var selectedFamily = null;
+  var selectedFeeling = null;
+  var noteOpen      = false;
+
+  var root = document.getElementById('fng-root');
+
+  // ─── HELPERS ───────────────────────────────────────────────────────
+  function hexToRgba(hex, alpha) {
+    var r = parseInt(hex.slice(1, 3), 16);
+    var g = parseInt(hex.slice(3, 5), 16);
+    var b = parseInt(hex.slice(5, 7), 16);
+    return 'rgba(' + r + ',' + g + ',' + b + ',' + alpha + ')';
+  }
+
+  function scrollTo(el) {
+    if (!el) return;
+    setTimeout(function() {
+      el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }, 80);
+  }
+
+  // ─── RENDER ────────────────────────────────────────────────────────
+  function render() {
+    root.innerHTML = '';
+    if (mode === 'intro') {
+      renderIntro();
+    } else {
+      renderFlow();
+    }
+  }
+
+  // ── INTRO ──────────────────────────────────────────────────────────
+  function renderIntro() {
+    var wrap = document.createElement('div');
+    wrap.className = 'fng-intro';
+
+    var p1 = document.createElement('p');
+    p1.className = 'fng-intro__para';
+    p1.innerHTML = 'People often stop at \u201cgood\u201d or \u201cbad\u201d or \u201cmad.\u201d But vague labels keep emotions in control. When you name what you\u2019re feeling with precision, the feeling loses some of its grip. You stop being <em>in</em> it and start being able to <em>work with</em> it.';
+    wrap.appendChild(p1);
+
+    var p2 = document.createElement('p');
+    p2.className = 'fng-intro__para';
+    p2.innerHTML = 'Precise emotional vocabulary also changes how you communicate. Telling someone \u201cI feel frustrated\u201d lands differently than \u201cI feel bad.\u201d It gives the other person something real to respond to.';
+    wrap.appendChild(p2);
+
+    var p3 = document.createElement('p');
+    p3.className = 'fng-intro__para';
+    p3.textContent = 'This guide walks you through three levels of specificity: a core emotion, a family within it, and the precise word that fits.';
+    wrap.appendChild(p3);
+
+    var beginBtn = document.createElement('button');
+    beginBtn.className = 'fng-btn-begin';
+    beginBtn.textContent = 'Begin';
+    beginBtn.addEventListener('click', function() {
+      mode = 'flow';
+      render();
+    });
+    wrap.appendChild(beginBtn);
+
+    // Collapsible note
+    var noteWrap = document.createElement('div');
+
+    var noteToggle = document.createElement('button');
+    noteToggle.className = 'fng-note-toggle';
+    noteToggle.setAttribute('aria-expanded', noteOpen ? 'true' : 'false');
+    noteToggle.innerHTML = '<span class="fng-note-toggle__icon">' + (noteOpen ? '\u2212' : '+') + '</span> A note on real feelings vs. evaluations';
+    noteToggle.addEventListener('click', function() {
+      noteOpen = !noteOpen;
+      render();
+    });
+    noteWrap.appendChild(noteToggle);
+
+    var noteContent = document.createElement('div');
+    noteContent.className = 'fng-note';
+    if (!noteOpen) noteContent.hidden = true;
+
+    var np1 = document.createElement('p');
+    np1.innerHTML = 'Not everything we call a \u201cfeeling\u201d is actually one. Words that follow \u201cI feel like\u2026\u201d or \u201cI feel that\u2026\u201d are usually <strong>evaluations</strong> of what someone else did, not descriptions of our internal state. They describe what we think happened <em>to</em> us, not what\u2019s happening <em>inside</em> us.';
+    noteContent.appendChild(np1);
+
+    var np2 = document.createElement('p');
+    np2.innerHTML = 'For example: \u201cI feel <em>betrayed</em>\u201d is really a judgement about someone else\u2019s behaviour. The actual feeling underneath might be <em>hurt</em>, <em>scared</em>, or <em>angry</em>. Getting to the real feeling is what makes it useful.';
+    noteContent.appendChild(np2);
+
+    var np3 = document.createElement('p');
+    np3.textContent = 'Words that are evaluations, not feelings:';
+    noteContent.appendChild(np3);
+
+    var evalChips = document.createElement('div');
+    evalChips.className = 'fng-eval-chips';
+    NOT_FEELINGS.forEach(function(w) {
+      var chip = document.createElement('span');
+      chip.className = 'fng-eval-chip';
+      chip.textContent = w;
+      evalChips.appendChild(chip);
+    });
+    noteContent.appendChild(evalChips);
+
+    var np4 = document.createElement('p');
+    np4.innerHTML = '<em>If you notice one of these, ask: \u201cWhat am I actually feeling underneath that?\u201d</em>';
+    noteContent.appendChild(np4);
+
+    noteWrap.appendChild(noteContent);
+    wrap.appendChild(noteWrap);
+
+    root.appendChild(wrap);
+  }
+
+  // ── FLOW ───────────────────────────────────────────────────────────
+  function renderFlow() {
+    var flow = document.createElement('div');
+    flow.className = 'fng-flow';
+
+    flow.appendChild(renderTier1());
+
+    if (selectedCore) {
+      flow.appendChild(makeConnector(TAXONOMY[selectedCore].color));
+      var t2 = renderTier2();
+      flow.appendChild(t2);
+
+      if (selectedFamily) {
+        flow.appendChild(makeConnector(TAXONOMY[selectedCore].color));
+        var t3 = renderTier3();
+        flow.appendChild(t3);
+
+        if (selectedFeeling) {
+          flow.appendChild(makeConnector(TAXONOMY[selectedCore].color));
+          flow.appendChild(renderResult());
+        }
+      }
+    }
+
+    root.appendChild(flow);
+  }
+
+  function renderTier1() {
+    var tier = document.createElement('div');
+    tier.className = 'fng-tier';
+    tier.setAttribute('data-tier', '1');
+
+    var label = document.createElement('p');
+    label.className = 'fng-tier__label';
+    label.textContent = 'What are you feeling?';
+    tier.appendChild(label);
+
+    var groups = document.createElement('div');
+    groups.className = 'fng-groups';
+
+    // Needs met group
+    var metLabel = document.createElement('span');
+    metLabel.className = 'fng-group-label';
+    metLabel.textContent = 'needs being met';
+    groups.appendChild(metLabel);
+
+    var metChips = document.createElement('div');
+    metChips.className = 'fng-chips';
+    CORE_MET.forEach(function(core) {
+      metChips.appendChild(makeChip(core, TAXONOMY[core].color, selectedCore, function() {
+        selectedCore = core;
+        selectedFamily = null;
+        selectedFeeling = null;
+        render();
+        setTimeout(function() {
+          var t2 = document.querySelector('[data-tier="2"]');
+          if (t2) t2.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }, 100);
+      }));
+    });
+    groups.appendChild(metChips);
+
+    // Dashed separator
+    var sep = document.createElement('div');
+    sep.className = 'fng-group-sep';
+    groups.appendChild(sep);
+
+    // Needs not-met group
+    var notLabel = document.createElement('span');
+    notLabel.className = 'fng-group-label';
+    notLabel.textContent = 'needs not being met';
+    groups.appendChild(notLabel);
+
+    var notChips = document.createElement('div');
+    notChips.className = 'fng-chips';
+    CORE_NOT_MET.forEach(function(core) {
+      notChips.appendChild(makeChip(core, TAXONOMY[core].color, selectedCore, function() {
+        selectedCore = core;
+        selectedFamily = null;
+        selectedFeeling = null;
+        render();
+        setTimeout(function() {
+          var t2 = document.querySelector('[data-tier="2"]');
+          if (t2) t2.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }, 100);
+      }));
+    });
+    groups.appendChild(notChips);
+
+    tier.appendChild(groups);
+    return tier;
+  }
+
+  function renderTier2() {
+    var coreData = TAXONOMY[selectedCore];
+    var color = coreData.color;
+    var families = Object.keys(coreData.families);
+
+    var tier = document.createElement('div');
+    tier.className = 'fng-tier';
+    tier.setAttribute('data-tier', '2');
+
+    var label = document.createElement('p');
+    label.className = 'fng-tier__label';
+    label.style.color = color;
+    label.textContent = 'What kind of ' + selectedCore.toLowerCase() + '?';
+    tier.appendChild(label);
+
+    var chips = document.createElement('div');
+    chips.className = 'fng-chips';
+    families.forEach(function(fam) {
+      chips.appendChild(makeChip(fam, color, selectedFamily, function() {
+        selectedFamily = fam;
+        selectedFeeling = null;
+        render();
+        setTimeout(function() {
+          var t3 = document.querySelector('[data-tier="3"]');
+          if (t3) t3.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }, 100);
+      }));
+    });
+    tier.appendChild(chips);
+    return tier;
+  }
+
+  function renderTier3() {
+    var coreData = TAXONOMY[selectedCore];
+    var color = coreData.color;
+    var familyData = coreData.families[selectedFamily];
+    var feelings = Object.keys(familyData.feelings);
+
+    var tier = document.createElement('div');
+    tier.className = 'fng-tier';
+    tier.setAttribute('data-tier', '3');
+
+    var label = document.createElement('p');
+    label.className = 'fng-tier__label';
+    label.style.color = color;
+    label.textContent = 'Get specific.';
+    tier.appendChild(label);
+
+    var chips = document.createElement('div');
+    chips.className = 'fng-chips';
+    feelings.forEach(function(feel) {
+      chips.appendChild(makeChip(feel, color, selectedFeeling, function() {
+        selectedFeeling = feel;
+        render();
+        setTimeout(function() {
+          var result = document.querySelector('.fng-result');
+          if (result) result.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }, 100);
+      }));
+    });
+    tier.appendChild(chips);
+    return tier;
+  }
+
+  function renderResult() {
+    var color = TAXONOMY[selectedCore].color;
+    var caption = TAXONOMY[selectedCore].families[selectedFamily].feelings[selectedFeeling];
+
+    var card = document.createElement('div');
+    card.className = 'fng-result';
+    card.style.borderColor = hexToRgba(color, 0.15);
+
+    var accent = document.createElement('span');
+    accent.className = 'fng-result__accent';
+    accent.style.background = color;
+    card.appendChild(accent);
+
+    var inner = document.createElement('div');
+    inner.className = 'fng-result__inner';
+
+    var word = document.createElement('p');
+    word.className = 'fng-result__word';
+    word.style.color = color;
+    word.textContent = selectedFeeling;
+    inner.appendChild(word);
+
+    var cap = document.createElement('p');
+    cap.className = 'fng-result__caption';
+    cap.textContent = caption;
+    inner.appendChild(cap);
+
+    var spacer = document.createElement('div');
+    spacer.className = 'fng-result__spacer';
+    inner.appendChild(spacer);
+
+    var named = document.createElement('p');
+    named.className = 'fng-result__named';
+    named.textContent = 'You named it.';
+    inner.appendChild(named);
+
+    var rule = document.createElement('hr');
+    rule.className = 'fng-result__rule';
+    inner.appendChild(rule);
+
+    var closer = document.createElement('p');
+    closer.className = 'fng-result__closer';
+    closer.textContent = CLOSER_TEXT;
+    inner.appendChild(closer);
+
+    var resetBtn = document.createElement('button');
+    resetBtn.className = 'fng-btn-reset';
+    resetBtn.textContent = 'Start over';
+    resetBtn.addEventListener('click', function() {
+      selectedCore    = null;
+      selectedFamily  = null;
+      selectedFeeling = null;
+      render();
+      root.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+    inner.appendChild(resetBtn);
+
+    card.appendChild(inner);
+    return card;
+  }
+
+  // ── CHIP BUILDER ───────────────────────────────────────────────────
+  function makeChip(name, color, selectedName, onClick) {
+    var btn = document.createElement('button');
+    btn.className = 'fng-chip';
+    btn.textContent = name;
+    btn.style.borderColor = color;
+
+    var isSelected = (name === selectedName);
+    var hasSelection = (selectedName !== null);
+
+    if (isSelected) {
+      btn.style.background = color;
+      btn.style.color = '#fff';
+      btn.classList.add('selected');
+    } else if (hasSelection) {
+      btn.classList.add('faded');
+    }
+
+    btn.addEventListener('click', onClick);
+    btn.addEventListener('mouseenter', function() {
+      if (!isSelected) btn.style.background = hexToRgba(color, 0.12);
+    });
+    btn.addEventListener('mouseleave', function() {
+      if (!isSelected) btn.style.background = 'transparent';
+    });
+
+    return btn;
+  }
+
+  // ── CONNECTOR ──────────────────────────────────────────────────────
+  function makeConnector(color) {
+    var el = document.createElement('div');
+    el.className = 'fng-connector';
+    el.style.background = color;
+    return el;
+  }
+
+  // ── INIT ───────────────────────────────────────────────────────────
+  render();
+
+})();
+</script>
+
+<script src="https://website-assistant-sandy.vercel.app/chat-widget.js"></script>
+</body>
+</html>

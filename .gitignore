@@ -1,0 +1,10 @@
+node_modules/
+.next/
+dist/
+.env
+.DS_Store
+
+# Local QA and editor artifacts
+qa-screenshots/
+.vscode/
+*.tmp
