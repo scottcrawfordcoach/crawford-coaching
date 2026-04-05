@@ -339,6 +339,14 @@ html, body {
 .whatis__image-side {
   position: relative;
 }
+.whatis__image-side::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  box-shadow: inset 0 0 16px 4px rgba(14,15,16,0.55);
+  pointer-events: none;
+  z-index: 2;
+}
 .whatis__photo {
   width: 100%;
   aspect-ratio: 3/4;
@@ -463,6 +471,15 @@ html, body {
 }
 .quote-photo__image {
   overflow: hidden;
+  position: relative;
+}
+.quote-photo__image::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  box-shadow: inset 0 0 16px 4px rgba(14,15,16,0.55);
+  pointer-events: none;
+  z-index: 2;
 }
 .quote-photo__img {
   width: 100%;
@@ -486,6 +503,14 @@ html, body {
 }
 .coach__photo-wrap {
   position: relative;
+}
+.coach__photo-wrap::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  box-shadow: inset 0 0 16px 4px rgba(14,15,16,0.55);
+  pointer-events: none;
+  z-index: 2;
 }
 .coach__photo {
   width: 100%;

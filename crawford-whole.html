@@ -333,6 +333,14 @@ html, body { background: var(--ink); color: var(--white); font-family: var(--san
   display: grid; grid-template-columns: 360px 1fr; gap: 6rem; align-items: center;
 }
 .scott-section__photo { position: relative; }
+.scott-section__photo::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  box-shadow: inset 0 0 16px 4px rgba(14,15,16,0.55);
+  pointer-events: none;
+  z-index: 2;
+}
 .scott-section__photo img {
   width: 100%; aspect-ratio: 3/4; object-fit: cover; object-position: center top;
   display: block; filter: grayscale(15%) contrast(1.05); position: relative; z-index: 1;

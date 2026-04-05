@@ -413,6 +413,14 @@ html, body {
 .positioning__photo {
   position: relative;
 }
+.positioning__photo::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  box-shadow: inset 0 0 16px 4px rgba(14,15,16,0.55);
+  pointer-events: none;
+  z-index: 2;
+}
 .positioning__photo img {
   width: 100%;
   aspect-ratio: 3/4;
