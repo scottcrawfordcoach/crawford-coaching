@@ -106,23 +106,57 @@
     .assistant-shell {
       padding: 0.7rem 0.8rem;
     }
+
     .assistant-open {
       font-size: 0.58rem;
       padding: 0.42rem 0.6rem;
-  document.addEventListener('keydown', function(event) {
-    if (event.key === 'Escape' && toggle.classList.contains('open')) {
-      closeMenu();
     }
-  });
+  }
+</style>
+</head>
+<body>
+  <header class="assistant-shell">
+    <div class="assistant-title">
+      <strong>Ask Scott</strong>
+      <span>AI Assistant - Crawford Coaching</span>
+    </div>
+    <a class="assistant-open" href="https://website-assistant-sandy.vercel.app/" target="_blank" rel="noopener">Open In New Tab</a>
+  </header>
 
-  window.addEventListener('resize', function() {
-    if (window.innerWidth > 900 && toggle.classList.contains('open')) {
-      closeMenu();
-    }
-  });
-})();
-</script>
+  <main class="assistant-frame-wrap">
+    <iframe
+      id="assistantFrame"
+      class="assistant-frame"
+      title="Ask Scott Assistant"
+      src="https://website-assistant-sandy.vercel.app/"
+      loading="eager"
+      referrerpolicy="strict-origin-when-cross-origin"
+      allow="clipboard-write"
+    ></iframe>
+  </main>
 
-<script src="https://website-assistant-sandy.vercel.app/chat-widget.js"></script>
+  <p class="assistant-status" id="assistantStatus">Loading assistant...</p>
+
+  <script>
+    (function () {
+      const frame = document.getElementById('assistantFrame');
+      const status = document.getElementById('assistantStatus');
+      const fallbackUrl = 'https://website-assistant-sandy.vercel.app/';
+      let loaded = false;
+
+      frame.addEventListener('load', function () {
+        loaded = true;
+        status.textContent = 'Assistant ready';
+      });
+
+      // If browser blocks iframe embedding, redirect directly.
+      window.setTimeout(function () {
+        if (!loaded) {
+          status.textContent = 'Opening hosted assistant...';
+          window.location.replace(fallbackUrl);
+        }
+      }, 3500);
+    })();
+  </script>
 </body>
 </html>

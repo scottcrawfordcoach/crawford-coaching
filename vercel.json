@@ -1,4 +1,11 @@
 {
+  "redirects": [
+    {
+      "source": "/blog",
+      "destination": "/writing",
+      "permanent": true
+    }
+  ],
   "rewrites": [
     {
       "source": "/",
@@ -127,11 +134,6 @@
     {
       "source": "/assistant",
       "destination": "/crawford-assistant.html"
-    },
-    {
-      "source": "/blog",
-      "destination": "/writing",
-      "permanent": true
     }
   ]
 }
