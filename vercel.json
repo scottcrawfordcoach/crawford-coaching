@@ -127,10 +127,10 @@
     {
       "source": "/assistant",
       "destination": "/crawford-assistant.html"
-    }
-  ],
-  "redirects": [
     {
+      "source": "/assistant",
+      "destination": "/crawford-assistant.html"
+    },
       "source": "/blog",
       "destination": "/writing",
       "permanent": true
