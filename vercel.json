@@ -127,10 +127,8 @@
     {
       "source": "/assistant",
       "destination": "/crawford-assistant.html"
-    {
-      "source": "/assistant",
-      "destination": "/crawford-assistant.html"
     },
+    {
       "source": "/blog",
       "destination": "/writing",
       "permanent": true
