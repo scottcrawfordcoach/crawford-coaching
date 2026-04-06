@@ -720,7 +720,7 @@ img { max-width: 100%; display: block; vertical-align: top; }
       Not a prescribed plan. Not a programme someone else designed for a different life. Sixteen weeks of working, honestly, alongside others, on what you actually want, what's really in the way, and what you're prepared to do about it.
     </p>
     <div class="hero__actions">
-      <a href="#outline" class="btn-primary">Get the Course Outline</a>
+      <a href="#outline" class="btn-primary">Register Your Interest</a>
       <a href="#the-journey" class="btn-ghost">The journey</a>
     </div>
   </div>
@@ -947,15 +947,15 @@ img { max-width: 100%; display: block; vertical-align: top; }
 
 <section class="capture" id="outline">
   <div class="capture__inner">
-    <p class="section-label">Want the details?</p>
-    <h2 class="capture__headline">Get the full course outline.</h2>
+    <p class="section-label">Pilot group forming soon.</p>
+    <h2 class="capture__headline">Register your interest.</h2>
     <p class="capture__sub">
-      Sixteen weeks, session by session. What you'll experience, what you'll learn, and what to expect from the group.
+      The first cohort is forming. If WHOLE sounds like something you want to be part of, put your name down and we'll be in touch.
     </p>
     <form class="capture__form" onsubmit="handleWholeCapture(event)">
       <input type="text" class="capture__input" name="name" placeholder="Your name" required>
       <input type="email" class="capture__input" name="email" placeholder="Your email address" required>
-      <button type="submit" class="capture__submit">Send It</button>
+      <button type="submit" class="capture__submit">Register Interest</button>
     </form>
     <div class="capture__permissions">
       <label class="permission">
@@ -967,9 +967,9 @@ img { max-width: 100%; display: block; vertical-align: top; }
         <span class="permission__label">Receive occasional updates about Crawford Coaching programs and offerings.</span>
       </label>
     </div>
-    <p class="capture__note" id="outline-confirm" style="display:none;">Thanks — your draft email is ready to send.</p>
+    <p class="capture__note" id="outline-confirm" style="display:none;">Thanks — we've noted your interest. We'll be in touch when the pilot group forms.</p>
     <p class="capture__note">
-      You'll receive the course outline, followed by a short series of follow-up emails about WHOLE and upcoming cohorts. After that, nothing further unless you've opted in above. Unsubscribe at any time.
+      You'll receive occasional updates about WHOLE and upcoming cohorts. After that, nothing further unless you've opted in above. Unsubscribe at any time.
     </p>
     <div class="capture__alt">
       <p>Already know this is for you?</p>
@@ -1071,13 +1071,13 @@ function handleWholeCapture(e) {
   const container = form.closest('.capture__inner');
   const newsletterOptIn = container?.querySelector('input[name="newsletterOptIn"]')?.checked ? 'Yes' : 'No';
   const updatesOptIn = container?.querySelector('input[name="updatesOptIn"]')?.checked ? 'Yes' : 'No';
-  const subject = 'WHOLE Course Outline Request';
+  const subject = 'WHOLE Pilot — Interest Registration';
   const body = [
     'Name: ' + name,
     'Email: ' + email,
     'Newsletter Opt-In: ' + newsletterOptIn,
     'Program Updates Opt-In: ' + updatesOptIn,
-    'Request: WHOLE course outline',
+    'Interest: WHOLE pilot group',
     'Source: WHOLE page capture form'
   ].join('\n');
   window.location.href = 'mailto:scott@crawford-coaching.ca?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
