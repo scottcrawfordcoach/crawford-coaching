@@ -824,19 +824,49 @@ img { max-width: 100%; display: block; }
 <script>
 function handleWritingSubscribe(event) {
   event.preventDefault();
-  const form = event.target;
-  const name = form.name.value.trim();
-  const email = form.email.value.trim();
-  const subject = 'Writing Subscribe Request';
-  const body = [
-    'Name: ' + name,
-    'Email: ' + email,
-    'Source: Writing page'
-  ].join('\n');
+  var form = event.target;
+  var nameInput = form.name.value.trim();
+  var nameParts = nameInput.split(/\s+/);
+  var firstName = nameParts[0] || '';
+  var lastName = nameParts.slice(1).join(' ') || '';
+  var email = form.email.value.trim();
+  var btn = form.querySelector('button[type="submit"]');
+  var confirmMsg = document.getElementById('writing-subscribe-confirm');
 
-  window.location.href = 'mailto:scott@crawford-coaching.ca?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
-  form.style.display = 'none';
-  document.getElementById('writing-subscribe-confirm').style.display = 'block';
+  if (!firstName || !email) return;
+
+  btn.disabled = true;
+  btn.textContent = 'Subscribing\u2026';
+
+  fetch('/api/subscribe', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      email: email,
+      first_name: firstName,
+      last_name: lastName,
+      source: 'crawford-site/writing',
+      offer: 'newsletter',
+      subscriptions: { newsletter: true }
+    })
+  })
+  .then(function(res) { return res.json(); })
+  .then(function(json) {
+    form.style.display = 'none';
+    if (json.error) {
+      confirmMsg.textContent = 'Something went wrong. Please try again.';
+      confirmMsg.style.color = '#ff6b6b';
+    } else {
+      confirmMsg.textContent = 'Thanks, ' + firstName + '. You\u2019re subscribed.';
+    }
+    confirmMsg.style.display = 'block';
+  })
+  .catch(function() {
+    form.style.display = 'none';
+    confirmMsg.textContent = 'Something went wrong. Please try again.';
+    confirmMsg.style.color = '#ff6b6b';
+    confirmMsg.style.display = 'block';
+  });
 }
 
 (function() {

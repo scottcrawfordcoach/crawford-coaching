@@ -1268,59 +1268,62 @@ function logEvent(source, action, offer) {
     body: JSON.stringify({ action: 'engagement_log', payload: { source: source, action: action, offer: offer } })
   }).catch(function() {});
 }
-function subscribeToMailchimp(email, firstName, lastName, callback) {
-  const endpoint = 'https://crawford-coaching.us14.list-manage.com/subscribe/post-json?u=e727034e036e2258448e9a4bb&id=15d939f894&f_id=0009b6e5f0';
-  const params = {
-    EMAIL: email,
-    FNAME: firstName,
-    LNAME: lastName || '',
-    b_e727034e036e2258448e9a4bb_15d939f894: '',
-    tags: 40196068
-  };
-  
-  const queryString = Object.keys(params)
-    .map(key => encodeURIComponent(key) + '=' + encodeURIComponent(params[key]))
-    .join('&');
-  
-  const script = document.createElement('script');
-  const callbackName = 'mailchimpCallback' + Date.now();
-  window[callbackName] = function(data) {
-    delete window[callbackName];
-    script.remove();
-    callback(data);
-  };
-  
-  script.src = endpoint + '&c=' + callbackName + '&' + queryString;
-  script.onerror = () => {
-    delete window[callbackName];
-    script.remove();
-    callback({ result: 'error', msg: 'Subscription error' });
-  };
-  document.head.appendChild(script);
-}
 
 function handleSignup(e) {
   e.preventDefault();
-  const form = e.target;
-  const nameInput = form.name.value.trim();
-  const nameParts = nameInput.split(/\s+/);
-  const firstName = nameParts[0] || '';
-  const lastName = nameParts.slice(1).join(' ') || '';
-  const email = form.email.value.trim();
-  const prefs = form.parentElement.querySelector('.signup__prefs');
-  const confirmMsg = document.getElementById('signup-confirm');
-  
-  subscribeToMailchimp(email, firstName, lastName, (response) => {
+  var form = e.target;
+  var nameInput = form.name.value.trim();
+  var nameParts = nameInput.split(/\s+/);
+  var firstName = nameParts[0] || '';
+  var lastName = nameParts.slice(1).join(' ') || '';
+  var email = form.email.value.trim();
+  var prefs = form.parentElement.querySelector('.signup__prefs');
+  var confirmMsg = document.getElementById('signup-confirm');
+  var btn = form.querySelector('.signup__btn');
+
+  var wantsNewsletter = prefs && prefs.querySelector('[name="newsletterOptIn"]') ? prefs.querySelector('[name="newsletterOptIn"]').checked : true;
+  var wantsCoaching = prefs && prefs.querySelector('[name="updatesOptIn"]') ? prefs.querySelector('[name="updatesOptIn"]').checked : false;
+
+  if (!firstName || !email) return;
+
+  btn.disabled = true;
+  btn.textContent = 'Subscribing\u2026';
+
+  var subscriptions = {};
+  if (wantsNewsletter) subscriptions.newsletter = true;
+  if (wantsCoaching) subscriptions.marketing_coaching = true;
+
+  fetch('/api/subscribe', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      email: email,
+      first_name: firstName,
+      last_name: lastName,
+      source: 'crawford-site/home',
+      offer: 'newsletter',
+      subscriptions: subscriptions
+    })
+  })
+  .then(function(res) { return res.json(); })
+  .then(function(json) {
     form.style.display = 'none';
     if (prefs) prefs.style.display = 'none';
-    
-    if (response.result === 'success') {
-      confirmMsg.textContent = 'Thanks! Check your email to confirm your subscription.';
-      confirmMsg.style.color = 'var(--pale)';
-    } else {
-      confirmMsg.textContent = 'There was an issue with your subscription. Please try again.';
+
+    if (json.error) {
+      confirmMsg.textContent = 'There was an issue. Please try again.';
       confirmMsg.style.color = '#ff6b6b';
+    } else {
+      confirmMsg.textContent = 'Thanks for subscribing, ' + firstName + '!';
+      confirmMsg.style.color = 'var(--pale)';
     }
+    confirmMsg.style.display = 'block';
+  })
+  .catch(function() {
+    form.style.display = 'none';
+    if (prefs) prefs.style.display = 'none';
+    confirmMsg.textContent = 'There was an issue. Please try again.';
+    confirmMsg.style.color = '#ff6b6b';
     confirmMsg.style.display = 'block';
   });
 }

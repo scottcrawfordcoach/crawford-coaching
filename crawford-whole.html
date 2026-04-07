@@ -1065,25 +1065,62 @@ img { max-width: 100%; display: block; vertical-align: top; }
 
 function handleWholeCapture(e) {
   e.preventDefault();
-  const form = e.target;
-  const name = form.name.value.trim();
-  const email = form.email.value.trim();
-  const container = form.closest('.capture__inner');
-  const newsletterOptIn = container?.querySelector('input[name="newsletterOptIn"]')?.checked ? 'Yes' : 'No';
-  const updatesOptIn = container?.querySelector('input[name="updatesOptIn"]')?.checked ? 'Yes' : 'No';
-  const subject = 'WHOLE Pilot — Interest Registration';
-  const body = [
-    'Name: ' + name,
-    'Email: ' + email,
-    'Newsletter Opt-In: ' + newsletterOptIn,
-    'Program Updates Opt-In: ' + updatesOptIn,
-    'Interest: WHOLE pilot group',
-    'Source: WHOLE page capture form'
-  ].join('\n');
-  window.location.href = 'mailto:scott@crawford-coaching.ca?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
-  form.style.display = 'none';
-  const confirm = document.getElementById('outline-confirm');
-  if (confirm) confirm.style.display = 'block';
+  var form = e.target;
+  var nameInput = form.name.value.trim();
+  var nameParts = nameInput.split(/\s+/);
+  var firstName = nameParts[0] || '';
+  var lastName = nameParts.slice(1).join(' ') || '';
+  var email = form.email.value.trim();
+  var container = form.closest('.capture__inner');
+  var btn = form.querySelector('.capture__submit');
+  var confirmMsg = document.getElementById('outline-confirm');
+  var permissions = container ? container.querySelector('.capture__permissions') : null;
+
+  var wantsNewsletter = container && container.querySelector('[name="newsletterOptIn"]') ? container.querySelector('[name="newsletterOptIn"]').checked : true;
+  var wantsCoaching = container && container.querySelector('[name="updatesOptIn"]') ? container.querySelector('[name="updatesOptIn"]').checked : false;
+
+  if (!firstName || !email) return;
+
+  btn.disabled = true;
+  btn.textContent = 'Registering\u2026';
+
+  var subscriptions = { marketing_whole: true };
+  if (wantsNewsletter) subscriptions.newsletter = true;
+  if (wantsCoaching) subscriptions.marketing_coaching = true;
+
+  fetch('/api/subscribe', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      email: email,
+      first_name: firstName,
+      last_name: lastName,
+      source: 'crawford-site/whole',
+      offer: 'whole',
+      subscriptions: subscriptions
+    })
+  })
+  .then(function(res) { return res.json(); })
+  .then(function(json) {
+    form.style.display = 'none';
+    if (permissions) permissions.style.display = 'none';
+
+    if (json.error) {
+      confirmMsg.textContent = 'Something went wrong. Please try again.';
+      confirmMsg.style.color = '#ff6b6b';
+    } else {
+      confirmMsg.textContent = 'Thanks, ' + firstName + ' \u2014 we\u2019ve noted your interest. We\u2019ll be in touch when the pilot group forms.';
+      confirmMsg.style.color = 'var(--pale)';
+    }
+    confirmMsg.style.display = 'block';
+  })
+  .catch(function() {
+    form.style.display = 'none';
+    if (permissions) permissions.style.display = 'none';
+    confirmMsg.textContent = 'Something went wrong. Please try again.';
+    confirmMsg.style.color = '#ff6b6b';
+    confirmMsg.style.display = 'block';
+  });
 }
 </script>
 

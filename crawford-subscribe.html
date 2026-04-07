@@ -218,6 +218,60 @@ body {
   border-color: var(--brand-blue);
 }
 
+/* ── CHECKBOXES ── */
+.form__checkboxes {
+  margin-bottom: 1.8rem;
+}
+.form__checkboxes .form__label {
+  margin-bottom: 0.9rem;
+}
+.form__check {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+  margin-bottom: 0.7rem;
+  cursor: pointer;
+}
+.form__check input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  min-width: 18px;
+  border: 1px solid var(--fog);
+  border-radius: 2px;
+  background: var(--slate);
+  cursor: pointer;
+  position: relative;
+  top: 2px;
+  transition: border-color 0.3s, background 0.3s;
+}
+.form__check input[type="checkbox"]:checked {
+  background: var(--brand-blue);
+  border-color: var(--brand-blue);
+}
+.form__check input[type="checkbox"]:checked::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 5px;
+  width: 5px;
+  height: 9px;
+  border: solid var(--white);
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+.form__check input[type="checkbox"]:focus-visible {
+  outline: 2px solid var(--brand-blue-light);
+  outline-offset: 2px;
+}
+.form__check-text {
+  font-family: var(--serif-body);
+  font-size: 0.88rem;
+  color: var(--pale);
+  line-height: 1.6;
+}
+
 /* ── HONEYPOT ── */
 .form__honey { position: absolute; left: -5000px; }
 
@@ -351,42 +405,45 @@ img { max-width: 100%; display: block; vertical-align: top; }
 <section class="subscribe">
   <div class="subscribe__inner">
 
-    <div class="form__response form__response--error" id="mc-error"></div>
-    <div class="form__response form__response--success" id="mc-success"></div>
+    <div class="form__response form__response--error" id="form-error"></div>
+    <div class="form__response form__response--success" id="form-success"></div>
 
-    <form
-      action="https://crawford-coaching.us14.list-manage.com/subscribe/post?u=e727034e036e2258448e9a4bb&amp;id=15d939f894&amp;f_id=0009b6e5f0"
-      method="post"
-      id="mc-embedded-subscribe-form"
-      name="mc-embedded-subscribe-form"
-      target="_blank"
-      novalidate
-    >
+    <form id="subscribe-form" novalidate>
 
       <div class="form__group">
-        <label class="form__label" for="mce-FNAME">First name <span class="required">*</span></label>
-        <input class="form__input" type="text" name="FNAME" id="mce-FNAME" required placeholder="Your first name">
+        <label class="form__label" for="sub-fname">First name <span class="required">*</span></label>
+        <input class="form__input" type="text" name="first_name" id="sub-fname" required placeholder="Your first name">
       </div>
 
       <div class="form__group">
-        <label class="form__label" for="mce-LNAME">Last name</label>
-        <input class="form__input" type="text" name="LNAME" id="mce-LNAME" placeholder="Your last name">
+        <label class="form__label" for="sub-lname">Last name</label>
+        <input class="form__input" type="text" name="last_name" id="sub-lname" placeholder="Your last name">
       </div>
 
       <div class="form__group">
-        <label class="form__label" for="mce-EMAIL">Email address <span class="required">*</span></label>
-        <input class="form__input" type="email" name="EMAIL" id="mce-EMAIL" required placeholder="you@example.com">
+        <label class="form__label" for="sub-email">Email address <span class="required">*</span></label>
+        <input class="form__input" type="email" name="email" id="sub-email" required placeholder="you@example.com">
+      </div>
+
+      <!-- Preferences -->
+      <div class="form__checkboxes">
+        <span class="form__label">I'm interested in</span>
+        <label class="form__check">
+          <input type="checkbox" name="sub_newsletter" value="1" checked>
+          <span class="form__check-text">The newsletter — writing on coaching, fitness, and living well</span>
+        </label>
+        <label class="form__check">
+          <input type="checkbox" name="sub_coaching" value="1">
+          <span class="form__check-text">Occasional emails about Crawford Coaching services and offers</span>
+        </label>
       </div>
 
       <!-- Honeypot -->
       <div class="form__honey" aria-hidden="true">
-        <input type="text" name="b_e727034e036e2258448e9a4bb_15d939f894" tabindex="-1" value="">
+        <input type="text" name="website" tabindex="-1" autocomplete="off" value="">
       </div>
 
-      <!-- Hidden tag from original form -->
-      <input type="hidden" name="tags" value="40196068">
-
-      <button class="form__submit" type="submit" name="subscribe" id="mc-embedded-subscribe">Subscribe</button>
+      <button class="form__submit" type="submit" id="subscribe-btn">Subscribe</button>
 
       <p class="form__privacy">Your information stays with me. No spam, no sharing. Unsubscribe any time.</p>
 
@@ -451,6 +508,81 @@ img { max-width: 100%; display: block; vertical-align: top; }
   });
   window.addEventListener('resize', () => {
     if (window.innerWidth > 900 && toggle.classList.contains('open')) closeMenu();
+  });
+})();
+</script>
+
+<script>
+(function() {
+  var form = document.getElementById('subscribe-form');
+  var btn = document.getElementById('subscribe-btn');
+  var errorEl = document.getElementById('form-error');
+  var successEl = document.getElementById('form-success');
+
+  function showMsg(el, msg) {
+    el.textContent = msg;
+    el.style.display = 'block';
+  }
+  function hideMsg(el) {
+    el.style.display = 'none';
+    el.textContent = '';
+  }
+
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    hideMsg(errorEl);
+    hideMsg(successEl);
+
+    // Honeypot check
+    if (form.querySelector('[name="website"]').value) return;
+
+    var firstName = form.querySelector('[name="first_name"]').value.trim();
+    var lastName  = form.querySelector('[name="last_name"]').value.trim();
+    var email     = form.querySelector('[name="email"]').value.trim();
+    var wantsNewsletter = form.querySelector('[name="sub_newsletter"]').checked;
+    var wantsCoaching   = form.querySelector('[name="sub_coaching"]').checked;
+
+    if (!firstName) { showMsg(errorEl, 'Please enter your first name.'); return; }
+    if (!email)     { showMsg(errorEl, 'Please enter your email address.'); return; }
+    if (!wantsNewsletter && !wantsCoaching) {
+      showMsg(errorEl, 'Please select at least one option.'); return;
+    }
+
+    btn.disabled = true;
+    btn.textContent = 'Subscribing\u2026';
+
+    var subscriptions = {};
+    if (wantsNewsletter) subscriptions.newsletter = true;
+    if (wantsCoaching)   subscriptions.marketing_coaching = true;
+
+    fetch('/api/subscribe', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        email: email,
+        first_name: firstName,
+        last_name: lastName,
+        source: 'crawford-site/subscribe',
+        offer: 'newsletter',
+        subscriptions: subscriptions
+      })
+    })
+    .then(function(res) { return res.json(); })
+    .then(function(json) {
+      if (json.error) {
+        showMsg(errorEl, 'Something went wrong. Please try again.');
+        btn.disabled = false;
+        btn.textContent = 'Subscribe';
+      } else {
+        form.style.display = 'none';
+        showMsg(successEl, 'You\u2019re in. Thanks for subscribing, ' + firstName + '.');
+      }
+    })
+    .catch(function() {
+      showMsg(errorEl, 'Something went wrong. Please try again.');
+      btn.disabled = false;
+      btn.textContent = 'Subscribe';
+    });
   });
 })();
 </script>
