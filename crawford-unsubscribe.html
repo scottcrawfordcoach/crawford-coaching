@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Email Preferences — Crawford Coaching</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --ink:        #0e0f10;
+  --slate:      #1c2330;
+  --slate-mid:  #232f3e;
+  --fog:        #3d4a58;
+  --mist:       #7a8fa3;
+  --pale:       #c8d4de;
+  --white:      #f5f3ef;
+  --brand-blue: #2d86c4;
+  --brand-blue-light: #4fa3d8;
+  --serif-display: 'Cormorant Garamond', Georgia, serif;
+  --serif-body:    'Libre Baskerville', Georgia, serif;
+  --sans:          'Jost', sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--ink);
+  color: var(--white);
+  font-family: var(--serif-body);
+  font-size: 16px;
+  line-height: 1.8;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── NAV ── */
+.nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.6rem clamp(1.5rem, 4vw, 3.5rem);
+  background: rgba(14,15,16,0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.nav__logo { display: inline-flex; align-items: center; text-decoration: none; }
+.nav__logo img { height: 36px; width: auto; display: block; }
+.nav__links { display: flex; gap: 2.5rem; list-style: none; }
+.nav__links a {
+  font-family: var(--sans); font-weight: 300;
+  font-size: 0.78rem; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--pale);
+  text-decoration: none; opacity: 0.85;
+  transition: opacity 0.2s, color 0.2s;
+}
+.nav__links a:hover { opacity: 1; color: var(--white); }
+.nav__cta {
+  font-family: var(--sans); font-weight: 400;
+  font-size: 0.75rem; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--white);
+  text-decoration: none;
+  border: 1px solid rgba(245,243,239,0.45);
+  padding: 0.5rem 1.3rem; border-radius: 1px;
+  transition: background 0.25s, border-color 0.25s;
+}
+.nav__cta:hover { background: rgba(245,243,239,0.1); border-color: rgba(245,243,239,0.8); }
+
+/* ─── MOBILE NAV ─────────────────────── */
+.nav__toggle {
+  display: none;
+  width: 44px; height: 44px;
+  align-items: center; justify-content: center; flex-direction: column;
+  background: none; border: none; cursor: pointer;
+  padding: 0.5rem; z-index: 200;
+  -webkit-tap-highlight-color: transparent;
+}
+.nav__toggle span {
+  display: block; width: 22px; height: 1.5px;
+  background: var(--pale); margin: 5px 0;
+  transition: transform 0.3s ease, opacity 0.2s ease;
+  transform-origin: center;
+}
+.nav__toggle.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+.nav__toggle.open span:nth-child(2) { opacity: 0; }
+.nav__toggle.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+.nav__overlay {
+  display: none; position: fixed; inset: 0; z-index: 90;
+  background: rgba(14,15,16,0.97);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  flex-direction: column; align-items: center; justify-content: center;
+  gap: 0; opacity: 0; transition: opacity 0.35s ease;
+}
+.nav__overlay.open { display: flex; opacity: 1; }
+.nav__overlay a {
+  font-family: var(--sans); font-weight: 300;
+  font-size: 1.1rem; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--pale);
+  text-decoration: none; padding: 0.9rem 0;
+  opacity: 0.85; transition: color 0.2s, opacity 0.2s;
+}
+.nav__overlay a:hover,
+.nav__overlay a.active { opacity: 1; color: var(--white); }
+.nav__overlay .nav__overlay-cta {
+  margin-top: 2rem;
+  font-family: var(--sans); font-weight: 400;
+  font-size: 0.82rem; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--white);
+  text-decoration: none;
+  border: 1px solid rgba(245,243,239,0.45);
+  padding: 0.65rem 1.5rem; border-radius: 1px;
+  transition: background 0.25s, border-color 0.25s;
+}
+.nav__overlay .nav__overlay-cta:hover {
+  background: rgba(245,243,239,0.1); border-color: rgba(245,243,239,0.8);
+}
+
+/* ── PAGE HERO ── */
+.page-hero {
+  padding: 10rem clamp(1.5rem, 4vw, 3.5rem) 3rem;
+  text-align: center;
+}
+.page-hero__label {
+  font-family: var(--sans); font-weight: 300;
+  font-size: 0.68rem; letter-spacing: 0.3em;
+  text-transform: uppercase; color: var(--brand-blue);
+  margin-bottom: 1.2rem;
+  display: flex; align-items: center; justify-content: center; gap: 0.8rem;
+}
+.page-hero__label::before,
+.page-hero__label::after {
+  content: ''; display: block;
+  width: 28px; height: 1px;
+  background: var(--brand-blue); opacity: 0.5;
+}
+.page-hero__heading {
+  font-family: var(--serif-display);
+  font-weight: 300;
+  font-size: clamp(2rem, 4.5vw, 3.2rem);
+  line-height: 1.15;
+  color: var(--white);
+  margin-bottom: 1.2rem;
+}
+.page-hero__sub {
+  font-family: var(--serif-body);
+  font-size: 0.95rem;
+  color: var(--pale);
+  max-width: 520px;
+  margin: 0 auto;
+  line-height: 1.8;
+}
+
+/* ── PREFS SECTION ── */
+.prefs {
+  padding: 0 clamp(1.5rem, 4vw, 3.5rem) 5rem;
+}
+.prefs__inner {
+  max-width: 560px;
+  margin: 0 auto;
+}
+
+/* ── EMAIL LOOKUP ── */
+.lookup__group { margin-bottom: 2rem; }
+.lookup__label {
+  display: block;
+  font-family: var(--sans); font-weight: 400;
+  font-size: 0.72rem; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--mist);
+  margin-bottom: 0.6rem;
+}
+.lookup__row {
+  display: flex; gap: 0.8rem;
+}
+.lookup__input {
+  flex: 1;
+  font-family: var(--serif-body);
+  font-size: 0.92rem;
+  color: var(--white);
+  background: var(--slate);
+  border: 1px solid var(--fog);
+  border-radius: 2px;
+  padding: 0.85rem 1rem;
+  transition: border-color 0.3s;
+  outline: none;
+}
+.lookup__input:focus { border-color: var(--brand-blue); }
+.lookup__input::placeholder { color: var(--fog); font-style: italic; }
+.lookup__btn {
+  font-family: var(--sans); font-weight: 400;
+  font-size: 0.75rem; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--white);
+  background: transparent;
+  border: 1px solid var(--brand-blue);
+  padding: 0.85rem 1.8rem;
+  border-radius: 1px;
+  cursor: pointer;
+  transition: background 0.3s;
+  white-space: nowrap;
+}
+.lookup__btn:hover { background: var(--brand-blue); }
+
+/* ── PREFERENCE FORM ── */
+.pref-form { display: none; }
+.pref-form.is-visible { display: block; }
+
+.pref-section {
+  margin-bottom: 2.5rem;
+}
+.pref-section__heading {
+  font-family: var(--sans); font-weight: 400;
+  font-size: 0.72rem; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--mist);
+  margin-bottom: 1rem;
+}
+
+.pref-check {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+  margin-bottom: 0.8rem;
+  cursor: pointer;
+}
+.pref-check input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 18px; height: 18px; min-width: 18px;
+  border: 1px solid var(--fog);
+  border-radius: 2px;
+  background: var(--slate);
+  cursor: pointer;
+  position: relative;
+  top: 2px;
+  transition: border-color 0.3s, background 0.3s;
+}
+.pref-check input[type="checkbox"]:checked {
+  background: var(--brand-blue);
+  border-color: var(--brand-blue);
+}
+.pref-check input[type="checkbox"]:checked::after {
+  content: '';
+  position: absolute;
+  top: 2px; left: 5px;
+  width: 5px; height: 9px;
+  border: solid var(--white);
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+.pref-check input[type="checkbox"]:focus-visible {
+  outline: 2px solid var(--brand-blue-light);
+  outline-offset: 2px;
+}
+.pref-check--disabled input[type="checkbox"] {
+  opacity: 0.35;
+  cursor: default;
+}
+.pref-check--disabled .pref-check__text {
+  opacity: 0.35;
+}
+.pref-check__text {
+  font-family: var(--serif-body);
+  font-size: 0.88rem;
+  color: var(--pale);
+  line-height: 1.6;
+  transition: opacity 0.3s;
+}
+.pref-check__note {
+  display: block;
+  font-family: var(--sans);
+  font-size: 0.72rem;
+  color: var(--mist);
+  margin-top: 0.15rem;
+}
+
+/* ── REASON SECTION ── */
+.reason-section {
+  margin-top: 2.5rem;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  display: none;
+}
+.reason-section.is-visible { display: block; }
+.reason-section__intro {
+  font-family: var(--serif-body);
+  font-size: 0.88rem;
+  color: var(--pale);
+  margin-bottom: 1.2rem;
+  line-height: 1.7;
+  font-style: italic;
+}
+.reason__feedback {
+  width: 100%;
+  font-family: var(--serif-body);
+  font-size: 0.88rem;
+  color: var(--white);
+  background: var(--slate);
+  border: 1px solid var(--fog);
+  border-radius: 2px;
+  padding: 0.75rem 1rem;
+  margin-top: 0.5rem;
+  outline: none;
+  resize: vertical;
+  min-height: 70px;
+  transition: border-color 0.3s;
+}
+.reason__feedback:focus { border-color: var(--brand-blue); }
+.reason__feedback::placeholder { color: var(--fog); font-style: italic; }
+
+/* ── SUBMIT ── */
+.pref-submit {
+  display: inline-block;
+  font-family: var(--sans); font-weight: 400;
+  font-size: 0.78rem; letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--white);
+  background: transparent;
+  border: 1px solid var(--brand-blue);
+  padding: 0.85rem 2.6rem;
+  border-radius: 1px;
+  cursor: pointer;
+  transition: background 0.3s, border-color 0.3s;
+  margin-top: 2rem;
+}
+.pref-submit:hover {
+  background: var(--brand-blue);
+  border-color: var(--brand-blue);
+}
+
+/* ── RESPONSES ── */
+.pref-response {
+  display: none;
+  font-family: var(--serif-body);
+  font-size: 0.88rem;
+  padding: 0.8rem 1rem;
+  border-radius: 2px;
+  margin-bottom: 1.5rem;
+}
+.pref-response--error {
+  color: #e8632b;
+  background: rgba(232,99,43,0.08);
+  border: 1px solid rgba(232,99,43,0.2);
+}
+.pref-response--success {
+  color: var(--pale);
+  background: rgba(45,134,196,0.08);
+  border: 1px solid rgba(45,134,196,0.2);
+}
+
+/* ── CONSOLATORY MESSAGE ── */
+.consolatory {
+  font-family: var(--serif-body);
+  font-size: 0.85rem;
+  color: var(--mist);
+  margin-top: 2rem;
+  line-height: 1.7;
+  font-style: italic;
+}
+
+/* ── FOOTER ── */
+.footer {
+  display: flex; align-items: center;
+  justify-content: space-between;
+  padding: 3rem clamp(1.5rem, 4vw, 3.5rem);
+  background: var(--ink);
+  border-top: 1px solid rgba(255,255,255,0.08);
+  flex-wrap: wrap; gap: 1.5rem;
+}
+.footer__logo img { height: 32px; width: auto; display: block; }
+.footer__copy { font-family: var(--sans); font-size: 0.75rem; color: var(--mist); }
+.footer__links { display: flex; gap: 2rem; list-style: none; flex-wrap: wrap; }
+.footer__links a {
+  font-family: var(--sans); font-size: 0.75rem;
+  color: var(--mist); text-decoration: none;
+  transition: color 0.2s;
+}
+.footer__links a:hover { color: var(--pale); }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+  .nav__toggle { display: flex; }
+  .nav__links { display: none !important; }
+  .nav__cta { display: none; }
+}
+@media (max-width: 768px) {
+  .page-hero { padding-top: 8rem; }
+  .footer { flex-direction: column; text-align: center; }
+  .footer__links { justify-content: center; }
+  .pref-submit { width: 100%; max-width: 360px; }
+  .lookup__row { flex-direction: column; }
+  .lookup__btn { width: 100%; }
+}
+@media (max-width: 900px) {
+  .page-hero__label,
+  .lookup__label,
+  .pref-section__heading,
+  .footer__copy,
+  .footer__links a {
+    font-size: max(0.75rem, 12px);
+  }
+  .lookup__input {
+    min-height: 44px;
+    font-size: 1rem;
+  }
+  .pref-submit,
+  .lookup__btn,
+  .nav__overlay .nav__overlay-cta {
+    min-height: 44px;
+  }
+}
+img { max-width: 100%; display: block; vertical-align: top; }
+</style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav class="nav">
+  <a href="/" class="nav__logo">
+    <img src="./extracted-images/cc-logo.png" alt="Crawford Coaching">
+  </a>
+  <button class="nav__toggle" aria-label="Toggle navigation" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+  <ul class="nav__links">
+    <li><a href="/coaching">Coaching</a></li>
+    <li><a href="/whole">WHOLE</a></li>
+    <li><a href="/synergize">Synergize</a></li>
+    <li><a href="/growth-zone">Growth Zone</a></li>
+    <li><a href="/about">About</a></li>
+    <li><a href="/writing">Writing</a></li>
+    <li><a href="/contact">Contact</a></li>
+  </ul>
+  <a href="https://calendar.app.google/R66fNg5m7w3aKPKd6" class="nav__cta" target="_blank">Book a Call</a>
+</nav>
+
+<!-- ── MOBILE OVERLAY ── -->
+<div class="nav__overlay" aria-hidden="true">
+  <a href="/">Home</a>
+  <a href="/coaching">Coaching</a>
+  <a href="/whole">WHOLE</a>
+  <a href="/synergize">Synergize</a>
+  <a href="/growth-zone">Growth Zone</a>
+  <a href="/about">About</a>
+  <a href="/writing">Writing</a>
+  <a href="/contact">Contact</a>
+  <a href="https://calendar.app.google/R66fNg5m7w3aKPKd6" class="nav__overlay-cta" target="_blank">Book a Call</a>
+</div>
+
+<!-- ── PAGE HERO ── -->
+<section class="page-hero">
+  <p class="page-hero__label">Email preferences</p>
+  <h1 class="page-hero__heading">Manage your subscriptions</h1>
+  <p class="page-hero__sub">Update what you hear from me about, or unsubscribe entirely. No hard feelings either way.</p>
+</section>
+
+<!-- ── PREFERENCES ── -->
+<section class="prefs">
+  <div class="prefs__inner">
+
+    <div class="pref-response pref-response--error" id="pref-error"></div>
+    <div class="pref-response pref-response--success" id="pref-success"></div>
+
+    <!-- Step 1: Email lookup -->
+    <div id="lookup-step">
+      <div class="lookup__group">
+        <label class="lookup__label" for="lookup-email">Your email address</label>
+        <div class="lookup__row">
+          <input class="lookup__input" type="email" id="lookup-email" placeholder="you@example.com" required>
+          <button class="lookup__btn" type="button" id="lookup-btn">Find me</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 2: Preference form (hidden until lookup) -->
+    <form id="pref-form" class="pref-form">
+
+      <p id="pref-greeting" style="font-family:var(--serif-body); font-size:0.95rem; color:var(--pale); margin-bottom:2rem;"></p>
+
+      <!-- Subscription choices -->
+      <div class="pref-section">
+        <p class="pref-section__heading">I'd like to receive</p>
+
+        <label class="pref-check" id="check-newsletter-label">
+          <input type="checkbox" id="check-newsletter" name="newsletter">
+          <span class="pref-check__text">
+            The newsletter
+            <span class="pref-check__note">Writing on coaching, fitness, and living well. Roughly twice a month.</span>
+          </span>
+        </label>
+
+        <label class="pref-check" id="check-coaching-label">
+          <input type="checkbox" id="check-coaching" name="marketing_coaching">
+          <span class="pref-check__text">
+            Occasional updates about Crawford Coaching services and offers
+            <span class="pref-check__note">Programmes, events, and anything new. Only when there's something worth sharing.</span>
+          </span>
+        </label>
+
+        <label class="pref-check">
+          <input type="checkbox" id="check-none" name="no_emails">
+          <span class="pref-check__text">
+            No emails
+            <span class="pref-check__note">Unsubscribe from everything except invoicing and account information, where appropriate.</span>
+          </span>
+        </label>
+      </div>
+
+      <!-- Unsubscribe reasons (shown when "no emails" is checked) -->
+      <div class="reason-section" id="reason-section">
+        <p class="reason-section__intro">I'm sorry to see you go. If you have a moment, it would help to know why.</p>
+
+        <div class="pref-section">
+          <label class="pref-check">
+            <input type="checkbox" name="reason" value="not_interested">
+            <span class="pref-check__text">I'm not interested in the content</span>
+          </label>
+          <label class="pref-check">
+            <input type="checkbox" name="reason" value="too_frequent">
+            <span class="pref-check__text">Newsletters were too frequent</span>
+          </label>
+          <label class="pref-check">
+            <input type="checkbox" name="reason" value="too_many_emails">
+            <span class="pref-check__text">I just get too many emails as it is!</span>
+          </label>
+          <label class="pref-check">
+            <input type="checkbox" name="reason" value="other">
+            <span class="pref-check__text">Something else</span>
+          </label>
+          <textarea class="reason__feedback" id="reason-feedback" name="feedback" placeholder="Any thoughts you'd like to share (optional)" style="display:none;"></textarea>
+        </div>
+      </div>
+
+      <button class="pref-submit" type="submit" id="pref-submit-btn">Update preferences</button>
+
+      <p class="consolatory" id="consolatory-msg"></p>
+
+    </form>
+
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer class="footer">
+  <a href="/" class="footer__logo">
+    <img src="./extracted-images/cc-logo.png" alt="Crawford Coaching">
+  </a>
+  <ul class="footer__links">
+    <li><a href="/coaching">Coaching</a></li>
+    <li><a href="/whole">WHOLE</a></li>
+    <li><a href="/synergize">Synergize Fitness</a></li>
+    <li><a href="/growth-zone">Growth Zone</a></li>
+    <li><a href="/about">About</a></li>
+    <li><a href="/writing">Writing</a></li>
+    <li><a href="/contact">Contact</a></li>
+  </ul>
+  <p class="footer__copy">&copy; 2026 Crawford Coaching</p>
+</footer>
+
+<script>
+(function() {
+  // ── Mobile nav ──
+  var toggle = document.querySelector('.nav__toggle');
+  var overlay = document.querySelector('.nav__overlay');
+  if (toggle && overlay) {
+    var closeTimer = null;
+    var closeMenu = function() {
+      toggle.classList.remove('open');
+      toggle.setAttribute('aria-expanded', 'false');
+      overlay.classList.remove('open');
+      overlay.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+      if (closeTimer) clearTimeout(closeTimer);
+      closeTimer = setTimeout(function() { overlay.style.display = 'none'; }, 350);
+    };
+    var openMenu = function() {
+      if (closeTimer) clearTimeout(closeTimer);
+      toggle.classList.add('open');
+      toggle.setAttribute('aria-expanded', 'true');
+      overlay.style.display = 'flex';
+      overlay.setAttribute('aria-hidden', 'false');
+      requestAnimationFrame(function() { overlay.classList.add('open'); });
+      document.body.style.overflow = 'hidden';
+    };
+    toggle.addEventListener('click', function() {
+      toggle.classList.contains('open') ? closeMenu() : openMenu();
+    });
+    overlay.querySelectorAll('a').forEach(function(a) { a.addEventListener('click', closeMenu); });
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && toggle.classList.contains('open')) closeMenu();
+    });
+    window.addEventListener('resize', function() {
+      if (window.innerWidth > 900 && toggle.classList.contains('open')) closeMenu();
+    });
+  }
+
+  // ── Elements ──
+  var lookupStep   = document.getElementById('lookup-step');
+  var lookupEmail  = document.getElementById('lookup-email');
+  var lookupBtn    = document.getElementById('lookup-btn');
+  var prefForm     = document.getElementById('pref-form');
+  var greeting     = document.getElementById('pref-greeting');
+  var errorEl      = document.getElementById('pref-error');
+  var successEl    = document.getElementById('pref-success');
+  var submitBtn    = document.getElementById('pref-submit-btn');
+  var checkNews    = document.getElementById('check-newsletter');
+  var checkCoach   = document.getElementById('check-coaching');
+  var checkNone    = document.getElementById('check-none');
+  var newsLabel    = document.getElementById('check-newsletter-label');
+  var coachLabel   = document.getElementById('check-coaching-label');
+  var reasonSection = document.getElementById('reason-section');
+  var reasonOther  = document.querySelector('[name="reason"][value="other"]');
+  var feedbackEl   = document.getElementById('reason-feedback');
+  var consolatory  = document.getElementById('consolatory-msg');
+
+  var userEmail = '';
+
+  function showMsg(el, msg) { el.textContent = msg; el.style.display = 'block'; }
+  function hideMsg(el) { el.style.display = 'none'; el.textContent = ''; }
+
+  // Pre-fill email from URL ?email= param
+  var urlEmail = new URLSearchParams(window.location.search).get('email');
+  if (urlEmail) {
+    lookupEmail.value = urlEmail;
+    // Auto-lookup after a brief delay
+    setTimeout(function() { lookupBtn.click(); }, 300);
+  }
+
+  // ── "No emails" toggle ──
+  checkNone.addEventListener('change', function() {
+    if (checkNone.checked) {
+      checkNews.checked = false;
+      checkNews.disabled = true;
+      checkCoach.checked = false;
+      checkCoach.disabled = true;
+      newsLabel.classList.add('pref-check--disabled');
+      coachLabel.classList.add('pref-check--disabled');
+      reasonSection.classList.add('is-visible');
+    } else {
+      checkNews.disabled = false;
+      checkCoach.disabled = false;
+      newsLabel.classList.remove('pref-check--disabled');
+      coachLabel.classList.remove('pref-check--disabled');
+      reasonSection.classList.remove('is-visible');
+    }
+  });
+
+  // Re-enable if user unchecks "no emails" by checking a subscription
+  checkNews.addEventListener('change', function() {
+    if (checkNews.checked && checkNone.checked) {
+      checkNone.checked = false;
+      checkNone.dispatchEvent(new Event('change'));
+    }
+  });
+  checkCoach.addEventListener('change', function() {
+    if (checkCoach.checked && checkNone.checked) {
+      checkNone.checked = false;
+      checkNone.dispatchEvent(new Event('change'));
+    }
+  });
+
+  // Show feedback field when "Something else" is checked
+  reasonOther.addEventListener('change', function() {
+    feedbackEl.style.display = reasonOther.checked ? 'block' : 'none';
+  });
+
+  // ── Lookup ──
+  lookupBtn.addEventListener('click', function() {
+    hideMsg(errorEl);
+    hideMsg(successEl);
+    userEmail = lookupEmail.value.trim().toLowerCase();
+    if (!userEmail) { showMsg(errorEl, 'Please enter your email address.'); return; }
+
+    lookupBtn.disabled = true;
+    lookupBtn.textContent = 'Looking up\u2026';
+
+    fetch('/api/preferences?email=' + encodeURIComponent(userEmail))
+      .then(function(res) { return res.json(); })
+      .then(function(json) {
+        lookupBtn.disabled = false;
+        lookupBtn.textContent = 'Find me';
+
+        if (json.error) {
+          showMsg(errorEl, 'Something went wrong. Please try again.');
+          return;
+        }
+
+        if (!json.data) {
+          showMsg(errorEl, 'I couldn\u2019t find that email address. Please check and try again.');
+          return;
+        }
+
+        // Populate preferences
+        var subs = json.data.subscriptions || {};
+        var name = json.data.first_name || '';
+
+        checkNews.checked = !!subs.newsletter;
+        checkCoach.checked = !!subs.marketing_coaching;
+
+        var hasAnySub = checkNews.checked || checkCoach.checked;
+        if (!hasAnySub) {
+          checkNone.checked = true;
+          checkNone.dispatchEvent(new Event('change'));
+        }
+
+        greeting.textContent = name
+          ? 'Hi ' + name + '. Here are your current email preferences.'
+          : 'Here are your current email preferences.';
+
+        lookupStep.style.display = 'none';
+        prefForm.classList.add('is-visible');
+      })
+      .catch(function() {
+        lookupBtn.disabled = false;
+        lookupBtn.textContent = 'Find me';
+        showMsg(errorEl, 'Something went wrong. Please try again.');
+      });
+  });
+
+  // Also trigger lookup on Enter key
+  lookupEmail.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') { e.preventDefault(); lookupBtn.click(); }
+  });
+
+  // ── Submit preferences ──
+  prefForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+    hideMsg(errorEl);
+    hideMsg(successEl);
+
+    var subscriptions = {
+      newsletter: checkNone.checked ? false : checkNews.checked,
+      marketing_coaching: checkNone.checked ? false : checkCoach.checked,
+    };
+
+    // Gather reasons
+    var reasons = [];
+    var reasonBoxes = document.querySelectorAll('[name="reason"]:checked');
+    reasonBoxes.forEach(function(cb) { reasons.push(cb.value); });
+    var feedback = feedbackEl.value.trim();
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Updating\u2026';
+
+    fetch('/api/preferences', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        email: userEmail,
+        subscriptions: subscriptions,
+        reason: reasons.length ? reasons.join(', ') : null,
+        feedback: feedback || null,
+      })
+    })
+    .then(function(res) { return res.json(); })
+    .then(function(json) {
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Update preferences';
+
+      if (json.error) {
+        showMsg(errorEl, 'Something went wrong. Please try again.');
+        return;
+      }
+
+      prefForm.style.display = 'none';
+
+      if (checkNone.checked) {
+        showMsg(successEl, 'You\u2019ve been unsubscribed. You won\u2019t receive any further emails from me (except account-related messages where appropriate).');
+        consolatory.textContent = 'If you ever change your mind, you\u2019re always welcome back.';
+        consolatory.style.display = 'block';
+      } else {
+        showMsg(successEl, 'Your preferences have been updated. Thanks for staying connected.');
+      }
+    })
+    .catch(function() {
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Update preferences';
+      showMsg(errorEl, 'Something went wrong. Please try again.');
+    });
+  });
+})();
+</script>
+
+<script src="https://website-assistant-sandy.vercel.app/chat-widget.js"></script>
+</body>
+</html>

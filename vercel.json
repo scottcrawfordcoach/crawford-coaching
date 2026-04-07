@@ -132,6 +132,10 @@
       "destination": "/crawford-subscribe.html"
     },
     {
+      "source": "/unsubscribe",
+      "destination": "/crawford-unsubscribe.html"
+    },
+    {
       "source": "/assistant",
       "destination": "/crawford-assistant.html"
     }
