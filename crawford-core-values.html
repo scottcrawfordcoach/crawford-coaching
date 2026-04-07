@@ -141,17 +141,22 @@ body {
 
 /* ── TYPOGRAPHY ── */
 .eyebrow {
-  font-family: var(--sans); font-weight: 300;
-  font-size: 0.7rem; letter-spacing: 0.22em;
-  text-transform: uppercase; color: var(--brand-blue);
-  margin-bottom: 1.2rem;
+  font-family: var(--sans); font-weight: 400;
+  font-size: 0.68rem; letter-spacing: 0.3em;
+  text-transform: uppercase; color: var(--brand-blue-light);
+  margin-bottom: 1.6rem;
 }
 
 h1.display {
   font-family: var(--serif-display); font-weight: 300;
-  font-size: clamp(2.2rem, 5vw, 3.2rem);
-  line-height: 1.15; color: var(--white);
-  margin-bottom: 1.6rem;
+  font-size: clamp(2.4rem, 5vw, 3.8rem);
+  line-height: 1.08; color: var(--white);
+  margin-bottom: 2rem;
+}
+
+h1.display em {
+  font-style: italic;
+  color: var(--pale);
 }
 
 h2.section-title {
@@ -375,6 +380,162 @@ h2.section-title {
   .footer__logo { margin: 0 auto; }
   .footer__social { width: 100%; justify-content: center; }
 }
+
+/* ── EMAIL REPORT SECTION ── */
+.report-offer {
+  margin-top: 3rem;
+  padding: 2.5rem 2rem;
+  border: 1px solid rgba(45,134,196,0.2);
+  background: rgba(45,134,196,0.04);
+  border-radius: 1px;
+}
+.report-offer__heading {
+  font-family: var(--serif-display);
+  font-weight: 400;
+  font-size: 1.4rem;
+  line-height: 1.3;
+  color: var(--white);
+  margin-bottom: 0.8rem;
+}
+.report-offer__text {
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 0.88rem;
+  line-height: 1.8;
+  color: var(--mist);
+  margin-bottom: 1.5rem;
+}
+.report-offer__form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 400px;
+}
+.report-offer__input {
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 0.9rem;
+  color: var(--white);
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--fog);
+  padding: 0.6rem 0;
+  outline: none;
+  transition: border-color 0.3s;
+}
+.report-offer__input::placeholder { color: var(--mist); }
+.report-offer__input:focus { border-color: var(--brand-blue); }
+
+.report-offer__checkbox {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  margin-top: 0.5rem;
+}
+.report-offer__checkbox input[type="checkbox"] {
+  margin-top: 0.25rem;
+  accent-color: var(--brand-blue);
+  flex-shrink: 0;
+}
+.report-offer__checkbox label {
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 0.78rem;
+  color: var(--mist);
+  line-height: 1.6;
+  cursor: pointer;
+}
+
+.report-offer__actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.report-offer__privacy {
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 0.7rem;
+  color: var(--fog);
+  cursor: pointer;
+  background: none;
+  border: none;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: color 0.2s;
+}
+.report-offer__privacy:hover { color: var(--mist); }
+
+.report-offer__status {
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 0.82rem;
+  color: var(--brand-blue-light);
+  margin-top: 1rem;
+  display: none;
+}
+.report-offer__status.visible { display: block; }
+.report-offer__status.error { color: #c44; }
+
+/* ── PRIVACY MODAL ── */
+.privacy-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: rgba(14,15,16,0.92);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+.privacy-modal.open { display: flex; }
+.privacy-modal__card {
+  max-width: 520px;
+  width: 100%;
+  background: var(--slate);
+  border: 1px solid var(--fog);
+  padding: 2.5rem;
+  position: relative;
+}
+.privacy-modal__close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  color: var(--mist);
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  transition: color 0.2s;
+}
+.privacy-modal__close:hover { color: var(--white); }
+.privacy-modal__title {
+  font-family: var(--sans);
+  font-weight: 400;
+  font-size: 0.68rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--brand-blue);
+  margin-bottom: 1.2rem;
+}
+.privacy-modal__text {
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 0.85rem;
+  line-height: 1.85;
+  color: var(--pale);
+  margin-bottom: 1rem;
+}
+.privacy-modal__text:last-child { margin-bottom: 0; }
+.privacy-modal__text strong {
+  color: var(--white);
+  font-weight: 400;
+}
 </style>
 </head>
 <body>
@@ -415,8 +576,8 @@ h2.section-title {
 
   <div id="screen-intro" class="screen active">
     <div class="stage">
-      <p class="eyebrow">Growth Zone Exercise</p>
-      <h1 class="display">Know What You<br>Stand For</h1>
+      <p class="eyebrow">Growth Zone</p>
+      <h1 class="display">Core<br><em>Values</em></h1>
       <div class="divider"></div>
       <p class="body-text">Most people make decisions by instinct, and instinct is often right. But when you know your core values, you stop wondering why certain decisions feel right and others feel wrong even when they look good on paper. Your values are the operating system running in the background of every choice you make.</p>
       <p class="body-text">Identifying them doesn't constrain you. It gives you a language for yourself and a compass that works even when things get complicated.</p>
@@ -507,6 +668,37 @@ h2.section-title {
         <p class="rn-title">Carrying this forward</p>
         <p>You don't need to frame this on a wall. Try writing your core values somewhere you'll see them during ordinary moments: the top of a journal page, a note in your phone, the corner of a whiteboard. The goal isn't to memorise them. It's to keep them close enough that they show up in real time.</p>
         <p style="margin-top:0.8rem;">When a decision feels hard, pause and ask: <em>What would someone who genuinely holds [your value] do here?</em> You often already know.</p>
+      </div>
+
+      <!-- ── EMAIL REPORT OFFER ── -->
+      <div class="report-offer" id="report-offer">
+        <h3 class="report-offer__heading">Want deeper insight on your values?</h3>
+        <p class="report-offer__text">Enter your name and email to receive a personalized report with AI-generated coaching insight based on your results. If you've completed other Growth Zone exercises, your report will draw connections across them.</p>
+        <div class="report-offer__form">
+          <input type="text" class="report-offer__input" id="report-name" placeholder="First name" autocomplete="given-name">
+          <input type="email" class="report-offer__input" id="report-email" placeholder="Email address" autocomplete="email">
+          <div class="report-offer__checkbox">
+            <input type="checkbox" id="report-newsletter">
+            <label for="report-newsletter">Also subscribe me to occasional emails from Crawford Coaching</label>
+          </div>
+          <div class="report-offer__actions">
+            <button class="btn-blue" id="btn-send-report" onclick="requestReport()">Send my report</button>
+            <button class="report-offer__privacy" onclick="openPrivacy()">How is my data used?</button>
+          </div>
+        </div>
+        <p class="report-offer__status" id="report-status"></p>
+      </div>
+
+      <!-- ── PRIVACY MODAL ── -->
+      <div class="privacy-modal" id="privacy-modal">
+        <div class="privacy-modal__card">
+          <button class="privacy-modal__close" onclick="closePrivacy()" aria-label="Close">&times;</button>
+          <p class="privacy-modal__title">How your data is used</p>
+          <p class="privacy-modal__text"><strong>Your exercise results</strong> are stored securely on Canadian servers. They are linked to your email address so that future exercise reports can reference your prior results and offer more connected insight.</p>
+          <p class="privacy-modal__text"><strong>The AI-generated report</strong> is produced through a single, ephemeral API call to a language model. No personal identifiers beyond your first name are included in the request. The AI provider does not store your data or use it for training.</p>
+          <p class="privacy-modal__text"><strong>Your information is never shared, sold, or used for any purpose other than delivering your reports</strong> and, if you opt in, occasional emails from Crawford Coaching. You can unsubscribe at any time.</p>
+          <p class="privacy-modal__text">Questions? <a href="/contact" style="color:#4fa3d8;">Reach out directly</a>.</p>
+        </div>
       </div>
 
       <button class="btn-ghost" onclick="showScreen('screen-core')">&larr; Back to core values</button>
@@ -673,6 +865,88 @@ function restart() {
   buildTenGrid();
   showScreen('screen-intro');
 }
+
+// ── Email Report ──
+
+function requestReport() {
+  const name = document.getElementById('report-name').value.trim();
+  const email = document.getElementById('report-email').value.trim();
+  const newsletter = document.getElementById('report-newsletter').checked;
+  const statusEl = document.getElementById('report-status');
+  const btn = document.getElementById('btn-send-report');
+
+  if (!name || !email) {
+    showStatus('Please enter your name and email.', true);
+    return;
+  }
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    showStatus('Please enter a valid email address.', true);
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = 'Sending...';
+  showStatus('', false);
+
+  const payload = {
+    email,
+    first_name: name,
+    exercise_type: 'core_values',
+    results: {
+      core_values: [...coreSelected],
+      ten_values: [...tenFinal],
+    },
+    newsletter_opt_in: newsletter,
+  };
+
+  fetch('/api/exercise-report', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+  })
+    .then(res => res.json())
+    .then(data => {
+      if (data.error) {
+        showStatus('Something went wrong. Please try again.', true);
+        btn.disabled = false;
+        btn.textContent = 'Send my report';
+      } else {
+        showStatus('Check your inbox. Your report is on its way.', false);
+        btn.textContent = 'Sent';
+        document.querySelector('.report-offer__form').style.opacity = '0.4';
+        document.querySelector('.report-offer__form').style.pointerEvents = 'none';
+      }
+    })
+    .catch(() => {
+      showStatus('Something went wrong. Please try again.', true);
+      btn.disabled = false;
+      btn.textContent = 'Send my report';
+    });
+}
+
+function showStatus(msg, isError) {
+  const el = document.getElementById('report-status');
+  el.textContent = msg;
+  el.classList.toggle('visible', !!msg);
+  el.classList.toggle('error', isError);
+}
+
+function openPrivacy() {
+  document.getElementById('privacy-modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closePrivacy() {
+  document.getElementById('privacy-modal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closePrivacy();
+});
+document.getElementById('privacy-modal')?.addEventListener('click', (e) => {
+  if (e.target === e.currentTarget) closePrivacy();
+});
 
 buildTenGrid();
 </script>
