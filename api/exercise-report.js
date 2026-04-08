@@ -324,8 +324,8 @@ function buildEmailHtml({ firstName, exerciseType, results, aiSummary }) {
   const label = exerciseLabels[exerciseType] || exerciseType;
   const resultsHtml = buildResultsSection(exerciseType, results);
   const summaryHtml = aiSummary
-    ? aiSummary.split('\n\n').map(p => `<p style="margin:0 0 16px;font-family:Georgia,'Times New Roman',serif;font-size:15px;line-height:1.75;color:#3d4a58;">${escapeHtml(p)}</p>`).join('')
-    : '<p style="margin:0;font-family:Georgia,serif;font-size:15px;color:#7a8fa3;font-style:italic;">Your personalized summary could not be generated at this time.</p>';
+    ? aiSummary.split('\n\n').map(p => `<p style="margin:0 0 16px;font-family:Georgia,'Times New Roman',serif;font-size:15px;line-height:1.75;color:#c8d4de;">${escapeHtml(p)}</p>`).join('')
+    : '<p style="margin:0;font-family:Georgia,serif;font-size:15px;color:#9ab0c4;font-style:italic;">Your personalized summary could not be generated at this time.</p>';
 
   return `<!DOCTYPE html>
 <html lang="en">
@@ -339,7 +339,7 @@ function buildEmailHtml({ firstName, exerciseType, results, aiSummary }) {
 
   <!-- Header -->
   <div style="padding:40px 40px 32px;text-align:center;border-bottom:1px solid rgba(255,255,255,0.06);">
-    <p style="margin:0 0 8px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-weight:300;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#7a8fa3;">Crawford Coaching · Growth Zone</p>
+    <p style="margin:0 0 8px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-weight:300;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#9ab0c4;">Crawford Coaching · Growth Zone</p>
     <h1 style="margin:0;font-family:Georgia,'Times New Roman',serif;font-weight:300;font-size:26px;line-height:1.2;color:#f5f3ef;">${escapeHtml(firstName)}'s ${escapeHtml(label)} Report</h1>
   </div>
 
@@ -357,7 +357,7 @@ function buildEmailHtml({ firstName, exerciseType, results, aiSummary }) {
 
   <!-- CTAs -->
   <div style="padding:32px 40px;">
-    <p style="margin:0 0 12px;font-family:Georgia,serif;font-size:14px;line-height:1.7;color:#7a8fa3;">Your results are saved. As you complete more Growth Zone exercises, future reports will draw on everything you've done to offer deeper, more connected insight.</p>
+    <p style="margin:0 0 12px;font-family:Georgia,serif;font-size:14px;line-height:1.7;color:#9ab0c4;">Your results are saved. As you complete more Growth Zone exercises, future reports will draw on everything you've done to offer deeper, more connected insight.</p>
     <p style="margin:24px 0 0;">
       <a href="https://crawford-coaching.ca/growth-zone" style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-weight:400;font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:#4fa3d8;text-decoration:none;">Explore the Growth Zone &#8594;</a>
     </p>
@@ -390,7 +390,7 @@ function buildResultsSection(exerciseType, results) {
       const tenVals = (results.ten_values || []).join(', ');
       return `
         <div style="margin-bottom:16px;">${pills}</div>
-        <p style="margin:0;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:12px;color:#7a8fa3;">From your broader ten: ${escapeHtml(tenVals)}</p>
+        <p style="margin:0;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:12px;color:#9ab0c4;">From your broader ten: ${escapeHtml(tenVals)}</p>
       `;
     }
     case 'character_strengths': {
@@ -409,11 +409,11 @@ function buildResultsSection(exerciseType, results) {
     case 'motivation': {
       return `
         <p style="margin:0 0 8px;font-family:Georgia,serif;font-size:15px;color:#c8d4de;">Autonomy: ${results.autonomy}/30 &middot; Mastery: ${results.mastery}/30 &middot; Purpose: ${results.purpose}/30</p>
-        <p style="margin:0;font-family:Georgia,serif;font-size:13px;color:#7a8fa3;">Overall: ${results.overall}/90</p>
+        <p style="margin:0;font-family:Georgia,serif;font-size:13px;color:#9ab0c4;">Overall: ${results.overall}/90</p>
       `;
     }
     default:
-      return `<p style="margin:0;font-family:Georgia,serif;font-size:14px;color:#7a8fa3;">Results recorded.</p>`;
+      return `<p style="margin:0;font-family:Georgia,serif;font-size:14px;color:#9ab0c4;">Results recorded.</p>`;
   }
 }
 
