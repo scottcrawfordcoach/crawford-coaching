@@ -213,6 +213,36 @@ body {
   max-width: 1100px;
   margin: 0 auto;
 }
+.tools__group + .tools__group {
+  margin-top: 4rem;
+}
+.tools__group-header {
+  font-family: var(--serif-display);
+  font-weight: 400;
+  font-size: 1.6rem;
+  color: var(--white);
+  margin-bottom: 0.4rem;
+}
+.tools__group-sub {
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--mist);
+  margin-bottom: 2rem;
+}
+.tools__insight {
+  margin-top: 3rem;
+  padding: 1.5rem 2rem;
+  background: var(--slate);
+  border-left: 3px solid var(--brand-blue);
+  border-radius: 2px;
+  font-family: var(--serif-body);
+  font-size: 0.88rem;
+  line-height: 1.75;
+  color: var(--pale);
+}
 .tools__grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -441,57 +471,75 @@ img { max-width: 100%; display: block; vertical-align: top; }
 <!-- ── TOOLS GRID ── -->
 <section class="tools">
   <div class="tools__inner">
-    <div class="tools__grid">
 
-      <!-- INTERVAL TIMER -->
-      <div class="tool-card">
-        <div class="tool-card__icon">⏱</div>
-        <h2 class="tool-card__title">Interval Timer</h2>
-        <p class="tool-card__desc">A configurable EMOM and interval timer with a built-in workout builder. Set your rounds, work and rest periods, and go. No signup, no ads. Just a clean timer that works.</p>
-        <a href="/timer" class="tool-card__link tool-card__link--physical">Launch Timer</a>
+    <!-- ── PERSONAL GROWTH EXERCISES ── -->
+    <div class="tools__group">
+      <h2 class="tools__group-header">Personal Growth Exercises</h2>
+      <p class="tools__group-sub">Guided self-reflection</p>
+      <div class="tools__grid">
+
+        <!-- CORE VALUES -->
+        <div class="tool-card">
+          <div class="tool-card__icon">🧭</div>
+          <h3 class="tool-card__title">Core Values Exercise</h3>
+          <p class="tool-card__desc">Most people have a sense of what they value, but haven't taken the time to name it clearly. This exercise helps you sort and prioritise what matters most, so your goals have something real to anchor to.</p>
+          <a href="/core-values" class="tool-card__link">Start Exercise</a>
+        </div>
+
+        <!-- CHARACTER STRENGTHS -->
+        <div class="tool-card">
+          <div class="tool-card__icon">💪</div>
+          <h3 class="tool-card__title">Character Strengths</h3>
+          <p class="tool-card__desc">Based on the VIA framework, this exercise helps you identify the strengths that come most naturally to you. Understanding how you're wired is a better starting point than focusing on what you're not.</p>
+          <a href="/strengths" class="tool-card__link">Take the Quiz</a>
+        </div>
+
+        <!-- MOTIVATION & SELF-DETERMINATION -->
+        <div class="tool-card">
+          <div class="tool-card__icon">🔥</div>
+          <h3 class="tool-card__title">Motivation & Self-Determination</h3>
+          <p class="tool-card__desc">Motivation is not one thing. This exercise helps you understand how your three core motivational needs — autonomy, mastery, and purpose — are being met right now, and where they might need attention.</p>
+          <a href="/motivation" class="tool-card__link">Explore Your Motivation</a>
+        </div>
+
+        <!-- OPTIMISM & EXPLANATORY STYLE -->
+        <div class="tool-card">
+          <div class="tool-card__icon">🔭</div>
+          <h3 class="tool-card__title">Optimism & Explanatory Style</h3>
+          <p class="tool-card__desc">How you explain setbacks to yourself shapes how you respond to them. This tool helps you understand your explanatory style, and whether it's working for you or against you.</p>
+          <a href="/optimism" class="tool-card__link">Begin Exercise</a>
+        </div>
+
       </div>
 
-      <!-- CORE VALUES -->
-      <div class="tool-card">
-        <div class="tool-card__icon">🧭</div>
-        <h2 class="tool-card__title">Core Values Exercise</h2>
-        <p class="tool-card__desc">Most people have a sense of what they value, but haven't taken the time to name it clearly. This exercise helps you sort and prioritise what matters most, so your goals have something real to anchor to.</p>
-        <a href="/core-values" class="tool-card__link">Start Exercise</a>
-      </div>
-
-      <!-- CHARACTER STRENGTHS -->
-      <div class="tool-card">
-        <div class="tool-card__icon">💪</div>
-        <h2 class="tool-card__title">Character Strengths</h2>
-        <p class="tool-card__desc">Based on the VIA framework, this exercise helps you identify the strengths that come most naturally to you. Understanding how you're wired is a better starting point than focusing on what you're not.</p>
-        <a href="/strengths" class="tool-card__link">Take the Quiz</a>
-      </div>
-
-      <!-- MOTIVATION & SELF-DETERMINATION -->
-      <div class="tool-card">
-        <div class="tool-card__icon">🔥</div>
-        <h2 class="tool-card__title">Motivation & Self-Determination</h2>
-        <p class="tool-card__desc">Motivation is not one thing. This exercise helps you understand how your three core motivational needs — autonomy, mastery, and purpose — are being met right now, and where they might need attention.</p>
-        <a href="/motivation" class="tool-card__link">Explore Your Motivation</a>
-      </div>
-
-      <!-- OPTIMISM & EXPLANATORY STYLE -->
-      <div class="tool-card">
-        <div class="tool-card__icon">🔭</div>
-        <h2 class="tool-card__title">Optimism & Explanatory Style</h2>
-        <p class="tool-card__desc">How you explain setbacks to yourself shapes how you respond to them. This tool helps you understand your explanatory style, and whether it's working for you or against you.</p>
-        <a href="/optimism" class="tool-card__link">Begin Exercise</a>
-      </div>
-
-      <!-- FEELINGS NAMING GUIDE -->
-      <div class="tool-card">
-        <div class="tool-card__icon">🗺️</div>
-        <h2 class="tool-card__title">Feelings Naming Guide</h2>
-        <p class="tool-card__desc">Naming what you're feeling with precision is one of the most underrated skills in coaching and self-reflection. This guide gives you the vocabulary to get more specific. Because "stressed" and "overwhelmed" aren't the same thing.</p>
-        <a href="/feelings" class="tool-card__link">Open Guide</a>
-      </div>
-
+      <p class="tools__insight">Each exercise gives you a snapshot. Complete more of them and your emailed report will connect the dots — showing patterns across your values, strengths, motivation, and mindset for a richer picture of where you are and where to focus next.</p>
     </div>
+
+    <!-- ── TOOLS ── -->
+    <div class="tools__group">
+      <h2 class="tools__group-header">Tools</h2>
+      <p class="tools__group-sub">Practical resources</p>
+      <div class="tools__grid">
+
+        <!-- INTERVAL TIMER -->
+        <div class="tool-card">
+          <div class="tool-card__icon">⏱</div>
+          <h3 class="tool-card__title">Interval Timer</h3>
+          <p class="tool-card__desc">A configurable EMOM and interval timer with a built-in workout builder. Set your rounds, work and rest periods, and go. No signup, no ads. Just a clean timer that works.</p>
+          <a href="/timer" class="tool-card__link tool-card__link--physical">Launch Timer</a>
+        </div>
+
+        <!-- FEELINGS NAMING GUIDE -->
+        <div class="tool-card">
+          <div class="tool-card__icon">🗺️</div>
+          <h3 class="tool-card__title">Feelings Naming Guide</h3>
+          <p class="tool-card__desc">Naming what you're feeling with precision is one of the most underrated skills in coaching and self-reflection. This guide gives you the vocabulary to get more specific. Because "stressed" and "overwhelmed" aren't the same thing.</p>
+          <a href="/feelings" class="tool-card__link">Open Guide</a>
+        </div>
+
+      </div>
+    </div>
+
   </div>
 </section>
 
