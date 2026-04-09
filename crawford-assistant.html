@@ -305,30 +305,27 @@
     .nav__toggle { display: flex; }
     .nav__links { display: none !important; }
     .nav__cta { display: none; }
-    .assistant-header { padding: 1rem 1.8rem; }
-    .assistant-status { padding: 0.45rem 1.8rem; }
+    .assistant-header { padding: 0.6rem 1.8rem; }
+    .assistant-title strong { font-size: 1rem; }
+    .assistant-title span { display: none; }
+    .assistant-open { display: none; }
+    .assistant-status { padding: 0.35rem 1.8rem; font-size: 0.6rem; }
     .footer {
       flex-direction: column;
       align-items: flex-start;
       gap: 1.5rem;
       padding: 2.5rem 1.8rem;
     }
+    /* Give the iframe as much vertical space as possible */
+    .assistant-frame {
+      min-height: calc(100dvh - 130px);
+    }
   }
   @media (max-width: 600px) {
-    .assistant-title strong { font-size: 1.2rem; }
-    .footer {
-      align-items: center;
-      text-align: center;
-    }
-    .footer__logo { margin: 0 auto; }
-    .footer__links {
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 1rem 1.4rem;
-    }
-    .footer__social {
-      width: 100%;
-      justify-content: center;
+    /* Hide footer on the assistant page at small sizes to maximise chat space */
+    .footer { display: none; }
+    .assistant-frame {
+      min-height: calc(100dvh - 110px);
     }
   }
 </style>
@@ -480,6 +477,5 @@
   })();
 </script>
 
-<script src="https://website-assistant-sandy.vercel.app/chat-widget.js"></script>
 </body>
 </html>
