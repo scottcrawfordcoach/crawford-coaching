@@ -31,7 +31,13 @@ Static multi-page marketing/coaching website deployed on Vercel.
 - [crawford-coaching.html](crawford-coaching.html): Coaching page.
 - [crawford-whole.html](crawford-whole.html): WHOLE program page.
 - [crawford-synergize.html](crawford-synergize.html): Synergize Fitness page.
-- [crawford-growth-zone.html](crawford-growth-zone.html): Growth Zone tools page.
+- [crawford-growth-zone.html](crawford-growth-zone.html): Growth Zone hub — split into Personal Growth Exercises (Values, Strengths, Motivation, Optimism) and Tools (Timer, Feelings Guide).
+- [crawford-core-values.html](crawford-core-values.html): Core Values sorting exercise.
+- [crawford-strengths.html](crawford-strengths.html): Character Strengths quiz (VIA-based).
+- [crawford-motivation.html](crawford-motivation.html): Motivation & Self-Determination exercise.
+- [crawford-optimism.html](crawford-optimism.html): Optimism & Explanatory Style exercise.
+- [crawford-feelings.html](crawford-feelings.html): Feelings Naming Guide.
+- [crawford-assistant.html](crawford-assistant.html): Dedicated assistant page (embeds the Ask Scott chat via iframe).
 - [crawford-about.html](crawford-about.html): About page.
 - [crawford-contact.html](crawford-contact.html): Contact page.
 - [crawford-writing.html](crawford-writing.html): Writing hub page (posts, subscribe, share links).
@@ -51,6 +57,12 @@ Vercel rewrites map clean paths to static HTML files:
 - `/whole` -> `/crawford-whole.html`
 - `/synergize` -> `/crawford-synergize.html`
 - `/growth-zone` -> `/crawford-growth-zone.html`
+- `/core-values` -> `/crawford-core-values.html`
+- `/strengths` -> `/crawford-strengths.html`
+- `/motivation` -> `/crawford-motivation.html`
+- `/optimism` -> `/crawford-optimism.html`
+- `/feelings` -> `/crawford-feelings.html`
+- `/assistant` -> `/crawford-assistant.html`
 - `/about` -> `/crawford-about.html`
 - `/contact` -> `/crawford-contact.html`
 - `/writing` -> `/crawford-writing.html`

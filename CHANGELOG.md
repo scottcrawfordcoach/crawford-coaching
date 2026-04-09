@@ -4,6 +4,22 @@ All notable changes to this project will be documented in this file.
 
 The format is based on Keep a Changelog principles and uses reverse chronological order.
 
+## [2026-04-09]
+
+### Changed
+- Restructured Growth Zone page into two distinct groups:
+  - **Personal Growth Exercises** (Core Values, Character Strengths, Motivation, Optimism) with "Guided self-reflection" subtitle.
+  - **Tools** (Interval Timer, Feelings Naming Guide) with "Practical resources" subtitle.
+  - Added insight callout encouraging users to complete more exercises for richer cross-exercise reports.
+  - Demoted card headings from `<h2>` to `<h3>` (group headers are now `<h2>`).
+- Improved assistant page mobile layout in [crawford-assistant.html](crawford-assistant.html):
+  - Collapsed header on mobile (hidden subtitle and "Open in New Tab" link).
+  - Applied `calc(100dvh)` sizing to the iframe for maximum chat area.
+  - Hidden footer on small screens (≤600px) to maximise chat space.
+
+### Removed
+- Removed redundant `chat-widget.js` embed from [crawford-assistant.html](crawford-assistant.html) — the floating widget is unnecessary on the dedicated assistant page.
+
 ## [2026-04-03]
 
 ### Added — SEO Improvements
