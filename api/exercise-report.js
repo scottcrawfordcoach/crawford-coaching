@@ -158,6 +158,7 @@ export default async function handler(req, res) {
       optimism: 'Your Optimism & Explanatory Style Report',
       motivation: 'Your Motivation & Self-Determination Report',
       feelings: 'Your Feelings Naming Guide Summary',
+      task_triage: 'Your Task Triage Report',
     };
 
     await fetch(MAIL_SENDER, {
@@ -210,6 +211,34 @@ export default async function handler(req, res) {
 // ═══════════════════════════════════════════════════
 
 async function generateSummary({ anthropicKey, firstName, exerciseType, results, priorResults }) {
+  // task_triage sends a pre-built prompt from the client
+  if (exerciseType === 'task_triage') {
+    if (!results.report_prompt) return null;
+    try {
+      const response = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-api-key': anthropicKey,
+          'anthropic-version': '2023-06-01',
+        },
+        body: JSON.stringify({
+          model: 'claude-sonnet-4-20250514',
+          max_tokens: 1024,
+          messages: [{ role: 'user', content: results.report_prompt }],
+        }),
+      });
+      const data = await response.json();
+      return (data.content || [])
+        .filter(block => block.type === 'text')
+        .map(block => block.text)
+        .join('\n') || null;
+    } catch (err) {
+      console.error('Claude API error (task_triage):', err);
+      return null;
+    }
+  }
+
   const exerciseContext = buildExerciseContext(exerciseType, results);
   const priorContext = buildPriorContext(priorResults, exerciseType);
 
@@ -321,6 +350,7 @@ function buildEmailHtml({ firstName, exerciseType, results, aiSummary }) {
     optimism: 'Optimism & Explanatory Style',
     motivation: 'Motivation & Self-Determination',
     feelings: 'Feelings Naming Guide',
+    task_triage: 'Task Triage',
   };
 
   const label = exerciseLabels[exerciseType] || exerciseType;
@@ -418,6 +448,18 @@ function buildResultsSection(exerciseType, results) {
         <p style="margin:0 0 8px;font-family:Georgia,serif;font-size:15px;color:#c8d4de;">Autonomy: ${results.autonomy}/30 &middot; Mastery: ${results.mastery}/30 &middot; Purpose: ${results.purpose}/30</p>
         <p style="margin:0;font-family:Georgia,serif;font-size:13px;color:#9ab0c4;">Overall: ${results.overall}/90</p>
       `;
+    }
+    case 'task_triage': {
+      const tasks = Array.isArray(results.tasks) ? results.tasks : [];
+      const rows = tasks.map(t =>
+        `<tr>
+          <td style="padding:5px 16px 5px 0;font-family:Georgia,serif;font-size:14px;color:#f5f3ef;vertical-align:top;">${escapeHtml(t.name || t.title || '')}</td>
+          <td style="padding:5px 0;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:12px;color:#9ab0c4;white-space:nowrap;">Priority ${escapeHtml(String(t.priority_rank || ''))}</td>
+        </tr>`
+      ).join('');
+      return rows
+        ? `<table style="border-collapse:collapse;width:100%;">${rows}</table>`
+        : `<p style="margin:0;font-family:Georgia,serif;font-size:14px;color:#9ab0c4;">Tasks recorded.</p>`;
     }
     default:
       return `<p style="margin:0;font-family:Georgia,serif;font-size:14px;color:#9ab0c4;">Results recorded.</p>`;

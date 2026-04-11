@@ -138,6 +138,10 @@
     {
       "source": "/assistant",
       "destination": "/crawford-assistant.html"
+    },
+    {
+      "source": "/task-triage",
+      "destination": "/crawford-task-triage.html"
     }
   ]
 }

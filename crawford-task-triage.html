@@ -1,0 +1,2150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-LVZKV9N2CZ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-LVZKV9N2CZ');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Task Triage — Crawford Coaching</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --ink:        #0e0f10;
+  --slate:      #1c2330;
+  --slate-mid:  #232f3e;
+  --fog:        #3d4a58;
+  --mist:       #7a8fa3;
+  --pale:       #c8d4de;
+  --white:      #f5f3ef;
+  --brand-blue: #2d86c4;
+  --brand-blue-light: #4fa3d8;
+  --brand-blue-dim: rgba(45,134,196,0.15);
+  --brand-blue-border: rgba(45,134,196,0.5);
+  --serif-display: 'Cormorant Garamond', Georgia, serif;
+  --serif-body:    'Libre Baskerville', Georgia, serif;
+  --sans:          'Jost', sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--ink);
+  color: var(--white);
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.8;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── NAV ── */
+.nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.6rem clamp(1.5rem, 4vw, 3.5rem);
+  background: rgba(14,15,16,0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.nav__logo { display: inline-flex; align-items: center; text-decoration: none; }
+.nav__logo img { height: 36px; width: auto; display: block; }
+.nav__links { display: flex; gap: 2.5rem; list-style: none; }
+.nav__links a {
+  font-family: var(--sans); font-weight: 300;
+  font-size: 0.78rem; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--pale);
+  text-decoration: none; opacity: 0.85;
+  transition: opacity 0.2s, color 0.2s;
+}
+.nav__links a:hover { opacity: 1; color: var(--white); }
+.nav__links a.active { color: var(--brand-blue); opacity: 1; }
+.nav__cta {
+  font-family: var(--sans); font-weight: 400;
+  font-size: 0.75rem; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--white);
+  text-decoration: none;
+  border: 1px solid rgba(245,243,239,0.45);
+  padding: 0.55rem 1.6rem;
+  transition: background 0.25s, color 0.25s;
+}
+.nav__cta:hover { background: var(--white); color: var(--ink); }
+
+/* ── MOBILE NAV ── */
+.nav__toggle {
+  display: none;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  width: 28px;
+  height: 20px;
+  position: relative;
+  z-index: 110;
+}
+.nav__toggle span {
+  display: block;
+  position: absolute;
+  height: 1.5px;
+  width: 100%;
+  background: var(--pale);
+  left: 0;
+  transition: transform 0.3s, opacity 0.2s, top 0.3s;
+}
+.nav__toggle span:nth-child(1) { top: 0; }
+.nav__toggle span:nth-child(2) { top: 9px; }
+.nav__toggle span:nth-child(3) { top: 18px; }
+.nav__toggle.open span:nth-child(1) { top: 9px; transform: rotate(45deg); }
+.nav__toggle.open span:nth-child(2) { opacity: 0; }
+.nav__toggle.open span:nth-child(3) { top: 9px; transform: rotate(-45deg); }
+.nav__overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 105;
+  background: rgba(14,15,16,0.97);
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.nav__overlay.open { opacity: 1; }
+.nav__overlay a {
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 1.1rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--pale);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.nav__overlay a:hover, .nav__overlay a.active { color: var(--brand-blue); }
+.nav__overlay-cta {
+  margin-top: 1rem;
+  font-family: var(--sans);
+  font-weight: 400;
+  font-size: 0.85rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--white) !important;
+  border: 1px solid rgba(245,243,239,0.45);
+  padding: 0.6rem 2rem;
+}
+
+/* ── SCREENS ── */
+.screen { display: none; }
+.screen.active { display: block; }
+
+/* ── INTRO ── */
+.intro {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8rem 2rem 5rem;
+}
+.intro__inner {
+  max-width: 600px;
+  text-align: center;
+}
+.intro__label {
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 0.68rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--mist);
+  margin-bottom: 1.5rem;
+}
+.intro__title {
+  font-family: var(--serif-display);
+  font-weight: 300;
+  font-size: clamp(2.4rem, 5vw, 3.6rem);
+  line-height: 1.1;
+  color: var(--white);
+  margin-bottom: 2rem;
+}
+.intro__title em {
+  font-style: italic;
+  font-weight: 300;
+}
+.intro__body {
+  font-family: var(--serif-body);
+  font-size: 0.92rem;
+  line-height: 1.85;
+  color: var(--pale);
+  margin-bottom: 1.2rem;
+}
+.intro__meta {
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--mist);
+  margin-top: 1.5rem;
+  margin-bottom: 2rem;
+}
+.intro__name-group {
+  margin-bottom: 2rem;
+}
+.intro__name-label {
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 0.78rem;
+  color: var(--mist);
+  margin-bottom: 0.5rem;
+}
+.intro__name-input {
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 0.9rem;
+  color: var(--white);
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--fog);
+  padding: 0.6rem 0;
+  outline: none;
+  width: 220px;
+  text-align: center;
+  transition: border-color 0.3s;
+}
+.intro__name-input::placeholder { color: var(--mist); }
+.intro__name-input:focus { border-color: var(--brand-blue); }
+
+.btn-start {
+  display: inline-block;
+  font-family: var(--sans);
+  font-weight: 400;
+  font-size: 0.78rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--white);
+  background: var(--brand-blue);
+  border: none;
+  padding: 0.95rem 2.8rem;
+  border-radius: 1px;
+  cursor: pointer;
+  transition: background 0.25s, transform 0.2s;
+}
+.btn-start:hover { background: var(--brand-blue-light); transform: translateY(-1px); }
+
+/* ── TASK ENTRY ── */
+.task-entry {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8rem 2rem 5rem;
+}
+.task-entry__inner {
+  max-width: 560px;
+  width: 100%;
+  text-align: center;
+}
+.task-entry__heading {
+  font-family: var(--serif-display);
+  font-weight: 400;
+  font-size: 1.8rem;
+  color: var(--white);
+  margin-bottom: 0.8rem;
+}
+.task-entry__sub {
+  font-family: var(--serif-body);
+  font-size: 0.88rem;
+  line-height: 1.75;
+  color: var(--mist);
+  margin-bottom: 2.5rem;
+}
+.task-entry__list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  margin-bottom: 1.5rem;
+}
+.task-entry__row {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+.task-entry__num {
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  color: var(--mist);
+  width: 24px;
+  text-align: right;
+  flex-shrink: 0;
+}
+.task-entry__input {
+  flex: 1;
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 0.9rem;
+  color: var(--white);
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--fog);
+  padding: 0.5rem 0;
+  outline: none;
+  transition: border-color 0.3s;
+}
+.task-entry__input::placeholder { color: rgba(122,143,163,0.5); }
+.task-entry__input:focus { border-color: var(--brand-blue); }
+.task-entry__remove {
+  background: none;
+  border: none;
+  color: var(--fog);
+  cursor: pointer;
+  font-size: 1.1rem;
+  padding: 0.2rem;
+  transition: color 0.2s;
+  flex-shrink: 0;
+  opacity: 0;
+  transition: opacity 0.2s, color 0.2s;
+}
+.task-entry__row:hover .task-entry__remove,
+.task-entry__remove:focus { opacity: 1; }
+.task-entry__remove:hover { color: #c47a6a; }
+
+.task-entry__add {
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 0.78rem;
+  letter-spacing: 0.12em;
+  color: var(--brand-blue);
+  background: none;
+  border: 1px solid var(--brand-blue-border);
+  padding: 0.5rem 1.5rem;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+  margin-bottom: 2rem;
+}
+.task-entry__add:hover { background: var(--brand-blue-dim); }
+.task-entry__add:disabled { opacity: 0.3; cursor: default; }
+
+.task-entry__hint {
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 0.7rem;
+  color: var(--mist);
+  margin-bottom: 2rem;
+}
+
+.btn-continue {
+  display: inline-block;
+  font-family: var(--sans);
+  font-weight: 400;
+  font-size: 0.78rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--white);
+  background: var(--brand-blue);
+  border: none;
+  padding: 0.95rem 2.8rem;
+  border-radius: 1px;
+  cursor: pointer;
+  transition: background 0.25s, transform 0.2s;
+}
+.btn-continue:hover { background: var(--brand-blue-light); transform: translateY(-1px); }
+.btn-continue:disabled { opacity: 0.3; cursor: default; transform: none; }
+
+/* ── WHEEL SCREEN ── */
+.wheel-screen {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 8rem 2rem 5rem;
+}
+.wheel-screen__heading {
+  font-family: var(--serif-display);
+  font-weight: 400;
+  font-size: 1.8rem;
+  color: var(--white);
+  margin-bottom: 0.6rem;
+  text-align: center;
+}
+.wheel-screen__sub {
+  font-family: var(--serif-body);
+  font-size: 0.85rem;
+  line-height: 1.75;
+  color: var(--mist);
+  max-width: 520px;
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+.wheel-container {
+  position: relative;
+  width: min(520px, 90vw);
+  height: min(520px, 90vw);
+  margin-bottom: 2.5rem;
+}
+.wheel-container svg {
+  width: 100%;
+  height: 100%;
+}
+.wheel-cell {
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+.wheel-cell:hover {
+  opacity: 0.85;
+}
+.wheel-label {
+  font-family: 'Jost', sans-serif;
+  font-weight: 300;
+  font-size: 14px;
+  fill: #c8d4de;
+  pointer-events: none;
+}
+.wheel-score-label {
+  font-family: 'Jost', sans-serif;
+  font-weight: 400;
+  font-size: 15px;
+  fill: var(--white);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.wheel-score-label.visible { opacity: 1; }
+
+/* ── PRIORITISATION SCREEN ── */
+.priority-screen {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 8rem 2rem 5rem;
+}
+.priority-screen__heading {
+  font-family: var(--serif-display);
+  font-weight: 400;
+  font-size: 1.8rem;
+  color: var(--white);
+  margin-bottom: 0.6rem;
+  text-align: center;
+}
+.priority-screen__sub {
+  font-family: var(--serif-body);
+  font-size: 0.85rem;
+  line-height: 1.75;
+  color: var(--mist);
+  max-width: 520px;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+.priority-screen__column-label {
+  font-family: var(--sans);
+  font-weight: 400;
+  font-size: 0.68rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--brand-blue-light);
+  margin-bottom: 0.3rem;
+  text-align: center;
+}
+.priority-screen__column-range {
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 0.6rem;
+  letter-spacing: 0.12em;
+  color: var(--mist);
+  text-align: center;
+  margin-bottom: 2rem;
+}
+.priority-screen__step {
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  color: var(--mist);
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+/* Chip bank */
+.chip-bank {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: center;
+  max-width: 560px;
+  margin-bottom: 2rem;
+}
+.chip {
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 0.78rem;
+  color: var(--pale);
+  background: var(--slate);
+  border: 1px solid var(--fog);
+  padding: 0.4rem 1rem;
+  border-radius: 1px;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s, color 0.2s, transform 0.15s;
+  user-select: none;
+}
+.chip:hover { border-color: var(--brand-blue-border); transform: translateY(-1px); }
+.chip.selected {
+  background: var(--brand-blue);
+  border-color: var(--brand-blue);
+  color: var(--white);
+}
+.chip.placed {
+  opacity: 0.25;
+  pointer-events: none;
+}
+
+/* Slot list */
+.slot-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-width: 420px;
+  width: 100%;
+  margin-bottom: 2rem;
+}
+.slot {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 0.6rem 1rem;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid var(--fog);
+  border-radius: 1px;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+  min-height: 44px;
+}
+.slot:hover { border-color: var(--brand-blue-border); background: rgba(45,134,196,0.05); }
+.slot.filled { border-color: rgba(255,255,255,0.1); }
+.slot__rank {
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  color: var(--mist);
+  width: 20px;
+  text-align: center;
+  flex-shrink: 0;
+}
+.slot__name {
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 0.85rem;
+  color: var(--white);
+  flex: 1;
+}
+.slot__clear {
+  background: none;
+  border: none;
+  color: var(--fog);
+  cursor: pointer;
+  font-size: 0.9rem;
+  padding: 0.1rem 0.3rem;
+  transition: color 0.2s;
+  opacity: 0;
+}
+.slot:hover .slot__clear { opacity: 1; }
+.slot__clear:hover { color: #c47a6a; }
+.slot__placeholder {
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 0.75rem;
+  color: var(--mist);
+  font-style: italic;
+  flex: 1;
+}
+
+.priority-nav {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  margin-top: 1rem;
+}
+.btn-prev-col, .btn-next-col {
+  font-family: var(--sans);
+  font-weight: 400;
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  padding: 0.7rem 1.8rem;
+  border-radius: 1px;
+  cursor: pointer;
+  transition: background 0.25s, transform 0.2s, color 0.2s;
+}
+.btn-prev-col {
+  background: transparent;
+  border: 1px solid var(--fog);
+  color: var(--pale);
+}
+.btn-prev-col:hover { border-color: var(--pale); color: var(--white); }
+.btn-next-col {
+  background: var(--brand-blue);
+  border: none;
+  color: var(--white);
+}
+.btn-next-col:hover { background: var(--brand-blue-light); transform: translateY(-1px); }
+.btn-next-col:disabled, .btn-prev-col:disabled {
+  opacity: 0.3; cursor: default; transform: none;
+}
+
+/* ── RESULTS SCREEN ── */
+.results-screen {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 8rem 2rem 5rem;
+}
+.results-screen__heading {
+  font-family: var(--serif-display);
+  font-weight: 400;
+  font-size: 1.8rem;
+  color: var(--white);
+  margin-bottom: 0.6rem;
+  text-align: center;
+}
+.results-screen__sub {
+  font-family: var(--serif-body);
+  font-size: 0.85rem;
+  line-height: 1.75;
+  color: var(--mist);
+  max-width: 520px;
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+/* Loading state */
+.loading-indicator {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  margin: 3rem 0;
+}
+.loading-dots {
+  display: flex;
+  gap: 0.5rem;
+}
+.loading-dots span {
+  width: 8px;
+  height: 8px;
+  background: var(--brand-blue);
+  border-radius: 50%;
+  animation: pulse 1.2s ease-in-out infinite;
+}
+.loading-dots span:nth-child(2) { animation-delay: 0.2s; }
+.loading-dots span:nth-child(3) { animation-delay: 0.4s; }
+@keyframes pulse {
+  0%, 100% { opacity: 0.3; transform: scale(0.8); }
+  50% { opacity: 1; transform: scale(1); }
+}
+.loading-text {
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 0.82rem;
+  color: var(--mist);
+}
+
+/* AI summary */
+.ai-summary {
+  max-width: 620px;
+  width: 100%;
+  margin-bottom: 3rem;
+}
+.ai-summary__content {
+  font-family: var(--serif-body);
+  font-size: 0.9rem;
+  line-height: 1.9;
+  color: var(--pale);
+}
+.ai-summary__content p {
+  margin-bottom: 1.2rem;
+}
+.ai-summary__content strong {
+  color: var(--white);
+  font-weight: 700;
+}
+
+/* Summary table */
+.summary-table-wrap {
+  max-width: 700px;
+  width: 100%;
+  overflow-x: auto;
+  margin-bottom: 3rem;
+  -webkit-overflow-scrolling: touch;
+}
+.summary-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--sans);
+  font-size: 0.75rem;
+}
+.summary-table th {
+  font-weight: 400;
+  font-size: 0.62rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--brand-blue-light);
+  padding: 0.8rem 0.6rem;
+  border-bottom: 1px solid var(--fog);
+  text-align: left;
+  white-space: nowrap;
+}
+.summary-table td {
+  font-weight: 300;
+  font-size: 0.78rem;
+  color: var(--pale);
+  padding: 0.55rem 0.6rem;
+  border-bottom: 1px solid rgba(61,74,88,0.4);
+}
+.summary-table tr:last-child td { border-bottom: none; }
+.summary-table__rank {
+  color: var(--fog);
+  width: 28px;
+}
+
+/* CTA card */
+.cta-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  max-width: 620px;
+  width: 100%;
+  padding: 2.5rem 2.5rem;
+  background: var(--slate);
+  border: 1px solid var(--fog);
+  border-radius: 2px;
+  margin-bottom: 2rem;
+}
+.cta-card__text {
+  font-family: var(--serif-body);
+  font-size: 0.88rem;
+  line-height: 1.7;
+  color: var(--pale);
+}
+.cta-card__link {
+  font-family: var(--sans);
+  font-weight: 400;
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--brand-blue-light);
+  text-decoration: none;
+  transition: color 0.2s;
+  flex-shrink: 0;
+}
+.cta-card__link:hover { color: var(--white); }
+.cta-card__link::after { content: ' →'; }
+
+/* Download / restart */
+.results__actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+.btn-download {
+  display: inline-block;
+  font-family: var(--sans);
+  font-weight: 400;
+  font-size: 0.78rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--white);
+  background: var(--brand-blue);
+  border: none;
+  padding: 0.95rem 2.8rem;
+  border-radius: 1px;
+  cursor: pointer;
+  transition: background 0.25s, transform 0.2s;
+}
+.btn-download:hover { background: var(--brand-blue-light); transform: translateY(-1px); }
+
+.btn-restart {
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--mist);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.btn-restart:hover { color: var(--pale); }
+
+/* ── FOOTER ── */
+.footer {
+  display: flex; align-items: center;
+  justify-content: space-between;
+  padding: 3rem clamp(1.5rem, 4vw, 3.5rem);
+  background: var(--ink);
+  border-top: 1px solid rgba(255,255,255,0.08);
+  flex-wrap: wrap; gap: 1.5rem;
+}
+.footer__logo img { height: 32px; width: auto; display: block; }
+.footer__copy { font-family: var(--sans); font-size: 0.75rem; color: var(--mist); }
+.footer__links { display: flex; gap: 2rem; list-style: none; flex-wrap: wrap; }
+.footer__links a {
+  font-family: var(--sans); font-size: 0.75rem;
+  color: var(--mist); text-decoration: none;
+  transition: color 0.2s;
+}
+.footer__links a:hover { color: var(--pale); }
+.footer__social {
+  display: flex;
+  gap: 1.2rem;
+  align-items: center;
+}
+.footer__social a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--mist);
+  transition: color 0.2s;
+}
+.footer__social a:hover { color: var(--pale); }
+.footer__social svg {
+  width: 18px;
+  height: 18px;
+  fill: currentColor;
+}
+
+/* ── EMAIL REPORT SECTION ── */
+.report-offer {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  padding: 2.5rem 2rem;
+  border: 1px solid rgba(45,134,196,0.2);
+  background: rgba(45,134,196,0.04);
+  border-radius: 1px;
+  max-width: 620px;
+  width: 100%;
+}
+.report-offer__heading {
+  font-family: var(--serif-display);
+  font-weight: 400;
+  font-size: 1.4rem;
+  line-height: 1.3;
+  color: var(--white);
+  margin-bottom: 0.8rem;
+}
+.report-offer__text {
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 0.88rem;
+  line-height: 1.8;
+  color: var(--mist);
+  margin-bottom: 1.5rem;
+}
+.report-offer__form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 400px;
+}
+.report-offer__input {
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 0.9rem;
+  color: var(--white);
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--fog);
+  padding: 0.6rem 0;
+  outline: none;
+  transition: border-color 0.3s;
+}
+.report-offer__input::placeholder { color: var(--mist); }
+.report-offer__input:focus { border-color: var(--brand-blue); }
+.report-offer__checkbox {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  margin-top: 0.5rem;
+}
+.report-offer__checkbox input[type="checkbox"] {
+  margin-top: 0.25rem;
+  accent-color: var(--brand-blue);
+  flex-shrink: 0;
+}
+.report-offer__checkbox label {
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 0.78rem;
+  color: var(--mist);
+  line-height: 1.6;
+  cursor: pointer;
+}
+.report-offer__actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 0.5rem;
+  flex-wrap: wrap;
+}
+.report-offer__privacy {
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 0.7rem;
+  color: var(--mist);
+  cursor: pointer;
+  background: none;
+  border: none;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: color 0.2s;
+}
+.report-offer__privacy:hover { color: var(--pale); }
+.report-offer__status {
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 0.82rem;
+  color: var(--brand-blue-light);
+  margin-top: 1rem;
+  display: none;
+}
+.report-offer__status.visible { display: block; }
+.report-offer__status.error { color: #c44; }
+
+.btn-blue {
+  display: inline-block;
+  font-family: var(--sans); font-weight: 400;
+  font-size: 0.72rem; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--white);
+  border: 1px solid var(--brand-blue);
+  background: var(--brand-blue);
+  padding: 0.85rem 2.4rem; cursor: pointer;
+  border-radius: 1px;
+  transition: background 0.2s, border-color 0.2s;
+  margin-top: 1rem;
+}
+.btn-blue:hover { background: var(--brand-blue-light); border-color: var(--brand-blue-light); }
+.btn-blue:disabled { opacity: 0.3; cursor: not-allowed; }
+
+/* ── PRIVACY MODAL ── */
+.privacy-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: rgba(14,15,16,0.92);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+.privacy-modal.open { display: flex; }
+.privacy-modal__card {
+  max-width: 520px;
+  width: 100%;
+  background: var(--slate);
+  border: 1px solid var(--fog);
+  padding: 2.5rem;
+  position: relative;
+}
+.privacy-modal__close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  color: var(--mist);
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  transition: color 0.2s;
+}
+.privacy-modal__close:hover { color: var(--white); }
+.privacy-modal__title {
+  font-family: var(--sans);
+  font-weight: 400;
+  font-size: 0.68rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--brand-blue);
+  margin-bottom: 1.2rem;
+}
+.privacy-modal__text {
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 0.85rem;
+  line-height: 1.85;
+  color: var(--pale);
+  margin-bottom: 1rem;
+}
+.privacy-modal__text:last-child { margin-bottom: 0; }
+.privacy-modal__text strong {
+  color: var(--white);
+  font-weight: 400;
+}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+  .nav__toggle { display: block; }
+  .nav__links { display: none !important; }
+  .nav__cta { display: none; }
+}
+@media (max-width: 600px) {
+  .cta-card {
+    flex-direction: column;
+    text-align: center;
+    gap: 1rem;
+    padding: 2rem 1.5rem;
+  }
+  .wheel-label { font-size: 11px; }
+  .chip { font-size: 0.72rem; padding: 0.35rem 0.8rem; }
+  .summary-table { font-size: 0.68rem; }
+  .summary-table th { font-size: 0.56rem; }
+}
+img { max-width: 100%; display: block; vertical-align: top; }
+</style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav class="nav">
+  <a href="/" class="nav__logo">
+    <img src="./extracted-images/cc-logo.png" alt="Crawford Coaching">
+  </a>
+  <ul class="nav__links">
+    <li><a href="/coaching">Coaching</a></li>
+    <li><a href="/whole">WHOLE</a></li>
+    <li><a href="/synergize">Synergize Fitness</a></li>
+    <li><a href="/growth-zone" class="active">Growth Zone</a></li>
+    <li><a href="/about">About</a></li>
+    <li><a href="/writing">Writing</a></li>
+    <li><a href="/contact">Contact</a></li>
+  </ul>
+  <a href="https://calendar.app.google/R66fNg5m7w3aKPKd6" class="nav__cta" target="_blank">Book a Call</a>
+  <button class="nav__toggle" aria-label="Menu" aria-controls="site-menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="nav__overlay" id="site-menu" aria-hidden="true">
+  <a href="/coaching">Coaching</a>
+  <a href="/whole">WHOLE</a>
+  <a href="/synergize">Synergize Fitness</a>
+  <a href="/growth-zone" class="active">Growth Zone</a>
+  <a href="/about">About</a>
+  <a href="/writing">Writing</a>
+  <a href="/contact">Contact</a>
+  <a href="https://calendar.app.google/R66fNg5m7w3aKPKd6" class="nav__overlay-cta" target="_blank">Book a Call</a>
+</div>
+
+<!-- ═══════════ SCREEN: INTRO ═══════════ -->
+<div class="screen active" id="screen-intro">
+  <div class="intro">
+    <div class="intro__inner">
+      <p class="intro__label">Growth Zone</p>
+      <h1 class="intro__title">Task<br><em>Triage</em></h1>
+      <p class="intro__body">
+        When everything feels equally urgent, nothing gets done. This tool helps you step back, see the shape of what is on your plate, and figure out where to start.
+      </p>
+      <p class="intro__body">
+        You will list the tasks, projects, or decisions that are competing for your attention right now. Then you will rate how complete each one is and rank them across a few key dimensions. The result is a clear, personalised recommendation for where to focus first.
+      </p>
+      <p class="intro__body" style="font-size:0.84rem; color:var(--mist);">
+        It does not matter whether your list includes small chores or large projects. If something on your list feels too big to act on, you can always run this exercise again with just the sub-tasks of that one item to break it down further.
+      </p>
+      <p class="intro__meta">Interactive · about 5 minutes</p>
+      <div class="intro__name-group">
+        <p class="intro__name-label">Your first name (for your summary)</p>
+        <input type="text" class="intro__name-input" id="user-name" placeholder="Optional" autocomplete="given-name">
+      </div>
+      <button class="btn-start" onclick="showScreen('screen-tasks')">Begin</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ SCREEN: TASK ENTRY ═══════════ -->
+<div class="screen" id="screen-tasks">
+  <div class="task-entry">
+    <div class="task-entry__inner">
+      <h2 class="task-entry__heading">What is on your plate?</h2>
+      <p class="task-entry__sub">List between 3 and 10 tasks, projects, decisions, or chores that are competing for your time and attention right now.</p>
+      <div class="task-entry__list" id="task-list"></div>
+      <button class="task-entry__add" id="btn-add-task" onclick="addTaskRow()">+ Add another</button>
+      <p class="task-entry__hint">You can remove items by hovering and clicking the × on the right.</p>
+      <button class="btn-continue" id="btn-to-wheel" onclick="goToWheel()" disabled>Continue to Completion Wheel</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ SCREEN: WHEEL ═══════════ -->
+<div class="screen" id="screen-wheel">
+  <div class="wheel-screen">
+    <h2 class="wheel-screen__heading">Completion Wheel</h2>
+    <p class="wheel-screen__sub">Click a ring in each sector to rate how complete that task is, from 0 (centre) to 10 (outer edge). You can adjust any sector until you are happy with the picture.</p>
+    <div class="wheel-container" id="wheel-container"></div>
+    <button class="btn-continue" id="btn-to-priority" onclick="goToPriority()">Done — Rank Your Tasks</button>
+  </div>
+</div>
+
+<!-- ═══════════ SCREEN: PRIORITISATION ═══════════ -->
+<div class="screen" id="screen-priority">
+  <div class="priority-screen">
+    <h2 class="priority-screen__heading">Rank Your Tasks</h2>
+    <p class="priority-screen__sub">For each dimension, arrange your tasks from most to least. Click a task name, then click a slot to place it.</p>
+    <p class="priority-screen__step" id="priority-step"></p>
+    <p class="priority-screen__column-label" id="col-label"></p>
+    <p class="priority-screen__column-range" id="col-range"></p>
+    <div class="chip-bank" id="chip-bank"></div>
+    <div class="slot-list" id="slot-list"></div>
+    <div class="priority-nav">
+      <button class="btn-prev-col" id="btn-prev-col" onclick="prevColumn()" disabled>← Back</button>
+      <button class="btn-next-col" id="btn-next-col" onclick="nextColumn()">Next →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ SCREEN: RESULTS ═══════════ -->
+<div class="screen" id="screen-results">
+  <div class="results-screen">
+    <h2 class="results-screen__heading">What You're Looking At</h2>
+    <p class="results-screen__sub" id="results-sub">Pulling together the picture from your rankings.</p>
+
+    <div class="loading-indicator" id="loading-indicator" style="display:none;">
+      <div class="loading-dots">
+        <span></span><span></span><span></span>
+      </div>
+      <p class="loading-text">Thinking through your priorities...</p>
+    </div>
+
+    <div class="ai-summary" id="ai-summary" style="display:none;">
+      <div class="ai-summary__content" id="ai-summary-content"></div>
+    </div>
+
+    <div class="summary-table-wrap" id="summary-table-wrap" style="display:none;"></div>
+
+    <div class="cta-card" id="cta-refine" style="display:none;">
+      <p class="cta-card__text">If any task on your list still feels too large, run this exercise again with just the sub-tasks of that item to break it down further.</p>
+      <a href="/task-triage" class="cta-card__link">Run Again</a>
+    </div>
+
+    <!-- ── EMAIL REPORT OFFER ── -->
+    <div class="report-offer" id="report-offer" style="display:none;">
+      <h3 class="report-offer__heading">Turn this into a plan</h3>
+      <p class="report-offer__text">You have the picture. The next step is working out what you are actually going to do. Enter your email to receive a personalised coaching worksheet with guided questions for your top priorities: what does done look like, what might get in the way, when will you start. No advice, just the right questions to help you think it through.</p>
+      <div class="report-offer__form">
+        <input type="text" class="report-offer__input" id="report-name" placeholder="First name" autocomplete="given-name">
+        <input type="email" class="report-offer__input" id="report-email" placeholder="Email address" autocomplete="email">
+        <div class="report-offer__checkbox">
+          <input type="checkbox" id="report-newsletter">
+          <label for="report-newsletter">Also subscribe me to occasional emails from Crawford Coaching</label>
+        </div>
+        <div class="report-offer__actions">
+          <button class="btn-blue" id="btn-send-report" onclick="requestReport()">Send my worksheet</button>
+          <button class="report-offer__privacy" onclick="openPrivacy()">How is my data used?</button>
+        </div>
+      </div>
+      <p class="report-offer__status" id="report-status"></p>
+    </div>
+
+    <!-- ── PRIVACY MODAL ── -->
+    <div class="privacy-modal" id="privacy-modal">
+      <div class="privacy-modal__card">
+        <button class="privacy-modal__close" onclick="closePrivacy()" aria-label="Close">&times;</button>
+        <p class="privacy-modal__title">How your data is used</p>
+        <p class="privacy-modal__text"><strong>Your exercise results</strong> are stored securely on Canadian servers. They are linked to your email address so that future exercise reports can reference your prior results and offer more connected insight.</p>
+        <p class="privacy-modal__text"><strong>The AI-generated report</strong> is produced through a single, ephemeral API call to a language model. No personal identifiers beyond your first name are included in the request. The AI provider does not store your data or use it for training.</p>
+        <p class="privacy-modal__text"><strong>Your information is never shared, sold, or used for any purpose other than delivering your reports</strong> and, if you opt in, occasional emails from Crawford Coaching. You can unsubscribe at any time.</p>
+        <p class="privacy-modal__text">Questions? <a href="/contact" style="color:#4fa3d8;">Reach out directly</a>.</p>
+      </div>
+    </div>
+
+    <div class="cta-card" id="cta-coaching" style="display:none;">
+      <p class="cta-card__text">Want help turning this into a plan you will actually follow? A coaching conversation is a good place to figure out what might get in the way and how to move past it.</p>
+      <a href="https://calendar.app.google/R66fNg5m7w3aKPKd6" target="_blank" class="cta-card__link">Book a free intro call</a>
+    </div>
+
+    <div class="results__actions" id="results-actions" style="display:none;">
+      <button class="btn-download" onclick="downloadSummary()">Download Summary</button>
+      <button class="btn-restart" onclick="restart()">Start Over</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── FOOTER ── -->
+<footer class="footer">
+  <a href="/" class="footer__logo">
+    <img src="./extracted-images/cc-logo.png" alt="Crawford Coaching">
+  </a>
+  <ul class="footer__links">
+    <li><a href="/coaching">Coaching</a></li>
+    <li><a href="/whole">WHOLE</a></li>
+    <li><a href="/synergize">Synergize Fitness</a></li>
+    <li><a href="/growth-zone">Growth Zone</a></li>
+    <li><a href="/about">About</a></li>
+    <li><a href="/writing">Writing</a></li>
+    <li><a href="/contact">Contact</a></li>
+  </ul>
+  <p class="footer__copy">&copy; 2026 Crawford Coaching</p>
+  <div class="footer__social">
+    <a href="https://www.instagram.com/scott.crawford.coaching/" target="_blank" aria-label="Instagram">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+    </a>
+    <a href="https://www.linkedin.com/in/scott-crawford-acc-9043b91a1/" target="_blank" aria-label="LinkedIn">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+    </a>
+    <a href="https://www.facebook.com/CrawfordCoachingKingston" target="_blank" aria-label="Facebook">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+    </a>
+  </div>
+</footer>
+
+<script>
+/* ═══════════════════════════════════════════
+   TASK TRIAGE — Crawford Coaching Growth Zone
+   ═══════════════════════════════════════════ */
+
+/* ── MUTED COLOUR PALETTE ── */
+const TASK_COLOURS = [
+  { h: 207, s: 55, l: 52, hex: '#3d8abf' },  // steel blue
+  { h: 160, s: 35, l: 48, hex: '#50a584' },  // sage green
+  { h:  28, s: 50, l: 55, hex: '#c08a4e' },  // warm amber
+  { h: 340, s: 40, l: 55, hex: '#b56878' },  // dusty rose
+  { h: 265, s: 30, l: 55, hex: '#7e6faa' },  // muted purple
+  { h: 185, s: 40, l: 48, hex: '#49999e' },  // teal
+  { h:  45, s: 45, l: 52, hex: '#b8a04a' },  // olive gold
+  { h: 355, s: 45, l: 52, hex: '#bf4f55' },  // brick red
+  { h: 140, s: 30, l: 52, hex: '#5f9e72' },  // forest
+  { h: 220, s: 35, l: 52, hex: '#5676a1' },  // slate blue
+];
+
+/* ── STATE ── */
+let tasks = [];
+let completionScores = {};
+let priorities = {};
+let currentColIndex = 0;
+let selectedChip = null;
+let aiSummaryText = '';
+
+const COLUMNS = [
+  { key: 'urgent',    label: 'Most Urgent',         top: 'Most urgent',    bottom: 'Least urgent' },
+  { key: 'time',      label: 'Most Time-Consuming',  top: 'Most time-consuming', bottom: 'Least time-consuming' },
+  { key: 'difficult', label: 'Most Difficult',       top: 'Most difficult', bottom: 'Least difficult' },
+  { key: 'important', label: 'Most Important',        top: 'Most important', bottom: 'Least important' },
+  { key: 'enjoyable', label: 'Most Enjoyable',        top: 'Most enjoyable', bottom: 'Least enjoyable' },
+];
+
+/* ── SCREEN MANAGEMENT ── */
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+/* ── TASK ENTRY ── */
+function initTaskEntry() {
+  const list = document.getElementById('task-list');
+  list.innerHTML = '';
+  for (let i = 0; i < 3; i++) addTaskRow();
+}
+
+function addTaskRow() {
+  const list = document.getElementById('task-list');
+  const count = list.children.length;
+  if (count >= 10) return;
+
+  const row = document.createElement('div');
+  row.className = 'task-entry__row';
+  row.innerHTML = `
+    <span class="task-entry__num">${count + 1}</span>
+    <input class="task-entry__input" type="text" placeholder="Task, project, or decision..." maxlength="60">
+    <button class="task-entry__remove" onclick="removeTaskRow(this)" title="Remove">&times;</button>
+  `;
+  list.appendChild(row);
+
+  const input = row.querySelector('.task-entry__input');
+  input.addEventListener('input', updateTaskContinue);
+  input.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      const rows = list.querySelectorAll('.task-entry__input');
+      const idx = Array.from(rows).indexOf(input);
+      if (idx === rows.length - 1 && count < 9) {
+        addTaskRow();
+        list.querySelector('.task-entry__row:last-child .task-entry__input').focus();
+      } else if (idx < rows.length - 1) {
+        rows[idx + 1].focus();
+      }
+    }
+  });
+  input.focus();
+
+  updateAddButton();
+  updateTaskContinue();
+}
+
+function removeTaskRow(btn) {
+  const list = document.getElementById('task-list');
+  if (list.children.length <= 3) return;
+  btn.closest('.task-entry__row').remove();
+  // Renumber
+  list.querySelectorAll('.task-entry__num').forEach((n, i) => n.textContent = i + 1);
+  updateAddButton();
+  updateTaskContinue();
+}
+
+function updateAddButton() {
+  const list = document.getElementById('task-list');
+  const btn = document.getElementById('btn-add-task');
+  btn.disabled = list.children.length >= 10;
+}
+
+function updateTaskContinue() {
+  const inputs = document.querySelectorAll('.task-entry__input');
+  const filled = Array.from(inputs).filter(i => i.value.trim().length > 0);
+  document.getElementById('btn-to-wheel').disabled = filled.length < 3;
+}
+
+/* ── WHEEL ── */
+function goToWheel() {
+  // Collect tasks
+  const inputs = document.querySelectorAll('.task-entry__input');
+  tasks = Array.from(inputs)
+    .map(i => i.value.trim())
+    .filter(t => t.length > 0);
+
+  if (tasks.length < 3) return;
+
+  // Init completion scores
+  tasks.forEach((t, i) => {
+    if (!(t in completionScores)) completionScores[t] = 0;
+  });
+
+  buildWheel();
+  showScreen('screen-wheel');
+}
+
+function buildWheel() {
+  const container = document.getElementById('wheel-container');
+  const n = tasks.length;
+  const cx = 350, cy = 350, outerR = 220, innerR = 22;
+  const rings = 10;
+
+  let svg = `<svg viewBox="0 0 700 700" xmlns="http://www.w3.org/2000/svg">`;
+
+  // Background circle
+  svg += `<circle cx="${cx}" cy="${cy}" r="${outerR}" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>`;
+
+  // Draw ring circles for reference
+  for (let r = 1; r <= rings; r++) {
+    const radius = innerR + (outerR - innerR) * (r / rings);
+    svg += `<circle cx="${cx}" cy="${cy}" r="${radius}" fill="none" stroke="rgba(255,255,255,0.04)" stroke-width="0.5"/>`;
+  }
+
+  // Draw sectors
+  const angleStep = (2 * Math.PI) / n;
+
+  for (let i = 0; i < n; i++) {
+    const startAngle = -Math.PI / 2 + i * angleStep;
+    const endAngle = startAngle + angleStep;
+    const colour = TASK_COLOURS[i % TASK_COLOURS.length];
+    const midAngle = startAngle + angleStep / 2;
+
+    // Sector divider lines
+    const lx = cx + outerR * Math.cos(startAngle);
+    const ly = cy + outerR * Math.sin(startAngle);
+    svg += `<line x1="${cx}" y1="${cy}" x2="${lx}" y2="${ly}" stroke="rgba(255,255,255,0.08)" stroke-width="0.5"/>`;
+
+    // Clickable cells for each ring
+    for (let r = 1; r <= rings; r++) {
+      const rInner = innerR + (outerR - innerR) * ((r - 1) / rings);
+      const rOuter = innerR + (outerR - innerR) * (r / rings);
+
+      const x1i = cx + rInner * Math.cos(startAngle);
+      const y1i = cy + rInner * Math.sin(startAngle);
+      const x1o = cx + rOuter * Math.cos(startAngle);
+      const y1o = cy + rOuter * Math.sin(startAngle);
+      const x2i = cx + rInner * Math.cos(endAngle);
+      const y2i = cy + rInner * Math.sin(endAngle);
+      const x2o = cx + rOuter * Math.cos(endAngle);
+      const y2o = cy + rOuter * Math.sin(endAngle);
+
+      const largeArc = angleStep > Math.PI ? 1 : 0;
+
+      const path = `M ${x1i} ${y1i} L ${x1o} ${y1o} A ${rOuter} ${rOuter} 0 ${largeArc} 1 ${x2o} ${y2o} L ${x2i} ${y2i} A ${rInner} ${rInner} 0 ${largeArc} 0 ${x1i} ${y1i} Z`;
+
+      const score = completionScores[tasks[i]] || 0;
+      const filled = r <= score;
+      const opacity = filled ? (0.3 + 0.7 * (r / rings)) : 0.04;
+      const fillCol = filled ? `hsla(${colour.h}, ${colour.s}%, ${colour.l}%, ${opacity})` : `rgba(255,255,255,0.03)`;
+      const strokeCol = filled ? `hsla(${colour.h}, ${colour.s}%, ${colour.l}%, 0.5)` : 'rgba(255,255,255,0.06)';
+
+      svg += `<path class="wheel-cell" d="${path}" fill="${fillCol}" stroke="${strokeCol}" stroke-width="0.5" data-task="${i}" data-ring="${r}" onclick="setCompletion(${i}, ${r})"/>`;
+    }
+
+    // Task label on outer edge
+    const labelR = outerR + 22;
+    const lx2 = cx + labelR * Math.cos(midAngle);
+    const ly2 = cy + labelR * Math.sin(midAngle);
+
+    // Calculate rotation for readability
+    let rotDeg = (midAngle * 180) / Math.PI;
+    // Flip text on bottom half so it reads right-side-up
+    let anchor = 'start';
+    if (rotDeg > 90 || rotDeg < -90) {
+      rotDeg += 180;
+      anchor = 'end';
+    }
+    // Handle edge case for near-bottom
+    if (Math.abs(rotDeg) > 170) {
+      anchor = 'end';
+    }
+
+    // Truncate long names
+    const displayName = tasks[i].length > 24 ? tasks[i].substring(0, 22) + '...' : tasks[i];
+
+    svg += `<text class="wheel-label" x="${lx2}" y="${ly2}" text-anchor="${anchor}" dominant-baseline="middle" transform="rotate(${rotDeg}, ${lx2}, ${ly2})">${escapeHtml(displayName)}</text>`;
+
+    // Score label in the sector
+    const scoreLabelR = innerR + (outerR - innerR) * 0.5;
+    const slx = cx + scoreLabelR * Math.cos(midAngle);
+    const sly = cy + scoreLabelR * Math.sin(midAngle);
+    const scoreVal = completionScores[tasks[i]] || 0;
+    const visClass = scoreVal > 0 ? 'visible' : '';
+    svg += `<text class="wheel-score-label ${visClass}" x="${slx}" y="${sly}" text-anchor="middle" dominant-baseline="middle" fill="hsla(${colour.h}, ${colour.s}%, ${colour.l + 20}%, 0.9)">${scoreVal * 10}%</text>`;
+  }
+
+  // Centre dot
+  svg += `<circle cx="${cx}" cy="${cy}" r="${innerR}" fill="var(--slate)" stroke="rgba(255,255,255,0.08)" stroke-width="0.5"/>`;
+  svg += `<text x="${cx}" y="${cy}" text-anchor="middle" dominant-baseline="middle" fill="var(--fog)" font-family="Jost, sans-serif" font-size="9" font-weight="300">0%</text>`;
+
+  svg += `</svg>`;
+  container.innerHTML = svg;
+}
+
+function setCompletion(taskIndex, ring) {
+  const task = tasks[taskIndex];
+  // Toggle: if clicking the same ring that's currently set, reset to 0
+  if (completionScores[task] === ring) {
+    completionScores[task] = 0;
+  } else {
+    completionScores[task] = ring;
+  }
+  buildWheel();
+}
+
+function escapeHtml(str) {
+  return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
+/* ── PRIORITISATION ── */
+function goToPriority() {
+  // Init priorities
+  COLUMNS.forEach(col => {
+    priorities[col.key] = new Array(tasks.length).fill(null);
+  });
+  currentColIndex = 0;
+  renderColumn();
+  showScreen('screen-priority');
+}
+
+function renderColumn() {
+  const col = COLUMNS[currentColIndex];
+  document.getElementById('priority-step').textContent = `Column ${currentColIndex + 1} of ${COLUMNS.length}`;
+  document.getElementById('col-label').textContent = col.label;
+  document.getElementById('col-range').textContent = `${col.top} at the top · ${col.bottom} at the bottom`;
+
+  selectedChip = null;
+
+  // Build chip bank
+  const bankEl = document.getElementById('chip-bank');
+  const placed = priorities[col.key];
+  bankEl.innerHTML = '';
+  tasks.forEach((t, i) => {
+    const isPlaced = placed.includes(i);
+    const chip = document.createElement('button');
+    chip.className = 'chip' + (isPlaced ? ' placed' : '');
+    chip.textContent = t;
+    chip.dataset.index = i;
+    if (!isPlaced) {
+      chip.onclick = () => selectChip(chip, i);
+    }
+    bankEl.appendChild(chip);
+  });
+
+  // Build slot list
+  const slotEl = document.getElementById('slot-list');
+  slotEl.innerHTML = '';
+  for (let s = 0; s < tasks.length; s++) {
+    const slot = document.createElement('div');
+    slot.className = 'slot' + (placed[s] !== null ? ' filled' : '');
+    const taskIdx = placed[s];
+    if (taskIdx !== null) {
+      slot.innerHTML = `
+        <span class="slot__rank">${s + 1}</span>
+        <span class="slot__name">${escapeHtml(tasks[taskIdx])}</span>
+        <button class="slot__clear" onclick="clearSlot(${s})" title="Remove">&times;</button>
+      `;
+    } else {
+      slot.innerHTML = `
+        <span class="slot__rank">${s + 1}</span>
+        <span class="slot__placeholder">Click a task above, then click here</span>
+      `;
+      slot.onclick = () => placeInSlot(s);
+    }
+    slotEl.appendChild(slot);
+  }
+
+  // Nav buttons
+  document.getElementById('btn-prev-col').disabled = currentColIndex === 0;
+  const allPlaced = placed.every(p => p !== null);
+  const isLast = currentColIndex === COLUMNS.length - 1;
+  const nextBtn = document.getElementById('btn-next-col');
+  nextBtn.disabled = !allPlaced;
+  nextBtn.textContent = isLast ? 'See Results →' : 'Next →';
+}
+
+function selectChip(chipEl, taskIndex) {
+  // Deselect previous
+  document.querySelectorAll('.chip.selected').forEach(c => c.classList.remove('selected'));
+  chipEl.classList.add('selected');
+  selectedChip = taskIndex;
+}
+
+function placeInSlot(slotIndex) {
+  if (selectedChip === null) return;
+  const col = COLUMNS[currentColIndex];
+  // Remove from any existing slot
+  const existing = priorities[col.key].indexOf(selectedChip);
+  if (existing !== -1) priorities[col.key][existing] = null;
+  priorities[col.key][slotIndex] = selectedChip;
+  selectedChip = null;
+  renderColumn();
+}
+
+function clearSlot(slotIndex) {
+  const col = COLUMNS[currentColIndex];
+  priorities[col.key][slotIndex] = null;
+  renderColumn();
+}
+
+function nextColumn() {
+  const col = COLUMNS[currentColIndex];
+  if (priorities[col.key].some(p => p === null)) return;
+
+  if (currentColIndex === COLUMNS.length - 1) {
+    goToResults();
+  } else {
+    currentColIndex++;
+    renderColumn();
+    // Scroll to top of priority screen
+    document.querySelector('.priority-screen').scrollIntoView({ behavior: 'smooth' });
+  }
+}
+
+function prevColumn() {
+  if (currentColIndex > 0) {
+    currentColIndex--;
+    renderColumn();
+    document.querySelector('.priority-screen').scrollIntoView({ behavior: 'smooth' });
+  }
+}
+
+/* ── CONFIG ── */
+const USE_AI_SUMMARY = false; // Toggle: set to true to use Haiku API for on-screen summary
+
+/* ── RESULTS ── */
+async function goToResults() {
+  showScreen('screen-results');
+
+  const userName = document.getElementById('user-name').value.trim() || '';
+
+  // Build data for summary and report
+  const taskData = tasks.map((t, i) => ({
+    name: t,
+    completion: (completionScores[t] || 0) * 10,
+    rankings: {}
+  }));
+
+  COLUMNS.forEach(col => {
+    priorities[col.key].forEach((taskIdx, rank) => {
+      if (taskIdx !== null) {
+        taskData[taskIdx].rankings[col.key] = rank + 1;
+      }
+    });
+  });
+
+  // Store for email report
+  window._triageData = { taskData, userName };
+
+  if (USE_AI_SUMMARY) {
+    // Show loading state for AI call
+    document.getElementById('loading-indicator').style.display = 'flex';
+    document.getElementById('ai-summary').style.display = 'none';
+    document.getElementById('summary-table-wrap').style.display = 'none';
+    document.getElementById('cta-refine').style.display = 'none';
+    document.getElementById('report-offer').style.display = 'none';
+    document.getElementById('cta-coaching').style.display = 'none';
+    document.getElementById('results-actions').style.display = 'none';
+
+    const prompt = buildHaikuPrompt(userName, taskData);
+
+    try {
+      const response = await fetch('/api/task-triage', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ prompt, userName })
+      });
+      if (!response.ok) throw new Error('API request failed');
+      const data = await response.json();
+      aiSummaryText = data.summary || generateFallbackSummary(userName, taskData);
+    } catch (err) {
+      console.error('AI summary error:', err);
+      aiSummaryText = generateFallbackSummary(userName, taskData);
+    }
+
+    document.getElementById('loading-indicator').style.display = 'none';
+  } else {
+    // Client-side summary — no loading needed
+    document.getElementById('loading-indicator').style.display = 'none';
+    aiSummaryText = generateFallbackSummary(userName, taskData);
+  }
+
+  // Display everything
+  document.getElementById('ai-summary').style.display = 'block';
+  document.getElementById('ai-summary-content').innerHTML = formatSummary(aiSummaryText);
+
+  buildSummaryTable();
+  document.getElementById('summary-table-wrap').style.display = 'block';
+
+  document.getElementById('cta-refine').style.display = 'flex';
+  document.getElementById('report-offer').style.display = 'block';
+  document.getElementById('cta-coaching').style.display = 'flex';
+  document.getElementById('results-actions').style.display = 'flex';
+
+  // Escalation detection: strengthen coaching CTA for high-stakes or interpersonal items
+  const n = taskData.length;
+  const interpersonalWords = /\b(conversation|confrontation|talk to|tell|ask|apologise|apologize|break up|resign|quit|fire|let go|divorce|confront|discuss with|speak to|say no)\b/i;
+  const hasHighStakes = taskData.some(t =>
+    t.rankings.difficult <= Math.ceil(n / 3) &&
+    t.rankings.important <= Math.ceil(n / 3) &&
+    t.completion <= 20
+  );
+  const hasInterpersonal = taskData.some(t => interpersonalWords.test(t.name));
+
+  if (hasHighStakes || hasInterpersonal) {
+    const coachingCard = document.getElementById('cta-coaching');
+    coachingCard.querySelector('.cta-card__text').textContent =
+      'Some of what is on your list looks like it might benefit from thinking through with another person. A coaching conversation is a good place to work through what is getting in the way and figure out a concrete next step.';
+    // Move coaching CTA above the report offer for prominence
+    const reportOffer = document.getElementById('report-offer');
+    reportOffer.parentNode.insertBefore(coachingCard, reportOffer);
+  }
+
+  // Pre-fill report name if user provided one
+  if (userName) {
+    document.getElementById('report-name').value = userName;
+  }
+
+  const sub = userName
+    ? `Here is what your rankings suggest, ${escapeHtml(userName)}.`
+    : 'Here is what your rankings suggest.';
+  document.getElementById('results-sub').textContent = sub;
+}
+
+function buildHaikuPrompt(userName, taskData) {
+  const nameRef = userName ? userName : 'the user';
+  const taskSummary = taskData.map(t => {
+    const ranks = COLUMNS.map(col => `${col.label}: #${t.rankings[col.key]}`).join(', ');
+    return `- "${t.name}" — ${t.completion}% complete. Rankings: ${ranks}`;
+  }).join('\n');
+
+  return `You are a warm, observant coaching assistant helping someone see the shape of what is on their plate. You are not telling them what to do. You are reflecting back what their own answers reveal, and pointing out patterns they might not have noticed. You are direct, use plain language, and avoid buzzwords. Do not use em-dashes. Use Canadian/British spelling (prioritise, organise, etc.).
+
+${nameRef} has listed the following tasks, rated how complete each one is, and ranked them across five dimensions (1 = most, ${taskData.length} = least):
+
+${taskSummary}
+
+You do NOT know their deadlines, their context, or what matters most in their life. Their rankings are the only data you have. Your job is to reflect the picture back clearly so they can decide what to do. Use these observations as a guide:
+
+1. If anything is both urgent AND nearly complete, note that it looks like a quick win that could free up mental space.
+2. If something is ranked high on urgency, importance, AND difficulty simultaneously, flag that combination. It often signals something that is weighing on a person. It may need dedicated time, support, or to be broken into smaller pieces.
+3. If something is ranked as enjoyable, note that it could serve as a useful counterbalance when placed between harder tasks.
+4. If something is both difficult and time-consuming but has low completion, observe that it might be the kind of item that benefits from being broken into sub-tasks.
+5. Do NOT tell them what order to do things in. Instead, describe what their rankings suggest and let them draw their own conclusions.
+
+Write 3-4 short paragraphs. Be specific, referencing the actual task names and their data. Write as if you are a coach sitting across from ${nameRef}, reflecting back what you see. Close with a brief note that if any single item still feels too big to act on, they can run this exercise again with just the sub-tasks of that one project to break it down further. That one sentence should feel like a practical suggestion, not a sales pitch.
+
+Do not include any greeting or sign-off. Just provide the observations.`;
+}
+
+/*
+ * REPORT PROMPT POLICY
+ *
+ * This policy object is sent alongside the exercise results to the
+ * exercise-report serverless function. It defines the hard behavioural
+ * constraints for the AI model generating the emailed worksheet.
+ * The exercise-report function must inject this policy into the system
+ * prompt verbatim.
+ */
+const REPORT_PROMPT_POLICY = `STRICT BEHAVIOURAL POLICY — YOU MUST FOLLOW THESE RULES WITHOUT EXCEPTION:
+
+1. REFLECT, NEVER ADVISE. You are a mirror, not a coach. You restate what the person's own data shows. You ask questions to help them think. You NEVER suggest, recommend, advise, prescribe, prioritise, or interpret motivation.
+
+2. NO ORDERING. You must NEVER suggest what to do first, second, or in any sequence. You must NEVER imply that one task should take priority over another. The person decides.
+
+3. NO INTERPRETATION. You must NEVER speculate about WHY something is incomplete, difficult, or avoided. You must NEVER interpret emotional states, fears, or resistance. You do not know their context.
+
+4. QUESTIONS ONLY. For each task section, your output is: (a) a factual restatement of what they ranked and rated, and (b) open-ended questions to help them think through next steps. Questions must be neutral and non-leading.
+
+5. ESCALATION SIGNALS. If any task meets ALL THREE of these conditions — ranked in the top third for difficulty, ranked in the top third for importance, AND completion is below 20% — include a note at the end of that task's section: "This looks like the kind of challenge where talking it through with someone could help. A coaching conversation is a good place to start." Link to: https://calendar.app.google/R66fNg5m7w3aKPKd6
+
+6. INTERPERSONAL TASKS. If a task name contains words suggesting an interpersonal or emotional situation (conversation, confrontation, talk to, tell, ask, apologise, break up, resign, etc.), ALWAYS include the escalation note from rule 5 regardless of rankings. These are not logistics problems.
+
+7. NO MOTIVATIONAL LANGUAGE. Do not encourage, reassure, praise, or cheerfully frame difficulty. Do not say things like "you've got this", "great start", "don't worry", or "the hardest part is starting." Be warm but factually grounded.
+
+8. FORMAT. Use Canadian/British spelling. Do not use em-dashes. Do not use buzzwords. Write in plain, direct language.`;
+
+function buildReportPromptData(userName, taskData) {
+  const nameRef = userName || 'there';
+  const n = taskData.length;
+
+  const taskSummary = taskData.map(t => {
+    const ranks = COLUMNS.map(col => `${col.label}: #${t.rankings[col.key]}`).join(', ');
+    return `- "${t.name}" — ${t.completion}% complete. Rankings: ${ranks}`;
+  }).join('\n');
+
+  // Identify top priorities by composite of urgency + importance (lowest rank sum = highest priority)
+  const prioritised = [...taskData]
+    .map(t => ({ ...t, priorityScore: t.rankings.urgent + t.rankings.important }))
+    .sort((a, b) => a.priorityScore - b.priorityScore);
+  const topCount = Math.min(3, Math.ceil(n / 2));
+  const topTasks = prioritised.slice(0, topCount);
+
+  const topTaskNames = topTasks.map(t => `"${t.name}"`).join(', ');
+
+  const prompt = `${REPORT_PROMPT_POLICY}
+
+---
+
+You are generating a personalised coaching worksheet for ${nameRef} based on their Task Triage results.
+
+${nameRef} listed ${n} tasks, rated completion, and ranked them across five dimensions (1 = most, ${n} = least):
+
+${taskSummary}
+
+STRUCTURE YOUR OUTPUT AS FOLLOWS:
+
+1. A brief opening (2-3 sentences). Restate what ${nameRef} put on their list and note the overall shape: how many items, the range of completion. Do NOT interpret or advise. Example: "${nameRef}, you listed ${n} items. Completion ranges from X% to Y%. Here are some questions to help you think through what comes next."
+
+2. For each of the top ${topCount} priority tasks (${topTaskNames}), create a section with:
+   - The task name as a heading
+   - A single factual sentence restating their rankings and completion for that task
+   - 4-5 open-ended questions from this list (choose the most relevant, do not use all):
+     * What does "done" actually look like for this?
+     * What is the smallest concrete step you could take in the next 24 hours?
+     * What has stopped you from making progress so far?
+     * Is there something you need — information, help, a decision from someone else — before you can move forward?
+     * When specifically will you work on this? What day, what time?
+     * How will you know you are making progress?
+     * What is most likely to get in the way?
+     * What would you need to say no to in order to make room for this?
+     * Is this actually one task, or is it several things bundled together?
+     * What would finishing this make possible?
+   - If the task triggers an escalation signal (see policy rules 5-6), include the escalation note.
+
+3. A brief closing (1-2 sentences). Note that if any item on their list feels too large to act on, they can run the Task Triage exercise again with just the sub-tasks of that one project. This should feel like a practical tool suggestion, not a sales pitch.
+
+Do not include a subject line. Do not include a greeting beyond using their name in the opening. Do not sign off.`;
+
+  return {
+    prompt,
+    policy: REPORT_PROMPT_POLICY,
+    top_tasks: topTasks.map(t => t.name),
+  };
+}
+
+function generateFallbackSummary(userName, taskData) {
+  const nameRef = userName || 'You';
+  const n = taskData.length;
+
+  // Analyse patterns in the data
+  const scored = taskData.map(t => {
+    const urgencyScore = t.rankings.urgent;
+    const importanceScore = t.rankings.important;
+    const difficultyScore = t.rankings.difficult;
+    const timeScore = t.rankings.time;
+    const enjoyableScore = t.rankings.enjoyable;
+    return { ...t, urgencyScore, importanceScore, difficultyScore, timeScore, enjoyableScore };
+  });
+
+  // Identify patterns
+  const quickWins = scored.filter(t => t.completion >= 70 && t.urgencyScore <= Math.ceil(n / 2));
+  const highStakes = scored.filter(t =>
+    t.urgencyScore <= Math.ceil(n / 3) &&
+    t.importanceScore <= Math.ceil(n / 3) &&
+    t.difficultyScore <= Math.ceil(n / 3)
+  );
+  const enjoyable = scored.filter(t => t.enjoyableScore <= Math.ceil(n / 3));
+  const heavyLifts = scored.filter(t =>
+    t.difficultyScore <= Math.ceil(n / 3) &&
+    t.timeScore <= Math.ceil(n / 3) &&
+    t.completion < 50
+  );
+  const notStarted = scored.filter(t => t.completion === 0);
+
+  let summary = '';
+
+  // Paragraph 1: Quick wins or opening observation
+  if (quickWins.length > 0) {
+    const names = quickWins.map(t => `"${t.name}" (${t.completion}%)`).join(' and ');
+    summary += `${nameRef}, a few things stand out. ${names} ${quickWins.length === 1 ? 'is' : 'are'} already most of the way there and you have ranked ${quickWins.length === 1 ? 'it' : 'them'} as relatively urgent. Sometimes the most useful thing you can do is finish what is almost done. It clears the mental load and gives you a sense of momentum that makes the next thing easier to start.\n\n`;
+  } else if (notStarted.length === n) {
+    summary += `${nameRef}, nothing on your list has been started yet, and that is worth noticing. When everything is at zero, the barrier is usually not about knowing what to do. It is about picking one thing and beginning. Your urgency and importance rankings can help with that decision.\n\n`;
+  } else {
+    const mostUrgent = scored.find(t => t.urgencyScore === 1);
+    const mostImportant = scored.find(t => t.importanceScore === 1);
+    if (mostUrgent && mostImportant && mostUrgent.name === mostImportant.name) {
+      summary += `${nameRef}, you ranked "${mostUrgent.name}" as both the most urgent and the most important. That kind of alignment usually means you already know where your attention needs to go. It is currently ${mostUrgent.completion}% complete.\n\n`;
+    } else if (mostUrgent && mostImportant) {
+      summary += `${nameRef}, your most urgent item is "${mostUrgent.name}" and your most important is "${mostImportant.name}". When those are different things, it is worth sitting with that for a moment. Urgency pulls at you, but importance is what you will care about having done a month from now.\n\n`;
+    }
+  }
+
+  // Paragraph 2: High-stakes pattern
+  if (highStakes.length > 0) {
+    const names = highStakes.map(t => `"${t.name}"`).join(' and ');
+    summary += `${names} ${highStakes.length === 1 ? 'shows' : 'show'} up as urgent, important, and difficult all at once. That combination often signals something that has been weighing on you. When a task is hard and important and pressing, it rarely gets easier by waiting. It may be worth asking: what would it take to make real progress on ${highStakes.length === 1 ? 'this' : 'one of these'} in the next few days? And do you need support or resources to get moving?\n\n`;
+  }
+
+  // Paragraph 3: Enjoyment and balance, or general observation
+  if (enjoyable.length > 0) {
+    const enjoyNames = enjoyable.map(t => `"${t.name}"`).join(' and ');
+    const hardest = scored.find(t => t.difficultyScore === 1);
+    let hardNote = '';
+    if (hardest && !enjoyable.some(t => t.name === hardest.name)) {
+      hardNote = ` You also ranked "${hardest.name}" as the hardest thing on your list. Alternating between something difficult and something you enjoy is one way to sustain energy across a longer to-do list.`;
+    }
+    summary += `You ranked ${enjoyNames} among the most enjoyable things on your list. That is useful information.${hardNote}\n\n`;
+  }
+
+  // Paragraph 4: Heavy lifts and sub-task guidance
+  if (heavyLifts.length > 0) {
+    const names = heavyLifts.map(t => `"${t.name}" (${t.completion}%)`).join(' and ');
+    summary += `${names} ${heavyLifts.length === 1 ? 'is' : 'are'} ranked as both difficult and time-consuming, with relatively little progress so far. Items like ${heavyLifts.length === 1 ? 'this' : 'these'} sometimes stall because they feel too large to start. If that is the case, you can run this exercise again with just the sub-tasks of that one item to break it into pieces that are easier to act on.\n\n`;
+  } else {
+    summary += `If any single item on your list still feels too large to act on, you can run this exercise again with just the sub-tasks of that one project to break it into smaller, more concrete steps.\n\n`;
+  }
+
+  return summary.trim();
+}
+
+function formatSummary(text) {
+  return text.split(/\n\n+/).map(p => `<p>${p.trim()}</p>`).join('');
+}
+
+function buildSummaryTable() {
+  const wrap = document.getElementById('summary-table-wrap');
+  let html = `<table class="summary-table"><thead><tr>
+    <th>#</th>`;
+  COLUMNS.forEach(col => {
+    html += `<th>${col.label}</th>`;
+  });
+  html += `<th>Completion</th></tr></thead><tbody>`;
+
+  for (let rank = 0; rank < tasks.length; rank++) {
+    html += `<tr><td class="summary-table__rank">${rank + 1}</td>`;
+    COLUMNS.forEach(col => {
+      const taskIdx = priorities[col.key][rank];
+      html += `<td>${taskIdx !== null ? escapeHtml(tasks[taskIdx]) : ''}</td>`;
+    });
+    // Show completion for the task ranked #1 in urgency at this rank... actually, show by urgency ranking
+    const urgentTaskIdx = priorities['urgent'][rank];
+    const comp = urgentTaskIdx !== null ? (completionScores[tasks[urgentTaskIdx]] || 0) * 10 + '%' : '';
+    html += `<td>${comp}</td>`;
+    html += `</tr>`;
+  }
+
+  html += `</tbody></table>`;
+  wrap.innerHTML = html;
+}
+
+/* ── DOWNLOAD ── */
+function downloadSummary() {
+  const userName = document.getElementById('user-name').value.trim();
+  const name = userName || 'Your';
+  const dateStr = new Date().toLocaleDateString('en-CA', { year: 'numeric', month: 'long', day: 'numeric' });
+
+  // Build table rows
+  let tableRows = '';
+  for (let rank = 0; rank < tasks.length; rank++) {
+    tableRows += `<tr><td style="color:#3d4a58;width:28px;">${rank + 1}</td>`;
+    COLUMNS.forEach(col => {
+      const taskIdx = priorities[col.key][rank];
+      tableRows += `<td>${taskIdx !== null ? escapeHtml(tasks[taskIdx]) : ''}</td>`;
+    });
+    const urgentTaskIdx = priorities['urgent'][rank];
+    const comp = urgentTaskIdx !== null ? (completionScores[tasks[urgentTaskIdx]] || 0) * 10 + '%' : '';
+    tableRows += `<td>${comp}</td></tr>`;
+  }
+
+  // Build completion list
+  let compList = tasks.map((t, i) => {
+    const pct = (completionScores[t] || 0) * 10;
+    const colour = TASK_COLOURS[i % TASK_COLOURS.length];
+    return `<div style="display:flex;align-items:center;gap:0.8rem;margin-bottom:0.5rem;">
+      <div style="width:12px;height:12px;background:${colour.hex};flex-shrink:0;"></div>
+      <span style="flex:1;">${escapeHtml(t)}</span>
+      <span style="color:#3d4a58;font-size:0.82rem;">${pct}%</span>
+    </div>`;
+  }).join('');
+
+  const summaryHtml = aiSummaryText.split(/\n\n+/).map(p => `<p style="margin-bottom:1rem;">${p.trim()}</p>`).join('');
+
+  const html = `<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Task Triage Summary</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Jost:wght@200;300;400&display=swap" rel="stylesheet">
+<style>
+body { font-family: 'Jost', sans-serif; font-weight: 300; color: #1c2330; max-width: 740px; margin: 0 auto; padding: 2.5rem 2rem; line-height: 1.7; font-size: 14px; }
+.header { text-align: center; margin-bottom: 2.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid #c8d4de; }
+.header__brand { font-size: 0.65rem; letter-spacing: 0.28em; text-transform: uppercase; color: #7a8fa3; margin-bottom: 0.5rem; }
+.header__title { font-family: 'Cormorant Garamond', serif; font-weight: 300; font-size: 2rem; color: #1c2330; margin-bottom: 0.3rem; }
+.header__date { font-size: 0.72rem; color: #7a8fa3; }
+.section-label { font-size: 0.62rem; letter-spacing: 0.28em; text-transform: uppercase; color: #2d86c4; margin: 2rem 0 1rem; }
+table { width: 100%; border-collapse: collapse; font-size: 0.78rem; margin-bottom: 2rem; }
+th { font-weight: 400; font-size: 0.6rem; letter-spacing: 0.16em; text-transform: uppercase; color: #2d86c4; padding: 0.6rem 0.4rem; border-bottom: 1px solid #c8d4de; text-align: left; }
+td { padding: 0.45rem 0.4rem; border-bottom: 1px solid #eee; color: #1c2330; }
+.summary { font-family: 'Jost', sans-serif; font-size: 0.88rem; line-height: 1.85; color: #232f3e; margin-bottom: 2rem; }
+.footer-section { margin-top: 2.5rem; padding-top: 1.5rem; border-top: 1px solid #c8d4de; }
+.footer-cta { background: #f8f8f6; padding: 1.2rem 1.5rem; margin-bottom: 1rem; }
+.footer-text { font-size: 0.82rem; color: #3d4a58; margin-bottom: 0.4rem; }
+.footer-link { font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: #2d86c4; text-decoration: none; }
+.footer-brand { text-align: center; margin-top: 2rem; font-size: 0.72rem; color: #7a8fa3; letter-spacing: 0.1em; }
+</style></head><body>
+<div class="header">
+  <div class="header__brand">Crawford Coaching · Growth Zone</div>
+  <h1 class="header__title">${name === 'Your' ? 'Task Triage Summary' : name + "'s Task Triage"}</h1>
+  <div class="header__date">${dateStr}</div>
+</div>
+
+<div class="section-label">Completion Status</div>
+${compList}
+
+<div class="section-label">Priority Rankings</div>
+<table>
+  <thead><tr><th>#</th>${COLUMNS.map(c => `<th>${c.label}</th>`).join('')}<th>Done</th></tr></thead>
+  <tbody>${tableRows}</tbody>
+</table>
+
+<div class="section-label">What Your Rankings Suggest</div>
+<div class="summary">${summaryHtml}</div>
+
+<div class="footer-section">
+  <div class="footer-cta">
+    <div class="footer-text">If any task still feels too large, run this exercise again with just the sub-tasks of that item.</div>
+    <a class="footer-link" href="https://crawford-coaching.ca/task-triage">Run Task Triage Again →</a>
+  </div>
+  <div class="footer-cta">
+    <div class="footer-text">Want help turning this into a plan you will actually follow? A coaching conversation is a good place to start.</div>
+    <a class="footer-link" href="https://calendar.app.google/R66fNg5m7w3aKPKd6">Book a free intro call →</a>
+  </div>
+</div>
+<div class="footer-brand">crawford-coaching.ca</div>
+</body></html>`;
+
+  const blob = new Blob([html], { type: 'text/html' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `task-triage${userName ? '-' + userName.toLowerCase() : ''}.html`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+/* ── RESTART ── */
+function restart() {
+  tasks = [];
+  completionScores = {};
+  priorities = {};
+  currentColIndex = 0;
+  selectedChip = null;
+  aiSummaryText = '';
+  document.getElementById('user-name').value = '';
+  initTaskEntry();
+  showScreen('screen-intro');
+}
+
+/* ── EMAIL REPORT ── */
+
+function requestReport() {
+  const name = document.getElementById('report-name').value.trim();
+  const email = document.getElementById('report-email').value.trim();
+  const newsletter = document.getElementById('report-newsletter').checked;
+  const btn = document.getElementById('btn-send-report');
+
+  if (!name || !email) {
+    showStatus('Please enter your name and email.', true);
+    return;
+  }
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    showStatus('Please enter a valid email address.', true);
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = 'Sending...';
+  showStatus('', false);
+
+  const triageData = window._triageData || {};
+  const taskData = triageData.taskData || [];
+
+  // Build the report prompt with policy
+  const reportData = buildReportPromptData(name, taskData);
+
+  // Build results object for the report system
+  const results = {
+    tasks: taskData.map(t => ({
+      name: t.name,
+      completion: t.completion,
+      rankings: t.rankings
+    })),
+    columns: COLUMNS.map(c => ({ key: c.key, label: c.label })),
+    client_summary: aiSummaryText,
+    report_prompt: reportData.prompt,
+    report_policy: reportData.policy,
+    top_tasks: reportData.top_tasks,
+  };
+
+  const payload = {
+    email,
+    first_name: name,
+    exercise_type: 'task_triage',
+    results,
+    newsletter_opt_in: newsletter,
+  };
+
+  fetch('/api/exercise-report', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+  })
+    .then(res => res.json())
+    .then(data => {
+      if (data.error) {
+        showStatus('Something went wrong. Please try again.', true);
+        btn.disabled = false;
+        btn.textContent = 'Send my worksheet';
+      } else {
+        showStatus('Check your inbox. Your worksheet is on its way.', false);
+        btn.textContent = 'Sent';
+        document.querySelector('.report-offer__form').style.opacity = '0.4';
+        document.querySelector('.report-offer__form').style.pointerEvents = 'none';
+      }
+    })
+    .catch(() => {
+      showStatus('Something went wrong. Please try again.', true);
+      btn.disabled = false;
+      btn.textContent = 'Send my worksheet';
+    });
+}
+
+function showStatus(msg, isError) {
+  const el = document.getElementById('report-status');
+  el.textContent = msg;
+  el.classList.toggle('visible', !!msg);
+  el.classList.toggle('error', isError);
+}
+
+function openPrivacy() {
+  document.getElementById('privacy-modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closePrivacy() {
+  document.getElementById('privacy-modal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closePrivacy();
+});
+document.getElementById('privacy-modal')?.addEventListener('click', (e) => {
+  if (e.target === e.currentTarget) closePrivacy();
+});
+
+/* ── INIT ── */
+initTaskEntry();
+</script>
+
+<!-- Nav toggle script -->
+<script>
+(function() {
+  const toggle = document.querySelector('.nav__toggle');
+  const overlay = document.querySelector('.nav__overlay');
+  if (!toggle || !overlay) return;
+
+  let closeTimer = null;
+  const closeMenu = () => {
+    toggle.classList.remove('open');
+    toggle.setAttribute('aria-expanded', 'false');
+    overlay.classList.remove('open');
+    const activeEl = document.activeElement;
+    if (activeEl && overlay.contains(activeEl)) activeEl.blur();
+    overlay.setAttribute('aria-hidden', 'true');
+    toggle.focus();
+    document.body.style.overflow = '';
+    if (closeTimer) clearTimeout(closeTimer);
+    closeTimer = setTimeout(() => { overlay.style.display = 'none'; }, 350);
+  };
+
+  const openMenu = () => {
+    if (closeTimer) clearTimeout(closeTimer);
+    toggle.classList.add('open');
+    toggle.setAttribute('aria-expanded', 'true');
+    overlay.style.display = 'flex';
+    overlay.setAttribute('aria-hidden', 'false');
+    requestAnimationFrame(() => overlay.classList.add('open'));
+    document.body.style.overflow = 'hidden';
+  };
+
+  toggle.addEventListener('click', function() {
+    toggle.classList.contains('open') ? closeMenu() : openMenu();
+  });
+  overlay.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && toggle.classList.contains('open')) closeMenu(); });
+  window.addEventListener('resize', () => { if (window.innerWidth > 900 && toggle.classList.contains('open')) closeMenu(); });
+})();
+</script>
+
+<script src="https://website-assistant-sandy.vercel.app/chat-widget.js"></script>
+</body>
+</html>
