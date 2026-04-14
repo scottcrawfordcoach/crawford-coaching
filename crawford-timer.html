@@ -684,6 +684,16 @@
           <span class="mode-title">My Saved Workouts</span>
           <span class="mode-sub">Load a previously saved workout</span>
         </button>
+        <button class="mode-btn" id="modeClockBtn">
+          <span class="mode-icon">🕐</span>
+          <span class="mode-title">Clock</span>
+          <span class="mode-sub">Current time with date &amp; day</span>
+        </button>
+        <button class="mode-btn" id="modeCountdownBtn">
+          <span class="mode-icon">⏳</span>
+          <span class="mode-title">Countdown Timer</span>
+          <span class="mode-sub">Set a duration and count down</span>
+        </button>
       </div>
     </section>
 
@@ -856,6 +866,61 @@
         <button class="btn" id="savedBackBtn" style="">← Main Menu</button>
       </div>
       <div id="savedWorkoutsList" class="stack" style="margin-top:8px;"></div>
+    </section>
+
+    <!-- Countdown Timer -->
+    <section class="card stack" id="countdownPanel" style="display:none">
+      <div class="row" style="justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px">
+        <div style="display:flex; align-items:center; gap:10px">
+          <span style="font-size:20px">⏳</span>
+          <div>
+            <div style="font-family:var(--serif-display); font-weight:400; font-size:1.2rem; letter-spacing:0.02em; color:var(--white);">Countdown Timer</div>
+            <div class="help">Select a duration or enter a custom time</div>
+          </div>
+        </div>
+        <button class="btn" id="countdownBackBtn">← Back</button>
+      </div>
+
+      <!-- Config -->
+      <div id="countdownConfig">
+        <div class="emom-group" style="margin-top:16px;">
+          <div class="emom-group-label">Quick start</div>
+          <div class="emom-chips" id="cdQuickBtns">
+            <button class="emom-chip" data-mins="1">1 min</button>
+            <button class="emom-chip" data-mins="2">2 min</button>
+            <button class="emom-chip" data-mins="5">5 min</button>
+            <button class="emom-chip" data-mins="10">10 min</button>
+            <button class="emom-chip" data-mins="15">15 min</button>
+            <button class="emom-chip" data-mins="20">20 min</button>
+            <button class="emom-chip" data-mins="25">25 min</button>
+            <button class="emom-chip" data-mins="30">30 min</button>
+          </div>
+        </div>
+        <button class="btn" id="cdCustomToggle" style="margin-top:12px; width:100%;">⚙ Custom Time</button>
+        <div id="cdCustomInputs" style="display:none; margin-top:12px;">
+          <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px;">
+            <label>Hours<input type="number" id="cdHH" min="0" max="23" value="0" /></label>
+            <label>Minutes<input type="number" id="cdMM" min="0" max="59" value="5" /></label>
+            <label>Seconds<input type="number" id="cdSS" min="0" max="59" value="0" /></label>
+          </div>
+        </div>
+        <button class="btn primary" id="cdStartBtn" style="width:100%; padding:14px; font-size:15px; margin-top:16px; opacity:0.4;" disabled>▶ Start</button>
+      </div>
+
+      <!-- Active display — clock-face style -->
+      <div id="countdownActive" style="display:none; text-align:center; padding:2rem 0;">
+        <div style="display:flex; align-items:baseline; justify-content:center; flex-wrap:nowrap; user-select:none; -webkit-user-select:none;">
+          <span id="cdDisplayMain" style="font-family:var(--sans);font-weight:300;font-size:clamp(3.5rem,20vw,14rem);line-height:1;letter-spacing:0.04em;color:var(--white);font-variant-numeric:tabular-nums;font-feature-settings:'tnum';white-space:nowrap;text-shadow:0 2px 24px rgba(0,0,0,0.5);">00</span>
+          <span style="font-family:var(--sans);font-weight:300;font-size:clamp(3.5rem,20vw,14rem);line-height:1;color:var(--white);">:</span>
+          <span id="cdDisplaySec" style="font-family:var(--sans);font-weight:500;font-size:clamp(2.2rem,12vw,9rem);line-height:1;letter-spacing:0.04em;color:var(--syn-orange);font-variant-numeric:tabular-nums;font-feature-settings:'tnum';white-space:nowrap;text-shadow:0 0 40px rgba(232,99,43,0.3),0 0 80px rgba(232,99,43,0.1);">00</span>
+        </div>
+        <div id="cdStatus" style="font-family:var(--sans);font-weight:300;font-size:clamp(0.65rem,1.8vw,1rem);letter-spacing:0.22em;text-transform:uppercase;color:var(--brand-blue);margin-top:0.5rem;">Ready</div>
+        <div style="display:flex; gap:10px; justify-content:center; margin-top:24px; flex-wrap:wrap;">
+          <button class="btn" id="cdPauseBtn">⏸ Pause</button>
+          <button class="btn primary" id="cdResumeBtn" style="display:none;">▶ Resume</button>
+          <button class="btn" id="cdResetBtn">↺ Reset</button>
+        </div>
+      </div>
     </section>
 
     <!-- Controls -->
@@ -1801,11 +1866,12 @@
     });
 
     // ---------- App Mode State Machine ----------
-    let appMode = 'main'; // 'main' | 'custom-timer' | 'saved-workouts' | 'emom-config' | 'emom-active' | 'emom-timer-config' | 'emom-timer-active'
+    let appMode = 'main'; // 'main' | 'custom-timer' | 'saved-workouts' | 'emom-config' | 'emom-active' | 'emom-timer-config' | 'emom-timer-active' | 'countdown'
     const emomPanel = document.getElementById('emomPanel');
     const emomInner = document.getElementById('emomInner');
     const emomTimerPanel = document.getElementById('emomTimerPanel');
     const modeSelector = document.getElementById('modeSelector');
+    const countdownPanel = document.getElementById('countdownPanel');
     const emomActionsBar = document.getElementById('emomActions');
     const emomTimerActionsBar = document.getElementById('emomTimerActions');
     const bottomControls = document.getElementById('bottomControls');
@@ -1816,6 +1882,7 @@
       modeSelector.style.display = 'none';
       emomPanel.style.display = 'none';
       emomTimerPanel.style.display = 'none';
+      countdownPanel.style.display = 'none';
       controlsPanel.style.display = 'none';
       savedWorkoutsPanel.style.display = 'none';
       emomActionsBar.style.display = 'none';
@@ -1933,11 +2000,162 @@
       bottomControls.style.display = 'flex';
     }
 
+    // ─── COUNTDOWN TIMER ──────────────────────────────────────────────────
+    let cdTotalSeconds = 0;
+    let cdEndTime     = null;
+    let cdRemaining   = 0;
+    let cdRunning     = false;
+    let cdRafId       = null;
+
+    function cdSecsToDisplay(totalSecs) {
+      const sFloor = Math.max(0, Math.floor(totalSecs));
+      const h = Math.floor(sFloor / 3600);
+      const m = Math.floor((sFloor % 3600) / 60);
+      const s = sFloor % 60;
+      document.getElementById('cdDisplayMain').textContent =
+        h > 0 ? h + ':' + String(m).padStart(2, '0') : String(m).padStart(2, '0');
+      document.getElementById('cdDisplaySec').textContent = String(s).padStart(2, '0');
+    }
+
+    function cdSetStatus(txt) { document.getElementById('cdStatus').textContent = txt; }
+
+    function cdEnableStart(on) {
+      const btn = document.getElementById('cdStartBtn');
+      btn.disabled = !on;
+      btn.style.opacity = on ? '1' : '0.4';
+    }
+
+    function switchToCountdown() {
+      appMode = 'countdown';
+      hideAllPanels();
+      countdownPanel.style.display = '';
+      document.getElementById('countdownConfig').style.display = '';
+      document.getElementById('countdownActive').style.display = 'none';
+      if (cdRafId) { cancelAnimationFrame(cdRafId); cdRafId = null; }
+      cdRunning = false; cdTotalSeconds = 0; cdRemaining = 0; cdEndTime = null;
+      document.querySelectorAll('#cdQuickBtns .emom-chip').forEach(b => b.classList.remove('active'));
+      document.getElementById('cdCustomInputs').style.display = 'none';
+      document.getElementById('cdCustomToggle').textContent = '⚙ Custom Time';
+      cdEnableStart(false);
+    }
+
+    // Quick-start buttons
+    document.querySelectorAll('#cdQuickBtns .emom-chip').forEach(btn => {
+      btn.addEventListener('click', function() {
+        document.querySelectorAll('#cdQuickBtns .emom-chip').forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        cdTotalSeconds = parseInt(this.dataset.mins, 10) * 60;
+        document.getElementById('cdCustomInputs').style.display = 'none';
+        document.getElementById('cdCustomToggle').textContent = '⚙ Custom Time';
+        cdEnableStart(true);
+      });
+    });
+
+    // Custom time toggle
+    document.getElementById('cdCustomToggle').addEventListener('click', function() {
+      const inputs = document.getElementById('cdCustomInputs');
+      const showing = inputs.style.display !== 'none';
+      inputs.style.display = showing ? 'none' : '';
+      this.textContent = showing ? '⚙ Custom Time' : '✕ Hide Custom';
+      if (!showing) {
+        document.querySelectorAll('#cdQuickBtns .emom-chip').forEach(b => b.classList.remove('active'));
+        cdCalcCustom();
+      }
+    });
+
+    function cdCalcCustom() {
+      const h = Math.max(0, parseInt(document.getElementById('cdHH').value, 10) || 0);
+      const m = Math.max(0, parseInt(document.getElementById('cdMM').value, 10) || 0);
+      const s = Math.max(0, parseInt(document.getElementById('cdSS').value, 10) || 0);
+      cdTotalSeconds = h * 3600 + m * 60 + s;
+      cdEnableStart(cdTotalSeconds > 0);
+    }
+    ['cdHH','cdMM','cdSS'].forEach(id => {
+      document.getElementById(id).addEventListener('input', cdCalcCustom);
+    });
+
+    // Start
+    document.getElementById('cdStartBtn').addEventListener('click', function() {
+      if (cdTotalSeconds <= 0) return;
+      cdRemaining = cdTotalSeconds;
+      cdEndTime   = Date.now() + cdRemaining * 1000;
+      document.getElementById('countdownConfig').style.display = 'none';
+      document.getElementById('countdownActive').style.display = '';
+      document.getElementById('cdPauseBtn').style.display = '';
+      document.getElementById('cdResumeBtn').style.display = 'none';
+      cdRunning = true;
+      cdSetStatus('Counting down');
+      cdSecsToDisplay(cdRemaining);
+      cdRafId = requestAnimationFrame(cdTick);
+    });
+
+    function cdTick() {
+      if (!cdRunning) return;
+      const remaining = Math.max(0, (cdEndTime - Date.now()) / 1000);
+      cdRemaining = remaining;
+      cdSecsToDisplay(remaining <= 0 ? 0 : remaining);
+      if (remaining <= 0) { cdFinish(); return; }
+      cdRafId = requestAnimationFrame(cdTick);
+    }
+
+    function cdFinish() {
+      cdRunning = false;
+      if (cdRafId) { cancelAnimationFrame(cdRafId); cdRafId = null; }
+      cdSecsToDisplay(0);
+      cdSetStatus('Done!');
+      document.getElementById('cdPauseBtn').style.display = 'none';
+      document.getElementById('cdResumeBtn').style.display = 'none';
+      try {
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        [880, 1100, 1320].forEach((freq, i) => {
+          const osc = ctx.createOscillator(), gain = ctx.createGain();
+          osc.connect(gain); gain.connect(ctx.destination);
+          osc.type = 'sine'; osc.frequency.value = freq;
+          gain.gain.setValueAtTime(0.4, ctx.currentTime + i * 0.25);
+          gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + i * 0.25 + 0.6);
+          osc.start(ctx.currentTime + i * 0.25);
+          osc.stop(ctx.currentTime + i * 0.25 + 0.7);
+        });
+      } catch(e) {}
+    }
+
+    document.getElementById('cdPauseBtn').addEventListener('click', function() {
+      if (!cdRunning) return;
+      cdRunning = false;
+      if (cdRafId) { cancelAnimationFrame(cdRafId); cdRafId = null; }
+      cdRemaining = Math.max(0, (cdEndTime - Date.now()) / 1000);
+      document.getElementById('cdPauseBtn').style.display = 'none';
+      document.getElementById('cdResumeBtn').style.display = '';
+      cdSetStatus('Paused');
+    });
+
+    document.getElementById('cdResumeBtn').addEventListener('click', function() {
+      if (cdRunning) return;
+      cdEndTime = Date.now() + cdRemaining * 1000;
+      cdRunning = true;
+      document.getElementById('cdPauseBtn').style.display = '';
+      document.getElementById('cdResumeBtn').style.display = 'none';
+      cdSetStatus('Counting down');
+      cdRafId = requestAnimationFrame(cdTick);
+    });
+
+    document.getElementById('cdResetBtn').addEventListener('click', function() {
+      cdRunning = false;
+      if (cdRafId) { cancelAnimationFrame(cdRafId); cdRafId = null; }
+      cdEndTime = null; cdRemaining = 0;
+      document.getElementById('countdownActive').style.display = 'none';
+      document.getElementById('countdownConfig').style.display = '';
+    });
+
+    document.getElementById('countdownBackBtn').addEventListener('click', switchToMain);
+    document.getElementById('modeCountdownBtn').addEventListener('click', switchToCountdown);
+
     // Mode selector buttons
     document.getElementById('modeEmomWorkoutBtn').addEventListener('click', switchToEmomConfig);
     document.getElementById('modeEmomTimerBtn').addEventListener('click', switchToEmomTimerConfig);
     document.getElementById('modeCustomTimerBtn').addEventListener('click', switchToCustomTimer);
     document.getElementById('modeSavedBtn').addEventListener('click', switchToSavedWorkouts);
+    document.getElementById('modeClockBtn').addEventListener('click', () => { window.location.href = 'clock.html'; });
     document.getElementById('mainMenuBtn').addEventListener('click', switchToMain);
     document.getElementById('savedBackBtn').addEventListener('click', switchToMain);
 
