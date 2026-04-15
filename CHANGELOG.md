@@ -6,7 +6,18 @@ The format is based on Keep a Changelog principles and uses reverse chronologica
 
 ## [2026-04-15]
 
+### Added
+- Added a shared favicon link (`/timer-favicon.png`) across site pages and writing article pages for consistent browser tab branding.
+- Updated [scripts/publish-writing-article.js](scripts/publish-writing-article.js) so newly generated writing article pages include the shared favicon automatically.
+
 ### Changed
+- Refreshed primary logo assets for cleaner edge rendering and improved dark-background legibility:
+  - [cc-logo.png](cc-logo.png)
+  - [extracted-images/cc-logo.png](extracted-images/cc-logo.png)
+- Increased site-wide dark-theme text contrast by updating shared color tokens across pages and generator templates:
+  - `--mist: #7a8fa3` → `#a4b6c8`
+  - `--pale: #c8d4de` → `#dde8f2`
+  - `--white: #f5f3ef` → `#ffffff`
 - Temporarily disabled the header "Start Here" CTA visuals while preserving underlying markup and links for quick re-enable later:
   - [crawford-homepage.html](crawford-homepage.html) desktop nav CTA and mobile overlay CTA now use the native `hidden` attribute.
   - [crawford-assistant.html](crawford-assistant.html) desktop nav CTA and mobile overlay CTA now use the native `hidden` attribute.

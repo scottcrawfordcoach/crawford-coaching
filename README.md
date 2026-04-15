@@ -123,6 +123,13 @@ Notes:
 
 ## Current Status
 
+### Recent Session Updates (2026-04-15)
+
+- Refreshed production logo assets in [cc-logo.png](cc-logo.png) and [extracted-images/cc-logo.png](extracted-images/cc-logo.png) to improve edge quality and dark-background legibility.
+- Rolled out shared favicon support (`/timer-favicon.png`) across site pages and writing article pages, and updated [scripts/publish-writing-article.js](scripts/publish-writing-article.js) so new generated articles inherit it.
+- Raised dark-theme readability with brighter shared text tokens across pages and templates (`--mist`, `--pale`, `--white`).
+- Temporarily hid the header "Start Here" CTA on [crawford-homepage.html](crawford-homepage.html) and [crawford-assistant.html](crawford-assistant.html) using `hidden` (links preserved for quick restoration).
+
 ### Completed: Mobile Phase 1 (Navigation)
 
 Implemented fullscreen hamburger overlay nav on all 8 content pages.
