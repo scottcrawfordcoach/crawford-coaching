@@ -151,6 +151,11 @@ Completed work:
 Next recommended step:
 - Manual live QA on the Vercel deployment (desktop + real mobile devices) across all routes, with a quick follow-up patch pass for anything found.
 
+### Temporary UI State
+
+- Header "Start Here" CTA is intentionally hidden on [crawford-homepage.html](crawford-homepage.html) and [crawford-assistant.html](crawford-assistant.html) pending a dedicated landing page.
+- The links were not removed; they are toggled off with the native `hidden` attribute for quick restoration.
+
 ## Local Preview
 
 Option 1 (Python):

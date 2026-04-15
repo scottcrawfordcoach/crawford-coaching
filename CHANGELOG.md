@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 
 The format is based on Keep a Changelog principles and uses reverse chronological order.
 
+## [2026-04-15]
+
+### Changed
+- Temporarily disabled the header "Start Here" CTA visuals while preserving underlying markup and links for quick re-enable later:
+  - [crawford-homepage.html](crawford-homepage.html) desktop nav CTA and mobile overlay CTA now use the native `hidden` attribute.
+  - [crawford-assistant.html](crawford-assistant.html) desktop nav CTA and mobile overlay CTA now use the native `hidden` attribute.
+
 ## [2026-04-09]
 
 ### Changed
