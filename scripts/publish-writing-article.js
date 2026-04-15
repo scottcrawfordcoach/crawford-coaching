@@ -197,6 +197,7 @@ function createArticlePage(data) {
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="/timer-favicon.png">
 <title>${escapeHtml(data.title)} | Crawford Coaching</title>
 <meta name="description" content="${escapeHtml(data.excerpt)}">
 <link rel="canonical" href="${canonical}">
