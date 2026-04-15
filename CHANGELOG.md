@@ -22,6 +22,9 @@ The format is based on Keep a Changelog principles and uses reverse chronologica
   - [crawford-homepage.html](crawford-homepage.html) desktop nav CTA and mobile overlay CTA now use the native `hidden` attribute.
   - [crawford-assistant.html](crawford-assistant.html) desktop nav CTA and mobile overlay CTA now use the native `hidden` attribute.
 
+### Fixed
+- Replaced corrupted/encrypted [sitemap.xml](sitemap.xml) with a valid XML sitemap and expanded URL coverage to match current clean routes and writing pages (32 URLs total).
+
 ## [2026-04-09]
 
 ### Changed
