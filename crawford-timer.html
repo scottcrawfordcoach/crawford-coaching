@@ -103,6 +103,7 @@
       white-space: nowrap;
     }
     .site-nav .site-links a:hover { opacity: 1; color: var(--white); }
+    .site-nav .site-links a.active { opacity: 1; color: var(--white); }
     .site-nav .site-links a svg { vertical-align: -2px; margin-right: 5px; }
     .nav__cta {
       font-family: var(--sans);
@@ -503,6 +504,52 @@
       font-weight: 300;
     }
 
+    .timer-invite {
+      background: var(--slate-mid);
+      border-color: rgba(61,74,88,0.7);
+    }
+    .timer-invite__eyebrow {
+      font-family: var(--sans);
+      font-size: 0.68rem;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: var(--brand-blue);
+      margin-bottom: 0.6rem;
+    }
+    .timer-invite__title {
+      font-family: var(--serif-display);
+      font-weight: 400;
+      font-size: clamp(1.4rem, 3vw, 1.9rem);
+      letter-spacing: 0.02em;
+      color: var(--white);
+      margin-bottom: 0.8rem;
+    }
+    .timer-invite__body {
+      font-family: var(--serif-body);
+      font-size: 0.95rem;
+      line-height: 1.75;
+      color: var(--pale);
+      max-width: 62ch;
+      margin-bottom: 1.2rem;
+    }
+    .timer-invite__link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      font-family: var(--sans);
+      font-size: 0.78rem;
+      font-weight: 400;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--brand-blue);
+      text-decoration: none;
+    }
+    .timer-invite__link:hover { color: var(--white); }
+    .timer-invite__link::after {
+      content: '→';
+      font-size: 0.95rem;
+    }
+
     /* ─── EMOM NAV BUTTONS ────────────────── */
     .emom-nav-btn {
       font-family: var(--sans);
@@ -629,7 +676,9 @@
     </a>
     <div class="site-links">
       <a href="/">Home</a>
-      <a href="/synergize" style="color:var(--syn-orange); opacity:1;">Synergize</a>
+      <a href="/synergize">Synergize Fitness</a>
+      <a href="/timer" class="active">Interval Timer</a>
+      <a href="/growth-zone">Growth Zone</a>
       <a href="/coaching">Coaching</a>
     </div>
   </nav>
@@ -646,10 +695,12 @@
   <header style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px">
     <h1><span class="h1-brand">Synergize</span> Interval Timer</h1>
     <div class="row" style="gap:6px; display:none;" id="headerToolbar">
+      <!-- GATED: moved to Growth Zone — restore when auth is in place
       <select id="quickFavSelect" style="max-width:160px; display:none">
         <option value="">Load Saved…</option>
       </select>
       <button class="btn ghost" id="headerSaveFavBtn" title="Save current setup to favourites">★ Save</button>
+      -->
       <button class="btn" id="toggleOptionsBtn">Hide Controls</button>
       <button class="btn" id="mainMenuBtn">← Main Menu</button>
     </div>
@@ -661,39 +712,41 @@
       <div style="text-align:center; margin-bottom:1.5rem;">
         <div style="font-family:var(--sans); font-size:0.68rem; letter-spacing:0.28em; text-transform:uppercase; color:var(--syn-orange); margin-bottom:0.5rem;">Crawford Coaching</div>
         <div style="font-family:var(--serif-display); font-weight:300; font-size:1.8rem; color:var(--white); letter-spacing:0.03em;">Quick Start</div>
-        <div style="font-family:var(--sans); font-size:0.75rem; letter-spacing:0.1em; color:var(--mist); margin-top:0.4rem; text-transform:uppercase;">Choose a workout mode</div>
+        <div style="font-family:var(--sans); font-size:0.75rem; letter-spacing:0.1em; color:var(--mist); margin-top:0.4rem; text-transform:uppercase;">Choose a timer mode</div>
       </div>
       <div class="mode-selector">
+        <button class="mode-btn" id="modeClockBtn">
+          <span class="mode-icon">🕐</span>
+          <span class="mode-title">Clock</span>
+          <span class="mode-sub">Current time display</span>
+        </button>
+        <button class="mode-btn" id="modeCountdownBtn">
+          <span class="mode-icon">⏳</span>
+          <span class="mode-title">Countdown Timer</span>
+          <span class="mode-sub">Simple countdown from a set duration</span>
+        </button>
         <button class="mode-btn" id="modeEmomTimerBtn">
           <span class="mode-icon">⏱️</span>
           <span class="mode-title">Quick EMOM Timer</span>
-          <span class="mode-sub">Set your own exercises &amp; reps</span>
+          <span class="mode-sub">Fast EMOM setup without the workout builder</span>
         </button>
+        <button class="mode-btn" id="modeCustomTimerBtn">
+          <span class="mode-icon">🛠️</span>
+          <span class="mode-title">Create Custom Timer</span>
+          <span class="mode-sub">Custom intervals, work/rest periods &amp; rounds</span>
+        </button>
+        <!-- GATED: moved to Growth Zone — restore when auth is in place
         <button class="mode-btn" id="modeEmomWorkoutBtn">
           <span class="mode-icon">⚡</span>
           <span class="mode-title">Quick EMOM Workout</span>
           <span class="mode-sub">Generate a random EMOM in seconds</span>
-        </button>
-        <button class="mode-btn" id="modeCustomTimerBtn">
-          <span class="mode-icon">🛠️</span>
-          <span class="mode-title">Build a Custom Timer</span>
-          <span class="mode-sub">Full control over sets, intervals &amp; colours</span>
         </button>
         <button class="mode-btn" id="modeSavedBtn">
           <span class="mode-icon">💾</span>
           <span class="mode-title">My Saved Workouts</span>
           <span class="mode-sub">Load a previously saved workout</span>
         </button>
-        <button class="mode-btn" id="modeClockBtn">
-          <span class="mode-icon">🕐</span>
-          <span class="mode-title">Clock</span>
-          <span class="mode-sub">Current time with date &amp; day</span>
-        </button>
-        <button class="mode-btn" id="modeCountdownBtn">
-          <span class="mode-icon">⏳</span>
-          <span class="mode-title">Countdown Timer</span>
-          <span class="mode-sub">Set a duration and count down</span>
-        </button>
+        -->
       </div>
     </section>
 
@@ -1021,6 +1074,7 @@
 
       <div id="summary" aria-live="polite"></div>
       <div class="sep"></div>
+      <!-- GATED: moved to Growth Zone — restore when auth is in place
       <div class="stack" id="favouritesSection">
         <div class="row" style="justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px">
           <div class="pill">Favourites</div>
@@ -1034,6 +1088,14 @@
         <div id="favouritesList" class="stack" style="font-size:12px; color:var(--muted)"></div>
         <div class="help">Stored locally in your browser. Use Export to download a backup JSON, Import to restore/merge.</div>
       </div>
+      -->
+    </section>
+
+    <section class="card stack timer-invite" aria-label="Growth Zone invitation">
+      <div class="timer-invite__eyebrow">Growth Zone</div>
+      <h2 class="timer-invite__title">Want to build and save workouts?</h2>
+      <p class="timer-invite__body">The EMOM Workout Builder and save function are available in the Growth Zone, free with an account. Create structured programmes, save your sessions, and access your history from any device.</p>
+      <a href="/growth-zone" class="timer-invite__link">Explore the Growth Zone</a>
     </section>
 
     <!-- Timer Display -->
@@ -2151,10 +2213,12 @@
     document.getElementById('modeCountdownBtn').addEventListener('click', switchToCountdown);
 
     // Mode selector buttons
-    document.getElementById('modeEmomWorkoutBtn').addEventListener('click', switchToEmomConfig);
+    const modeEmomWorkoutBtn = document.getElementById('modeEmomWorkoutBtn');
+    if (modeEmomWorkoutBtn) modeEmomWorkoutBtn.addEventListener('click', switchToEmomConfig);
     document.getElementById('modeEmomTimerBtn').addEventListener('click', switchToEmomTimerConfig);
     document.getElementById('modeCustomTimerBtn').addEventListener('click', switchToCustomTimer);
-    document.getElementById('modeSavedBtn').addEventListener('click', switchToSavedWorkouts);
+    const modeSavedBtn = document.getElementById('modeSavedBtn');
+    if (modeSavedBtn) modeSavedBtn.addEventListener('click', switchToSavedWorkouts);
     document.getElementById('modeClockBtn').addEventListener('click', () => { window.location.href = 'clock.html'; });
     document.getElementById('mainMenuBtn').addEventListener('click', switchToMain);
     document.getElementById('savedBackBtn').addEventListener('click', switchToMain);

@@ -455,9 +455,9 @@ html, body {
 }
 .doors {
   display: grid;
-  grid-template-columns: 1.5fr 1px 1fr;
+  grid-template-columns: 1fr 1px 1fr;
   grid-template-rows: 1fr 1px 1fr;
-  min-height: 620px;
+  min-height: 760px;
 }
 .door {
   position: relative;
@@ -472,14 +472,18 @@ html, body {
 }
 .door--whole {
   grid-column: 1;
-  grid-row: 1 / 4;
-  min-height: 620px;
+  grid-row: 1;
+  min-height: 380px;
 }
 .door--coaching {
   grid-column: 3;
   grid-row: 1;
 }
 .door--synergize {
+  grid-column: 1;
+  grid-row: 3;
+}
+.door--growth {
   grid-column: 3;
   grid-row: 3;
 }
@@ -489,7 +493,7 @@ html, body {
   background: rgba(255,255,255,0.08);
 }
 .door__divider-h {
-  grid-column: 3;
+  grid-column: 1 / 4;
   grid-row: 2;
   background: rgba(255,255,255,0.08);
 }
@@ -536,6 +540,17 @@ html, body {
     rgba(14,15,16,0.2) 0%,
     rgba(14,15,16,0.82) 60%,
     rgba(14,15,16,0.95) 100%
+  );
+}
+.door--growth .door__bg {
+  background: linear-gradient(160deg, var(--slate-mid) 0%, var(--slate) 100%);
+  filter: none;
+}
+.door--growth .door__overlay {
+  background: linear-gradient(to bottom,
+    rgba(14,15,16,0.08) 0%,
+    rgba(14,15,16,0.58) 56%,
+    rgba(14,15,16,0.9) 100%
   );
 }
 .door__content { position: relative; z-index: 1; }
@@ -922,6 +937,7 @@ html, body {
   .door__divider-h { display: none; }
   .door--coaching { grid-column: 1; grid-row: 2; min-height: 400px; }
   .door--synergize { grid-column: 1; grid-row: 3; min-height: 400px; }
+  .door--growth { grid-column: 1; grid-row: 4; min-height: 400px; }
   .door { padding: 2.5rem 1.8rem; }
   .door__pilot { padding: 2.5rem 1.8rem; }
 }
@@ -980,7 +996,8 @@ img { max-width: 100%; display: block; vertical-align: top; }
 
   .door--whole,
   .door--coaching,
-  .door--synergize {
+  .door--synergize,
+  .door--growth {
     min-height: 320px;
   }
 
@@ -1094,6 +1111,7 @@ img { max-width: 100%; display: block; vertical-align: top; }
     <li><a href="/coaching">Coaching</a></li>
     <li><a href="/whole">WHOLE</a></li>
     <li><a href="/synergize">Synergize Fitness</a></li>
+    <li><a href="/timer">Interval Timer</a></li>
     <li><a href="/growth-zone">Growth Zone</a></li>
     <li><a href="/about">About</a></li>
     <li><a href="/writing">Writing</a></li>
@@ -1109,6 +1127,7 @@ img { max-width: 100%; display: block; vertical-align: top; }
     <a href="/coaching">Coaching</a>
     <a href="/whole">WHOLE</a>
     <a href="/synergize">Synergize Fitness</a>
+    <a href="/timer">Interval Timer</a>
     <a href="/growth-zone">Growth Zone</a>
     <a href="/about">About</a>
     <a href="/writing">Writing</a>
@@ -1201,6 +1220,20 @@ img { max-width: 100%; display: block; vertical-align: top; }
         Small-group functional fitness in a space where you're encouraged to show up as you are and do what you can. No judgement, no competition. Your hard work, your success.
       </p>
       <span class="door__cta">Train With Me</span>
+    </div>
+  </a>
+
+  <!-- GROWTH ZONE — bottom right -->
+  <a href="/growth-zone" class="door door--growth">
+    <div class="door__bg"></div>
+    <div class="door__overlay"></div>
+    <div class="door__content">
+      <span class="door__tag">Self-Discovery</span>
+      <h3 class="door__title">Growth Zone</h3>
+      <p class="door__desc">
+        A suite of self-reflection exercises and tools — built around the psychology of values, strengths, motivation, and mindset. Know yourself better, and you'll have a clearer sense of what to do next.
+      </p>
+      <span class="door__cta">Explore the Zone</span>
     </div>
   </a>
 
