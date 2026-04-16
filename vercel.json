@@ -1,6 +1,11 @@
 {
   "redirects": [
     {
+      "source": "/blog/",
+      "destination": "/writing",
+      "permanent": true
+    },
+    {
       "source": "/blog",
       "destination": "/writing",
       "permanent": true
