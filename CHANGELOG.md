@@ -25,6 +25,17 @@ The format is based on Keep a Changelog principles and uses reverse chronologica
 ### Fixed
 - Replaced corrupted/encrypted [sitemap.xml](sitemap.xml) with a valid XML sitemap and expanded URL coverage to match current clean routes and writing pages (32 URLs total).
 
+## [2026-04-30]
+
+### Added
+- Added [api/unsubscribe.js](api/unsubscribe.js) to process newsletter unsubscribe links using `?r={recipient_id}` and complete unsubscribes through the mail tracker backend.
+
+### Changed
+- Updated [crawford-unsubscribe.html](crawford-unsubscribe.html) to auto-handle unsubscribe links with an `r` query param:
+  - Hides the email lookup step while processing.
+  - Shows clear success/fallback states.
+  - Falls back to manual email preference lookup if token processing fails.
+
 ## [2026-04-09]
 
 ### Changed

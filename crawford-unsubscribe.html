@@ -633,9 +633,37 @@ img { max-width: 100%; display: block; vertical-align: top; }
   function showMsg(el, msg) { el.textContent = msg; el.style.display = 'block'; }
   function hideMsg(el) { el.style.display = 'none'; el.textContent = ''; }
 
-  // Pre-fill email from URL ?email= param
-  var urlEmail = new URLSearchParams(window.location.search).get('email');
-  if (urlEmail) {
+  // Handle URL params:
+  // - ?r=recipient_id (email unsubscribe links)
+  // - ?email=... (manual preference lookup)
+  var params = new URLSearchParams(window.location.search);
+  var recipientId = params.get('r');
+  var urlEmail = params.get('email');
+
+  if (recipientId) {
+    lookupStep.style.display = 'none';
+    prefForm.style.display = 'none';
+    showMsg(successEl, 'Unsubscribing you now...');
+
+    fetch('/api/unsubscribe?r=' + encodeURIComponent(recipientId))
+      .then(function(res) { return res.json(); })
+      .then(function(json) {
+        if (json && json.ok) {
+          showMsg(successEl, 'You\'ve been unsubscribed. You won\'t receive any further emails from me (except account-related messages where appropriate).');
+          consolatory.textContent = 'If you ever change your mind, you\'re always welcome back.';
+          consolatory.style.display = 'block';
+          return;
+        }
+        hideMsg(successEl);
+        showMsg(errorEl, 'I couldn\'t process that unsubscribe link. Please enter your email below to update preferences manually.');
+        lookupStep.style.display = 'block';
+      })
+      .catch(function() {
+        hideMsg(successEl);
+        showMsg(errorEl, 'I couldn\'t process that unsubscribe link. Please enter your email below to update preferences manually.');
+        lookupStep.style.display = 'block';
+      });
+  } else if (urlEmail) {
     lookupEmail.value = urlEmail;
     // Auto-lookup after a brief delay
     setTimeout(function() { lookupBtn.click(); }, 300);
