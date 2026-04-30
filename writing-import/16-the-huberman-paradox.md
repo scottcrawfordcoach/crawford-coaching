@@ -114,3 +114,5 @@ The information itself is often excellent. What gets missed is the person in the
 - [James Clear, *Atomic Habits*](https://a.co/d/0dKoga6E)
 - [Michael Easter, *The Comfort Crisis*](https://a.co/d/0ffkoaev)
 - [Andrew Huberman, *The Huberman Lab Podcast*](https://www.hubermanlab.com/podcast)
+
+Enjoy this content? [Sign up for my mailing list](https://crawford-coaching.ca/subscribe)
