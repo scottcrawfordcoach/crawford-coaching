@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en-CA">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>16. The Huberman Paradox | Crawford Coaching</title>
+<meta name="description" content="The paradox of modern health advice: as knowledge grows, action often shrinks.">
+<link rel="canonical" href="https://crawford-coaching.ca/writing/16-the-huberman-paradox">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Crawford Coaching">
+<meta property="og:title" content="16. The Huberman Paradox">
+<meta property="og:description" content="When optimization culture overwhelms real life, good-enough consistency beats perfect protocols.">
+<meta property="og:url" content="https://crawford-coaching.ca/writing/16-the-huberman-paradox">
+<meta property="og:image" content="https://crawford-coaching.ca/extracted-images/writing-16-the-huberman-paradox.webp">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="16. The Huberman Paradox">
+<meta name="twitter:description" content="When optimization culture overwhelms real life, good-enough consistency beats perfect protocols.">
+<meta name="twitter:image" content="https://crawford-coaching.ca/extracted-images/writing-16-the-huberman-paradox.webp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --ink: #0e0f10; --slate: #1c2330; --mist: #7a8fa3; --pale: #c8d4de; --white: #f5f3ef;
+  --brand-blue: #2d86c4; --brand-blue-light: #4fa3d8;
+  --serif-display: 'Cormorant Garamond', Georgia, serif;
+  --serif-body: 'Libre Baskerville', Georgia, serif;
+  --sans: 'Jost', sans-serif;
+}
+body { background: var(--ink); color: var(--white); font-family: var(--sans); -webkit-font-smoothing: antialiased; }
+img { max-width: 100%; display: block; }
+a { color: inherit; }
+.nav { position: fixed; top:0; left:0; right:0; z-index:100; display:flex; align-items:center; justify-content:space-between; padding:1.25rem 3rem; background: rgba(14,15,16,0.85); backdrop-filter: blur(12px); border-bottom:1px solid rgba(122,143,163,0.08); }
+.nav__logo img { height: 36px; }
+.nav__links { display:flex; gap:2.5rem; list-style:none; }
+.nav__links a { font-size:0.82rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--mist); text-decoration:none; }
+.nav__links a.active, .nav__links a:hover { color:var(--white); }
+.nav__cta { font-size:0.78rem; letter-spacing:0.14em; text-transform:uppercase; color:var(--pale); text-decoration:none; border:1px solid rgba(245,243,239,0.25); padding:0.55rem 1.4rem; }
+.article-hero { padding:8.5rem 2rem 2rem; border-bottom:1px solid rgba(122,143,163,0.16); background: radial-gradient(circle at 82% 8%, rgba(45,134,196,0.2), transparent 55%), var(--ink); }
+.article-hero__inner, .article-layout, .read-next__inner { width:min(1100px, 100%); margin:0 auto; }
+.article-hero__eyebrow { font-size:0.75rem; letter-spacing:0.22em; text-transform:uppercase; color:var(--brand-blue); margin-bottom:1rem; }
+.article-hero h1 { font-family:var(--serif-display); font-size:clamp(2.1rem,4.6vw,4rem); font-weight:300; line-height:1.05; margin-bottom:1rem; }
+.article-hero__meta { display:flex; flex-wrap:wrap; gap:1rem 1.4rem; color:var(--mist); font-size:0.82rem; letter-spacing:0.06em; text-transform:uppercase; }
+.article-layout { padding:2.5rem 2rem 4rem; display:grid; grid-template-columns:minmax(0,1fr) 300px; gap:2.5rem; }
+.article-main figure { margin-bottom:2rem; border:1px solid rgba(122,143,163,0.2); }
+.article-main figcaption { font-size:0.73rem; letter-spacing:0.08em; text-transform:uppercase; color:var(--mist); padding:0.8rem 1rem; border-top:1px solid rgba(122,143,163,0.2); }
+.article-body p, .article-body li { font-family:var(--serif-body); font-size:1.02rem; line-height:1.9; color:var(--pale); }
+.article-body p { margin-bottom:1.35rem; }
+.article-body p:first-child { color:var(--white); font-size:1.12rem; }
+.article-body ul { margin:0 0 1.35rem 1.4rem; display:grid; gap:0.5rem; }
+.article-body h2 { font-family: var(--serif-display); font-size: 1.8rem; font-weight: 300; margin: 1.6rem 0 0.9rem; }
+.article-body a { color: var(--brand-blue-light); }
+.article-aside { align-self:start; position:sticky; top:7rem; display:grid; gap:1rem; }
+.aside-panel { border:1px solid rgba(122,143,163,0.2); background:var(--slate); padding:1rem; }
+.aside-panel h2 { font-size:0.75rem; letter-spacing:0.22em; text-transform:uppercase; color:var(--brand-blue); margin-bottom:0.8rem; }
+.aside-panel p { font-family:var(--serif-body); font-size:0.9rem; line-height:1.7; color:var(--pale); }
+.share-list { list-style:none; display:grid; gap:0.55rem; }
+.share-list a { font-size:0.78rem; letter-spacing:0.08em; text-transform:uppercase; color:var(--mist); text-decoration:none; border:1px solid rgba(122,143,163,0.25); padding:0.55rem 0.7rem; display:block; }
+.share-list a:hover { color:var(--white); border-color:rgba(79,163,216,0.5); background:rgba(79,163,216,0.09); }
+.read-next { border-top:1px solid rgba(122,143,163,0.16); padding:2.7rem 2rem 4rem; }
+.read-next__link { display:inline-flex; align-items:center; gap:0.6rem; text-decoration:none; color:var(--pale); font-size:0.78rem; letter-spacing:0.14em; text-transform:uppercase; border:1px solid rgba(245,243,239,0.22); padding:0.75rem 1rem; }
+.footer { padding:3rem; border-top:1px solid rgba(122,143,163,0.1); display:flex; flex-wrap:wrap; align-items:center; justify-content:center; gap:2rem; text-align:center; }
+.footer__logo img { height:32px; }
+.footer__copy { font-size:0.75rem; color:var(--mist); }
+.footer__links { display:flex; gap:2rem; list-style:none; flex-wrap:wrap; }
+.footer__links a { font-size:0.75rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--mist); text-decoration:none; }
+.footer__links a:hover { color:var(--pale); }
+.footer__social { display:flex; gap:1.2rem; align-items:center; }
+.footer__social a { display:flex; align-items:center; justify-content:center; color:var(--mist); transition:color 0.2s; }
+.footer__social a:hover { color:var(--pale); }
+.footer__social svg { width:18px; height:18px; fill:currentColor; }
+@media (max-width:1024px) { .article-layout { grid-template-columns:1fr; } .article-aside { position:static; } }
+@media (max-width:900px) { .nav { padding:1rem 1.4rem; } .nav__links, .nav__cta { display:none; } .article-hero { padding-top:7rem; } .article-layout, .read-next, .footer { padding-left:1.4rem; padding-right:1.4rem; } }
+</style>
+<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "16. The Huberman Paradox",
+  "description": "When optimization culture overwhelms real life, good-enough consistency beats perfect protocols.",
+  "datePublished": "2026-04-29",
+  "dateModified": "2026-04-29",
+  "author": { "@type": "Person", "name": "Scott Crawford" },
+  "publisher": { "@type": "Organization", "name": "Crawford Coaching", "url": "https://crawford-coaching.ca" },
+  "mainEntityOfPage": "https://crawford-coaching.ca/writing/16-the-huberman-paradox",
+  "image": "https://crawford-coaching.ca/extracted-images/writing-16-the-huberman-paradox.webp"
+}</script>
+</head>
+<body>
+<nav class="nav">
+  <a href="/" class="nav__logo"><img src="/extracted-images/cc-logo.png" alt="Crawford Coaching"></a>
+  <ul class="nav__links">
+    <li><a href="/coaching">Coaching</a></li>
+    <li><a href="/whole">WHOLE</a></li>
+    <li><a href="/synergize">Synergize Fitness</a></li>
+    <li><a href="/timer">Interval Timer</a></li>
+    <li><a href="/growth-zone">Growth Zone</a></li>
+    <li><a href="/about">About</a></li>
+    <li><a href="/writing" class="active">Writing</a></li>
+    <li><a href="/contact">Contact</a></li>
+  </ul>
+  <a href="https://calendar.app.google/R66fNg5m7w3aKPKd6" class="nav__cta" target="_blank" rel="noopener">Book a Call</a>
+</nav>
+<header class="article-hero"><div class="article-hero__inner"><p class="article-hero__eyebrow">Writing</p><h1>16. The Huberman Paradox</h1><p class="article-hero__meta"><span>Published Apr 29, 2026</span><span>17 min read</span><span>Coaching</span></p></div></header>
+<main class="article-layout">
+  <article class="article-main" aria-label="Blog article: 16. The Huberman Paradox">
+    <figure><img src="/extracted-images/writing-16-the-huberman-paradox.webp" alt="A person balancing health optimization advice with sustainable daily habits"><figcaption>The visible goal is often only part of the story.</figcaption></figure>
+    <div class="article-body">
+      <p>by Scott Crawford</p>
+      <p><a href="https://yxndmpwqvdatkujcukdv.supabase.co/storage/v1/object/public/newsletters/16-the-huberman-paradox/Why_Optimal_Health_Protocols_Backfire.m4a" target="_blank" rel="noopener">LISTEN TO THE BLOGCAST HERE</a></p>
+      <p>The Huberman Paradox</p>
+      <p><em>When knowing more makes us feel worse, and do less.</em></p>
+      <p>There is a familiar pattern in modern wellness that has played out so many times it has started to look like a feature rather than a bug.</p>
+      <p>A person becomes interested in their health. They start listening to podcasts about sleep, training, hormones, or supplementation. The advice they encounter is detailed and specific, with protocols for the morning, the evening, the gym, the kitchen, and the bedside table. The information stacks up week by week, sometimes contradicting itself, often demanding more time and attention than any ordinary life can spare. By the time they sit down to actually implement any of it, the list has outgrown the time available to live an actual life.</p>
+      <p>People who find themselves here are rarely unmotivated. They are often thoughtful, curious, and genuinely invested in feeling better. The information they are working from is usually accurate. The difficulty sits somewhere else, in the gap between the science and the life it is meant to inform.</p>
+      <p>I have come to think of this pattern as the Huberman Paradox.</p>
+      <p>When More Information Means Less Action</p>
+      <p>The name is a placeholder, really, for a cultural moment rather than a criticism of any one voice. <a href="https://www.hubermanlab.com/podcast" target="_blank" rel="noopener">Andrew Huberman's</a> guests are frequently excellent, and his reach has genuinely elevated public interest in health. The paradox describes what happens when highly detailed, mechanistic knowledge of human biology meets the messy, interrupted, imperfect terrain of an ordinary life.</p>
+      <p>We live in an age of unprecedented access to expert information. With a few taps, anyone can learn how to optimise their sleep, increase mitochondrial density through zone-two training, time their protein intake for muscle protein synthesis, or stack supplements for cognitive performance. Much of this information is good. Some of it is genuinely brilliant. For many readers, though, this flood of insight does not produce better wellbeing. It produces overwhelm. Instead of feeling empowered, people feel behind. Instead of taking action, they freeze. The more they know about how to be well, the less well they seem to feel.</p>
+      <p>The Cost of Optimal</p>
+      <p>Part of what drives this is the language of optimisation itself.</p>
+      <p>When every recommendation comes framed as <em>optimal</em>, anything less than optimal starts to feel like failure. Walking becomes inadequate if it is not zone two. Sleep becomes inadequate if it is not tracked. Eating becomes inadequate if it is not timed, weighed, and calibrated to a specific metabolic goal. A person who is doing a lot of good things can still feel, after a weekend of podcasts, as though they are doing almost nothing right.</p>
+      <p>That feeling has consequences. People who feel behind tend not to double down. They disengage. They decide that if they cannot do the full protocol, there is no point doing any of it. The training stops. The cooking stops. The early nights stop. Paralysis masquerades as thoughtfulness.</p>
+      <p>James Clear makes a simple point in <a href="https://a.co/d/0dKoga6E" target="_blank" rel="noopener"><em>Atomic Habits</em></a> that sits at the other end of this. Change tends to stick when it is modest, repeatable, and easy to return to. The best plan is rarely the optimal one. The best plan is the one a person can actually follow for long enough to see it work. That truth tends to get drowned out by promises of stacks, hacks, and routines almost no one can sustain without making their health into a full-time occupation.</p>
+      <p>The Map Is Not the Territory</p>
+      <p>There is a second layer to the paradox, and it has to do with the limits of reductionism.</p>
+      <p>The mechanistic model, where the body is understood through its parts, pathways, and molecules, is essential for scientific discovery. It helps us identify causes, design interventions, and test what works. The problem arrives when the map gets mistaken for the territory. Human beings are not pathways. We are people. We have relationships, jobs, children, grief, weather, and bad weeks. A protocol that works beautifully in a controlled study on rested, fed, motivated volunteers may land very differently in the middle of a busy February when someone is short on sleep and fighting off a cold.</p>
+      <p>Daniel Lieberman writes in <a href="https://a.co/d/06QCLQ0R" target="_blank" rel="noopener"><em>Exercised</em></a> that humans evolved to move, not to exercise. The same principle applies more broadly. Our biology responds well to basic patterns of moving, eating, sleeping, and connecting, even when they are imperfectly executed. It does not require precision to benefit from them. Knowing more about a system does not automatically translate into living more skilfully within it. Sometimes it does the opposite.</p>
+      <p>What Context Adds</p>
+      <p>One of the quieter casualties of the optimisation era is self-knowledge. When every decision is outsourced to an expert, a person stops asking what they actually need and starts asking what they are supposed to be doing. The question of what you need is one only you can answer. It depends on your schedule, your history, your energy, your relationships, and your capacity this week. No podcast can know those variables. The best protocol in the world is useless if it does not survive contact with your actual Tuesday.</p>
+      <p>Coaching, at its most useful, brings that context back into the picture. It asks the questions the information cannot ask on your behalf. What do you want your life to feel like? What is genuinely possible right now? What is the smallest next step that would actually fit the life you are living? Those questions do not replace the science. They locate it. They turn general information into specific action that has a chance of surviving real conditions.</p>
+      <p><a href="https://a.co/d/07EMD2Fj" target="_blank" rel="noopener">Wendy Wood's</a> research on habits points toward something similar. Most of our behaviour is driven by context and repetition rather than conscious decision-making. If the context does not support the behaviour, the behaviour does not last, regardless of how optimal it is on paper.</p>
+      <p>The Limits of Control</p>
+      <p>There is one more layer to this, and it tends to get less airtime than the rest, partly because it is harder to monetise.</p>
+      <p>A great deal of what shapes a human life is simply outside our hands. Genetics. Family history. The body we were born into. The era we landed in. The accidents, illnesses, and unexpected losses that arrive whether or not we have done our reading. Much of what happens to us, for better and for worse, is a roll of the dice that nobody handed us a say in.</p>
+      <p>What we can do, with our daily choices, is nudge the odds. Strength training, sleep, food, relationships, time outside, time with people we love, all of it shifts the probability that the years ahead go well. Think of it as trading two six-sided dice for two twelve-sided ones. The high outcomes get more likely. The catastrophic outcomes get rarer. The range of what is possible expands. None of that turns into a guarantee. A person can do everything right and still draw a double one. A person can take excellent care of themselves and get hit by a literal or figurative bus. Effort changes the odds, sometimes substantially. It does not abolish chance.</p>
+      <p>Recognising this changes the texture of the work. Looking after yourself becomes less about avoiding every bad outcome, which was never on offer, and more about giving yourself the best shot at a good life within a world that is genuinely uncertain. Lower-hanging fruit gets picked first. Higher-up fruit gets attempted where it suits the person and the season. Underneath it all sits a quieter skill that tends to get neglected most: learning to be at peace with the uncertain, and to extend some affection to the imperfect. The people who seem genuinely well, in the broadest sense, are usually the ones who have made some kind of working peace with the fact that life is messy, that they will not get every variable right, and that this is part of being alive rather than evidence of failure.</p>
+      <p>Good Enough, Done Consistently</p>
+      <p>There is a line worth returning to often. You do not need the best plan. You need the plan you will actually follow.</p>
+      <p>Optimal is a moving target. It shifts with your life stage, your resources, your stress load, and your goals. For most people, good enough, practised with consistency and care, outperforms perfection every single time. Two strength sessions a week, a reasonable dinner, a walk at lunchtime, and a decent bedtime will do more for a life than any protocol that collapses under the weight of its own detail.</p>
+      <p>The goal of health is to build a life that health supports, rather than a life built around health. If a set of habits is leaving you anxious, rigid, and disconnected from the people around you, something has gone wrong, regardless of how well-researched the protocol is. It is worth asking, honestly, whether we are chasing vitality or chasing the appearance of vitality. The two can look similar from the outside. They feel very different from the inside.</p>
+      <p>Reclaiming the Whole Human</p>
+      <p>None of this is an argument against science. Mechanisms matter. Evidence matters. Expertise matters. Information alone, though, does not produce change. Information filtered through context, honesty about your own life, and a willingness to start from where you actually are, held alongside the awareness that life will not always cooperate, is what produces change.</p>
+      <p>Holding several truths at once is the work. Science and context. Evidence and experience. Effort and chance. The protocol and the person.</p>
+      <p>The goal of all the knowledge now available to us is to help us live better lives, not to make us anxious, rigid, or self-critical. That means translating what we know into action that honours our realities, not only our ideals. It means allowing ourselves to go for a walk, eat a good dinner, get to bed on time, and call it a win. Because it is. It also means making space for the days when things slip, when the plan does not survive contact with the week, and when life simply does what life does.</p>
+      <p>The information itself is often excellent. What gets missed is the person in the middle of it, the one who actually has to live the week that follows. That person is you. The protocol was always meant to serve your life, not the other way around.</p>
+      <p><strong>Further resources:</strong></p>
+      <ul><li><a href="https://a.co/d/06QCLQ0R" target="_blank" rel="noopener">Daniel Lieberman, <em>Exercised</em></a></li><li><a href="https://a.co/d/07EMD2Fj" target="_blank" rel="noopener">Wendy Wood, <em>Good Habits, Bad Habits</em></a></li><li><a href="https://a.co/d/0dKoga6E" target="_blank" rel="noopener">James Clear, <em>Atomic Habits</em></a></li><li><a href="https://a.co/d/0ffkoaev" target="_blank" rel="noopener">Michael Easter, <em>The Comfort Crisis</em></a></li><li><a href="https://www.hubermanlab.com/podcast" target="_blank" rel="noopener">Andrew Huberman, <em>The Huberman Lab Podcast</em></a></li></ul>
+    </div>
+  </article>
+  <aside class="article-aside" aria-label="Article sidebar">
+    <section class="aside-panel"><h2>Share</h2><ul class="share-list"><li><a id="share-copy" href="#">Copy Link</a></li><li><a id="share-linkedin" href="#" target="_blank" rel="noopener">LinkedIn</a></li><li><a id="share-facebook" href="#" target="_blank" rel="noopener">Facebook</a></li><li><a id="share-x" href="#" target="_blank" rel="noopener">X</a></li><li><a id="share-email" href="#">Email</a></li></ul></section>
+    <section class="aside-panel"><h2>Work With Me</h2><p>If this resonates, we can talk through your context and build a path that fits real life, not an idealized one.</p><p style="margin-top:0.7rem;"><a href="/contact" style="color: var(--brand-blue); text-decoration: none;">Start a conversation.</a></p></section>
+  </aside>
+</main>
+<section class="read-next"><div class="read-next__inner"><a href="/writing" class="read-next__link">Back to Writing</a></div></section>
+<footer class="footer"><a href="/" class="footer__logo"><img src="/extracted-images/cc-logo.png" alt="Crawford Coaching"></a><ul class="footer__links"><li><a href="/coaching">Coaching</a></li><li><a href="/whole">WHOLE</a></li><li><a href="/synergize">Synergize Fitness</a></li><li><a href="/growth-zone">Growth Zone</a></li><li><a href="/about">About</a></li><li><a href="/writing">Writing</a></li><li><a href="/contact">Contact</a></li></ul><p class="footer__copy">&copy; 2026 Crawford Coaching</p><div class="footer__social">
+    <a href="https://www.instagram.com/scott.crawford.coaching/" target="_blank" aria-label="Instagram">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+    </a>
+    <a href="https://www.linkedin.com/in/scott-crawford-acc-9043b91a1/" target="_blank" aria-label="LinkedIn">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+    </a>
+    <a href="https://www.facebook.com/CrawfordCoachingKingston" target="_blank" aria-label="Facebook">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+    </a>
+  </div></footer>
+<script>
+(function() {
+  const canonical = "https://crawford-coaching.ca/writing/16-the-huberman-paradox";
+  const title = "16. The Huberman Paradox | Crawford Coaching";
+  const titleEncoded = encodeURIComponent(title);
+  const urlEncoded = encodeURIComponent(canonical);
+  document.getElementById('share-linkedin').href = 'https://www.linkedin.com/sharing/share-offsite/?url=' + urlEncoded;
+  document.getElementById('share-facebook').href = 'https://www.facebook.com/sharer/sharer.php?u=' + urlEncoded;
+  document.getElementById('share-x').href = 'https://twitter.com/intent/tweet?url=' + urlEncoded + '&text=' + titleEncoded;
+  document.getElementById('share-email').href = 'mailto:?subject=' + titleEncoded + '&body=' + urlEncoded;
+  const copy = document.getElementById('share-copy');
+  copy.addEventListener('click', async function(event) {
+    event.preventDefault();
+    try {
+      await navigator.clipboard.writeText(canonical);
+      copy.textContent = 'Copied';
+      setTimeout(() => { copy.textContent = 'Copy Link'; }, 1600);
+    } catch (err) {
+      window.location.href = canonical;
+    }
+  });
+})();
+</script>
+<script src="https://website-assistant-sandy.vercel.app/chat-widget.js"></script>
+</body>
+</html>

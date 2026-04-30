@@ -147,6 +147,10 @@
     {
       "source": "/task-triage",
       "destination": "/crawford-task-triage.html"
+    },
+    {
+      "source": "/writing/16-the-huberman-paradox",
+      "destination": "/blogs/crawford-writing-16-the-huberman-paradox.html"
     }
   ]
 }
