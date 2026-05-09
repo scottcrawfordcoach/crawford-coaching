@@ -7,16 +7,12 @@
  *
  * Flow:
  *   1. Upsert contact via data-handler
- *   2. Look up prior exercise results
- *   3. Save current exercise results
- *   4. Generate AI summary via Claude API
- *   5. Update saved result with AI summary
- *   6. Send HTML email via mail-sender
+ *   2. Generate report via data-handler (save results + AI summary — ANTHROPIC_API_KEY lives there)
+ *   3. Send HTML email via mail-sender
  *
  * Environment variables required:
  *   DATA_HANDLER_BEARER_TOKEN
  *   MAIL_SENDER_BEARER_TOKEN
- *   ANTHROPIC_API_KEY
  */
 
 const DATA_HANDLER = 'https://yxndmpwqvdatkujcukdv.supabase.co/functions/v1/data-handler';
@@ -32,9 +28,8 @@ export default async function handler(req, res) {
 
   const dhToken = process.env.DATA_HANDLER_BEARER_TOKEN;
   const msToken = process.env.MAIL_SENDER_BEARER_TOKEN;
-  const anthropicKey = process.env.ANTHROPIC_API_KEY;
 
-  if (!dhToken || !msToken || !anthropicKey) {
+  if (!dhToken || !msToken) {
     return res.status(500).json({ error: 'Server misconfigured' });
   }
 
@@ -88,63 +83,28 @@ export default async function handler(req, res) {
       return res.status(500).json({ error: 'Contact created but no ID returned' });
     }
 
-    // ── Step 2: Look up prior exercise results ──
-    let priorResults = [];
-    try {
-      const lookupRes = await fetch(DATA_HANDLER, {
-        method: 'POST',
-        headers: dhHeaders,
-        body: JSON.stringify({
-          action: 'exercise_results_lookup',
-          payload: { contact_id: contactId },
-        }),
-      });
-      const lookupResult = await lookupRes.json();
-      if (lookupResult.data) {
-        priorResults = lookupResult.data;
-      }
-    } catch {
-      // Non-fatal: continue without prior context
-    }
-
-    // ── Step 3: Save current exercise results ──
-    const saveRes = await fetch(DATA_HANDLER, {
+    // ── Step 2: Save results + generate AI summary via data-handler ──
+    // ANTHROPIC_API_KEY lives in Supabase secrets — never in this environment.
+    const reportRes = await fetch(DATA_HANDLER, {
       method: 'POST',
       headers: dhHeaders,
       body: JSON.stringify({
-        action: 'exercise_result_save',
+        action: 'exercise_report_generate',
         payload: {
           contact_id: contactId,
+          first_name: first_name.trim(),
           exercise_type,
           results_json: results,
         },
       }),
     });
-    const saveResult = await saveRes.json();
-    const resultId = saveResult.data?.id;
-
-    // ── Step 4: Generate AI summary ──
-    const aiSummary = await generateSummary({
-      anthropicKey,
-      firstName: first_name.trim(),
-      exerciseType: exercise_type,
-      results,
-      priorResults,
-    });
-
-    // ── Step 5: Update result row with AI summary ──
-    if (resultId && aiSummary) {
-      fetch(DATA_HANDLER, {
-        method: 'POST',
-        headers: dhHeaders,
-        body: JSON.stringify({
-          action: 'exercise_result_update',
-          payload: { id: resultId, ai_summary: aiSummary },
-        }),
-      }).catch(() => {}); // fire-and-forget
+    const reportResult = await reportRes.json();
+    if (reportResult.error) {
+      return res.status(500).json({ error: 'Failed to generate report: ' + reportResult.error });
     }
+    const aiSummary = reportResult.data?.ai_summary || null;
 
-    // ── Step 6: Send email via mail-sender ──
+    // ── Step 3: Send email via mail-sender ──
     const htmlEmail = buildEmailHtml({
       firstName: first_name.trim(),
       exerciseType: exercise_type,
@@ -182,7 +142,7 @@ export default async function handler(req, res) {
       }),
     });
 
-    // ── Step 7: Log engagement ──
+    // ── Step 4: Log engagement ──
     fetch(DATA_HANDLER, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -203,139 +163,6 @@ export default async function handler(req, res) {
     console.error('exercise-report error:', err);
     return res.status(500).json({ error: 'Failed to generate report' });
   }
-}
-
-
-// ═══════════════════════════════════════════════════
-// Claude API — Summary Generation
-// ═══════════════════════════════════════════════════
-
-async function generateSummary({ anthropicKey, firstName, exerciseType, results, priorResults }) {
-  // task_triage sends a pre-built prompt from the client
-  if (exerciseType === 'task_triage') {
-    if (!results.report_prompt) return null;
-    try {
-      const response = await fetch('https://api.anthropic.com/v1/messages', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-api-key': anthropicKey,
-          'anthropic-version': '2023-06-01',
-        },
-        body: JSON.stringify({
-          model: 'claude-sonnet-4-20250514',
-          max_tokens: 1024,
-          messages: [{ role: 'user', content: results.report_prompt }],
-        }),
-      });
-      const data = await response.json();
-      return (data.content || [])
-        .filter(block => block.type === 'text')
-        .map(block => block.text)
-        .join('\n') || null;
-    } catch (err) {
-      console.error('Claude API error (task_triage):', err);
-      return null;
-    }
-  }
-
-  const exerciseContext = buildExerciseContext(exerciseType, results);
-  const priorContext = buildPriorContext(priorResults, exerciseType);
-
-  const systemPrompt = `You are a coaching assistant writing personalized exercise reports for Crawford Coaching (crawford-coaching.ca). Scott Crawford is an ICF Associate Certified Coach and Certified Personal Trainer based in Kingston, Ontario.
-
-Your tone is direct, warm, and honest. You write the way a thoughtful coach talks: no buzzwords, no fluff, no em-dashes. You help people see themselves more clearly without judging them.
-
-Key principles:
-- Self-understanding comes before planning. Help people see what they've revealed about themselves before jumping to action items.
-- Use their name naturally (once or twice, not every paragraph).
-- Write in second person ("you") and keep sentences clean.
-- Do not use phrases like "it's clear that" or "this suggests that you are" — just say it directly.
-- No emoji, no exclamation marks, no "Great job!" energy.
-- Keep the total response to 3-5 paragraphs. Concise and meaningful.
-- If prior exercise results are available, weave in connections naturally. Don't force it. Only reference prior results when a genuine insight emerges from the combination.
-- End with a single reflective question, not a list of action items.`;
-
-  let userPrompt = `Write a personalized report for ${firstName} based on their ${exerciseContext.label} results.\n\n`;
-  userPrompt += `Their results:\n${exerciseContext.summary}\n\n`;
-
-  if (priorContext) {
-    userPrompt += `Prior exercise results for context (reference only if a genuine connection exists):\n${priorContext}\n\n`;
-  }
-
-  userPrompt += `Write 3-5 paragraphs of insight. End with one reflective question.`;
-
-  try {
-    const response = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': anthropicKey,
-        'anthropic-version': '2023-06-01',
-      },
-      body: JSON.stringify({
-        model: priorResults.length >= 2
-          ? 'claude-opus-4-20250514'
-          : 'claude-sonnet-4-20250514',
-        max_tokens: 1024,
-        system: systemPrompt,
-        messages: [{ role: 'user', content: userPrompt }],
-      }),
-    });
-
-    const data = await response.json();
-    const text = (data.content || [])
-      .filter(block => block.type === 'text')
-      .map(block => block.text)
-      .join('\n');
-
-    return text || null;
-  } catch (err) {
-    console.error('Claude API error:', err);
-    return null;
-  }
-}
-
-function buildExerciseContext(exerciseType, results) {
-  switch (exerciseType) {
-    case 'core_values':
-      return {
-        label: 'Core Values',
-        summary: `Core values selected: ${(results.core_values || []).join(', ')}\nFull ten values considered: ${(results.ten_values || []).join(', ')}`,
-      };
-    case 'character_strengths':
-      return {
-        label: 'Character Strengths',
-        summary: `Top 5 signature strengths (ranked):\n${(results.signature || []).map((s, i) => `${i+1}. ${s.name} (${s.virtue}) — ${s.score}/5`).join('\n')}\n\nFull ranking:\n${(results.ranked || []).map((s, i) => `${i+1}. ${s.name} — ${s.score}/5`).join('\n')}`,
-      };
-    case 'optimism':
-      return {
-        label: 'Optimism & Explanatory Style',
-        summary: `Composite score: ${results.composite}\nPermanence (bad): ${results.PmB}\nPermanence (good): ${results.PmG}\nPervasiveness (bad): ${results.PvB}\nPervasiveness (good): ${results.PvG}\nPersonalisation (bad): ${results.PsB}\nPersonalisation (good): ${results.PsG}\nHope score: ${results.hope}`,
-      };
-    case 'motivation':
-      return {
-        label: 'Motivation & Self-Determination',
-        summary: `Autonomy: ${results.autonomy}/30 (${results.bands?.autonomy || 'unscored'})\nMastery: ${results.mastery}/30 (${results.bands?.mastery || 'unscored'})\nPurpose: ${results.purpose}/30 (${results.bands?.purpose || 'unscored'})\nOverall: ${results.overall}/90`,
-      };
-    default:
-      return {
-        label: exerciseType,
-        summary: JSON.stringify(results, null, 2),
-      };
-  }
-}
-
-function buildPriorContext(priorResults, currentExercise) {
-  if (!priorResults || priorResults.length === 0) return null;
-
-  const other = priorResults.filter(r => r.exercise_type !== currentExercise);
-  if (other.length === 0) return null;
-
-  return other.map(r => {
-    const ctx = buildExerciseContext(r.exercise_type, r.results_json);
-    return `${ctx.label}:\n${ctx.summary}`;
-  }).join('\n\n');
 }
 
 
