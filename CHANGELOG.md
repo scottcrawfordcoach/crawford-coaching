@@ -4,6 +4,50 @@ All notable changes to this project will be documented in this file.
 
 The format is based on Keep a Changelog principles and uses reverse chronological order.
 
+## [2026-05-22]
+
+### Fixed — Canonical domain
+
+- Canonical domain corrected from `crawford-coaching.com` to `crawford-coaching.ca` across the repo. Affected files: [AUTH-SETUP.md](AUTH-SETUP.md), [CLAUDE.md](CLAUDE.md), [README.md](README.md), [sitemap.xml](sitemap.xml), [crawford-growth-zone.html](crawford-growth-zone.html) (canonical, og:url, og:image), [crawford-synergize-members.html](crawford-synergize-members.html) (`mailto:` addresses). 46 occurrences in total. The contradictory "legacy domain" lines in CLAUDE.md and README.md were also removed.
+- Auth-setup recommendations updated: Supabase Site URL is now `https://www.crawford-coaching.ca`, redirect URL is `https://www.crawford-coaching.ca/auth/callback`, and the suggested Resend sender is `notifications@crawford-coaching.ca`.
+- [robots.txt](robots.txt) replaced (the previous file was a corrupted 83-byte binary, not a valid robots file). New content allows all crawlers and points to the `.ca` sitemap.
+
+## [2026-05-19]
+
+### Added — Phase 1 Auth Foundation
+
+First slice of the platform rebuild: magic-link auth, role resolution, and a gated Synergize Members Area. Synergize members are the first live auth users. Reference: `growth-zone-spec-v1.2.md` plus `platform-auth-chat-summary.md`.
+
+- Supabase schema migration in [migrations/2026-05-auth-foundation.sql](migrations/2026-05-auth-foundation.sql):
+  - `auth_user_id`, `tier`, and active-status booleans (`synergize_active`, `coaching_active`, `whole_active`, `growth_zone_subscribed`, `whole_alumni_claimed`, `whole_alumni_claim_date`) added to `public.contacts` (idempotent).
+  - Trigger on `auth.users` INSERT that links the new auth user to the existing contacts row by email, or inserts a minimal contact at tier `public`.
+  - RLS enabled on `contacts`; authenticated users can SELECT their own row only.
+- New Vercel function [api/auth-config.js](api/auth-config.js) — returns `SUPABASE_URL` + `SUPABASE_ANON_KEY` to the browser.
+- New Vercel function [api/member-data.js](api/member-data.js) — verifies a Supabase access token and proxies `class_schedule`, `workout_of_the_day`, and `holiday_schedule` actions through `data-handler`. Degrades gracefully when those actions aren't yet implemented.
+- New shared browser auth helper [auth/auth.js](auth/auth.js) — wraps Supabase JS, exposes `cc.signInWithEmail`, `cc.completeCallback`, `cc.getRole`, `cc.signOut`, etc. Role resolution follows spec v1.3 §5.2 precedence.
+- New page [crawford-sign-in.html](crawford-sign-in.html) at `/sign-in` — magic-link request form with success state. Auto-redirects already-signed-in users by resolved role.
+- New page [crawford-auth-callback.html](crawford-auth-callback.html) at `/auth/callback` — exchanges the magic-link tokens, scrubs them from the URL, redirects to the surface inferred from `?next=` or resolved role.
+- New page [crawford-synergize-members.html](crawford-synergize-members.html) at `/synergize/members` — gated members area with class schedule, WOD, holiday hours, timer, and a Growth Zone cross-promo. Gate denies non-active members with a friendly explanation. Sign Out lives in the nav.
+- Added clean rewrites in [vercel.json](vercel.json) for `/sign-in`, `/auth/callback`, and `/synergize/members`.
+- Setup checklist [AUTH-SETUP.md](AUTH-SETUP.md) — SQL migration, Supabase Auth + SMTP, Vercel env vars, smoke-test walk-through.
+
+### Changed
+
+- [crawford-synergize.html](crawford-synergize.html) gained a **Member Login** link in the desktop nav (between the page links and the Book Intro CTA) and in the mobile overlay. Routes to `/sign-in?next=/synergize/members`.
+- [crawford-growth-zone.html](crawford-growth-zone.html) rebuilt as a marketing landing with three-tier architecture per spec v1.3:
+  - New hero with Wheel of Life as the primary "Start here" CTA (route exists in nav but the page itself is the next build).
+  - Three side-by-side tier cards: **Open** (Wheel + Timer), **With Email** (Core Values, Strengths, Feelings), **Subscription** (Motivation, Optimism, Task Triage, AI reports, longitudinal tracking, advanced builder). Locked tools are surfaced as locked previews with "Soon" tags.
+  - Tier-aware re-render driven by [auth/auth.js](auth/auth.js): anonymous visitors see the marketing landing + email capture form; email-captured / Synergize visitors see an "unlocked" state with direct CTAs to their tools; paid subscribers see the full-access state. Sign In / Sign Out swap in the nav based on session.
+  - Email capture form posts to `/api/subscribe` with `offer: growth-zone` and `subscriptions: { newsletter, growth_zone }` so the data-handler records both intents.
+  - Pricing transparency section names the Synergize 30%-off-monthly, coaching-bundled, and WHOLE-bundled rules without committing to a number.
+  - Philosophy note from the previous page preserved (these aren't formal assessments).
+  - SEO meta block extended: description, canonical, OG, Twitter Card, og:image.
+
+### Notes
+
+- All writes still go through `data-handler` via service-role; the site never touches Postgres directly. The browser uses the public anon key + RLS to read its own contacts row.
+- Auth is opt-in for now: only `/synergize/members` is actually gated. Existing public pages are unchanged.
+
 ## [2026-04-15]
 
 ### Added

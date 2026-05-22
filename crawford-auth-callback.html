@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/png" href="/timer-favicon.png">
+<title>Signing you in — Crawford Coaching</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600&family=Libre+Baskerville:ital,wght@0,400;0,700&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --ink: #0e0f10; --slate: #1c2330; --fog: #3d4a58;
+  --mist: #a4b6c8; --pale: #dde8f2; --white: #ffffff;
+  --brand-blue: #2d86c4;
+  --serif-display: 'Cormorant Garamond', Georgia, serif;
+  --serif-body:    'Libre Baskerville', Georgia, serif;
+  --sans:          'Jost', sans-serif;
+}
+html, body {
+  background: var(--ink);
+  color: var(--white);
+  font-family: var(--sans);
+  -webkit-font-smoothing: antialiased;
+  min-height: 100dvh;
+}
+main {
+  min-height: 100dvh;
+  display: flex; align-items: center; justify-content: center;
+  padding: 4rem 1.5rem;
+}
+.callback {
+  width: 100%;
+  max-width: 460px;
+  background: var(--slate);
+  border: 1px solid rgba(255,255,255,0.05);
+  padding: 3rem 2.5rem;
+  border-radius: 2px;
+  text-align: center;
+}
+.callback__eyebrow {
+  font-family: var(--sans); font-weight: 400;
+  font-size: 0.7rem; letter-spacing: 0.3em;
+  text-transform: uppercase; color: var(--brand-blue);
+  margin-bottom: 1.4rem;
+}
+.callback__title {
+  font-family: var(--serif-display);
+  font-weight: 300;
+  font-size: 2rem;
+  line-height: 1.2;
+  margin-bottom: 0.8rem;
+  color: var(--white);
+}
+.callback__msg {
+  font-family: var(--serif-body);
+  font-size: 0.98rem;
+  line-height: 1.65;
+  color: var(--pale);
+}
+.callback__error {
+  font-family: var(--sans);
+  font-size: 0.92rem;
+  line-height: 1.55;
+  color: #ffb8a8;
+  margin-top: 1rem;
+}
+.callback__action {
+  display: inline-block;
+  margin-top: 1.6rem;
+  font-family: var(--sans); font-weight: 400;
+  font-size: 0.82rem; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--white);
+  text-decoration: none;
+  border: 1px solid rgba(245,243,239,0.45);
+  padding: 0.7rem 1.4rem;
+  border-radius: 1px;
+  transition: background 0.2s, border-color 0.2s;
+}
+.callback__action:hover { background: rgba(245,243,239,0.1); border-color: rgba(245,243,239,0.8); }
+.spinner {
+  display: inline-block; width: 28px; height: 28px;
+  border: 2px solid rgba(255,255,255,0.15);
+  border-top-color: var(--brand-blue);
+  border-radius: 50%;
+  animation: spin 0.9s linear infinite;
+  margin-bottom: 1.2rem;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+</style>
+</head>
+<body>
+<main>
+  <div class="callback" id="callback">
+    <div class="spinner" aria-hidden="true"></div>
+    <p class="callback__eyebrow">Signing you in</p>
+    <h1 class="callback__title">One moment…</h1>
+    <p class="callback__msg" id="callback-msg">Verifying your link.</p>
+    <p class="callback__error" id="callback-error" hidden></p>
+    <a class="callback__action" id="callback-retry" href="/sign-in" hidden>Try again</a>
+  </div>
+</main>
+
+<script type="module">
+import { cc } from '/auth/auth.js';
+
+const msg    = document.getElementById('callback-msg');
+const err    = document.getElementById('callback-error');
+const retry  = document.getElementById('callback-retry');
+
+function fail(message) {
+  msg.textContent = 'We couldn’t complete your sign-in.';
+  err.textContent = message || 'The sign-in link may have expired. Request a new one.';
+  err.hidden = false;
+  retry.hidden = false;
+  document.querySelector('.spinner')?.remove();
+}
+
+(async () => {
+  try {
+    await cc.completeCallback();
+    msg.textContent = 'Routing you to the right place.';
+
+    const url  = new URL(window.location.href);
+    const next = url.searchParams.get('next');
+    if (next && next.startsWith('/') && next !== '/sign-in' && next !== '/auth/callback') {
+      window.location.replace(next); return;
+    }
+    const role = await cc.getRole();
+    let target = '/growth-zone';
+    if (role === cc.ROLES.SYNERGIZE_MEMBER ||
+        role === cc.ROLES.COACHING_CLIENT  ||
+        role === cc.ROLES.WHOLE_PARTICIPANT) {
+      target = '/synergize/members';
+    } else if (role === cc.ROLES.GROWTH_ZONE) {
+      target = '/growth-zone';
+    }
+    window.location.replace(target);
+  } catch (e) {
+    fail(e?.message);
+  }
+})();
+</script>
+</body>
+</html>

@@ -29,6 +29,18 @@
       "destination": "/crawford-synergize.html"
     },
     {
+      "source": "/synergize/members",
+      "destination": "/crawford-synergize-members.html"
+    },
+    {
+      "source": "/sign-in",
+      "destination": "/crawford-sign-in.html"
+    },
+    {
+      "source": "/auth/callback",
+      "destination": "/crawford-auth-callback.html"
+    },
+    {
       "source": "/growth-zone",
       "destination": "/crawford-growth-zone.html"
     },

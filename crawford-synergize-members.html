@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-LVZKV9N2CZ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-LVZKV9N2CZ');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/png" href="/timer-favicon.png">
+<title>Synergize Members Area — Crawford Coaching</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --ink:        #0e0f10;
+  --slate:      #1c2330;
+  --slate-mid:  #232f3e;
+  --fog:        #3d4a58;
+  --mist:       #a4b6c8;
+  --pale:       #dde8f2;
+  --white:      #ffffff;
+  --brand-blue: #2d86c4;
+  --brand-blue-light: #4fa3d8;
+  --syn-orange: #e8632b;
+  --syn-orange-light: #f2844e;
+  --serif-display: 'Cormorant Garamond', Georgia, serif;
+  --serif-body:    'Libre Baskerville', Georgia, serif;
+  --sans:          'Jost', sans-serif;
+}
+
+html, body {
+  background: var(--ink);
+  color: var(--white);
+  font-family: var(--sans);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* ─── NAV ─────────────────────────────── */
+.nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1.6rem 3.5rem;
+  background: rgba(14,15,16,0.85);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.nav__logo img { height: 36px; width: auto; display: block; }
+.nav__links { display: flex; gap: 2.5rem; list-style: none; }
+.nav__links a {
+  font-family: var(--sans); font-weight: 300;
+  font-size: 0.78rem; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--pale);
+  text-decoration: none; opacity: 0.85;
+  transition: opacity 0.2s, color 0.2s;
+}
+.nav__links a:hover { opacity: 1; color: var(--white); }
+.nav__links a.active { color: var(--syn-orange); opacity: 1; }
+.nav__cta {
+  font-family: var(--sans); font-weight: 400;
+  font-size: 0.75rem; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--white);
+  text-decoration: none; border: 1px solid rgba(245,243,239,0.45);
+  padding: 0.5rem 1.3rem; border-radius: 1px;
+  cursor: pointer;
+  transition: background 0.25s, border-color 0.25s;
+  background: transparent;
+  font-family: var(--sans);
+}
+.nav__cta:hover { background: rgba(245,243,239,0.1); border-color: rgba(245,243,239,0.8); }
+
+.nav__toggle { display: none; width: 44px; height: 44px; align-items: center; justify-content: center; flex-direction: column; background: none; border: none; cursor: pointer; padding: 0.5rem; z-index: 200; -webkit-tap-highlight-color: transparent; }
+.nav__toggle span { display: block; width: 22px; height: 1.5px; background: var(--pale); margin: 5px 0; transition: transform 0.3s ease, opacity 0.2s ease; transform-origin: center; }
+.nav__toggle.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+.nav__toggle.open span:nth-child(2) { opacity: 0; }
+.nav__toggle.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+.nav__overlay { display: none; position: fixed; inset: 0; z-index: 90; background: rgba(14,15,16,0.97); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); flex-direction: column; align-items: center; justify-content: center; gap: 0; opacity: 0; transition: opacity 0.35s ease; }
+.nav__overlay.open { display: flex; opacity: 1; }
+.nav__overlay a { font-family: var(--sans); font-weight: 300; font-size: 1.1rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--pale); text-decoration: none; padding: 0.9rem 0; opacity: 0.85; transition: color 0.2s, opacity 0.2s; }
+.nav__overlay a:hover, .nav__overlay a.active { opacity: 1; color: var(--white); }
+.nav__overlay .nav__overlay-cta { margin-top: 2rem; font-family: var(--sans); font-weight: 400; font-size: 0.85rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--white); background: transparent; border: 1px solid rgba(245,243,239,0.5); padding: 0.7rem 2rem; border-radius: 1px; cursor: pointer; transition: background 0.25s, border-color 0.25s; }
+.nav__overlay .nav__overlay-cta:hover { background: rgba(245,243,239,0.1); border-color: rgba(245,243,239,0.8); }
+.nav__toggle:focus-visible, .nav__overlay a:focus-visible, .nav__overlay .nav__overlay-cta:focus-visible { outline: 2px solid var(--white); outline-offset: 4px; }
+
+/* ─── HERO ──────────────────────────── */
+.hero {
+  padding: 9rem 3.5rem 3rem;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.hero__eyebrow {
+  font-family: var(--sans); font-weight: 400;
+  font-size: 0.7rem; letter-spacing: 0.3em;
+  text-transform: uppercase; color: var(--syn-orange);
+  margin-bottom: 1rem;
+  display: flex; align-items: center; gap: 0.8rem;
+}
+.hero__eyebrow::before { content: ''; display: block; width: 28px; height: 1px; background: var(--syn-orange); }
+.hero__title {
+  font-family: var(--serif-display);
+  font-weight: 300;
+  font-size: clamp(2.2rem, 4.5vw, 3.4rem);
+  line-height: 1.1;
+  color: var(--white);
+  margin-bottom: 0.9rem;
+  max-width: 760px;
+}
+.hero__lead {
+  font-family: var(--serif-body);
+  font-size: 1.02rem;
+  line-height: 1.65;
+  color: var(--pale);
+  max-width: 640px;
+}
+
+/* ─── GRID OF MEMBER CARDS ──────────── */
+.member-grid {
+  padding: 3rem 3.5rem 4rem;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.5rem;
+}
+@media (max-width: 900px) { .member-grid { grid-template-columns: 1fr; padding: 2rem 1.8rem 3rem; } }
+
+.member-card {
+  background: var(--slate);
+  border: 1px solid rgba(255,255,255,0.06);
+  padding: 2rem;
+  border-radius: 2px;
+  display: flex; flex-direction: column;
+  min-height: 220px;
+}
+.member-card__tag {
+  font-family: var(--sans); font-weight: 400;
+  font-size: 0.66rem; letter-spacing: 0.24em;
+  text-transform: uppercase; color: var(--syn-orange);
+  margin-bottom: 0.9rem;
+}
+.member-card__title {
+  font-family: var(--serif-display);
+  font-weight: 400;
+  font-size: 1.55rem;
+  line-height: 1.2;
+  color: var(--white);
+  margin-bottom: 0.6rem;
+}
+.member-card__body {
+  font-family: var(--serif-body);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--pale);
+  margin-bottom: 1.4rem;
+  flex: 1;
+}
+.member-card__action {
+  align-self: flex-start;
+  font-family: var(--sans); font-weight: 400;
+  font-size: 0.74rem; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--white);
+  text-decoration: none;
+  border: 1px solid rgba(255,255,255,0.35);
+  padding: 0.65rem 1.25rem;
+  border-radius: 1px;
+  transition: background 0.2s, border-color 0.2s;
+}
+.member-card__action:hover { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.6); }
+
+.member-feed {
+  font-family: var(--sans); font-weight: 300;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--pale);
+  margin: 0.4rem 0 1.4rem;
+  min-height: 60px;
+}
+.member-feed--placeholder { color: var(--mist); font-style: italic; }
+.member-feed ul { list-style: none; padding: 0; }
+.member-feed li { padding: 0.35rem 0; border-bottom: 1px dashed rgba(255,255,255,0.07); }
+.member-feed li:last-child { border-bottom: none; }
+.member-feed__when {
+  font-family: var(--sans); font-weight: 400;
+  font-size: 0.72rem; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--syn-orange);
+  margin-right: 0.6rem;
+}
+
+/* ─── GROWTH ZONE BANNER ─────────────── */
+.gz-banner {
+  margin: 0 3.5rem 4rem;
+  padding: 2.4rem 2.2rem;
+  border: 1px solid rgba(45,134,196,0.35);
+  background: linear-gradient(135deg, rgba(45,134,196,0.07), rgba(45,134,196,0.02));
+  border-radius: 2px;
+}
+@media (max-width: 900px) { .gz-banner { margin: 0 1.8rem 3rem; padding: 2rem 1.6rem; } }
+.gz-banner__tag {
+  font-family: var(--sans); font-weight: 400;
+  font-size: 0.66rem; letter-spacing: 0.28em;
+  text-transform: uppercase; color: var(--brand-blue-light);
+  margin-bottom: 0.8rem;
+}
+.gz-banner__title {
+  font-family: var(--serif-display);
+  font-weight: 400;
+  font-size: clamp(1.6rem, 3.2vw, 2.1rem);
+  color: var(--white);
+  margin-bottom: 0.8rem;
+}
+.gz-banner__body {
+  font-family: var(--serif-body);
+  font-size: 0.98rem;
+  line-height: 1.65;
+  color: var(--pale);
+  margin-bottom: 1.4rem;
+  max-width: 720px;
+}
+.gz-banner__actions { display: flex; gap: 0.8rem; flex-wrap: wrap; }
+.gz-banner__cta {
+  font-family: var(--sans); font-weight: 400;
+  font-size: 0.78rem; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--white);
+  text-decoration: none;
+  background: var(--brand-blue);
+  border: 1px solid var(--brand-blue);
+  padding: 0.7rem 1.5rem;
+  border-radius: 1px;
+  transition: background 0.2s, border-color 0.2s;
+}
+.gz-banner__cta:hover { background: var(--brand-blue-light); border-color: var(--brand-blue-light); }
+.gz-banner__cta--ghost { background: transparent; }
+.gz-banner__cta--ghost:hover { background: rgba(45,134,196,0.1); }
+
+/* ─── GATE / LOADING / DENY STATES ───── */
+.gate {
+  position: fixed; inset: 0;
+  background: var(--ink);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 500;
+  padding: 4rem 1.6rem;
+}
+.gate__inner {
+  max-width: 460px;
+  background: var(--slate);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 2px;
+  padding: 2.8rem 2.2rem;
+  text-align: center;
+}
+.gate__title {
+  font-family: var(--serif-display); font-weight: 300;
+  font-size: 1.9rem; color: var(--white);
+  margin-bottom: 0.7rem;
+}
+.gate__msg { font-family: var(--serif-body); color: var(--pale); line-height: 1.6; }
+.gate__actions { display: flex; gap: 0.7rem; justify-content: center; margin-top: 1.6rem; flex-wrap: wrap; }
+.gate__btn {
+  font-family: var(--sans); font-weight: 400;
+  font-size: 0.78rem; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--white);
+  text-decoration: none;
+  background: var(--syn-orange);
+  border: 1px solid var(--syn-orange);
+  padding: 0.7rem 1.4rem; border-radius: 1px;
+  transition: background 0.2s, border-color 0.2s;
+}
+.gate__btn:hover { background: var(--syn-orange-light); border-color: var(--syn-orange-light); }
+.gate__btn--ghost { background: transparent; color: var(--pale); border-color: rgba(255,255,255,0.4); }
+.gate__btn--ghost:hover { background: rgba(255,255,255,0.06); }
+.gate__spinner { display: inline-block; width: 28px; height: 28px; border: 2px solid rgba(255,255,255,0.15); border-top-color: var(--brand-blue); border-radius: 50%; animation: spin 0.9s linear infinite; margin-bottom: 1rem; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* Hide member content until gate resolves */
+.member-page { display: none; }
+.member-page.is-ready { display: block; }
+
+/* ─── FOOTER ─────────────────────────── */
+.footer {
+  padding: 3rem 3.5rem;
+  display: flex; align-items: center; justify-content: space-between;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  background: var(--slate);
+}
+.footer__logo img { height: 28px; width: auto; display: block; }
+.footer__links { display: flex; gap: 2rem; list-style: none; }
+.footer__links a { font-family: var(--sans); font-weight: 300; font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--mist); text-decoration: none; transition: color 0.2s; }
+.footer__links a:hover { color: var(--pale); }
+.footer__copy { font-family: var(--sans); font-weight: 300; font-size: 0.68rem; color: var(--mist); }
+
+/* ─── RESPONSIVE ─────────────────────── */
+@media (max-width: 900px) {
+  .nav { padding: 1.4rem 1.8rem; }
+  .nav__toggle { display: flex; }
+  .nav__links { display: none !important; }
+  .nav__cta { display: none; }
+  .hero { padding: 7rem 1.8rem 2rem; }
+  .footer { padding: 2rem 1.8rem; flex-direction: column; gap: 1.2rem; text-align: center; }
+  .footer__links { flex-wrap: wrap; justify-content: center; gap: 1rem; }
+}
+img { max-width: 100%; display: block; vertical-align: top; }
+</style>
+</head>
+<body>
+
+<!-- ══ GATE OVERLAY ════════════════════════════════════════ -->
+<div class="gate" id="gate" role="status" aria-live="polite">
+  <div class="gate__inner" id="gate-inner">
+    <div class="gate__spinner" aria-hidden="true"></div>
+    <h2 class="gate__title">Checking your membership…</h2>
+    <p class="gate__msg" id="gate-msg">One moment.</p>
+    <div class="gate__actions" id="gate-actions" style="display:none;">
+      <a class="gate__btn" id="gate-primary" href="/sign-in?next=/synergize/members">Sign in</a>
+      <a class="gate__btn gate__btn--ghost" href="/synergize">Back to Synergize</a>
+    </div>
+  </div>
+</div>
+
+<!-- ══ MEMBER PAGE (revealed once gate passes) ═════════════ -->
+<div class="member-page" id="member-page">
+
+<nav class="nav">
+  <a href="/" class="nav__logo">
+    <img src="./extracted-images/cc-logo.png" alt="Crawford Coaching">
+  </a>
+  <ul class="nav__links">
+    <li><a href="/coaching">Coaching</a></li>
+    <li><a href="/whole">WHOLE</a></li>
+    <li><a href="/synergize" class="active">Synergize Fitness</a></li>
+    <li><a href="/timer">Interval Timer</a></li>
+    <li><a href="/growth-zone">Growth Zone</a></li>
+    <li><a href="/about">About</a></li>
+    <li><a href="/writing">Writing</a></li>
+    <li><a href="/contact">Contact</a></li>
+  </ul>
+  <button class="nav__cta" id="signout-btn" type="button">Sign Out</button>
+  <button class="nav__toggle" aria-label="Menu" aria-controls="site-menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="nav__overlay" id="site-menu" aria-hidden="true">
+  <a href="/coaching">Coaching</a>
+  <a href="/whole">WHOLE</a>
+  <a href="/synergize" class="active">Synergize Fitness</a>
+  <a href="/timer">Interval Timer</a>
+  <a href="/growth-zone">Growth Zone</a>
+  <a href="/about">About</a>
+  <a href="/writing">Writing</a>
+  <a href="/contact">Contact</a>
+  <button class="nav__overlay-cta" id="signout-btn-mobile" type="button">Sign Out</button>
+</div>
+
+<!-- ── HERO ── -->
+<section class="hero">
+  <p class="hero__eyebrow">Synergize Members</p>
+  <h1 class="hero__title">Welcome back<span id="greeting-name"></span>.</h1>
+  <p class="hero__lead">
+    Your member area. Class schedule, workout of the day, holiday hours, the full timer, and a few coaching tools we've unlocked for you as part of your membership.
+  </p>
+</section>
+
+<!-- ── MEMBER GRID ── -->
+<section class="member-grid">
+
+  <article class="member-card">
+    <p class="member-card__tag">This Week</p>
+    <h2 class="member-card__title">Class schedule</h2>
+    <div class="member-feed member-feed--placeholder" id="feed-classes">
+      Loading this week's classes…
+    </div>
+    <a class="member-card__action" href="mailto:scott@crawford-coaching.ca?subject=Class%20availability">Ask about a class</a>
+  </article>
+
+  <article class="member-card">
+    <p class="member-card__tag">Today</p>
+    <h2 class="member-card__title">Workout of the day</h2>
+    <div class="member-feed member-feed--placeholder" id="feed-wod">
+      Today's WOD will appear here once published.
+    </div>
+    <a class="member-card__action" href="/timer">Open timer</a>
+  </article>
+
+  <article class="member-card">
+    <p class="member-card__tag">Heads up</p>
+    <h2 class="member-card__title">Holiday hours</h2>
+    <div class="member-feed member-feed--placeholder" id="feed-holiday">
+      No closures scheduled.
+    </div>
+    <a class="member-card__action" href="/contact">Contact Scott</a>
+  </article>
+
+  <article class="member-card">
+    <p class="member-card__tag">Tools</p>
+    <h2 class="member-card__title">Interval timer</h2>
+    <p class="member-card__body">
+      Open the full timer — single countdown, quick EMOM, custom intervals. Saved favourites and the advanced workout builder ship with the next release.
+    </p>
+    <a class="member-card__action" href="/timer">Open timer</a>
+  </article>
+
+</section>
+
+<!-- ── GROWTH ZONE CROSS-PROMO ── -->
+<section class="gz-banner">
+  <p class="gz-banner__tag">Included with your membership</p>
+  <h2 class="gz-banner__title">A taste of the Growth Zone — on the house.</h2>
+  <p class="gz-banner__body">
+    Your Synergize membership unlocks the email-gated tier of the Growth Zone: Core Values, Character Strengths, and the Feelings Naming Guide. Want the full thing — AI reports, longitudinal tracking, the rest of the exercises? Synergize members get 30% off the monthly subscription for as long as you're an active member.
+  </p>
+  <div class="gz-banner__actions">
+    <a class="gz-banner__cta" href="/growth-zone">Open the Growth Zone</a>
+    <a class="gz-banner__cta gz-banner__cta--ghost" href="/contact">Ask Scott about the upgrade</a>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer class="footer">
+  <a href="/" class="footer__logo">
+    <img src="./extracted-images/cc-logo.png" alt="Crawford Coaching">
+  </a>
+  <ul class="footer__links">
+    <li><a href="/coaching">Coaching</a></li>
+    <li><a href="/synergize">Synergize Fitness</a></li>
+    <li><a href="/whole">WHOLE</a></li>
+    <li><a href="/growth-zone">Growth Zone</a></li>
+    <li><a href="/about">About</a></li>
+    <li><a href="/contact">Contact</a></li>
+  </ul>
+  <p class="footer__copy">&copy; 2026 Crawford Coaching</p>
+</footer>
+
+</div><!-- /.member-page -->
+
+<!-- ══ MOBILE NAV BEHAVIOUR ════════════════════════════════ -->
+<script>
+(function() {
+  const toggle = document.querySelector('.nav__toggle');
+  const overlay = document.querySelector('.nav__overlay');
+  if (!toggle || !overlay) return;
+  let closeTimer = null;
+  const closeMenu = () => {
+    toggle.classList.remove('open');
+    toggle.setAttribute('aria-expanded', 'false');
+    overlay.classList.remove('open');
+    const activeEl = document.activeElement;
+    if (activeEl && overlay.contains(activeEl)) activeEl.blur();
+    overlay.setAttribute('aria-hidden', 'true');
+    toggle.focus();
+    document.body.style.overflow = '';
+    if (closeTimer) clearTimeout(closeTimer);
+    closeTimer = setTimeout(() => { overlay.style.display = 'none'; }, 350);
+  };
+  const openMenu = () => {
+    if (closeTimer) clearTimeout(closeTimer);
+    toggle.classList.add('open');
+    toggle.setAttribute('aria-expanded', 'true');
+    overlay.style.display = 'flex';
+    overlay.setAttribute('aria-hidden', 'false');
+    requestAnimationFrame(() => overlay.classList.add('open'));
+    document.body.style.overflow = 'hidden';
+  };
+  toggle.addEventListener('click', () => {
+    toggle.classList.contains('open') ? closeMenu() : openMenu();
+  });
+  overlay.querySelectorAll('a').forEach((a) => a.addEventListener('click', closeMenu));
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && toggle.classList.contains('open')) closeMenu();
+  });
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 900 && toggle.classList.contains('open')) closeMenu();
+  });
+})();
+</script>
+
+<!-- ══ GATE + DATA ═════════════════════════════════════════ -->
+<script type="module">
+import { cc } from '/auth/auth.js';
+
+const gate         = document.getElementById('gate');
+const gateMsg      = document.getElementById('gate-msg');
+const gateActions  = document.getElementById('gate-actions');
+const gatePrimary  = document.getElementById('gate-primary');
+const memberPage   = document.getElementById('member-page');
+const greetingName = document.getElementById('greeting-name');
+
+function showGateError({ title, msg, primaryLabel, primaryHref }) {
+  document.querySelector('.gate__spinner')?.remove();
+  document.querySelector('.gate__title').textContent = title;
+  gateMsg.textContent = msg;
+  if (primaryLabel) {
+    gatePrimary.textContent = primaryLabel;
+    gatePrimary.href = primaryHref || '/sign-in';
+  }
+  gateActions.style.display = 'flex';
+}
+
+function reveal(contact) {
+  if (contact?.first_name) greetingName.textContent = ', ' + contact.first_name;
+  memberPage.classList.add('is-ready');
+  gate.style.display = 'none';
+  loadFeeds().catch((err) => console.warn('[members] feed load failed', err));
+}
+
+async function loadFeeds() {
+  // /api/member-data returns class_schedule, wod, and holiday entries when
+  // wired up. Until then it 200s with empty arrays and the placeholder copy
+  // already on the page stays visible.
+  try {
+    const session = await cc.getSession();
+    if (!session) return;
+    const res = await fetch('/api/member-data', {
+      headers: { 'Authorization': `Bearer ${session.access_token}` },
+    });
+    if (!res.ok) return;
+    const data = await res.json();
+
+    if (Array.isArray(data?.classes) && data.classes.length) {
+      const el = document.getElementById('feed-classes');
+      el.classList.remove('member-feed--placeholder');
+      el.innerHTML = '<ul>' + data.classes.map((c) =>
+        `<li><span class="member-feed__when">${escapeHtml(c.when || '')}</span>${escapeHtml(c.label || '')}</li>`
+      ).join('') + '</ul>';
+    }
+    if (data?.wod) {
+      const el = document.getElementById('feed-wod');
+      el.classList.remove('member-feed--placeholder');
+      el.textContent = data.wod;
+    }
+    if (Array.isArray(data?.holiday) && data.holiday.length) {
+      const el = document.getElementById('feed-holiday');
+      el.classList.remove('member-feed--placeholder');
+      el.innerHTML = '<ul>' + data.holiday.map((h) =>
+        `<li><span class="member-feed__when">${escapeHtml(h.when || '')}</span>${escapeHtml(h.label || '')}</li>`
+      ).join('') + '</ul>';
+    }
+  } catch (e) { /* placeholders remain */ }
+}
+
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, (c) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+async function bindSignOut() {
+  const handler = async () => {
+    await cc.signOut();
+    window.location.replace('/synergize');
+  };
+  document.getElementById('signout-btn')?.addEventListener('click', handler);
+  document.getElementById('signout-btn-mobile')?.addEventListener('click', handler);
+}
+
+(async () => {
+  try {
+    const session = await cc.getSession();
+    if (!session) {
+      showGateError({
+        title: 'Members only',
+        msg: 'Sign in with the email on your Synergize membership.',
+        primaryLabel: 'Sign in',
+        primaryHref: '/sign-in?next=/synergize/members',
+      });
+      return;
+    }
+    const contact = await cc.getContact();
+    if (!contact) {
+      showGateError({
+        title: "We can't find your record",
+        msg: 'Your sign-in worked, but we couldn’t match this email to a Synergize membership. Email Scott and he’ll sort it.',
+        primaryLabel: 'Email Scott',
+        primaryHref: 'mailto:scott@crawford-coaching.ca?subject=Members%20Area%20access',
+      });
+      return;
+    }
+    const allowed =
+      contact.synergize_active === true ||
+      contact.coaching_active === true ||
+      contact.whole_active === true;
+    if (!allowed) {
+      showGateError({
+        title: 'This area is for active Synergize members',
+        msg: "Your sign-in is good, but your membership isn't currently active. If that doesn't sound right, get in touch and we'll check.",
+        primaryLabel: 'About Synergize',
+        primaryHref: '/synergize',
+      });
+      return;
+    }
+    bindSignOut();
+    reveal(contact);
+  } catch (err) {
+    console.error(err);
+    showGateError({
+      title: 'Something went wrong',
+      msg: err?.message || 'Please try signing in again.',
+      primaryLabel: 'Sign in',
+      primaryHref: '/sign-in?next=/synergize/members',
+    });
+  }
+})();
+</script>
+
+<!-- ══ ASSISTANT WIDGET ════════════════════════════════════ -->
+<script src="https://website-assistant-sandy.vercel.app/chat-widget.js"></script>
+
+</body>
+</html>

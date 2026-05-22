@@ -195,9 +195,8 @@ Then open:
 ## SEO Reference
 
 ### Domains
-- Primary: `www.crawford-coaching.com`
-- Legacy/alias: `crawford-coaching.ca`
-- Canonical URLs and OG tags use `https://www.crawford-coaching.com`.
+- Primary: `www.crawford-coaching.ca`
+- Canonical URLs and OG tags use `https://www.crawford-coaching.ca`.
 
 ### Pages with full SEO coverage
 These pages have meta descriptions, OG/Twitter cards, canonical URLs, and JSON-LD structured data:
@@ -230,7 +229,7 @@ These pages do not yet have meta descriptions, OG/Twitter cards, canonical URLs,
 
 ### Sitemap and robots
 - [sitemap.xml](sitemap.xml) — manually maintained; update when adding new pages or blog posts.
-- [robots.txt](robots.txt) — references sitemap at `https://www.crawford-coaching.com/sitemap.xml`.
+- [robots.txt](robots.txt) — references sitemap at `https://www.crawford-coaching.ca/sitemap.xml`.
 
 ## Suggested Session Startup Checklist
 

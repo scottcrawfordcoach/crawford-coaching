@@ -8,3 +8,5 @@ dist/
 qa-screenshots/
 .vscode/
 *.tmp
+Thumbs.db
+*.pdf

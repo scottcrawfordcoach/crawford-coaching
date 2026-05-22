@@ -1,0 +1,1182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Growth Zone Platform Architecture v1.2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Jost:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --ink:        #0e0f10;
+  --slate:      #1c2330;
+  --slate-mid:  #232f3e;
+  --fog:        #3d4a58;
+  --mist:       #a4b6c8;
+  --pale:       #dde8f2;
+  --white:      #ffffff;
+  --brand-blue: #2d86c4;
+  --brand-blue-light: #4fa3d8;
+  --syn-orange: #e8632b;
+  --syn-orange-light: #f2844e;
+  --gold:       #c9a96a;
+  --serif-display: 'Cormorant Garamond', Georgia, serif;
+  --serif-body:    'Libre Baskerville', Georgia, serif;
+  --sans:          'Jost', sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--ink);
+  color: var(--pale);
+  font-family: var(--serif-body);
+  font-size: 15px;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+  padding: 0;
+}
+
+/* ── HEADER ── */
+.page-header {
+  padding: 3.5rem clamp(1.5rem, 4vw, 3.5rem) 2rem;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  background: linear-gradient(180deg, rgba(45,134,196,0.04) 0%, transparent 100%);
+}
+
+.page-header__label {
+  font-family: var(--sans);
+  font-size: 0.7rem;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--brand-blue-light);
+  font-weight: 400;
+  margin-bottom: 1rem;
+}
+
+.page-header__title {
+  font-family: var(--serif-display);
+  font-size: clamp(2.4rem, 5vw, 3.8rem);
+  font-weight: 400;
+  line-height: 1.05;
+  color: var(--white);
+  letter-spacing: -0.01em;
+}
+
+.page-header__title em {
+  font-style: italic;
+  color: var(--brand-blue-light);
+  font-weight: 300;
+}
+
+.page-header__sub {
+  font-family: var(--serif-body);
+  font-size: 0.95rem;
+  color: var(--mist);
+  margin-top: 1rem;
+  max-width: 60ch;
+  font-style: italic;
+}
+
+.page-header__version {
+  font-family: var(--sans);
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--fog);
+  margin-top: 1.5rem;
+}
+
+/* ── TAB NAV ── */
+.tabs {
+  display: flex;
+  gap: 0;
+  padding: 0 clamp(1.5rem, 4vw, 3.5rem);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  background: rgba(28,35,48,0.4);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.tabs::-webkit-scrollbar { display: none; }
+
+.tab {
+  font-family: var(--sans);
+  font-size: 0.78rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--mist);
+  padding: 1.4rem 1.6rem;
+  cursor: pointer;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  transition: color 0.25s, border-color 0.25s;
+  white-space: nowrap;
+  font-weight: 400;
+}
+
+.tab:hover { color: var(--pale); }
+
+.tab--active {
+  color: var(--white);
+  border-bottom-color: var(--brand-blue);
+}
+
+/* ── PANELS ── */
+.panel {
+  display: none;
+  padding: 3rem clamp(1.5rem, 4vw, 3.5rem) 4rem;
+  animation: fadeIn 0.4s ease;
+}
+
+.panel--active { display: block; }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.panel__intro {
+  margin-bottom: 2.5rem;
+  max-width: 70ch;
+}
+
+.panel__intro h2 {
+  font-family: var(--serif-display);
+  font-size: 2rem;
+  font-weight: 400;
+  color: var(--white);
+  margin-bottom: 0.6rem;
+  letter-spacing: -0.005em;
+}
+
+.panel__intro p {
+  font-family: var(--serif-body);
+  color: var(--mist);
+  font-size: 0.95rem;
+}
+
+/* ─────────────────────────────────────── */
+/* PANEL 1 — PRODUCT MAP                   */
+/* ─────────────────────────────────────── */
+
+.product-map {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+@media (min-width: 900px) {
+  .product-map { grid-template-columns: repeat(2, 1fr); gap: 1.8rem; }
+}
+
+.product-card {
+  background: linear-gradient(135deg, var(--slate) 0%, var(--slate-mid) 100%);
+  border: 1px solid rgba(255,255,255,0.08);
+  padding: 2rem 1.8rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.product-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 3px;
+  height: 100%;
+  background: var(--accent, var(--brand-blue));
+}
+
+.product-card[data-accent="orange"] { --accent: var(--syn-orange); }
+.product-card[data-accent="blue"]   { --accent: var(--brand-blue); }
+.product-card[data-accent="gold"]   { --accent: var(--gold); }
+.product-card[data-accent="mist"]   { --accent: var(--mist); }
+.product-card[data-accent="parked"] {
+  --accent: var(--fog);
+  opacity: 0.7;
+}
+
+.product-card__type {
+  font-family: var(--sans);
+  font-size: 0.65rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--accent, var(--brand-blue-light));
+  font-weight: 500;
+  margin-bottom: 0.6rem;
+}
+
+.product-card__name {
+  font-family: var(--serif-display);
+  font-size: 1.7rem;
+  color: var(--white);
+  margin-bottom: 0.6rem;
+  font-weight: 500;
+  letter-spacing: -0.005em;
+}
+
+.product-card__billing {
+  font-family: var(--sans);
+  font-size: 0.78rem;
+  color: var(--pale);
+  margin-bottom: 1rem;
+  letter-spacing: 0.04em;
+}
+
+.product-card__desc {
+  font-family: var(--serif-body);
+  font-size: 0.9rem;
+  color: var(--mist);
+  line-height: 1.7;
+}
+
+.product-card__bundle {
+  margin-top: 1.2rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  font-family: var(--sans);
+  font-size: 0.78rem;
+  color: var(--pale);
+}
+
+.product-card__bundle-label {
+  font-size: 0.65rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--fog);
+  margin-bottom: 0.3rem;
+  display: block;
+}
+
+.product-card__parked {
+  position: absolute;
+  top: 1.2rem;
+  right: 1.2rem;
+  font-family: var(--sans);
+  font-size: 0.62rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--fog);
+  border: 1px solid var(--fog);
+  padding: 0.25rem 0.55rem;
+}
+
+/* ─────────────────────────────────────── */
+/* PANEL 2 — ACCESS MATRIX                 */
+/* ─────────────────────────────────────── */
+
+.matrix-wrap { overflow-x: auto; margin-top: 1rem; }
+
+.matrix {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--sans);
+  font-size: 0.85rem;
+  min-width: 720px;
+}
+
+.matrix th, .matrix td {
+  padding: 1rem 0.9rem;
+  text-align: left;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  vertical-align: middle;
+}
+
+.matrix thead th {
+  font-size: 0.68rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--brand-blue-light);
+  font-weight: 500;
+  border-bottom: 1px solid rgba(45,134,196,0.3);
+  padding-bottom: 1.2rem;
+}
+
+.matrix tbody td:first-child {
+  font-family: var(--serif-display);
+  font-size: 1.05rem;
+  color: var(--white);
+  font-weight: 500;
+  font-style: italic;
+}
+
+.matrix tbody tr:hover {
+  background: rgba(45,134,196,0.04);
+}
+
+.cell-yes {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.4rem;
+  height: 1.4rem;
+  border-radius: 50%;
+  background: rgba(45,134,196,0.18);
+  color: var(--brand-blue-light);
+  font-weight: 500;
+  font-size: 0.85rem;
+}
+
+.cell-no {
+  color: var(--fog);
+  font-size: 1.2rem;
+}
+
+.cell-partial {
+  display: inline-block;
+  font-size: 0.72rem;
+  color: var(--gold);
+  letter-spacing: 0.06em;
+  border-bottom: 1px dotted rgba(201,169,106,0.4);
+  padding-bottom: 1px;
+}
+
+.cell-pricing {
+  font-size: 0.78rem;
+  color: var(--pale);
+  font-weight: 300;
+}
+
+.cell-pricing em {
+  color: var(--mist);
+  font-style: italic;
+  display: block;
+  font-size: 0.72rem;
+  margin-top: 0.15rem;
+}
+
+.matrix__legend {
+  margin-top: 2rem;
+  display: flex;
+  gap: 1.8rem;
+  flex-wrap: wrap;
+  font-family: var(--sans);
+  font-size: 0.78rem;
+  color: var(--mist);
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+
+.matrix__legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.matrix__rule {
+  margin-top: 2rem;
+  padding: 1.2rem 1.4rem;
+  background: rgba(45,134,196,0.06);
+  border-left: 2px solid var(--brand-blue);
+  font-family: var(--serif-body);
+  font-size: 0.9rem;
+  color: var(--pale);
+  font-style: italic;
+}
+
+.matrix__rule strong {
+  font-style: normal;
+  font-family: var(--sans);
+  font-weight: 500;
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--brand-blue-light);
+  display: block;
+  margin-bottom: 0.4rem;
+}
+
+/* ─────────────────────────────────────── */
+/* PANEL 3 — DECISION TREE                 */
+/* ─────────────────────────────────────── */
+
+.tree {
+  margin-top: 2rem;
+  position: relative;
+}
+
+.tree__step {
+  display: grid;
+  grid-template-columns: 4rem 1fr;
+  gap: 1.5rem;
+  margin-bottom: 1rem;
+  position: relative;
+}
+
+.tree__num {
+  font-family: var(--serif-display);
+  font-size: 2.6rem;
+  font-weight: 300;
+  color: var(--brand-blue);
+  font-style: italic;
+  text-align: center;
+  line-height: 1;
+  padding-top: 0.4rem;
+  border-right: 1px solid rgba(45,134,196,0.2);
+  padding-right: 1rem;
+}
+
+.tree__step:last-child .tree__num { border-right-color: transparent; }
+
+.tree__body {
+  background: var(--slate);
+  border: 1px solid rgba(255,255,255,0.06);
+  padding: 1.4rem 1.6rem;
+  position: relative;
+}
+
+.tree__check {
+  font-family: var(--sans);
+  font-size: 0.68rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--mist);
+  margin-bottom: 0.5rem;
+  font-weight: 400;
+}
+
+.tree__condition {
+  font-family: var(--serif-display);
+  font-size: 1.4rem;
+  color: var(--white);
+  font-weight: 400;
+  letter-spacing: -0.005em;
+  line-height: 1.3;
+  margin-bottom: 0.7rem;
+}
+
+.tree__outcome {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.7rem;
+  font-family: var(--sans);
+  font-size: 0.9rem;
+  color: var(--pale);
+  padding-top: 0.7rem;
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+
+.tree__arrow {
+  color: var(--brand-blue-light);
+  font-weight: 500;
+  flex-shrink: 0;
+}
+
+.tree__outcome strong {
+  color: var(--white);
+  font-weight: 500;
+}
+
+.tree__note {
+  font-family: var(--serif-body);
+  font-size: 0.82rem;
+  color: var(--mist);
+  font-style: italic;
+  margin-top: 0.5rem;
+  display: block;
+}
+
+@media (max-width: 600px) {
+  .tree__step { grid-template-columns: 3rem 1fr; gap: 1rem; }
+  .tree__num { font-size: 2rem; padding-right: 0.6rem; }
+}
+
+/* ─────────────────────────────────────── */
+/* PANEL 4 — PAGE ARCHITECTURE             */
+/* ─────────────────────────────────────── */
+
+.arch {
+  margin-top: 2rem;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2.5rem;
+}
+
+.arch__layer {
+  border: 1px solid rgba(255,255,255,0.06);
+  background: rgba(28,35,48,0.4);
+  padding: 1.8rem 1.6rem;
+}
+
+.arch__layer-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 1.4rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.arch__layer-label {
+  font-family: var(--sans);
+  font-size: 0.7rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--brand-blue-light);
+  font-weight: 500;
+}
+
+.arch__layer-name {
+  font-family: var(--serif-display);
+  font-size: 1.6rem;
+  color: var(--white);
+  font-weight: 400;
+  font-style: italic;
+}
+
+.arch__nodes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 0.9rem;
+}
+
+.arch__node {
+  border: 1px solid rgba(255,255,255,0.1);
+  padding: 0.95rem 1rem;
+  font-family: var(--sans);
+  font-size: 0.82rem;
+  color: var(--pale);
+  background: rgba(14,15,16,0.5);
+  position: relative;
+  transition: border-color 0.2s;
+}
+
+.arch__node:hover { border-color: rgba(45,134,196,0.4); }
+
+.arch__node--new {
+  border-color: rgba(45,134,196,0.4);
+  background: rgba(45,134,196,0.06);
+}
+
+.arch__node--changed {
+  border-color: rgba(232,99,43,0.35);
+  background: rgba(232,99,43,0.04);
+}
+
+.arch__node-route {
+  font-family: var(--sans);
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  color: var(--mist);
+  margin-bottom: 0.3rem;
+  font-weight: 400;
+}
+
+.arch__node-label {
+  font-family: var(--serif-display);
+  font-size: 1.05rem;
+  color: var(--white);
+  font-weight: 500;
+  margin-bottom: 0.35rem;
+  letter-spacing: -0.005em;
+}
+
+.arch__node-meta {
+  font-family: var(--sans);
+  font-size: 0.72rem;
+  color: var(--mist);
+  font-weight: 300;
+  line-height: 1.5;
+}
+
+.arch__node-tag {
+  position: absolute;
+  top: -0.55rem;
+  right: 0.7rem;
+  font-family: var(--sans);
+  font-size: 0.55rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding: 0.15rem 0.5rem;
+  background: var(--ink);
+}
+
+.arch__node-tag--new {
+  color: var(--brand-blue-light);
+  border: 1px solid rgba(45,134,196,0.5);
+}
+
+.arch__node-tag--changed {
+  color: var(--syn-orange-light);
+  border: 1px solid rgba(232,99,43,0.5);
+}
+
+.arch__legend {
+  margin-top: 1.5rem;
+  padding-top: 1.2rem;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  display: flex;
+  gap: 1.4rem;
+  flex-wrap: wrap;
+  font-family: var(--sans);
+  font-size: 0.72rem;
+  color: var(--mist);
+}
+
+.arch__legend-dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  margin-right: 0.5rem;
+  vertical-align: middle;
+}
+
+.arch__legend-dot--new { background: rgba(45,134,196,0.5); border: 1px solid var(--brand-blue); }
+.arch__legend-dot--changed { background: rgba(232,99,43,0.4); border: 1px solid var(--syn-orange); }
+.arch__legend-dot--existing { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.2); }
+
+/* ─────────────────────────────────────── */
+/* FOOTER                                  */
+/* ─────────────────────────────────────── */
+
+.foot {
+  padding: 2rem clamp(1.5rem, 4vw, 3.5rem);
+  border-top: 1px solid rgba(255,255,255,0.06);
+  font-family: var(--sans);
+  font-size: 0.72rem;
+  color: var(--fog);
+  letter-spacing: 0.06em;
+  text-align: center;
+}
+
+</style>
+</head>
+<body>
+
+<header class="page-header">
+  <p class="page-header__label">Crawford Coaching · Platform Architecture</p>
+  <h1 class="page-header__title">Growth Zone <em>v1.2</em></h1>
+  <p class="page-header__sub">Access, pricing, and authentication architecture for the gated Growth Zone platform and its surrounding products.</p>
+  <p class="page-header__version">Spec Version 1.2 · May 2026</p>
+</header>
+
+<nav class="tabs" role="tablist">
+  <button class="tab tab--active" data-target="products" role="tab">Products</button>
+  <button class="tab" data-target="matrix" role="tab">Access Matrix</button>
+  <button class="tab" data-target="auth" role="tab">Auth Decision Tree</button>
+  <button class="tab" data-target="pages" role="tab">Page Architecture</button>
+</nav>
+
+<!-- ───────────────── PANEL 1 — PRODUCTS ───────────────── -->
+<section class="panel panel--active" id="products">
+  <div class="panel__intro">
+    <h2>Product Structure</h2>
+    <p>Four products live, one parked. Each product has its own billing model, but they connect through clear bridging rules: active services bundle access, and discounts only ever apply once.</p>
+  </div>
+
+  <div class="product-map">
+
+    <div class="product-card" data-accent="gold">
+      <p class="product-card__type">Service · Premium</p>
+      <h3 class="product-card__name">1:1 Coaching</h3>
+      <p class="product-card__billing">Per-package or ongoing</p>
+      <p class="product-card__desc">The core coaching offer. Sporadic by nature — managed by relationship status rather than rigid billing cycles.</p>
+      <div class="product-card__bundle">
+        <span class="product-card__bundle-label">Bundles</span>
+        Full Growth Zone (excl. WHOLE content) while marked active
+      </div>
+    </div>
+
+    <div class="product-card" data-accent="gold">
+      <p class="product-card__type">Course · 16 Weeks</p>
+      <h3 class="product-card__name">WHOLE</h3>
+      <p class="product-card__billing">Course fee</p>
+      <p class="product-card__desc">Structured 16-week programme. Growth Zone exercises form integral parts of the coursework.</p>
+      <div class="product-card__bundle">
+        <span class="product-card__bundle-label">Bundles + Trail</span>
+        Full Growth Zone during course · 30% alumni discount on monthly GZ, claimable once at course end
+      </div>
+    </div>
+
+    <div class="product-card" data-accent="orange">
+      <p class="product-card__type">Membership · Recurring</p>
+      <h3 class="product-card__name">Synergize Fitness</h3>
+      <p class="product-card__billing">Monthly</p>
+      <p class="product-card__desc">Gym membership product. Members receive an online tools area and the option to add Growth Zone at a discount.</p>
+      <div class="product-card__bundle">
+        <span class="product-card__bundle-label">Bundles + Bridge</span>
+        Synergize Members Area included · 30% off monthly GZ while billing active
+      </div>
+    </div>
+
+    <div class="product-card" data-accent="blue">
+      <p class="product-card__type">Subscription · Standalone</p>
+      <h3 class="product-card__name">Growth Zone</h3>
+      <p class="product-card__billing">Monthly or annual</p>
+      <p class="product-card__desc">Self-discovery and tools platform. Standalone subscription with full access to all psychology-based exercises, AI reports, and advanced fitness tooling.</p>
+      <div class="product-card__bundle">
+        <span class="product-card__bundle-label">Discount eligibility</span>
+        30% off monthly via active Synergize OR claimed WHOLE alumni status
+      </div>
+    </div>
+
+    <div class="product-card" data-accent="parked">
+      <span class="product-card__parked">Parked</span>
+      <p class="product-card__type">Standalone Product · Future</p>
+      <h3 class="product-card__name">Configurable Timer PWA</h3>
+      <p class="product-card__billing">TBD pricing</p>
+      <p class="product-card__desc">Standalone interval timer with theming and logo upload. White-label option for gym resale. Built post-launch once platform foundations are stable.</p>
+    </div>
+
+    <div class="product-card" data-accent="mist">
+      <p class="product-card__type">Free Surfaces</p>
+      <h3 class="product-card__name">Open Tier</h3>
+      <p class="product-card__billing">No cost · Public timer only</p>
+      <p class="product-card__desc">Free <code style="font-family:var(--sans);color:var(--brand-blue-light);">/timer</code> with clock, single countdown, and Quick EMOM. Invitation to Fully Configurable Timer &amp; Workout Builders → links to Growth Zone (free account).</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ───────────────── PANEL 2 — ACCESS MATRIX ───────────────── -->
+<section class="panel" id="matrix">
+  <div class="panel__intro">
+    <h2>Access Matrix</h2>
+    <p>Eight client states across three access surfaces. The override rule resolves any overlap: active service status always wins, and discounts never stack.</p>
+  </div>
+
+  <div class="matrix-wrap">
+    <table class="matrix">
+      <thead>
+        <tr>
+          <th>Client State</th>
+          <th>Free /timer</th>
+          <th>GZ free tier</th>
+          <th>GZ full</th>
+          <th>Synergize Members Area</th>
+          <th>Pricing</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Guest (no account)</td>
+          <td><span class="cell-yes">✓</span></td>
+          <td><span class="cell-no">—</span></td>
+          <td><span class="cell-no">—</span></td>
+          <td><span class="cell-no">—</span></td>
+          <td class="cell-pricing">Free</td>
+        </tr>
+        <tr>
+          <td>Signed in, no subscription</td>
+          <td><span class="cell-yes">✓</span></td>
+          <td><span class="cell-yes">✓</span></td>
+          <td><span class="cell-no">—</span></td>
+          <td><span class="cell-no">—</span></td>
+          <td class="cell-pricing">Free</td>
+        </tr>
+        <tr>
+          <td>Active Synergize member</td>
+          <td><span class="cell-yes">✓</span></td>
+          <td><span class="cell-yes">✓</span></td>
+          <td><span class="cell-partial">Optional, 30% off monthly</span></td>
+          <td><span class="cell-yes">✓</span></td>
+          <td class="cell-pricing">Synergize fee + (optional) discounted GZ<em>Discount lapses if billing pauses</em></td>
+        </tr>
+        <tr>
+          <td>Growth Zone subscriber</td>
+          <td><span class="cell-yes">✓</span></td>
+          <td><span class="cell-yes">✓</span></td>
+          <td><span class="cell-yes">✓</span></td>
+          <td><span class="cell-no">—</span></td>
+          <td class="cell-pricing">Monthly or annual<em>Standard rate</em></td>
+        </tr>
+        <tr>
+          <td>Active Coaching client</td>
+          <td><span class="cell-yes">✓</span></td>
+          <td><span class="cell-yes">✓</span></td>
+          <td><span class="cell-yes">✓ <span style="color:var(--mist);font-size:0.72rem;">(excl. WHOLE)</span></span></td>
+          <td><span class="cell-no">—</span></td>
+          <td class="cell-pricing">Bundled in coaching fee<em>Manually managed status</em></td>
+        </tr>
+        <tr>
+          <td>Active WHOLE participant</td>
+          <td><span class="cell-yes">✓</span></td>
+          <td><span class="cell-yes">✓</span></td>
+          <td><span class="cell-yes">✓</span></td>
+          <td><span class="cell-no">—</span></td>
+          <td class="cell-pricing">Bundled in course fee<em>16-week duration</em></td>
+        </tr>
+        <tr>
+          <td>WHOLE alumni (within window)</td>
+          <td><span class="cell-yes">✓</span></td>
+          <td><span class="cell-yes">✓</span></td>
+          <td><span class="cell-partial">Optional, 30% off monthly</span></td>
+          <td><span class="cell-no">—</span></td>
+          <td class="cell-pricing">Discounted GZ monthly<em>Permanent on claim · monthly only</em></td>
+        </tr>
+        <tr>
+          <td>Past Coaching client</td>
+          <td><span class="cell-yes">✓</span></td>
+          <td><span class="cell-yes">✓</span></td>
+          <td><span class="cell-no">—</span></td>
+          <td><span class="cell-no">—</span></td>
+          <td class="cell-pricing">Standard rates apply</td>
+        </tr>
+        <tr>
+          <td>Past Synergize member</td>
+          <td><span class="cell-yes">✓</span></td>
+          <td><span class="cell-yes">✓</span></td>
+          <td><span class="cell-no">—</span></td>
+          <td><span class="cell-no">—</span></td>
+          <td class="cell-pricing">Standard rates apply</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="matrix__legend">
+    <div class="matrix__legend-item"><span class="cell-yes">✓</span> Full access</div>
+    <div class="matrix__legend-item"><span class="cell-no">—</span> No access</div>
+    <div class="matrix__legend-item"><span class="cell-partial">Conditional access</span></div>
+  </div>
+
+  <div class="matrix__rule">
+    <strong>Override Rule</strong>
+    Active service status always wins over discount calculations. Discounts never stack — highest single discount applies. Annual subscriptions are always full price; discounts apply to monthly only.
+  </div>
+</section>
+
+<!-- ───────────────── PANEL 3 — AUTH DECISION TREE ───────────────── -->
+<section class="panel" id="auth">
+  <div class="panel__intro">
+    <h2>Authentication &amp; Access Resolution</h2>
+    <p>Magic-link authentication followed by sequential status checks. The first matching status determines access; later checks are skipped. This is the canonical decision order for the role resolver.</p>
+  </div>
+
+  <div class="tree">
+
+    <div class="tree__step">
+      <div class="tree__num">1</div>
+      <div class="tree__body">
+        <p class="tree__check">First Check</p>
+        <p class="tree__condition">Coaching status = active?</p>
+        <div class="tree__outcome">
+          <span class="tree__arrow">→</span>
+          <div>
+            <strong>Full Growth Zone</strong> (excluding WHOLE content)
+            <span class="tree__note">Bundled in coaching fee · status managed manually</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tree__step">
+      <div class="tree__num">2</div>
+      <div class="tree__body">
+        <p class="tree__check">Second Check</p>
+        <p class="tree__condition">WHOLE status = active?</p>
+        <div class="tree__outcome">
+          <span class="tree__arrow">→</span>
+          <div>
+            <strong>Full Growth Zone</strong>
+            <span class="tree__note">Bundled in course fee · 16-week duration</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tree__step">
+      <div class="tree__num">3</div>
+      <div class="tree__body">
+        <p class="tree__check">Third Check</p>
+        <p class="tree__condition">Growth Zone subscription active?</p>
+        <div class="tree__outcome">
+          <span class="tree__arrow">→</span>
+          <div>
+            <strong>Full Growth Zone</strong>
+            <span class="tree__note">Stripe is source of truth for subscription state</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tree__step">
+      <div class="tree__num">4</div>
+      <div class="tree__body">
+        <p class="tree__check">Fourth Check</p>
+        <p class="tree__condition">Synergize status = active?</p>
+        <div class="tree__outcome">
+          <span class="tree__arrow">→</span>
+          <div>
+            <strong>Synergize Members Area</strong> + Growth Zone if subscribed (30% off)
+            <span class="tree__note">Discount applies only while Synergize billing is active</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tree__step">
+      <div class="tree__num">5</div>
+      <div class="tree__body">
+        <p class="tree__check">Fifth Check</p>
+        <p class="tree__condition">WHOLE alumni discount claimed and GZ subscription active?</p>
+        <div class="tree__outcome">
+          <span class="tree__arrow">→</span>
+          <div>
+            <strong>Full Growth Zone</strong> at 30% rate
+            <span class="tree__note">Permanent for that subscription · lapses if subscription ends</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tree__step">
+      <div class="tree__num">6</div>
+      <div class="tree__body">
+        <p class="tree__check">Sixth Check</p>
+        <p class="tree__condition">Signed in, no paid or bundled status?</p>
+        <div class="tree__outcome">
+          <span class="tree__arrow">→</span>
+          <div>
+            <strong>Growth Zone free tier</strong>
+            <span class="tree__note">Core Values, Strengths, Feelings Guide + basic timer tools</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tree__step">
+      <div class="tree__num">7</div>
+      <div class="tree__body">
+        <p class="tree__check">Default · No account</p>
+        <p class="tree__condition">Not signed in</p>
+        <div class="tree__outcome">
+          <span class="tree__arrow">→</span>
+          <div>
+            <strong>Free /timer only</strong>
+            <span class="tree__note">Clock, single countdown, Quick EMOM · invitation to Growth Zone for full timer &amp; workout tools</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ───────────────── PANEL 4 — PAGE ARCHITECTURE ───────────────── -->
+<section class="panel" id="pages">
+  <div class="panel__intro">
+    <h2>Page &amp; Surface Architecture</h2>
+    <p>How the existing site reorganises around the gated platform. Marketing surfaces stay static HTML; gated application surfaces move to Next.js with magic-link auth.</p>
+  </div>
+
+  <div class="arch">
+
+    <div class="arch__layer">
+      <div class="arch__layer-header">
+        <span class="arch__layer-label">Layer 01</span>
+        <span class="arch__layer-name">Public Marketing</span>
+      </div>
+      <div class="arch__nodes">
+
+        <div class="arch__node">
+          <p class="arch__node-route">/</p>
+          <p class="arch__node-label">Homepage</p>
+          <p class="arch__node-meta">Static · unchanged</p>
+        </div>
+
+        <div class="arch__node">
+          <p class="arch__node-route">/coaching</p>
+          <p class="arch__node-label">Coaching</p>
+          <p class="arch__node-meta">Static · unchanged</p>
+        </div>
+
+        <div class="arch__node">
+          <p class="arch__node-route">/whole</p>
+          <p class="arch__node-label">WHOLE</p>
+          <p class="arch__node-meta">Static · unchanged</p>
+        </div>
+
+        <div class="arch__node arch__node--changed">
+          <span class="arch__node-tag arch__node-tag--changed">Changed</span>
+          <p class="arch__node-route">/synergize</p>
+          <p class="arch__node-label">Synergize Fitness</p>
+          <p class="arch__node-meta">Add member sign-in button leading to members area</p>
+        </div>
+
+        <div class="arch__node arch__node--changed">
+          <span class="arch__node-tag arch__node-tag--changed">Replaced</span>
+          <p class="arch__node-route">/growth-zone</p>
+          <p class="arch__node-label">Growth Zone Landing</p>
+          <p class="arch__node-meta">Sign-in landing. Magic link for returning members · free account creation for new visitors.</p>
+        </div>
+
+        <div class="arch__node arch__node--changed">
+          <span class="arch__node-tag arch__node-tag--changed">Trimmed</span>
+          <p class="arch__node-route">/timer</p>
+          <p class="arch__node-label">Free Timer</p>
+          <p class="arch__node-meta">Clock · single countdown · Quick EMOM · invitation to Configurable Timer &amp; Workout Builders (Growth Zone)</p>
+        </div>
+
+        <div class="arch__node">
+          <p class="arch__node-route">/writing</p>
+          <p class="arch__node-label">Writing</p>
+          <p class="arch__node-meta">Static · unchanged</p>
+        </div>
+
+        <div class="arch__node">
+          <p class="arch__node-route">/about · /contact</p>
+          <p class="arch__node-label">About &amp; Contact</p>
+          <p class="arch__node-meta">Static · unchanged</p>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="arch__layer">
+      <div class="arch__layer-header">
+        <span class="arch__layer-label">Layer 02</span>
+        <span class="arch__layer-name">Authentication</span>
+      </div>
+      <div class="arch__nodes">
+
+        <div class="arch__node arch__node--new">
+          <span class="arch__node-tag arch__node-tag--new">New</span>
+          <p class="arch__node-route">Auth flow</p>
+          <p class="arch__node-label">Magic Link Sign-In</p>
+          <p class="arch__node-meta">Request → email send → token validate → session</p>
+        </div>
+
+        <div class="arch__node arch__node--new">
+          <span class="arch__node-tag arch__node-tag--new">New</span>
+          <p class="arch__node-route">Service</p>
+          <p class="arch__node-label">Role Resolver</p>
+          <p class="arch__node-meta">Reads contacts flags + Stripe state · returns access scope</p>
+        </div>
+
+        <div class="arch__node arch__node--new">
+          <span class="arch__node-tag arch__node-tag--new">New</span>
+          <p class="arch__node-route">Webhook</p>
+          <p class="arch__node-label">Stripe → Supabase</p>
+          <p class="arch__node-meta">Subscription state changes update contacts flags</p>
+        </div>
+
+        <div class="arch__node arch__node--new">
+          <span class="arch__node-tag arch__node-tag--new">New</span>
+          <p class="arch__node-route">Flow</p>
+          <p class="arch__node-label">WHOLE Alumni Claim</p>
+          <p class="arch__node-meta">Course-end email · one-click claim within window · permanent on claim</p>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="arch__layer">
+      <div class="arch__layer-header">
+        <span class="arch__layer-label">Layer 03</span>
+        <span class="arch__layer-name">Gated Application</span>
+      </div>
+      <div class="arch__nodes">
+
+        <div class="arch__node arch__node--new">
+          <span class="arch__node-tag arch__node-tag--new">New</span>
+          <p class="arch__node-route">/growth-zone/app</p>
+          <p class="arch__node-label">Growth Zone Hub</p>
+          <p class="arch__node-meta">Authenticated dashboard for paid + bundled users · all exercises &amp; tools</p>
+        </div>
+
+        <div class="arch__node arch__node--new">
+          <span class="arch__node-tag arch__node-tag--new">New</span>
+          <p class="arch__node-route">/synergize/members</p>
+          <p class="arch__node-label">Synergize Members Area</p>
+          <p class="arch__node-meta">Clock · countdown · Quick EMOM timer · Quick EMOM Workout Builder · class availability · Synergize WOD (proposed) · session time switch (proposed) · invitation to Full GZ with discount</p>
+        </div>
+
+        <div class="arch__node arch__node--new">
+          <span class="arch__node-tag arch__node-tag--new">New</span>
+          <p class="arch__node-route">/account</p>
+          <p class="arch__node-label">Account &amp; Billing</p>
+          <p class="arch__node-meta">Subscription status · plan switch · invoices · cancel</p>
+        </div>
+
+        <div class="arch__node">
+          <p class="arch__node-route">Exercises</p>
+          <p class="arch__node-label">Exercises + Timer Tools</p>
+          <p class="arch__node-meta">Free: Core Values · Strengths · Feelings Guide · basic timers — Paid: Motivation · Task Triage · Optimism · AI Reports · Configurable Timer · Workout Builder · Smart Journal (premium)</p>
+        </div>
+
+        <div class="arch__node">
+          <p class="arch__node-route">AI</p>
+          <p class="arch__node-label">Reports Engine</p>
+          <p class="arch__node-meta">Contextual + comparative reports · paywalled · service-role-key fix required</p>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="arch__layer">
+      <div class="arch__layer-header">
+        <span class="arch__layer-label">Layer 04</span>
+        <span class="arch__layer-name">Data &amp; Infrastructure</span>
+      </div>
+      <div class="arch__nodes">
+
+        <div class="arch__node">
+          <p class="arch__node-route">Database</p>
+          <p class="arch__node-label">Supabase</p>
+          <p class="arch__node-meta">contacts · exercise_results · subscriptions</p>
+        </div>
+
+        <div class="arch__node">
+          <p class="arch__node-route">Edge Function</p>
+          <p class="arch__node-label">Data Handler</p>
+          <p class="arch__node-meta">Bearer token mediated · sole authorised DB path</p>
+        </div>
+
+        <div class="arch__node">
+          <p class="arch__node-route">Payments</p>
+          <p class="arch__node-label">Stripe</p>
+          <p class="arch__node-meta">Products · plans · coupons (Synergize discount) · webhooks</p>
+        </div>
+
+        <div class="arch__node">
+          <p class="arch__node-route">Hosting</p>
+          <p class="arch__node-label">Vercel</p>
+          <p class="arch__node-meta">Static marketing · Next.js for gated app layer</p>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <div class="arch__legend">
+    <div><span class="arch__legend-dot arch__legend-dot--existing"></span>Existing</div>
+    <div><span class="arch__legend-dot arch__legend-dot--changed"></span>Changed or replaced</div>
+    <div><span class="arch__legend-dot arch__legend-dot--new"></span>New build</div>
+  </div>
+</section>
+
+<footer class="foot">
+  Crawford Coaching · Growth Zone Architecture · Spec v1.2
+</footer>
+
+<script>
+  const tabs = document.querySelectorAll('.tab');
+  const panels = document.querySelectorAll('.panel');
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      const target = tab.dataset.target;
+      tabs.forEach(t => t.classList.remove('tab--active'));
+      panels.forEach(p => p.classList.remove('panel--active'));
+      tab.classList.add('tab--active');
+      document.getElementById(target).classList.add('panel--active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  });
+</script>
+
+</body>
+</html>
