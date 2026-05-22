@@ -505,7 +505,7 @@ function buildEmailHtml({ firstName, exerciseType, results, aiSummary }) {
   <div style="padding:32px 40px;">
     <p style="margin:0 0 12px;font-family:Georgia,serif;font-size:14px;line-height:1.7;color:#7a8fa3;">Your results are saved. As you complete more Growth Zone exercises, future reports will draw on everything you've done to offer deeper, more connected insight.</p>
     <p style="margin:24px 0 0;">
-      <a href="https://crawford-coaching.ca/growth-zone" style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-weight:400;font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:#4fa3d8;text-decoration:none;">Explore the Growth Zone &#8594;</a>
+      <a href="https://www.crawford-coaching.ca/growth-zone" style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-weight:400;font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:#4fa3d8;text-decoration:none;">Explore the Growth Zone &#8594;</a>
     </p>
     <p style="margin:12px 0 0;">
       <a href="https://calendar.app.google/R66fNg5m7w3aKPKd6" style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-weight:400;font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:#4fa3d8;text-decoration:none;">Book a free intro call &#8594;</a>

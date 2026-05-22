@@ -132,4 +132,4 @@ The compass does not care about one difficult week. It only asks whether you are
 
 Most people are. They just need permission to adjust the steps.
 
-Enjoy this content? [Sign up for my mailing list](https://crawford-coaching.ca/subscribe)
+Enjoy this content? [Sign up for my mailing list](https://www.crawford-coaching.ca/subscribe)

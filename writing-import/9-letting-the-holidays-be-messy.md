@@ -130,4 +130,4 @@ Perhaps the greatest marker of health is not how tightly we hold our routines, b
 
 Do you find this content useful? Would you like to receive my newsletter version of this article with more actionable content?
 
-[Sign up for my mailing list](https://crawford-coaching.ca/subscribe)
+[Sign up for my mailing list](https://www.crawford-coaching.ca/subscribe)

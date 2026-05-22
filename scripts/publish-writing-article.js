@@ -191,7 +191,7 @@ function readAllArticles() {
 }
 
 function createArticlePage(data) {
-  const canonical = `https://crawford-coaching.ca/writing/${data.slug}`;
+  const canonical = `https://www.crawford-coaching.ca/writing/${data.slug}`;
   const imagePath = data.image.replace(/^\.\//, '/');
   const articleBody = markdownToHtml(data.markdown);
   const titleEncoded = encodeURIComponent(`${data.title} | Crawford Coaching`);
@@ -211,11 +211,11 @@ function createArticlePage(data) {
 <meta property="og:title" content="${escapeHtml(data.title)}">
 <meta property="og:description" content="${escapeHtml(data.ogDescription)}">
 <meta property="og:url" content="${canonical}">
-<meta property="og:image" content="https://crawford-coaching.ca${imagePath}">
+<meta property="og:image" content="https://www.crawford-coaching.ca${imagePath}">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="${escapeHtml(data.title)}">
 <meta name="twitter:description" content="${escapeHtml(data.ogDescription)}">
-<meta name="twitter:image" content="https://crawford-coaching.ca${imagePath}">
+<meta name="twitter:image" content="https://www.crawford-coaching.ca${imagePath}">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
@@ -281,9 +281,9 @@ a { color: inherit; }
   "datePublished": ${JSON.stringify(data.dateIso)},
   "dateModified": ${JSON.stringify(data.dateIso)},
   "author": { "@type": "Person", "name": "Scott Crawford" },
-  "publisher": { "@type": "Organization", "name": "Crawford Coaching", "url": "https://crawford-coaching.ca" },
+  "publisher": { "@type": "Organization", "name": "Crawford Coaching", "url": "https://www.crawford-coaching.ca" },
   "mainEntityOfPage": ${JSON.stringify(canonical)},
-  "image": ${JSON.stringify(`https://crawford-coaching.ca${imagePath}`)}
+  "image": ${JSON.stringify(`https://www.crawford-coaching.ca${imagePath}`)}
 }</script>
 </head>
 <body>
@@ -357,7 +357,7 @@ a { color: inherit; }
 
 function buildCardHtml(data) {
   const articlePath = `/writing/${data.slug}`;
-  const urlEncoded = encodeURIComponent(`https://crawford-coaching.ca${articlePath}`);
+  const urlEncoded = encodeURIComponent(`https://www.crawford-coaching.ca${articlePath}`);
   const emailSubject = encodeURIComponent(data.title);
   const tags = Array.isArray(data.tags) ? data.tags : [];
   const tagsAttr = tags.join(',');
@@ -452,7 +452,7 @@ function rebuildWritingHub(allArticles) {
     if (closingBracket !== -1) {
       const entries = allArticles.map((a) => {
         const articlePath = `/writing/${a.slug}`;
-        return `\n    {"@type":"BlogPosting","headline":${JSON.stringify(a.title)},"url":${JSON.stringify(`https://crawford-coaching.ca${articlePath}`)},"datePublished":${JSON.stringify(a.dateIso)},"image":${JSON.stringify(`https://crawford-coaching.ca/${a.image.replace(/^\.\//, '')}`)}}`;
+        return `\n    {"@type":"BlogPosting","headline":${JSON.stringify(a.title)},"url":${JSON.stringify(`https://www.crawford-coaching.ca${articlePath}`)},"datePublished":${JSON.stringify(a.dateIso)},"image":${JSON.stringify(`https://www.crawford-coaching.ca/${a.image.replace(/^\.\//, '')}`)}}`;
       }).join(',');
       html = html.slice(0, afterArray) + entries + '\n  ' + html.slice(closingBracket + '\n  '.length);
     }
@@ -504,7 +504,7 @@ function upsertWritingHub(data) {
   const blogPostKey = '"blogPost": [';
   const blogPostIndex = html.indexOf(blogPostKey);
   if (blogPostIndex !== -1) {
-    const obj = `\n    {\n      "@type": "BlogPosting",\n      "headline": ${JSON.stringify(data.title)},\n      "url": ${JSON.stringify(`https://crawford-coaching.ca${articlePath}`)},\n      "datePublished": ${JSON.stringify(data.dateIso)},\n      "image": ${JSON.stringify(`https://crawford-coaching.ca/${data.image.replace(/^\.\//, '')}`)}\n    },`;
+    const obj = `\n    {\n      "@type": "BlogPosting",\n      "headline": ${JSON.stringify(data.title)},\n      "url": ${JSON.stringify(`https://www.crawford-coaching.ca${articlePath}`)},\n      "datePublished": ${JSON.stringify(data.dateIso)},\n      "image": ${JSON.stringify(`https://www.crawford-coaching.ca/${data.image.replace(/^\.\//, '')}`)}\n    },`;
     const arrInsert = blogPostIndex + blogPostKey.length;
     html = `${html.slice(0, arrInsert)}${obj}${html.slice(arrInsert)}`;
   }

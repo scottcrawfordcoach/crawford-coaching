@@ -6,6 +6,32 @@ The format is based on Keep a Changelog principles and uses reverse chronologica
 
 ## [2026-05-22]
 
+### Changed — Growth Zone landing replaced with canonical editorial design
+
+- [crawford-growth-zone.html](crawford-growth-zone.html) replaced with the canonical dark editorial design (source: `cowork-brief-growth-zone-and-auth.md`). The previous tier-aware/member-state landing (with `--tier-open` / `--tier-free` / `--tier-paid` color tokens and the auth-driven re-render) is gone for now: per brief, the visual direction is being locked in first, with tier-aware UI to be merged in deliberately as a separate pass.
+- Structure: hero ("Self-Discovery" eyebrow + "Growth *Zone*" title), Self-Discovery Exercises group (Wheel of Life, Core Values, Character Strengths, Motivation, Optimism), Working Tools group (Feelings Naming Guide, Task Triage, Interval Timer), tier legend bar with trust modal, upgrade band with Synergize bridge, footer.
+- Existing SEO meta (description, canonical, `og:*`, `twitter:*`) was preserved by splicing it back into the new file's `<head>` — only the visible page changed; social preview cards continue to work.
+- Three internal hrefs in the new file have no matching rewrite in [vercel.json](vercel.json) and need follow-up: `/wheel-of-life`, `/growth-zone/subscribe` (there is a `/subscribe`, but not the nested form), and `/privacy`. Per brief, hrefs were left as-is rather than rewritten.
+
+### Changed — Site-wide www. domain consistency pass
+
+- All `https://crawford-coaching.ca` and `http://crawford-coaching.ca` URL forms in the repo converted to `https://www.crawford-coaching.ca` for consistency with the canonical subdomain. **228 replacements across 41 text files** (HTML, JS, MD, JSON, XML), plus a follow-up pass that updated **12 URL-encoded share-link URLs** (`%2F%2Fcrawford-coaching.ca` → `%2F%2Fwww.crawford-coaching.ca`) in [crawford-writing.html](crawford-writing.html). Total: 240 URL replacements across 42 files.
+- Affected (URL-form replacements only): all 16 blog posts under [blogs/](blogs/), the marketing pages ([crawford-homepage.html](crawford-homepage.html), [crawford-coaching.html](crawford-coaching.html), [crawford-about.html](crawford-about.html), [crawford-writing.html](crawford-writing.html), [crawford-writing-all.html](crawford-writing-all.html)), several exercise pages, [api/exercise-report.js](api/exercise-report.js), and all 12 source files under [writing-import/](writing-import/).
+- [scripts/publish-writing-article.js](scripts/publish-writing-article.js) generator updated (10 URL constants), so new articles published from this script will inherit the `www.` form automatically rather than re-introducing the inconsistency.
+- **Deliberately left untouched:** brand-text footer displays of the bare domain like `<div class="footer-brand">crawford-coaching.ca</div>` on the exercise pages and the email-template footer in [api/exercise-report.js](api/exercise-report.js), where the bare form is the visual brand mention; email addresses (`notifications@crawford-coaching.ca` etc.); [CHANGELOG.md](CHANGELOG.md) prose that documents prior fixes.
+
+### Fixed — Trailing NUL byte corruption in three files
+
+- Stripped trailing NUL-byte padding (content was intact, NULs were after the final newline) from [CLAUDE.md](CLAUDE.md) (73 NULs, file went 12137 → 12064 bytes), [README.md](README.md) (39 NULs, 11935 → 11896 bytes), and [robots.txt](robots.txt) (5 NULs, 83 → 78 bytes). `file(1)` now identifies all three as plain text again instead of partly-binary `data`. Same pattern seen and cleaned earlier in this session in [crawford-growth-zone.html](crawford-growth-zone.html).
+
+### Changed — scottmountain image moved into extracted-images/
+
+- `scottmountain.webp` and `scottmountain.jpg` moved from repo root to [extracted-images/](extracted-images/) (via `git mv` so history is preserved), matching the convention documented in [README.md](README.md) that site image assets live under `extracted-images/` with paired `.jpg` + `.webp` files.
+- Three references repointed to the new path:
+  - [crawford-growth-zone.html](crawford-growth-zone.html) `og:image` → `https://www.crawford-coaching.ca/extracted-images/scottmountain.webp` (this supersedes the earlier short-lived "fix" in this session that moved the URL to the root path).
+  - [crawford-about.html](crawford-about.html) JSON-LD `image` field → `https://www.crawford-coaching.ca/extracted-images/scottmountain.webp`.
+  - [crawford-about.html](crawford-about.html) `<img class="about__photo">` → `./extracted-images/scottmountain.webp`.
+
 ### Fixed — Canonical domain
 
 - Canonical domain corrected from `crawford-coaching.com` to `crawford-coaching.ca` across the repo. Affected files: [AUTH-SETUP.md](AUTH-SETUP.md), [CLAUDE.md](CLAUDE.md), [README.md](README.md), [sitemap.xml](sitemap.xml), [crawford-growth-zone.html](crawford-growth-zone.html) (canonical, og:url, og:image), [crawford-synergize-members.html](crawford-synergize-members.html) (`mailto:` addresses). 46 occurrences in total. The contradictory "legacy domain" lines in CLAUDE.md and README.md were also removed.

@@ -132,4 +132,4 @@ The most powerful way to change the story we tell ourselves isn’t to wildly re
 
 Do you find this content useful? Would you like to receive my newsletter version of this article with more actionable content?
 
-[Sign up for my mailing list](https://crawford-coaching.ca/subscribe)
+[Sign up for my mailing list](https://www.crawford-coaching.ca/subscribe)

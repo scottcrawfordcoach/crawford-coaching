@@ -122,4 +122,4 @@ Gil Carvalho, [Nutrition Made Simple](https://www.youtube.com/channel/UCosmc75v-
 
 A video on [emotional eating](https://www.youtube.com/watch?v=uwYt2jHEclA).
 
-Enjoy this content? [Sign up for my mailing list](https://crawford-coaching.ca/subscribe)
+Enjoy this content? [Sign up for my mailing list](https://www.crawford-coaching.ca/subscribe)

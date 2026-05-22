@@ -118,4 +118,4 @@ Happiness may not arrive with fanfare, but you may recognize its subtler form: a
 
 Do you find this content useful? Would you like to receive my newsletter version of this article with more actionable content?
 
-[Sign up for my mailing list](https://crawford-coaching.ca/#bad0da8e-0a45-4be8-9835-b1e44daafabd)
+[Sign up for my mailing list](https://www.crawford-coaching.ca/#bad0da8e-0a45-4be8-9835-b1e44daafabd)

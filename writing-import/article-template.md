@@ -16,7 +16,7 @@ Start with a strong opening paragraph.
 
 Write in paragraphs separated by a blank line.
 
-You can include links like [Crawford Coaching](https://crawford-coaching.ca), plus *italics* and **bold**.
+You can include links like [Crawford Coaching](https://www.crawford-coaching.ca), plus *italics* and **bold**.
 
 - Optional bullet item one
 - Optional bullet item two

@@ -16,4 +16,4 @@ Why letting go of “being helpful” might be the most helpful thing of all At 
 
 Do you find this content useful? Would you like to receive my newsletter version of this article with more actionable content?
 
-[Sign up for my mailing list](https://crawford-coaching.ca/#bad0da8e-0a45-4be8-9835-b1e44daafabd)
+[Sign up for my mailing list](https://www.crawford-coaching.ca/#bad0da8e-0a45-4be8-9835-b1e44daafabd)
