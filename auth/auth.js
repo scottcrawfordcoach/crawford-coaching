@@ -139,6 +139,20 @@ async function signInWithEmail({ email, redirectTo } = {}) {
       window.location.pathname + window.location.search
     )}`;
 
+  // Supabase requires emailRedirectTo to be a fully-qualified absolute URL.
+  // A bare hostname (or missing scheme) is treated as a relative path on the
+  // Supabase host, which produces a magic link that lands the user on
+  // https://<project-ref>.supabase.co/<your-domain>#access_token=... — broken.
+  // The URL also has to be on the dashboard's allow-list
+  // (Authentication → URL Configuration → Redirect URLs); if it isn't,
+  // Supabase silently falls back to the dashboard Site URL.
+  if (!/^https?:\/\//.test(emailRedirectTo)) {
+    throw new Error(
+      `Sign-in redirect URL is not fully qualified ("${emailRedirectTo}"). ` +
+      `It must start with https:// (or http:// for local dev).`
+    );
+  }
+
   const { error } = await client.auth.signInWithOtp({
     email: email.trim(),
     options: {

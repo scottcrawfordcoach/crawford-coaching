@@ -131,6 +131,11 @@ The simplest failure modes and how to read them:
 
 - **Sign-in says "server misconfigured"** → `SUPABASE_URL` or `SUPABASE_ANON_KEY` is missing from Vercel env vars.
 - **Magic-link email never arrives** → SMTP not set in Supabase, or Resend domain unverified.
+- **Magic-link click lands on `https://<project-ref>.supabase.co/<your-domain>#access_token=…` with `{"error":"requested path is invalid"}`** → the dashboard configuration is wrong, not the code. The page rendered like that because Supabase ignored the client's `emailRedirectTo` and fell back to a bare-hostname `Site URL` (which it then resolved as a relative path on the Supabase host). Two things to check, in this order:
+  1. **Authentication → URL Configuration → Site URL** must be exactly `https://www.crawford-coaching.ca` (with scheme, no trailing slash). Not `www.crawford-coaching.ca`, not `crawford-coaching.ca`.
+  2. **Authentication → URL Configuration → Redirect URLs** must include `https://www.crawford-coaching.ca/auth/callback` (and `http://localhost:3000/auth/callback` for `vercel dev`). If the URL the client sends isn't on this list, Supabase silently rejects it and uses the Site URL fallback — which is what produced the broken URL in the first place.
+
+  The client-side code in [auth/auth.js](auth/auth.js) now validates that `emailRedirectTo` starts with `http(s)://` before calling `signInWithOtp`, so a future code regression that drops the scheme will throw a clear error instead of producing a confusing magic link.
 - **Sign-in succeeds but gate denies you** → the trigger didn't fire (check `pg_trigger`), or `synergize_active` is still false on your row.
 - **Gate denies you and the page says "we can't find your record"** → RLS policy didn't apply, or `auth_user_id` didn't get set. Check by running `select id, email, auth_user_id, synergize_active from public.contacts where email = 'you@example.com'` as service-role.
 

@@ -1,0 +1,1470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-LVZKV9N2CZ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-LVZKV9N2CZ');
+</script>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="theme-color" content="#0e0f10" />
+<title>Quick EMOM Workout Builder — Crawford Coaching</title>
+<link rel="icon" type="image/png" href="/timer-favicon.png" />
+<meta name="description" content="A random EMOM (every-minute-on-the-minute) workout generator. Tell us your equipment, difficulty, focus, and time — we'll build you a balanced workout from over 150 exercises in seconds. Free from Crawford Coaching.">
+<link rel="canonical" href="https://www.crawford-coaching.ca/quick-emom">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.crawford-coaching.ca/quick-emom">
+<meta property="og:title" content="Quick EMOM Workout Builder — Crawford Coaching">
+<meta property="og:description" content="A random EMOM workout generator. Choose your equipment, difficulty, focus, and time. Get a balanced workout in seconds.">
+<meta property="og:image" content="https://www.crawford-coaching.ca/extracted-images/synergize-002.webp">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Quick EMOM Workout Builder">
+<meta name="twitter:description" content="A random EMOM workout generator from Crawford Coaching.">
+<meta name="twitter:image" content="https://www.crawford-coaching.ca/extracted-images/synergize-002.webp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --ink:        #0e0f10;
+  --slate:      #1c2330;
+  --slate-mid:  #232f3e;
+  --fog:        #3d4a58;
+  --mist:       #a4b6c8;
+  --pale:       #dde8f2;
+  --white:      #ffffff;
+  --brand-blue: #2d86c4;
+  --brand-blue-light: #4fa3d8;
+  --syn-orange: #e8632b;
+  --syn-orange-light: #f2844e;
+  --syn-amber:  #f5a623;
+  --serif-display: 'Cormorant Garamond', Georgia, serif;
+  --serif-body:    'Libre Baskerville', Georgia, serif;
+  --sans:          'Jost', 'Helvetica Neue', sans-serif;
+
+  /* Timer engine aliases (used by JS) */
+  --bg:     var(--ink);
+  --fg:     var(--white);
+  --muted:  var(--pale);
+  --accent: var(--syn-orange);
+  --danger: #ef4444;
+  --card:   var(--slate);
+  --border: var(--fog);
+  --timer-size: clamp(72px, 18vw, 180px);
+}
+
+html, body {
+  background: var(--ink);
+  color: var(--white);
+  font-family: var(--sans);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+html { scroll-behavior: smooth; -webkit-tap-highlight-color: transparent; }
+
+/* ─── NAV ─────────────────────────────── */
+.nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1.6rem 3.5rem;
+  background: rgba(14,15,16,0.85);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.nav__logo img { height: 36px; width: auto; display: block; }
+.nav__links { display: flex; gap: 2.5rem; list-style: none; }
+.nav__links a {
+  font-family: var(--sans); font-weight: 300;
+  font-size: 0.78rem; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--pale);
+  text-decoration: none; opacity: 0.85;
+  transition: opacity 0.2s, color 0.2s;
+}
+.nav__links a:hover { opacity: 1; color: var(--white); }
+.nav__links a.active { color: var(--syn-orange); opacity: 1; }
+.nav__cta {
+  font-family: var(--sans); font-weight: 400;
+  font-size: 0.75rem; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--white);
+  text-decoration: none; border: 1px solid rgba(245,243,239,0.45);
+  padding: 0.5rem 1.3rem; border-radius: 1px;
+  cursor: pointer;
+  transition: background 0.25s, border-color 0.25s;
+  background: transparent;
+}
+.nav__cta:hover { background: rgba(245,243,239,0.1); border-color: rgba(245,243,239,0.8); }
+
+.nav__toggle { display: none; width: 44px; height: 44px; align-items: center; justify-content: center; flex-direction: column; background: none; border: none; cursor: pointer; padding: 0.5rem; z-index: 200; -webkit-tap-highlight-color: transparent; }
+.nav__toggle span { display: block; width: 22px; height: 1.5px; background: var(--pale); margin: 5px 0; transition: transform 0.3s ease, opacity 0.2s ease; transform-origin: center; }
+.nav__toggle.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+.nav__toggle.open span:nth-child(2) { opacity: 0; }
+.nav__toggle.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+.nav__overlay { display: none; position: fixed; inset: 0; z-index: 90; background: rgba(14,15,16,0.97); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); flex-direction: column; align-items: center; justify-content: center; gap: 0; opacity: 0; transition: opacity 0.35s ease; }
+.nav__overlay.open { display: flex; opacity: 1; }
+.nav__overlay a { font-family: var(--sans); font-weight: 300; font-size: 1.1rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--pale); text-decoration: none; padding: 0.9rem 0; opacity: 0.85; transition: color 0.2s, opacity 0.2s; }
+.nav__overlay a:hover, .nav__overlay a.active { opacity: 1; color: var(--white); }
+.nav__overlay .nav__overlay-cta { margin-top: 2rem; font-family: var(--sans); font-weight: 400; font-size: 0.85rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--white); background: transparent; border: 1px solid rgba(245,243,239,0.5); padding: 0.7rem 2rem; border-radius: 1px; cursor: pointer; transition: background 0.25s, border-color 0.25s; text-decoration: none; }
+.nav__overlay .nav__overlay-cta:hover { background: rgba(245,243,239,0.1); border-color: rgba(245,243,239,0.8); }
+.nav__toggle:focus-visible, .nav__overlay a:focus-visible, .nav__overlay .nav__overlay-cta:focus-visible { outline: 2px solid var(--white); outline-offset: 4px; }
+
+/* ─── HERO ──────────────────────────── */
+.hero {
+  padding: 9rem 3.5rem 3rem;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.hero__eyebrow {
+  font-family: var(--sans); font-weight: 400;
+  font-size: 0.7rem; letter-spacing: 0.3em;
+  text-transform: uppercase; color: var(--syn-orange);
+  margin-bottom: 1rem;
+  display: flex; align-items: center; gap: 0.8rem;
+}
+.hero__eyebrow::before { content: ''; display: block; width: 28px; height: 1px; background: var(--syn-orange); }
+.hero__title {
+  font-family: var(--serif-display);
+  font-weight: 300;
+  font-size: clamp(2.2rem, 4.5vw, 3.4rem);
+  line-height: 1.1;
+  color: var(--white);
+  margin-bottom: 0.9rem;
+  max-width: 760px;
+}
+.hero__lead {
+  font-family: var(--serif-body);
+  font-size: 1.02rem;
+  line-height: 1.65;
+  color: var(--pale);
+  max-width: 640px;
+}
+
+/* ─── FOOTER ─────────────────────────── */
+.footer {
+  padding: 3rem 3.5rem;
+  display: flex; align-items: center; justify-content: space-between;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  background: var(--slate);
+}
+.footer__logo img { height: 28px; width: auto; display: block; }
+.footer__links { display: flex; gap: 2rem; list-style: none; }
+.footer__links a { font-family: var(--sans); font-weight: 300; font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--mist); text-decoration: none; transition: color 0.2s; }
+.footer__links a:hover { color: var(--pale); }
+.footer__copy { font-family: var(--sans); font-weight: 300; font-size: 0.68rem; color: var(--mist); }
+
+/* ─── LAYOUT ──────────────────────────── */
+.container {
+  display: grid;
+  gap: 1.25rem;
+  grid-template-columns: 1fr;
+  padding: 1.5rem clamp(1rem, 4vw, 3.5rem) 3rem;
+}
+
+/* ─── CARDS ───────────────────────────── */
+.card {
+  background: var(--slate);
+  border: 1px solid rgba(61,74,88,0.6);
+  border-radius: 4px;
+  padding: 1.25rem;
+}
+
+/* ─── FORM ELEMENTS ───────────────────── */
+.stack { display: grid; gap: 12px; }
+.row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+
+label {
+  display: grid;
+  gap: 6px;
+  font-family: var(--sans);
+  font-size: 0.72rem;
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--mist);
+}
+input[type="number"],
+input[type="text"],
+select {
+  font-family: var(--sans);
+  font-size: 0.88rem;
+  background: var(--ink);
+  border: 1px solid rgba(61,74,88,0.7);
+  color: var(--white);
+  border-radius: 2px;
+  padding: 10px 12px;
+  min-width: 0;
+  transition: border-color 0.2s;
+}
+input[type="number"]:focus,
+input[type="text"]:focus,
+select:focus {
+  outline: none;
+  border-color: var(--syn-orange);
+}
+select option { background: var(--slate-mid); }
+.help {
+  font-size: 0.72rem;
+  color: var(--mist);
+  letter-spacing: 0.04em;
+}
+
+/* ─── BUTTONS ─────────────────────────── */
+.btn {
+  font-family: var(--sans);
+  font-weight: 400;
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  border: 1px solid rgba(61,74,88,0.7);
+  background: var(--slate-mid);
+  color: var(--pale);
+  padding: 10px 16px;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s, transform 0.05s;
+  user-select: none;
+}
+.btn:hover { background: var(--fog); border-color: var(--fog); color: var(--white); }
+.btn:active { transform: translateY(1px); }
+.btn.primary {
+  background: var(--syn-orange);
+  color: var(--white);
+  border-color: transparent;
+  font-weight: 500;
+}
+.btn.primary:hover { background: var(--syn-orange-light); }
+.btn.ghost { background: transparent; color: var(--pale); border-color: transparent; }
+.btn.ghost:hover { background: rgba(255,255,255,0.06); }
+.btn.danger { background: #ef4444; border-color: transparent; color: white; }
+
+/* ─── TIMER DISPLAY ───────────────────── */
+.timer {
+  position: relative;
+  display: grid;
+  place-items: center;
+  height: 100%;
+  min-height: 260px;
+  text-align: center;
+  background: radial-gradient(ellipse 900px 500px at 50% 0%, rgba(232,99,43,0.08), transparent 70%),
+              var(--slate);
+  border: 1px solid rgba(61,74,88,0.6);
+  border-radius: 4px;
+  padding: 2rem 1.5rem;
+}
+.timer .label {
+  font-family: var(--sans);
+  font-weight: 300;
+  color: var(--pale);
+  font-size: calc(var(--timer-size) * 0.26);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  line-height: 1.2;
+}
+.timer .label .meta {
+  display: block;
+  margin-top: 6px;
+  color: var(--mist);
+  font-size: calc(var(--timer-size) * 0.22);
+  letter-spacing: 0.16em;
+}
+.timer .time {
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: var(--timer-size);
+  line-height: 1;
+  margin: 1rem 0;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.04em;
+  text-shadow: 0 2px 24px rgba(0,0,0,0.5);
+}
+.timer .sub {
+  font-family: var(--sans);
+  font-weight: 300;
+  color: var(--pale);
+  font-size: calc(var(--timer-size) * 0.26);
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+}
+
+/* ─── MISC COMPONENTS ─────────────────── */
+.grid { display: grid; gap: 10px; }
+.grid.cols-2 { grid-template-columns: 1fr 1fr; }
+.sep { height: 1px; background: rgba(61,74,88,0.5); margin: 4px 0 8px; }
+.pill {
+  font-family: var(--sans);
+  font-size: 0.68rem;
+  font-weight: 400;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 5px 12px;
+  border: 1px solid rgba(61,74,88,0.7);
+  border-radius: 1px;
+  background: var(--ink);
+  color: var(--mist);
+}
+
+/* ─── EMOM CHIPS ──────────────────────── */
+.emom-group { display: grid; gap: 8px; }
+.emom-group-label {
+  font-family: var(--sans);
+  font-size: 0.72rem;
+  font-weight: 400;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--mist);
+}
+.emom-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.emom-chip {
+  font-family: var(--sans);
+  font-size: 0.75rem;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  background: var(--ink);
+  border: 1px solid rgba(61,74,88,0.7);
+  color: var(--pale);
+  padding: 8px 14px;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+  user-select: none;
+  white-space: nowrap;
+}
+.emom-chip:hover { background: var(--slate-mid); border-color: var(--fog); color: var(--white); }
+.emom-chip.active {
+  background: var(--syn-orange);
+  color: var(--white);
+  border-color: var(--syn-orange);
+}
+.emom-exercise-row {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 10px;
+  align-items: start;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(61,74,88,0.4);
+}
+.emom-exercise-row:last-child { border-bottom: none; }
+.emom-exercise-num {
+  width: 28px; height: 28px;
+  border-radius: 2px;
+  display: grid; place-items: center;
+  font-size: 11px; font-weight: 500;
+  font-family: var(--sans);
+  letter-spacing: 0.04em;
+  color: var(--white);
+  flex-shrink: 0;
+}
+.emom-exercise-name {
+  font-family: var(--serif-body);
+  font-weight: 700;
+  font-size: 0.88rem;
+}
+.emom-exercise-meta { font-size: 0.75rem; color: var(--mist); margin-top: 3px; }
+.emom-exercise-reps {
+  font-family: var(--sans);
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--syn-orange);
+  white-space: nowrap;
+  letter-spacing: 0.06em;
+}
+.emom-preview-header {
+  font-family: var(--sans);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--mist);
+  margin-bottom: 6px;
+  display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px;
+}
+.emom-preview-header strong {
+  font-family: var(--serif-display);
+  font-weight: 400;
+  font-size: 1.1rem;
+  letter-spacing: 0.04em;
+  text-transform: none;
+  color: var(--white);
+}
+.emom-modal-overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.75);
+  display: grid; place-items: center;
+  z-index: 1000;
+  padding: 16px;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+.emom-modal {
+  background: var(--slate);
+  border: 1px solid rgba(61,74,88,0.7);
+  border-radius: 4px;
+  padding: 2rem;
+  max-width: 480px; width: 100%;
+  max-height: 90vh; overflow-y: auto;
+}
+.emom-modal h3 {
+  font-family: var(--serif-display);
+  font-weight: 400;
+  font-size: 1.4rem;
+  margin: 0 0 12px;
+  color: var(--white);
+  letter-spacing: 0.02em;
+}
+.emom-modal p {
+  font-family: var(--sans);
+  font-size: 0.85rem;
+  color: var(--pale);
+  line-height: 1.7;
+  margin: 0 0 16px;
+}
+.emom-modal .btn { width: 100%; margin-top: 8px; }
+
+/* ─── EMOM NAV BUTTONS ────────────────── */
+.emom-nav-btn {
+  font-family: var(--sans);
+  font-weight: 400;
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 10px 18px;
+  border-radius: 2px;
+  cursor: pointer;
+  border: 1px solid rgba(61,74,88,0.7);
+  background: var(--slate-mid);
+  color: var(--pale);
+  transition: background 0.2s, border-color 0.2s;
+  white-space: nowrap;
+  text-decoration: none;
+  display: inline-block;
+}
+.emom-nav-btn:hover { border-color: var(--syn-orange); background: rgba(232,99,43,0.08); color: var(--white); }
+
+/* ─── RESPONSIVE ─────────────────────── */
+@media (max-width: 900px) {
+  .nav { padding: 1.4rem 1.8rem; }
+  .nav__toggle { display: flex; }
+  .nav__links { display: none !important; }
+  .nav__cta { display: none; }
+  .hero { padding: 7rem 1.8rem 2rem; }
+  .footer { padding: 2rem 1.8rem; flex-direction: column; gap: 1.2rem; text-align: center; }
+  .footer__links { flex-wrap: wrap; justify-content: center; gap: 1rem; }
+  .container { padding: 1rem; }
+}
+@media screen and (max-width: 768px) {
+  input[type="number"], input[type="text"], select { font-size: 16px; }
+}
+@media (max-width: 540px) {
+  :root { --timer-size: clamp(52px, 16vw, 140px); }
+  .grid.cols-2 { grid-template-columns: 1fr; }
+  .container { padding: 1rem; gap: 14px; }
+  .card { padding: 1rem; }
+  .timer { padding: 1.5rem 1rem; min-height: 200px; }
+}
+@media (pointer: coarse) {
+  input[type="number"], input[type="text"], select { min-height: 44px; }
+  .btn { min-height: 44px; }
+  .emom-chip { min-height: 44px; padding: 10px 16px; }
+}
+@supports (padding-bottom: env(safe-area-inset-bottom)) {
+  #bottomControls { padding-bottom: calc(16px + env(safe-area-inset-bottom)) !important; }
+}
+@media (max-width: 400px) {
+  #bottomControls .btn { flex: 1 1 calc(50% - 6px); text-align: center; }
+}
+img { max-width: 100%; display: block; vertical-align: top; }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="/" class="nav__logo">
+    <img src="/extracted-images/cc-logo.png" alt="Crawford Coaching">
+  </a>
+  <ul class="nav__links">
+    <li><a href="/coaching">Coaching</a></li>
+    <li><a href="/whole">WHOLE</a></li>
+    <li><a href="/synergize">Synergize Fitness</a></li>
+    <li><a href="/timer">Interval Timer</a></li>
+    <li><a href="/growth-zone">Growth Zone</a></li>
+    <li><a href="/about">About</a></li>
+    <li><a href="/writing">Writing</a></li>
+    <li><a href="/contact">Contact</a></li>
+  </ul>
+  <a class="nav__cta" href="https://calendar.app.google/cBsPtjyxJZSuz6Jo7" target="_blank" rel="noopener">Book Intro</a>
+  <button class="nav__toggle" aria-label="Menu" aria-controls="site-menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="nav__overlay" id="site-menu" aria-hidden="true">
+  <a href="/coaching">Coaching</a>
+  <a href="/whole">WHOLE</a>
+  <a href="/synergize">Synergize Fitness</a>
+  <a href="/timer">Interval Timer</a>
+  <a href="/growth-zone">Growth Zone</a>
+  <a href="/about">About</a>
+  <a href="/writing">Writing</a>
+  <a href="/contact">Contact</a>
+  <a class="nav__overlay-cta" href="https://calendar.app.google/cBsPtjyxJZSuz6Jo7" target="_blank" rel="noopener">Book Intro</a>
+</div>
+
+<!-- ── HERO ── -->
+<section class="hero">
+  <p class="hero__eyebrow">Workout Tools</p>
+  <h1 class="hero__title">Quick EMOM Workout Builder</h1>
+  <p class="hero__lead">
+    Tell us what you've got and how long you've got. We'll build a balanced EMOM (every-minute-on-the-minute) workout from over 150 exercises across bodyweight, kettlebell, dumbbell, bands, TRX, and more. Each exercise gets its own minute — do the reps, rest for the remainder.
+  </p>
+</section>
+
+<main class="container">
+  <!-- Quick EMOM Generator -->
+  <section class="card stack" id="emomPanel">
+    <div class="row" style="justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px">
+      <div style="display:flex; align-items:center; gap:10px">
+        <span style="font-size:20px">⚡</span>
+        <div>
+          <div style="font-family:var(--serif-display); font-weight:400; font-size:1.2rem; letter-spacing:0.02em; color:var(--white);">Quick EMOM Workout</div>
+          <div class="help">Generate a random EMOM workout in seconds</div>
+        </div>
+      </div>
+    </div>
+
+    <div id="emomInner">
+      <div id="emomConfigOptions">
+      <!-- TIME -->
+      <div class="emom-group">
+        <div class="emom-group-label">Time (minutes)</div>
+        <div class="emom-chips" id="emomTime">
+          <button class="emom-chip active" data-val="15">15</button>
+          <button class="emom-chip" data-val="20">20</button>
+          <button class="emom-chip" data-val="25">25</button>
+          <button class="emom-chip" data-val="30">30</button>
+          <button class="emom-chip" data-val="35">35</button>
+          <button class="emom-chip" data-val="45">45</button>
+        </div>
+      </div>
+
+      <!-- EQUIPMENT -->
+      <div class="emom-group">
+        <div class="emom-group-label">Equipment <span class="help" style="font-weight:400">(select all you have)</span></div>
+        <div class="emom-chips multi" id="emomEquip">
+          <button class="emom-chip active" data-val="Bodyweight">Bodyweight</button>
+          <button class="emom-chip" data-val="Kettlebell">Kettlebell</button>
+          <button class="emom-chip" data-val="Dumbbell">Dumbbell</button>
+          <button class="emom-chip" data-val="Resistance Bands">Bands</button>
+          <button class="emom-chip" data-val="TRX">TRX</button>
+          <button class="emom-chip" data-val="Stability Ball">Stability Ball</button>
+          <button class="emom-chip" data-val="Slam Ball">Slam Ball</button>
+          <button class="emom-chip" data-val="Step">Step</button>
+          <button class="emom-chip" data-val="Sturdy Chair">Sturdy Chair</button>
+        </div>
+      </div>
+
+      <!-- DIFFICULTY -->
+      <div class="emom-group">
+        <div class="emom-group-label">Difficulty <span class="help" style="font-weight:400">(select all that apply)</span></div>
+        <div class="emom-chips multi" id="emomDiff">
+          <button class="emom-chip active" data-val="Easy">Easy</button>
+          <button class="emom-chip active" data-val="Intermediate">Intermediate</button>
+          <button class="emom-chip" data-val="Advanced">Advanced</button>
+        </div>
+      </div>
+
+      <!-- BODY PART -->
+      <div class="emom-group">
+        <div class="emom-group-label">Focus <span class="help" style="font-weight:400">(select all that apply)</span></div>
+        <div class="emom-chips multi" id="emomFocus">
+          <button class="emom-chip" data-val="Upper">Upper</button>
+          <button class="emom-chip" data-val="Lower">Lower</button>
+          <button class="emom-chip" data-val="Core">Core</button>
+          <button class="emom-chip active" data-val="Full Body">Full Body</button>
+        </div>
+      </div>
+
+      <!-- EXERCISE ORDER -->
+      <div class="emom-group">
+        <div class="emom-group-label">Exercise Order</div>
+        <div class="emom-chips" id="emomOrder">
+          <button class="emom-chip active" data-val="circuit">Run through each, then repeat</button>
+          <button class="emom-chip" data-val="blocks">All sets of one exercise before moving on</button>
+        </div>
+      </div>
+
+      <!-- REPS INTENSITY -->
+      <div class="emom-group">
+        <div class="emom-group-label">Reps per Interval</div>
+        <div class="emom-chips" id="emomReps">
+          <button class="emom-chip active" data-val="standard">10 reps / 5 per side</button>
+          <button class="emom-chip" data-val="intense">15 reps / 8 per side</button>
+        </div>
+      </div>
+
+      <!-- GENERATE BUTTON -->
+      <button class="btn primary" id="emomGenerateBtn" style="width:100%; padding:14px; font-size:15px; margin-top:4px;">
+        ⚡ Generate Workout
+      </button>
+      </div><!-- end emomConfigOptions -->
+
+      <!-- PREVIEW (hidden until generated) -->
+      <div id="emomPreview" style="display:none">
+        <div class="sep"></div>
+        <div id="emomPreviewContent"></div>
+        <div style="display:flex; gap:8px; margin-top:12px; flex-wrap:wrap">
+          <button class="btn" id="emomRerollBtn" style="flex:1;">🎲 Re-roll</button>
+          <button class="btn primary" id="emomStartBtn" style="flex:2; padding:14px; font-size:15px;">▶ Start EMOM</button>
+        </div>
+        <div style="display:flex; gap:8px; margin-top:8px; flex-wrap:wrap">
+          <button class="btn" id="emomChangeOptionsBtn" style="flex:1;">⚙ Change Options</button>
+          <a href="/" class="btn" style="flex:1; text-align:center; text-decoration:none;">Crawford Coaching Homepage →</a>
+        </div>
+        <button class="btn primary" id="emomAskAssistantBtn" style="width:100%; margin-top:8px; font-size:0.75rem;">
+          🤖 Need help? Ask my assistant to explain an exercise
+        </button>
+      </div>
+
+      <!-- NO MATCHES MESSAGE (hidden by default) -->
+      <div id="emomNoMatch" style="display:none; text-align:center; padding:16px; color:var(--danger); font-size:13px;">
+        No exercises match your selections. Try adding more equipment or broadening the difficulty.
+      </div>
+    </div>
+  </section>
+
+  <!-- Timer Display -->
+  <section class="timer" id="display" style="display:none">
+    <div class="label" id="phase">Ready <span class="meta">—</span></div>
+    <div class="time" id="time">00:00</div>
+    <div class="sub" id="sub">—</div>
+  </section>
+
+  <!-- EMOM Workout Actions (visible during/after EMOM workout) -->
+  <section id="emomActions" style="display:none; padding:10px 16px; gap:10px; flex-wrap:wrap; justify-content:center; align-items:center;">
+    <button class="emom-nav-btn" id="emomActiveRerollBtn">🎲 Re-roll Workout</button>
+    <button class="emom-nav-btn" id="emomActiveReturnBtn">← Return to Builder</button>
+    <a href="/" class="emom-nav-btn">Crawford Coaching Homepage →</a>
+  </section>
+
+  <!-- Bottom Controls -->
+  <section class="card" id="bottomControls" style="margin-top:auto; padding:16px; display:none; gap:10px; flex-wrap:wrap; align-items:center; justify-content:center; position:sticky; bottom:0; z-index:10; border-bottom-left-radius:0; border-bottom-right-radius:0; border-left:0; border-right:0; border-bottom:0;">
+    <button class="btn" id="startBtn" style="min-width:80px; font-size:0.85rem; padding:12px 28px; background:#22c55e; color:#0e0f10; border-color:transparent; letter-spacing:0.12em;">Start</button>
+    <button class="btn" id="pauseBtn" disabled style="min-width:80px; font-size:0.85rem; padding:12px 28px; background:#ef4444; color:white; border-color:transparent; letter-spacing:0.12em;">Pause</button>
+    <button class="btn" id="resumeBtn" disabled style="min-width:80px; font-size:0.85rem; padding:12px 28px; background:var(--brand-blue); color:white; border-color:transparent; letter-spacing:0.12em;">Resume</button>
+    <button class="btn" id="resetBtn" disabled style="min-width:80px; font-size:0.85rem; padding:12px 28px; background:var(--slate-mid); color:var(--pale); border-color:var(--fog); letter-spacing:0.12em;">Reset</button>
+    <span class="help" id="status"></span>
+  </section>
+</main>
+
+<!-- ── FOOTER ── -->
+<footer class="footer">
+  <a href="/" class="footer__logo">
+    <img src="/extracted-images/cc-logo.png" alt="Crawford Coaching">
+  </a>
+  <ul class="footer__links">
+    <li><a href="/coaching">Coaching</a></li>
+    <li><a href="/synergize">Synergize Fitness</a></li>
+    <li><a href="/whole">WHOLE</a></li>
+    <li><a href="/growth-zone">Growth Zone</a></li>
+    <li><a href="/about">About</a></li>
+    <li><a href="/contact">Contact</a></li>
+  </ul>
+  <p class="footer__copy">&copy; 2026 Crawford Coaching</p>
+</footer>
+
+<!-- ══ MOBILE NAV BEHAVIOUR ════════════════════════════════ -->
+<script>
+(function() {
+  const toggle = document.querySelector('.nav__toggle');
+  const overlay = document.querySelector('.nav__overlay');
+  if (!toggle || !overlay) return;
+  let closeTimer = null;
+  const closeMenu = () => {
+    toggle.classList.remove('open');
+    toggle.setAttribute('aria-expanded', 'false');
+    overlay.classList.remove('open');
+    const activeEl = document.activeElement;
+    if (activeEl && overlay.contains(activeEl)) activeEl.blur();
+    overlay.setAttribute('aria-hidden', 'true');
+    toggle.focus();
+    document.body.style.overflow = '';
+    if (closeTimer) clearTimeout(closeTimer);
+    closeTimer = setTimeout(() => { overlay.style.display = 'none'; }, 350);
+  };
+  const openMenu = () => {
+    if (closeTimer) clearTimeout(closeTimer);
+    toggle.classList.add('open');
+    toggle.setAttribute('aria-expanded', 'true');
+    overlay.style.display = 'flex';
+    overlay.setAttribute('aria-hidden', 'false');
+    requestAnimationFrame(() => overlay.classList.add('open'));
+    document.body.style.overflow = 'hidden';
+  };
+  toggle.addEventListener('click', () => {
+    toggle.classList.contains('open') ? closeMenu() : openMenu();
+  });
+  overlay.querySelectorAll('a').forEach((a) => a.addEventListener('click', closeMenu));
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && toggle.classList.contains('open')) closeMenu();
+  });
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 900 && toggle.classList.contains('open')) closeMenu();
+  });
+})();
+</script>
+
+<script src="/timer-emom-db.js"></script>
+<script>
+/*!
+ * Crawford Coaching — Quick EMOM Workout Builder
+ * © 2026 Scott Crawford – Crawford Coaching
+ * https://www.crawford-coaching.ca
+ */
+
+// ---------- Utilities ----------
+const $ = (sel) => document.querySelector(sel);
+const $$ = (sel) => Array.from(document.querySelectorAll(sel));
+
+function fmt(seconds) {
+  const sec = Math.max(0, Math.ceil(seconds));
+  if (sec >= 60) { const m = Math.floor(sec / 60); const s = sec % 60; return `${m}:${String(s).padStart(2, '0')}`; }
+  return String(sec).padStart(2, '0');
+}
+
+function fmtTotal(total) {
+  const sec = Math.max(0, Math.round(total));
+  const h = Math.floor(sec / 3600);
+  const m = Math.floor((sec % 3600) / 60);
+  const s = sec % 60;
+  return h > 0 ? `${h}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}` : `${m}:${String(s).padStart(2,'0')}`;
+}
+
+function luminance(hex) {
+  if (!/^#?[0-9a-fA-F]{6}$/.test(hex)) return 0.5;
+  const h = hex.replace('#','');
+  const r=parseInt(h.slice(0,2),16), g=parseInt(h.slice(2,4),16), b=parseInt(h.slice(4,6),16);
+  return (0.299*r+0.587*g+0.114*b)/255;
+}
+
+function setBg(color) {
+  const bg = color || getComputedStyle(document.documentElement).getPropertyValue('--ink');
+  document.body.style.background = bg;
+  const lum = luminance(bg);
+  document.documentElement.style.setProperty('--fg', lum > 0.35 ? '#0e0f10' : '#f5f3ef');
+  document.documentElement.style.setProperty('--muted', lum > 0.35 ? '#3d4a58' : '#c8d4de');
+}
+
+// ---------- Audio (beep) ----------
+let audioCtx;
+function beep(duration = 140, freq = 880, type = 'sine', vol = 0.06) {
+  try {
+    audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
+    const o = audioCtx.createOscillator();
+    const g = audioCtx.createGain();
+    o.type = type; o.frequency.value = freq;
+    g.gain.value = vol;
+    o.connect(g); g.connect(audioCtx.destination);
+    o.start();
+    o.onended = () => { o.disconnect(); g.disconnect(); };
+    o.stop(audioCtx.currentTime + duration / 1000);
+  } catch (e) { /* ignore */ }
+}
+
+// ---------- Palette ----------
+const PALETTE = ['#3b82f6','#22c55e','#f43f5e','#a855f7','#eab308','#06b6d4','#ef4444','#f97316','#10b981','#64748b'];
+
+// ---------- DOM Elements ----------
+const emomPanel = $('#emomPanel');
+const configOptions = $('#emomConfigOptions');
+const previewEl = $('#emomPreview');
+const displayEl = $('#display');
+const bottomControls = $('#bottomControls');
+const emomActionsBar = $('#emomActions');
+
+const startBtn = $('#startBtn');
+const pauseBtn = $('#pauseBtn');
+const resumeBtn = $('#resumeBtn');
+const resetBtn = $('#resetBtn');
+const statusEl = $('#status');
+
+const phaseEl = $('#phase');
+const timeEl = $('#time');
+const subEl = $('#sub');
+
+// ---------- View switching ----------
+function showConfig() {
+  displayEl.style.display = 'none';
+  bottomControls.style.display = 'none';
+  emomActionsBar.style.display = 'none';
+  emomPanel.style.display = '';
+  configOptions.style.display = '';
+  previewEl.style.display = 'none';
+}
+
+function showPreview() {
+  emomPanel.style.display = '';
+  configOptions.style.display = 'none';
+  previewEl.style.display = '';
+  displayEl.style.display = 'none';
+  bottomControls.style.display = 'none';
+  emomActionsBar.style.display = 'none';
+}
+
+function showRunning() {
+  emomPanel.style.display = 'none';
+  displayEl.style.display = '';
+  bottomControls.style.display = 'flex';
+  emomActionsBar.style.display = 'flex';
+}
+
+// ---------- EMOM chip wiring ----------
+function wireChips() {
+  // Single-select groups
+  ['emomTime', 'emomOrder', 'emomReps'].forEach(groupId => {
+    const container = document.getElementById(groupId);
+    if (!container) return;
+    container.addEventListener('click', (e) => {
+      const chip = e.target.closest('.emom-chip');
+      if (!chip) return;
+      container.querySelectorAll('.emom-chip').forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+    });
+  });
+  // Multi-select groups
+  ['emomEquip', 'emomDiff', 'emomFocus'].forEach(groupId => {
+    const container = document.getElementById(groupId);
+    if (!container) return;
+    container.addEventListener('click', (e) => {
+      const chip = e.target.closest('.emom-chip');
+      if (!chip) return;
+      chip.classList.toggle('active');
+    });
+  });
+}
+wireChips();
+
+// ---------- EMOM helpers ----------
+function getActiveVals(containerId) {
+  return Array.from(document.querySelectorAll(`#${containerId} .emom-chip.active`))
+    .map(c => c.dataset.val);
+}
+
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function buildUniqueExercisePool(pool) {
+  const uniquePool = [];
+  const seenNames = new Set();
+  for (const exercise of shuffle(pool)) {
+    if (seenNames.has(exercise.n)) continue;
+    seenNames.add(exercise.n);
+    uniquePool.push(exercise);
+  }
+  return uniquePool;
+}
+
+function getBodyPartPreference(pool, preferredBodyParts) {
+  const availableBodyParts = [...new Set(pool.map(ex => ex.b))];
+  const preferred = preferredBodyParts.filter(part => availableBodyParts.includes(part));
+  const remaining = availableBodyParts.filter(part => !preferred.includes(part));
+  return preferred.concat(remaining);
+}
+
+// Body-part diversity selection (round-robin)
+function selectDiverse(pool, count, bodyParts) {
+  const shuffled = shuffle(pool);
+  const selected = [];
+  const usedNames = new Set();
+  let bpIndex = 0;
+  const bpList = shuffle([...bodyParts]);
+
+  while (selected.length < count) {
+    const targetBP = bpList[bpIndex % bpList.length];
+    const candidate = shuffled.find(ex =>
+      ex.b === targetBP && !usedNames.has(ex.n)
+    );
+    if (candidate) {
+      selected.push(candidate);
+      usedNames.add(candidate.n);
+    }
+    bpIndex++;
+
+    // Safety: if we've cycled through all body parts without filling, take any remaining
+    if (bpIndex > count * bpList.length) {
+      const remaining = shuffled.filter(ex => !usedNames.has(ex.n));
+      for (const ex of remaining) {
+        if (selected.length >= count) break;
+        selected.push(ex);
+        usedNames.add(ex.n);
+      }
+      break;
+    }
+  }
+  return selected;
+}
+
+// EMOM generation algorithm (Option A: flexible rest)
+function generateEMOM() {
+  const totalMin = Number(getActiveVals('emomTime')[0] || 20);
+  const equipSel = getActiveVals('emomEquip');
+  const diffSel = getActiveVals('emomDiff');
+  const bodySel = getActiveVals('emomFocus');
+  const orderMode = getActiveVals('emomOrder')[0] || 'circuit';
+  const repsMode = getActiveVals('emomReps')[0] || 'standard';
+
+  if (!equipSel.length || !diffSel.length || !bodySel.length) {
+    showEmomNoMatch('Select at least one option in each category.');
+    return null;
+  }
+
+  // "Full Body" selected = all body parts welcome
+  const bodyAll = bodySel.includes('Full Body');
+
+  // Equipment and difficulty are hard constraints. Focus is a preference if needed to fill the workout.
+  const filteredPool = EMOM_DB.filter(ex => {
+    if (!equipSel.includes(ex.e)) return false;
+    if (ex.s && !equipSel.includes(ex.s)) return false;
+    if (!diffSel.includes(ex.d)) return false;
+    return true;
+  });
+  const pool = buildUniqueExercisePool(filteredPool);
+
+  if (pool.length < 4) {
+    showEmomNoMatch(`Only ${pool.length} unique exercise(s) match this equipment and difficulty combination — need at least 4. Broaden your selections.`);
+    return null;
+  }
+
+  // Find valid (exercises, sets) combos that fit within the target time.
+  // 4-6 exercises, 3-6 sets, 60-90s rest. Maximise work volume, stay <= target.
+  const totalSec = totalMin * 60;
+  const combos = [];
+  for (let ex = Math.min(6, pool.length); ex >= 4; ex--) {
+    for (let sets = 6; sets >= 3; sets--) {
+      const workSec = ex * sets * 60;
+      const breaks = sets - 1;
+      const minRest = workSec + breaks * 60;
+      if (minRest > totalSec) continue;           // can't fit even with 60s rest
+      // Use max rest that keeps total <= target, capped at 90s
+      const restPerBreak = Math.min(Math.floor((totalSec - workSec) / breaks), 90);
+      if (restPerBreak < 60) continue;            // below minimum rest
+      const actualSec = workSec + restPerBreak * breaks;
+      const volume = ex * sets;
+      combos.push({ exercises: ex, sets, restSeconds: restPerBreak, actualSec, volume });
+    }
+  }
+  // Sort: most work volume first, then more exercises for variety, then closest to target
+  combos.sort((a, b) => b.volume - a.volume || b.exercises - a.exercises || b.actualSec - a.actualSec);
+
+  if (!combos.length) {
+    showEmomNoMatch(`Cannot build a balanced workout for ${totalMin} minutes with the current filters. Try a different time.`);
+    return null;
+  }
+
+  const chosen = combos[0];
+  const strictFocusPool = bodyAll ? pool : pool.filter(ex => bodySel.includes(ex.b));
+  const selectionPool = strictFocusPool.length >= chosen.exercises ? strictFocusPool : pool;
+  const diversityParts = bodyAll
+    ? ['Upper', 'Lower', 'Core', 'Full Body']
+    : getBodyPartPreference(selectionPool, bodySel);
+  const selected = selectDiverse(selectionPool, chosen.exercises, diversityParts);
+  const actualNumEx = selected.length;
+  const actualWorkSec = actualNumEx * chosen.sets * 60;
+  const actualRestSec = chosen.restSeconds * (chosen.sets - 1);
+  const actualTotalSec = actualWorkSec + actualRestSec;
+  const focusExpanded = !bodyAll && selected.some(ex => !bodySel.includes(ex.b));
+
+  return {
+    exercises: selected,
+    sets: chosen.sets,
+    numExercises: actualNumEx,
+    restSeconds: chosen.restSeconds,
+    totalMinutes: totalMin,
+    actualTotalSec: actualTotalSec,
+    focusExpanded,
+    focusAllBodyParts: bodyAll,
+    requestedFocus: bodySel.slice(),
+    orderMode,
+    repsMode
+  };
+}
+
+// Disclaimer (once per session)
+let emomDisclaimerAccepted = false;
+
+function showDisclaimer() {
+  return new Promise((resolve) => {
+    const overlay = document.createElement('div');
+    overlay.className = 'emom-modal-overlay';
+    overlay.innerHTML = `
+      <div class="emom-modal">
+        <h3>⚠️ Before You Begin</h3>
+        <p>
+          This workout has been <strong>randomly generated</strong> by an algorithm.
+          It is <strong>not</strong> a personalised recommendation from Scott Crawford
+          or Crawford Coaching.
+        </p>
+        <p>
+          Exercise carries inherent risks including injury and aggravation of
+          pre-existing conditions. <strong>Consult your doctor</strong> before starting
+          any new exercise program, especially if you have health concerns.
+        </p>
+        <p>
+          By proceeding you confirm that you understand these risks, take full
+          responsibility for your own safety, and release Crawford Coaching from
+          any liability.
+        </p>
+        <button class="btn primary" id="emomDisclaimerAccept">I Understand — Show My Workout</button>
+        <button class="btn ghost" id="emomDisclaimerCancel" style="color:var(--muted);">Cancel</button>
+      </div>
+    `;
+    document.body.appendChild(overlay);
+
+    overlay.querySelector('#emomDisclaimerAccept').addEventListener('click', () => {
+      emomDisclaimerAccepted = true;
+      overlay.remove();
+      resolve(true);
+    });
+    overlay.querySelector('#emomDisclaimerCancel').addEventListener('click', () => {
+      overlay.remove();
+      resolve(false);
+    });
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay) { overlay.remove(); resolve(false); }
+    });
+  });
+}
+
+// EMOM preview rendering
+const emomGenerateBtn = document.getElementById('emomGenerateBtn');
+const emomRerollBtn = document.getElementById('emomRerollBtn');
+const emomPreview = document.getElementById('emomPreview');
+const emomPreviewContent = document.getElementById('emomPreviewContent');
+const emomNoMatch = document.getElementById('emomNoMatch');
+const emomStartBtn = document.getElementById('emomStartBtn');
+const emomAskAssistantBtn = document.getElementById('emomAskAssistantBtn');
+
+let currentEmomPlan = null;
+
+function showEmomNoMatch(msg) {
+  emomNoMatch.textContent = msg;
+  emomNoMatch.style.display = '';
+  emomPreview.style.display = 'none';
+}
+
+function fmtRestSeconds(sec) {
+  const m = Math.floor(sec / 60);
+  const s = sec % 60;
+  if (s === 0) return `${m}:00`;
+  return `${m}:${String(s).padStart(2, '0')}`;
+}
+
+function mapReps(dbReps, repsMode) {
+  if (repsMode === 'standard') return dbReps;
+  // intense: 10 → 15, 5 per side → 8 per side
+  if (/per side/i.test(dbReps)) return '8 per side';
+  return '15';
+}
+
+function renderEmomPreview(plan) {
+  emomNoMatch.style.display = 'none';
+  emomPreview.style.display = '';
+
+  const restLabel = fmtRestSeconds(plan.restSeconds);
+  const actualMin = fmtTotal(plan.actualTotalSec);
+  const timeNote = plan.actualTotalSec < plan.totalMinutes * 60
+    ? ` <span style="font-size:12px; color:var(--muted);">(${actualMin} of ${plan.totalMinutes}:00)</span>`
+    : '';
+
+  const orderLabel = plan.orderMode === 'blocks' ? ' • Block order' : ' • Circuit order';
+  const repsLabel = plan.repsMode === 'intense' ? ' • Intense reps' : '';
+
+  let html = `
+    <div class="emom-preview-header">
+      <strong>EMOM ${actualMin}${timeNote}</strong>
+      <span>${plan.numExercises} exercises × ${plan.sets} sets • ${restLabel} rest${orderLabel}${repsLabel}</span>
+    </div>
+  `;
+
+  plan.exercises.forEach((ex, i) => {
+    const color = PALETTE[i % PALETTE.length];
+    const reps = mapReps(ex.r, plan.repsMode);
+    html += `
+      <div class="emom-exercise-row">
+        <div class="emom-exercise-num" style="background:${color}">${i + 1}</div>
+        <div>
+          <div class="emom-exercise-name">${ex.n}</div>
+          <div class="emom-exercise-meta">${ex.e}${ex.s ? ' + ' + ex.s : ''} • ${ex.b} • ${ex.d}</div>
+        </div>
+        <div class="emom-exercise-reps">${reps}</div>
+      </div>
+    `;
+  });
+
+  html += `<div class="help" style="margin-top:8px; text-align:center;">
+    Each exercise = 1 minute (do the reps, rest for the remainder)
+  </div>`;
+
+  if (plan.focusAllBodyParts) {
+    html += `<div class="help" style="margin-top:8px; text-align:center;">
+      Focus mode: Full Body (all body regions eligible).
+    </div>`;
+  } else if (plan.focusExpanded && plan.requestedFocus && plan.requestedFocus.length) {
+    html += `<div class="help" style="margin-top:8px; text-align:center;">
+      Focus mode: Broadened beyond ${plan.requestedFocus.join(', ')} to fill all intervals.
+    </div>`;
+  } else if (plan.requestedFocus && plan.requestedFocus.length) {
+    html += `<div class="help" style="margin-top:8px; text-align:center;">
+      Focus mode: Strict (${plan.requestedFocus.join(', ')}).
+    </div>`;
+  }
+
+  emomPreviewContent.innerHTML = html;
+}
+
+async function handleGenerate() {
+  if (!emomDisclaimerAccepted) {
+    const accepted = await showDisclaimer();
+    if (!accepted) return;
+  }
+
+  const plan = generateEMOM();
+  if (!plan) return;
+
+  currentEmomPlan = plan;
+  renderEmomPreview(plan);
+  // Hide config options, show only preview
+  configOptions.style.display = 'none';
+}
+
+emomGenerateBtn.addEventListener('click', handleGenerate);
+emomRerollBtn.addEventListener('click', handleGenerate);
+
+// Change Options button — show config chips again
+document.getElementById('emomChangeOptionsBtn').addEventListener('click', () => {
+  configOptions.style.display = '';
+});
+
+// ---------- Timer engine (rAF) ----------
+let rafId = null, lastTs = null, idx = 0, remaining = 0, running = false, planState = [];
+let totalPlanSeconds = 0;
+let cumDurations = [];
+
+function updateUI() {
+  const step = planState[idx];
+  if (!step) {
+    phaseEl.innerHTML = 'Ready <span class="meta">—</span>';
+    timeEl.textContent = '00:00';
+    subEl.textContent = '—';
+    statusEl.textContent = '';
+    setBg('');
+    return;
+  }
+  if (step.type === 'countdown') {
+    phaseEl.innerHTML = 'GET READY <span class="meta">&nbsp;</span>';
+  } else if (step.type === 'break') {
+    phaseEl.innerHTML = 'BREAK <span class="meta">&nbsp;</span>';
+  } else {
+    const title = 'QUICK EMOM';
+    const topLine = step.setName ? step.setName : `Set ${step.set}`;
+    phaseEl.innerHTML = `${title}<span class="meta">${topLine}</span>`;
+  }
+  timeEl.textContent = fmt(remaining);
+  const descriptor = (step.type === 'countdown') ? 'GET READY' : (step.type === 'work' && step.intervalName) ? step.intervalName : step.type.toUpperCase();
+  let elapsedBefore = cumDurations[idx] || 0;
+  const stepElapsed = (planState[idx].seconds - remaining);
+  const elapsed = elapsedBefore + stepElapsed;
+  const remainingTotal = Math.max(0, totalPlanSeconds - elapsed);
+  if (step.type === 'countdown') {
+    subEl.innerHTML = `<span class="remaining">Starting in ${fmt(remaining)}</span>`;
+  } else {
+    const hasCountdown = planState.length > 0 && planState[0].type === 'countdown';
+    const displayIdx = hasCountdown ? idx : idx + 1;
+    const displayTotal = hasCountdown ? planState.length - 1 : planState.length;
+    subEl.innerHTML = `${displayIdx} / ${displayTotal} • ${descriptor}<br><span class="remaining">TOTAL TIME REMAINING: ${fmtTotal(remainingTotal)}</span>`;
+  }
+  if (step.color) setBg(step.color);
+}
+
+function startStep() {
+  const step = planState[idx];
+  if (!step) { finish(); return; }
+  remaining = step.seconds;
+  lastTs = null;
+  updateUI();
+}
+
+function nextStep() {
+  idx += 1;
+  if (idx >= planState.length) { finish(); return; }
+  startStep();
+}
+
+function loop(ts) {
+  if (!running) return;
+  if (lastTs == null) lastTs = ts;
+  const dt = (ts - lastTs) / 1000;
+  lastTs = ts;
+  remaining -= dt;
+  if (remaining <= 0) { beep(); nextStep(); }
+  updateUI();
+  rafId = requestAnimationFrame(loop);
+}
+
+function pause() {
+  running = false;
+  pauseBtn.disabled = true;
+  resumeBtn.disabled = false;
+  statusEl.textContent = 'Paused';
+  cancelAnimationFrame(rafId);
+  rafId = null;
+  emomActionsBar.style.display = 'flex';
+}
+
+function resume() {
+  if (running) return;
+  running = true;
+  pauseBtn.disabled = false;
+  resumeBtn.disabled = true;
+  statusEl.textContent = 'Running…';
+  lastTs = null;
+  rafId = requestAnimationFrame(loop);
+}
+
+function reset() {
+  running = false;
+  cancelAnimationFrame(rafId);
+  rafId = null;
+  idx = 0;
+  remaining = 0;
+  planState = [];
+  totalPlanSeconds = 0;
+  cumDurations = [];
+  startBtn.disabled = false;
+  pauseBtn.disabled = true;
+  resumeBtn.disabled = true;
+  resetBtn.disabled = true;
+  updateUI();
+  setBg('');
+  statusEl.textContent = 'Reset — workout preserved';
+  // Return to preview so user can re-start the same workout
+  showPreview();
+}
+
+function finish() {
+  running = false;
+  cancelAnimationFrame(rafId);
+  rafId = null;
+  beep(220, 660);
+  beep(220, 990);
+  statusEl.textContent = 'Done!';
+  startBtn.disabled = true;
+  pauseBtn.disabled = true;
+  resumeBtn.disabled = true;
+  resetBtn.disabled = false;
+  phaseEl.innerHTML = 'Finished <span class="meta">—</span>';
+  timeEl.textContent = '00:00';
+  const countdownTime = (planState.length > 0 && planState[0].type === 'countdown') ? planState[0].seconds : 0;
+  subEl.innerHTML = `<span class="remaining">TOTAL DURATION: ${fmtTotal(totalPlanSeconds - countdownTime)}</span>`;
+  emomActionsBar.style.display = 'flex';
+}
+
+// Spacebar shortcut (pause/resume)
+window.addEventListener('keydown', (e) => {
+  if (e.code !== 'Space') return;
+  const ae = document.activeElement;
+  if (ae && (ae.isContentEditable || (ae.tagName === 'INPUT' && ae.type !== 'button' && ae.type !== 'checkbox') || ae.tagName === 'TEXTAREA')) return;
+  if (!startBtn.disabled) return;
+  e.preventDefault();
+  if (!pauseBtn.disabled) {
+    pause();
+  } else if (!resumeBtn.disabled) {
+    resume();
+  }
+});
+
+startBtn.addEventListener('click', () => {
+  // Re-start a paused/reset workout from current planState
+  if (!planState.length && currentEmomPlan) {
+    startEmomPlan();
+    return;
+  }
+  if (!planState.length) return;
+  idx = 0;
+  running = true;
+  startStep();
+  cancelAnimationFrame(rafId);
+  rafId = requestAnimationFrame(loop);
+  startBtn.disabled = true;
+  pauseBtn.disabled = false;
+  resumeBtn.disabled = true;
+  resetBtn.disabled = false;
+  statusEl.textContent = 'Running…';
+});
+pauseBtn.addEventListener('click', pause);
+resumeBtn.addEventListener('click', resume);
+resetBtn.addEventListener('click', reset);
+
+// Start EMOM — inject plan into existing timer engine
+function startEmomPlan() {
+  if (!currentEmomPlan) return;
+
+  const plan = currentEmomPlan;
+  const timerPlan = [];
+
+  if (plan.orderMode === 'blocks') {
+    // All sets of exercise 1, rest, all sets of exercise 2, rest, ...
+    for (let i = 0; i < plan.exercises.length; i++) {
+      const ex = plan.exercises[i];
+      const exColor = PALETTE[i % PALETTE.length];
+      const reps = mapReps(ex.r, plan.repsMode);
+      for (let s = 0; s < plan.sets; s++) {
+        timerPlan.push({
+          type: 'work',
+          set: s + 1,
+          interval: i + 1,
+          seconds: 60,
+          color: exColor,
+          setName: `${ex.n} — Set ${s + 1} of ${plan.sets}`,
+          intervalName: `${ex.n} — ${reps}`
+        });
+      }
+      if (i < plan.exercises.length - 1) {
+        timerPlan.push({
+          type: 'break',
+          set: 1,
+          interval: i + 1,
+          seconds: plan.restSeconds,
+          color: '#ef4444'
+        });
+      }
+    }
+  } else {
+    // Circuit: run through each exercise then repeat
+    for (let s = 0; s < plan.sets; s++) {
+      for (let i = 0; i < plan.exercises.length; i++) {
+        const ex = plan.exercises[i];
+        const exColor = PALETTE[i % PALETTE.length];
+        const reps = mapReps(ex.r, plan.repsMode);
+        timerPlan.push({
+          type: 'work',
+          set: s + 1,
+          interval: i + 1,
+          seconds: 60,
+          color: exColor,
+          setName: `Set ${s + 1} of ${plan.sets}`,
+          intervalName: `${ex.n} — ${reps}`
+        });
+      }
+      if (s < plan.sets - 1) {
+        timerPlan.push({
+          type: 'break',
+          set: s + 1,
+          interval: plan.exercises.length,
+          seconds: plan.restSeconds,
+          color: '#ef4444'
+        });
+      }
+    }
+  }
+
+  // Insert GET READY countdown
+  timerPlan.unshift({ type: 'countdown', seconds: 5, color: null });
+
+  // Inject into timer engine
+  planState = timerPlan;
+  cumDurations = [];
+  let acc = 0;
+  for (const st of planState) { cumDurations.push(acc); acc += st.seconds; }
+  totalPlanSeconds = acc;
+
+  idx = 0;
+  running = true;
+  startStep();
+  cancelAnimationFrame(rafId);
+  rafId = requestAnimationFrame(loop);
+
+  startBtn.disabled = true;
+  pauseBtn.disabled = false;
+  resumeBtn.disabled = true;
+  resetBtn.disabled = false;
+  statusEl.textContent = 'Running…';
+
+  // Switch to running view
+  showRunning();
+
+  // Scroll to timer display
+  displayEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+emomStartBtn.addEventListener('click', startEmomPlan);
+
+// Ask assistant link — chat widget will also load below; fall back to /assistant page
+emomAskAssistantBtn.addEventListener('click', () => {
+  if (window.coachScottBot && typeof window.coachScottBot.open === 'function') {
+    window.coachScottBot.open();
+    return;
+  }
+  window.open('https://www.crawford-coaching.ca/assistant', '_blank', 'noopener');
+});
+
+// EMOM Active mode controls
+document.getElementById('emomActiveRerollBtn').addEventListener('click', async () => {
+  // Stop the current workout and re-roll
+  running = false;
+  cancelAnimationFrame(rafId);
+  rafId = null;
+  planState = [];
+  totalPlanSeconds = 0;
+  cumDurations = [];
+  idx = 0;
+  remaining = 0;
+  startBtn.disabled = false;
+  pauseBtn.disabled = true;
+  resumeBtn.disabled = true;
+  resetBtn.disabled = true;
+  setBg('');
+  statusEl.textContent = '';
+  // Return to preview, then regenerate
+  showPreview();
+  await handleGenerate();
+});
+
+document.getElementById('emomActiveReturnBtn').addEventListener('click', () => {
+  // Stop the timer and return to config
+  running = false;
+  cancelAnimationFrame(rafId);
+  rafId = null;
+  planState = [];
+  totalPlanSeconds = 0;
+  cumDurations = [];
+  idx = 0;
+  remaining = 0;
+  startBtn.disabled = false;
+  pauseBtn.disabled = true;
+  resumeBtn.disabled = true;
+  resetBtn.disabled = true;
+  setBg('');
+  statusEl.textContent = '';
+  currentEmomPlan = null;
+  showConfig();
+});
+
+// ---------- Init ----------
+showConfig();
+</script>
+
+<!-- ── Ask Scott chat widget ── -->
+<script src="https://website-assistant-sandy.vercel.app/chat-widget.js"></script>
+
+</body>
+</html>

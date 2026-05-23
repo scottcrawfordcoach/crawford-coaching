@@ -57,6 +57,10 @@
       "destination": "/crawford-timer.html"
     },
     {
+      "source": "/quick-emom",
+      "destination": "/crawford-quick-emom.html"
+    },
+    {
       "source": "/strengths",
       "destination": "/crawford-strengths.html"
     },

@@ -6,6 +6,39 @@ The format is based on Keep a Changelog principles and uses reverse chronologica
 
 ## [2026-05-22]
 
+### Added — Standalone Quick EMOM Workout Builder at /quick-emom
+
+- New page [crawford-quick-emom.html](crawford-quick-emom.html) (1470 lines, single-file). Extracted the Quick EMOM Workout generator + player from the multi-mode `crawford-timer.html`, wrapped it in standard site chrome (Cormorant Garamond + Jost dark editorial nav, hero, footer), and stripped every multi-mode artifact (mode selector, custom interval timer, Quick EMOM Timer manual mode, countdown, clock, saved favourites, PWA install banner, header toolbar). The page stands on its own at `/quick-emom` so the builder can become a standalone product.
+- Rewrite added in [vercel.json](vercel.json): `/quick-emom` → `/crawford-quick-emom.html`, slotted after the existing `/timer` rule.
+- Page reuses [timer-emom-db.js](timer-emom-db.js) (150+ exercises across Bodyweight / Kettlebell / Dumbbell / Bands / TRX / Stability Ball / Slam Ball / Step / Sturdy Chair) — referenced as root-absolute `/timer-emom-db.js` so it resolves at any URL depth.
+- Generator algorithm (`generateEMOM`, `selectDiverse`, `buildUniqueExercisePool`, `getBodyPartPreference`), disclaimer modal flow, preview renderer, `startEmomPlan` (circuit + block ordering, GET READY countdown), beep audio synthesis, and the rAF timer engine all ported verbatim. `updateUI` simplified to drop the `workoutName` input reference (no such input on the new page — title hard-coded as "QUICK EMOM"). `pause`/`resume`/`reset`/`finish` simplified to drop the `appMode` branches and the duplicate `emomTimerActionsBar` paths.
+- Mode-switching glue (`switchToMain` / `switchToEmomConfig` / `switchToEmomActive`) replaced with three focused helpers — `showConfig()`, `showPreview()`, `showRunning()` — that toggle the four sections on the new page.
+- `crawford-timer.html` was **not** modified in this pass. Per Scott's direction, the EMOM code stays in the timer page until the new standalone page is verified end-to-end on the deployed branch; once parity is confirmed, the dormant EMOM-Workout code (CSS lines 348-462, HTML lines 754-867, JS lines 2249-2658, plus the `EMOM_DB` script tag and `emomActions` action bar) will be stripped in a follow-up.
+
+### Changed — Synergize members area: real data on Class schedule and Holiday hours cards
+
+- [crawford-synergize-members.html](crawford-synergize-members.html) now shows live data on two cards that previously sat on placeholder copy.
+- **Class schedule**: fetched directly from `data-handler?action=class_schedule` (the same public action the main `/synergize` page uses). Dropped the `/api/member-data` indirection for this feed — that wrapper was passing the data through unchanged but expected a `{ when, label }` shape the action never emits (real shape: `{ day, time, freeSpaces }`), so the card had been silently empty. Render groups by Mon/Wed, Tue/Thu, Friday — same grouping as the main page — and shows the max free spaces per (group, time) slot as `N spot(s)` or `Waitlist`. If every slot is full, an italic line below the list nudges members to email Scott for a waitlist.
+- **Holiday hours**: 2026 closure list inlined as a static `HOLIDAY_CLOSURES` array (27 entries), mirroring the canonical table in `Coach-Scott-Bot/supabase/storage/website_assistant_knowledge/gym-holiday-closures.md`. The render filters to the next 60 days, sorts by date, and shows up to 4 upcoming closures with day-of-week + short date + reason. Fallback line ("No closures in the next 60 days.") when the window is clear.
+- **Maintenance note**: [CLAUDE.md](../CLAUDE.md) already documents the closure-update cross-project sync. `crawford-site` is now one more place to update when a closure changes — alongside Accounts-AI's invoicing folder, Coach-Scott-Bot's knowledge bucket (the canonical source), and Workout Schedule AI. The inlined array carries a comment block pointing back to the canonical .md so the obligation is visible from the file itself.
+- **WOD card** untouched — still shows the "Today's WOD will appear here once published." placeholder until `data-handler` ships a `workout_of_the_day` action. The new `loadFeeds()` flags this as a one-line TODO for that future wiring.
+- `/api/member-data` left in place (still called by nothing now, but kept for the future WOD feed and any other authenticated feeds we route through there).
+
+### Changed — Synergize members area: card swap + cleanup
+
+- [crawford-synergize-members.html](crawford-synergize-members.html) member-card grid revised:
+  - The 4th card switched from a generic "Interval timer / Open timer → /timer" to a direct entry point for the new builder: tag "Workout Builder", title "Quick EMOM Workout Builder", action "Build a workout" → `/quick-emom`. Body copy describes the value (150+ exercises, balanced EMOM in seconds) so members understand what they're getting.
+  - The "Open timer" CTA on the **Workout of the day** card was removed entirely. The Interval Timer link lives in the persistent top nav on every page, so duplicating it on a member card was visual noise. The WOD card is now purely informational — the feed text appears once published.
+- Class-schedule and Holiday-hours cards untouched.
+
+### Changed — Synergize Member Login moved from nav to hero pill (auth-aware)
+
+- [crawford-synergize.html](crawford-synergize.html): the Member Login entry has been lifted out of the desktop nav and the mobile overlay menu and re-anchored as a pill button in the top-right corner of the hero, below the fixed nav. This makes it a deliberate, discoverable affordance for existing members landing on the public Synergize page rather than a quiet nav link competing with seven other items.
+- New `.hero-pill` style: pill-shaped (border-radius 999px), translucent dark background with backdrop blur, white border + text, a small syn-orange dot prefix as a visual hook, hover state flips to syn-orange. Responsive override at ≤900px tightens position and type size so it doesn't collide with the hamburger toggle.
+- Auth-aware reveal: pill is hidden by default (opacity 0 / visibility hidden) and only unhides once a `cc.getSession()` check confirms the visitor has **no** active Supabase session. This avoids a flash of a login CTA for already-signed-in members. Imports the existing shared helper at [auth/auth.js](auth/auth.js); fails open (shows the pill) if the auth check itself errors, so the entry point to the member area is never silently lost.
+- Cleanup: removed the now-orphaned `.nav__member` CSS rules (definition + `:hover` + the `@media (max-width:900px) { .nav__member { display:none; } }` override) — no remaining elements use the class.
+- Href and `next=/synergize/members` query string preserved, so the existing magic-link → callback → `/synergize/members` gate flow is unchanged.
+
 ### Changed — Growth Zone landing replaced with canonical editorial design
 
 - [crawford-growth-zone.html](crawford-growth-zone.html) replaced with the canonical dark editorial design (source: `cowork-brief-growth-zone-and-auth.md`). The previous tier-aware/member-state landing (with `--tier-open` / `--tier-free` / `--tier-paid` color tokens and the auth-driven re-render) is gone for now: per brief, the visual direction is being locked in first, with tier-aware UI to be merged in deliberately as a separate pass.
@@ -19,6 +52,13 @@ The format is based on Keep a Changelog principles and uses reverse chronologica
 - Affected (URL-form replacements only): all 16 blog posts under [blogs/](blogs/), the marketing pages ([crawford-homepage.html](crawford-homepage.html), [crawford-coaching.html](crawford-coaching.html), [crawford-about.html](crawford-about.html), [crawford-writing.html](crawford-writing.html), [crawford-writing-all.html](crawford-writing-all.html)), several exercise pages, [api/exercise-report.js](api/exercise-report.js), and all 12 source files under [writing-import/](writing-import/).
 - [scripts/publish-writing-article.js](scripts/publish-writing-article.js) generator updated (10 URL constants), so new articles published from this script will inherit the `www.` form automatically rather than re-introducing the inconsistency.
 - **Deliberately left untouched:** brand-text footer displays of the bare domain like `<div class="footer-brand">crawford-coaching.ca</div>` on the exercise pages and the email-template footer in [api/exercise-report.js](api/exercise-report.js), where the bare form is the visual brand mention; email addresses (`notifications@crawford-coaching.ca` etc.); [CHANGELOG.md](CHANGELOG.md) prose that documents prior fixes.
+
+### Changed — Magic-link redirect: defensive validation + clearer troubleshooting
+
+- Diagnosed the magic-link redirect bug where clicking the link lands the user on `https://yxndmpwqvdatkujcukdv.supabase.co/www.crawford-coaching.ca#access_token=…` with `{"error":"requested path is invalid"}`. Root cause is **not** in the client code (the client builds `emailRedirectTo` from `window.location.origin`, which always includes the scheme) — it's a Supabase **dashboard misconfiguration**: when the client's `emailRedirectTo` is not on the allow-list, Supabase silently falls back to the dashboard's Site URL, and if Site URL is set as a bare hostname (no `https://`), it gets resolved as a relative path on the Supabase host. That's exactly the broken URL shape observed.
+- [auth/auth.js](auth/auth.js) `signInWithEmail()` now validates `emailRedirectTo` starts with `http(s)://` before calling `signInWithOtp()` — a future code regression that drops the scheme will throw a clear error instead of producing a confusing magic link. Inline comments document the Supabase dashboard requirement.
+- [AUTH-SETUP.md](AUTH-SETUP.md) §7 ("If something goes wrong") expanded with a dedicated entry describing this exact failure mode and the two dashboard checks needed (Site URL with scheme, Redirect URLs allow-list including `/auth/callback`).
+- **Dashboard action required (out of repo):** Confirm Supabase project `yxndmpwqvdatkujcukdv` → Authentication → URL Configuration has Site URL = `https://www.crawford-coaching.ca` (with scheme) and Redirect URLs allow-list includes `https://www.crawford-coaching.ca/auth/callback`. The code fix above is preventative; the live bug is fixed by this dashboard change.
 
 ### Fixed — Trailing NUL byte corruption in three files
 

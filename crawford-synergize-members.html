@@ -193,6 +193,14 @@ html, body {
   text-transform: uppercase; color: var(--syn-orange);
   margin-right: 0.6rem;
 }
+.member-feed__hint {
+  font-family: var(--serif-body);
+  font-size: 0.82rem;
+  font-style: italic;
+  color: var(--mist);
+  margin-top: 0.6rem;
+  line-height: 1.5;
+}
 
 /* ─── GROWTH ZONE BANNER ─────────────── */
 .gz-banner {
@@ -386,7 +394,6 @@ img { max-width: 100%; display: block; vertical-align: top; }
     <div class="member-feed member-feed--placeholder" id="feed-wod">
       Today's WOD will appear here once published.
     </div>
-    <a class="member-card__action" href="/timer">Open timer</a>
   </article>
 
   <article class="member-card">
@@ -399,12 +406,12 @@ img { max-width: 100%; display: block; vertical-align: top; }
   </article>
 
   <article class="member-card">
-    <p class="member-card__tag">Tools</p>
-    <h2 class="member-card__title">Interval timer</h2>
+    <p class="member-card__tag">Workout Builder</p>
+    <h2 class="member-card__title">Quick EMOM Workout Builder</h2>
     <p class="member-card__body">
-      Open the full timer — single countdown, quick EMOM, custom intervals. Saved favourites and the advanced workout builder ship with the next release.
+      Tell it what equipment you've got and how long you've got. It builds a balanced EMOM from 150+ exercises in seconds — yours to take into the gym, the park, or the basement.
     </p>
-    <a class="member-card__action" href="/timer">Open timer</a>
+    <a class="member-card__action" href="/quick-emom">Build a workout</a>
   </article>
 
 </section>
@@ -510,39 +517,124 @@ function reveal(contact) {
   loadFeeds().catch((err) => console.warn('[members] feed load failed', err));
 }
 
-async function loadFeeds() {
-  // /api/member-data returns class_schedule, wod, and holiday entries when
-  // wired up. Until then it 200s with empty arrays and the placeholder copy
-  // already on the page stays visible.
-  try {
-    const session = await cc.getSession();
-    if (!session) return;
-    const res = await fetch('/api/member-data', {
-      headers: { 'Authorization': `Bearer ${session.access_token}` },
-    });
-    if (!res.ok) return;
-    const data = await res.json();
+// ── Data sources ──────────────────────────────────────────
+// CLASS SCHEDULE is pulled live from the same public data-handler action
+// the main /synergize page uses. No auth needed; same source of truth.
+const DATA_HANDLER =
+  'https://yxndmpwqvdatkujcukdv.supabase.co/functions/v1/data-handler';
 
-    if (Array.isArray(data?.classes) && data.classes.length) {
-      const el = document.getElementById('feed-classes');
-      el.classList.remove('member-feed--placeholder');
-      el.innerHTML = '<ul>' + data.classes.map((c) =>
-        `<li><span class="member-feed__when">${escapeHtml(c.when || '')}</span>${escapeHtml(c.label || '')}</li>`
-      ).join('') + '</ul>';
-    }
-    if (data?.wod) {
-      const el = document.getElementById('feed-wod');
-      el.classList.remove('member-feed--placeholder');
-      el.textContent = data.wod;
-    }
-    if (Array.isArray(data?.holiday) && data.holiday.length) {
-      const el = document.getElementById('feed-holiday');
-      el.classList.remove('member-feed--placeholder');
-      el.innerHTML = '<ul>' + data.holiday.map((h) =>
-        `<li><span class="member-feed__when">${escapeHtml(h.when || '')}</span>${escapeHtml(h.label || '')}</li>`
-      ).join('') + '</ul>';
-    }
-  } catch (e) { /* placeholders remain */ }
+// HOLIDAY CLOSURES are kept inline here, mirroring the canonical list at
+//   Coach-Scott-Bot/supabase/storage/website_assistant_knowledge/gym-holiday-closures.md
+// When a closure is added/removed there, update this array too. Per the
+// cross-project guide (CLAUDE.md), gym closures get synced across
+// Accounts-AI, Coach-Scott-Bot, Workout Schedule, and now crawford-site.
+const HOLIDAY_CLOSURES = [
+  { date: '2026-01-01', dow: 'Thursday',  reason: "New Year's Day" },
+  { date: '2026-02-16', dow: 'Monday',    reason: 'Family Day' },
+  { date: '2026-03-30', dow: 'Monday',    reason: 'Scott Vacation' },
+  { date: '2026-03-31', dow: 'Tuesday',   reason: 'Scott Vacation' },
+  { date: '2026-04-01', dow: 'Wednesday', reason: 'Scott Vacation' },
+  { date: '2026-04-02', dow: 'Thursday',  reason: 'Scott Vacation' },
+  { date: '2026-04-03', dow: 'Friday',    reason: 'Good Friday' },
+  { date: '2026-04-06', dow: 'Monday',    reason: 'Easter Monday' },
+  { date: '2026-05-18', dow: 'Monday',    reason: 'Victoria Day' },
+  { date: '2026-06-12', dow: 'Friday',    reason: 'Scott Vacation' },
+  { date: '2026-06-15', dow: 'Monday',    reason: 'Scott Vacation' },
+  { date: '2026-06-16', dow: 'Tuesday',   reason: 'Scott Vacation' },
+  { date: '2026-06-17', dow: 'Wednesday', reason: 'Scott Vacation' },
+  { date: '2026-06-18', dow: 'Thursday',  reason: 'Scott Vacation' },
+  { date: '2026-06-19', dow: 'Friday',    reason: 'Scott Vacation' },
+  { date: '2026-07-01', dow: 'Wednesday', reason: 'Canada Day' },
+  { date: '2026-07-31', dow: 'Friday',    reason: 'Scott Vacation' },
+  { date: '2026-08-03', dow: 'Monday',    reason: 'Civic Holiday' },
+  { date: '2026-09-07', dow: 'Monday',    reason: 'Labour Day' },
+  { date: '2026-10-12', dow: 'Monday',    reason: 'Thanksgiving' },
+  { date: '2026-11-11', dow: 'Wednesday', reason: 'Remembrance Day' },
+  { date: '2026-12-14', dow: 'Monday',    reason: 'Scott Vacation' },
+  { date: '2026-12-21', dow: 'Monday',    reason: 'Scott Vacation' },
+  { date: '2026-12-22', dow: 'Tuesday',   reason: 'Scott Vacation' },
+  { date: '2026-12-23', dow: 'Wednesday', reason: 'Scott Vacation' },
+  { date: '2026-12-24', dow: 'Thursday',  reason: 'Scott Vacation' },
+  { date: '2026-12-25', dow: 'Friday',    reason: 'Christmas Day' },
+];
+
+async function loadFeeds() {
+  // Run feeds independently — one failing shouldn't blank the others.
+  await Promise.allSettled([loadClassSchedule(), loadHolidayClosures()]);
+  // WOD remains a placeholder until data-handler has a workout_of_the_day
+  // action wired up. When it does, add a loadWod() here.
+}
+
+async function loadClassSchedule() {
+  const el = document.getElementById('feed-classes');
+  try {
+    const res = await fetch(DATA_HANDLER + '?action=class_schedule');
+    if (!res.ok) throw new Error('schedule HTTP ' + res.status);
+    const json = await res.json();
+    const rows = json?.data;
+    if (!Array.isArray(rows) || !rows.length) throw new Error('schedule empty');
+    renderClassSchedule(el, rows);
+  } catch (err) {
+    el.textContent = 'Schedule temporarily unavailable.';
+  }
+}
+
+function renderClassSchedule(el, rows) {
+  // Group by Mon/Wed, Tue/Thu, Friday — same grouping as /synergize so it
+  // feels coherent across the two pages.
+  const groups = [
+    { label: 'Mon / Wed', days: ['Monday', 'Wednesday'] },
+    { label: 'Tue / Thu', days: ['Tuesday', 'Thursday'] },
+    { label: 'Friday',    days: ['Friday'] },
+  ];
+  const html = ['<ul>'];
+  let anyOpen = false;
+  groups.forEach((group) => {
+    const groupRows = rows.filter((r) => group.days.indexOf(r.day) !== -1);
+    if (!groupRows.length) return;
+    const times = [];
+    groupRows.forEach((r) => { if (times.indexOf(r.time) === -1) times.push(r.time); });
+    times.forEach((time) => {
+      const spaces = groupRows.filter((r) => r.time === time).map((r) => r.freeSpaces);
+      const maxSpaces = Math.max.apply(null, spaces);
+      const label = maxSpaces > 0
+        ? `${maxSpaces} ${maxSpaces === 1 ? 'spot' : 'spots'}`
+        : 'Waitlist';
+      if (maxSpaces > 0) anyOpen = true;
+      html.push(
+        `<li><span class="member-feed__when">${escapeHtml(group.label)} ${escapeHtml((time || '').toLowerCase())}</span>${escapeHtml(label)}</li>`
+      );
+    });
+  });
+  html.push('</ul>');
+  if (!anyOpen) {
+    html.push('<p class="member-feed__hint">All times currently full — email Scott to join a waitlist.</p>');
+  }
+  el.classList.remove('member-feed--placeholder');
+  el.innerHTML = html.join('');
+}
+
+function loadHolidayClosures() {
+  const el = document.getElementById('feed-holiday');
+  const today = new Date(); today.setHours(0, 0, 0, 0);
+  const windowEnd = new Date(today.getTime() + 60 * 24 * 60 * 60 * 1000);
+  const upcoming = HOLIDAY_CLOSURES
+    .map((c) => ({ ...c, when: new Date(c.date + 'T00:00:00') }))
+    .filter((c) => c.when >= today && c.when <= windowEnd)
+    .sort((a, b) => a.when - b.when)
+    .slice(0, 4);
+
+  if (!upcoming.length) {
+    el.textContent = 'No closures in the next 60 days.';
+    return;
+  }
+  el.classList.remove('member-feed--placeholder');
+  el.innerHTML = '<ul>' + upcoming.map((c) => {
+    const label = c.when.toLocaleDateString('en-CA', {
+      weekday: 'short', month: 'short', day: 'numeric',
+    });
+    return `<li><span class="member-feed__when">${escapeHtml(label)}</span>${escapeHtml(c.reason)}</li>`;
+  }).join('') + '</ul>';
 }
 
 function escapeHtml(s) {
