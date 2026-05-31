@@ -717,10 +717,12 @@ async function loadWorkout() {
 }
 
 function findNextSession(schedule, fromStr) {
+  // Find the next day that is both open and has a published render, so the
+  // "no session today" card always links to a real workout (never a 404).
   const dates = Object.keys(schedule).filter((d) => d > fromStr).sort();
   for (const d of dates) {
-    if (!schedule[d].closed) {
-      return { date: d, name: schedule[d].name, slug: schedule[d].slug, renderable: schedule[d].renderable, entry: schedule[d] };
+    if (!schedule[d].closed && schedule[d].renderable) {
+      return { date: d, name: schedule[d].name, slug: schedule[d].slug, renderable: true, entry: schedule[d] };
     }
   }
   return null;

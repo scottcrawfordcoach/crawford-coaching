@@ -1505,7 +1505,14 @@ img { max-width: 100%; display: block; vertical-align: top; }
       if (!pill) return;
       try {
         const session = await cc.getSession();
-        if (!session) pill.dataset.ready = 'true';
+        if (session) {
+          // Signed in — turn the pill into a direct entry to the members area
+          // instead of hiding it (otherwise members have no link to get in).
+          pill.textContent = 'Members Area';
+          pill.setAttribute('href', '/synergize/members');
+        }
+        // Always reveal the pill so there's a visible entry point in both states.
+        pill.dataset.ready = 'true';
       } catch (err) {
         // If auth config / network is unreachable, fail open: show the pill
         // rather than silently hiding the entry point to the member area.

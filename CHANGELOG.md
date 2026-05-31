@@ -14,6 +14,11 @@ The format is based on Keep a Changelog principles and uses reverse chronologica
 - **Liability Waiver** card shows "Last completed {date}" or "NOT COMPLETED", read as the authenticated member via the Supabase client (anon key + RLS — members see only their own rows) from an `intake_submissions` table. The digital intake backend is not built yet (it remains a build spec), so the query currently returns nothing and the card shows NOT COMPLETED — this is the forward-compatible read path. Card links to `/synergize/intake`, which still needs a Vercel rewrite + the intake flow page before it resolves.
 - No design-token changes; only existing brightened tokens used.
 
+### Fixed — Members-area entry point + no-session workout card
+
+- [crawford-synergize.html](crawford-synergize.html) hero "Member Login" pill is now auth-adaptive instead of hidden-when-signed-in: signed-in visitors see "Members Area" linking straight to `/synergize/members`, signed-out visitors see "Member Login" → sign-in. Previously the pill was hidden for signed-in members, leaving no link into the members area at all (the nav has no Members item).
+- [crawford-synergize-members.html](crawford-synergize-members.html) `findNextSession()` now skips to the next *open and renderable* day, so on weekends/closures the Today's Workout card links to a real upcoming workout render rather than risking a 404 on a non-published slug.
+
 ## [2026-05-24]
 
 ### Changed — Growth Zone card on homepage now has a photo background
