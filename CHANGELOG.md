@@ -18,6 +18,12 @@ The format is based on Keep a Changelog principles and uses reverse chronologica
 
 - [crawford-synergize.html](crawford-synergize.html) hero "Member Login" pill is now auth-adaptive instead of hidden-when-signed-in: signed-in visitors see "Members Area" linking straight to `/synergize/members`, signed-out visitors see "Member Login" → sign-in. Previously the pill was hidden for signed-in members, leaving no link into the members area at all (the nav has no Members item).
 - [crawford-synergize-members.html](crawford-synergize-members.html) `findNextSession()` now skips to the next *open and renderable* day, so on weekends/closures the Today's Workout card links to a real upcoming workout render rather than risking a 404 on a non-published slug.
+- [crawford-synergize-members.html](crawford-synergize-members.html) logo `<img>` src in the nav and footer changed from relative `./extracted-images/cc-logo.png` to root-absolute `/extracted-images/cc-logo.png`. The page is served at `/synergize/members`, so the relative path resolved to the non-existent `/synergize/extracted-images/...` and the logo 404'd. (Companion fix to the mailer's workout display route — see `crawford-coaching-mailer/CHANGELOG.md` — so unbuilt workouts show a branded page instead of a 404.)
+- [synergize-workout-schedule.json](synergize-workout-schedule.json) corrected the slug for "He Ain't Heavy, He's My Brother" (2026-06-01, 2026-08-17) from the derived `he-aint-heavy-hes-my-brother` to the mailer's actual stored slug `he-aint-heavy`. Confirmed that mailer slugs are set at creation and can be hand-shortened, so they are **not** reliably derivable from the title.
+
+### Changed — Today's Workout card now links by name, not slug
+
+- [crawford-synergize-members.html](crawford-synergize-members.html) the Today's Workout card now links to `app.crawford-coaching.ca/workouts/lookup?name=…` (the new mailer name-resolver) instead of building a `/workouts/{slug}/display` URL from a guessed slug. The mailer resolves the scheduled name to the real workout and redirects to its render — so days light up automatically as workouts are converted, with no schedule regeneration, and the per-day slug in `synergize-workout-schedule.json` is no longer used for linking (the `renderable` flag still gates whether the card is a launch link vs. an in-place summary). See `crawford-coaching-mailer/CHANGELOG.md` for the resolver route.
 
 ## [2026-05-24]
 
