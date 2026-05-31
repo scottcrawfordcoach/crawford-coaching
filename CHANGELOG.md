@@ -4,6 +4,24 @@ All notable changes to this project will be documented in this file.
 
 The format is based on Keep a Changelog principles and uses reverse chronological order.
 
+## [2026-05-31]
+
+### Changed — Synergize members cards redesigned as neat titled cards; Today's Workout + Liability Waiver wired up
+
+- [crawford-synergize-members.html](crawford-synergize-members.html) member cards reworked from full-body cards into compact titled cards. Two behaviours: **expandable** cards (Class schedule, Holiday hours) reveal a detail panel in place via an accordion header (`.mcard__header` with `aria-expanded` + a chevron); **launch** cards (Today's Workout, Liability Waiver, Quick EMOM Builder) open their target in a new tab (`target="_blank" rel="noopener"`, ↗ icon). New `.mcard*` CSS block added before the footer styles; existing `.member-card` shell (slate bg, border, radius) retained.
+- **Today's Workout** card now resolves the scheduled workout for the current date from a new guide file and opens the mailer's public render (`https://app.crawford-coaching.ca/workouts/{slug}/display`) in a new tab. Handles weekends/closures by pointing to the next session, and days flagged "No File" by showing the summary in an expandable panel instead of a (broken) render link.
+- New [synergize-workout-schedule.json](synergize-workout-schedule.json) — a date-keyed guide (name, slug, summary, emphasis, equipment, status, renderable) generated from the Workout Schedule project's `workout-log-2026.md` (264 weekday rows incl. 25 closures). This is only the *guide*; the workout content itself lives in Supabase and is rendered by the mailer. **Regenerate when the workout log changes.**
+- **Liability Waiver** card shows "Last completed {date}" or "NOT COMPLETED", read as the authenticated member via the Supabase client (anon key + RLS — members see only their own rows) from an `intake_submissions` table. The digital intake backend is not built yet (it remains a build spec), so the query currently returns nothing and the card shows NOT COMPLETED — this is the forward-compatible read path. Card links to `/synergize/intake`, which still needs a Vercel rewrite + the intake flow page before it resolves.
+- No design-token changes; only existing brightened tokens used.
+
+## [2026-05-24]
+
+### Changed — Growth Zone card on homepage now has a photo background
+
+- [crawford-homepage.html](crawford-homepage.html) `.door--growth .door__bg` switched from the flat `slate-mid → slate` diagonal gradient to a forest-walk photo (`./extracted-images/homepage-006.webp`, derived from a 3264×2448 source JPG resized to 1200×900 and saved at WebP quality 75, ~296 KB). The image shows an adult and small child walking hand-in-hand down a tree-lined path — fits the Self-Discovery framing of the card and brings the four homepage doors to visual parity (each now has a photograph rather than three photos + one gradient).
+- `.door--growth .door__overlay` darkened slightly: top stop moved from `rgba(14,15,16,0.08)` to `0.25`, mid from `0.58 @ 56%` to `0.65 @ 55%`, bottom from `0.9` to `0.92`. The lift on the top stop is the load-bearing change — the original 0.08 was tuned for a near-solid dark gradient where the tag/title/desc could sit straight on the panel; against a busy mid-tone forest photo it left the "Self-Discovery" tag and title fighting the trees, so the top now contributes meaningful contrast without flattening the image. Bottom stops nudged up just enough to keep the CTA crisp on the path texture.
+- Source JPG (`extracted-images/DSCF7388.jpg`) retained in the repo per existing convention — site references the WebP only.
+
 ## [2026-05-22]
 
 ### Added — Standalone Quick EMOM Workout Builder at /quick-emom

@@ -291,6 +291,49 @@ html, body {
 .member-page { display: none; }
 .member-page.is-ready { display: block; }
 
+/* ─── COLLAPSIBLE / LAUNCH CARDS ─────── */
+/* Neat titled cards: a header row that either expands a detail panel in place
+   or launches a target in a new tab. Reuses the existing .member-card shell. */
+.mcard { min-height: 0; padding: 0; display: block; }
+.mcard__header,
+a.mcard--launch {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 1rem; width: 100%;
+  background: none; border: none; text-align: left; cursor: pointer;
+  padding: 1.7rem 2rem;
+  color: inherit; text-decoration: none;
+  font-family: inherit;
+  transition: background 0.2s;
+}
+.mcard__header:hover,
+a.mcard--launch:hover { background: rgba(255,255,255,0.025); }
+.mcard__heading { display: flex; flex-direction: column; gap: 0.4rem; min-width: 0; }
+.mcard .member-card__tag { margin-bottom: 0; }
+.mcard .member-card__title { margin-bottom: 0; }
+.mcard__sub {
+  font-family: var(--serif-body);
+  font-size: 0.86rem; line-height: 1.5; color: var(--mist);
+  font-style: italic;
+}
+.mcard__sub--strong { color: var(--pale); font-style: normal; }
+.mcard__sub--alert  { color: var(--syn-orange-light); font-style: normal; letter-spacing: 0.04em; }
+.mcard__icon { flex-shrink: 0; color: var(--mist); transition: transform 0.25s, color 0.2s; }
+.mcard__icon--chevron {
+  width: 9px; height: 9px;
+  border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor;
+  transform: rotate(45deg); margin: 0 6px 4px 0;
+}
+.mcard__header[aria-expanded="true"] .mcard__icon--chevron { transform: rotate(-135deg); margin-bottom: 0; margin-top: 4px; }
+.mcard__icon--ext { font-size: 1.15rem; line-height: 1; }
+.mcard__header:hover .mcard__icon,
+a.mcard--launch:hover .mcard__icon { color: var(--pale); }
+.mcard__panel { padding: 0 2rem 1.8rem; }
+.mcard__panel[hidden] { display: none; }
+.mcard__panel .member-card__action { margin-top: 0.4rem; }
+.mcard--static { cursor: default; }
+.mcard--static .mcard__header { cursor: default; }
+.mcard--static .mcard__header:hover { background: none; }
+
 /* ─── FOOTER ─────────────────────────── */
 .footer {
   padding: 3rem 3.5rem;
@@ -377,42 +420,78 @@ img { max-width: 100%; display: block; vertical-align: top; }
 </section>
 
 <!-- ── MEMBER GRID ── -->
+<!-- Cards are neat titled cards. Expandable cards (class schedule, holiday
+     hours) reveal a detail panel in place; launch cards (workout, waiver,
+     builder) open their target in a new tab. -->
 <section class="member-grid">
 
-  <article class="member-card">
-    <p class="member-card__tag">This Week</p>
-    <h2 class="member-card__title">Class schedule</h2>
-    <div class="member-feed member-feed--placeholder" id="feed-classes">
-      Loading this week's classes…
-    </div>
-    <a class="member-card__action" href="mailto:scott@crawford-coaching.ca?subject=Class%20availability">Ask about a class</a>
-  </article>
-
-  <article class="member-card">
-    <p class="member-card__tag">Today</p>
-    <h2 class="member-card__title">Workout of the day</h2>
-    <div class="member-feed member-feed--placeholder" id="feed-wod">
-      Today's WOD will appear here once published.
+  <!-- TODAY'S WORKOUT — built by JS into a launch / static card -->
+  <article class="member-card mcard" id="card-workout">
+    <div class="mcard__header" aria-hidden="true">
+      <span class="mcard__heading">
+        <span class="member-card__tag">Today</span>
+        <span class="member-card__title">Today's Workout</span>
+        <span class="mcard__sub" id="sub-workout">Loading today's workout…</span>
+      </span>
     </div>
   </article>
 
-  <article class="member-card">
-    <p class="member-card__tag">Heads up</p>
-    <h2 class="member-card__title">Holiday hours</h2>
-    <div class="member-feed member-feed--placeholder" id="feed-holiday">
-      No closures scheduled.
+  <!-- CLASS SCHEDULE — expandable -->
+  <article class="member-card mcard" data-card="expand">
+    <button class="mcard__header" type="button" aria-expanded="false" aria-controls="panel-classes">
+      <span class="mcard__heading">
+        <span class="member-card__tag">This Week</span>
+        <span class="member-card__title">Class schedule</span>
+        <span class="mcard__sub">Spaces in this week's sessions</span>
+      </span>
+      <span class="mcard__icon mcard__icon--chevron"></span>
+    </button>
+    <div class="mcard__panel" id="panel-classes" hidden>
+      <div class="member-feed member-feed--placeholder" id="feed-classes">
+        Loading this week's classes…
+      </div>
+      <a class="member-card__action" href="mailto:scott@crawford-coaching.ca?subject=Class%20availability">Ask about a class</a>
     </div>
-    <a class="member-card__action" href="/contact">Contact Scott</a>
   </article>
 
-  <article class="member-card">
-    <p class="member-card__tag">Workout Builder</p>
-    <h2 class="member-card__title">Quick EMOM Workout Builder</h2>
-    <p class="member-card__body">
-      Tell it what equipment you've got and how long you've got. It builds a balanced EMOM from 150+ exercises in seconds — yours to take into the gym, the park, or the basement.
-    </p>
-    <a class="member-card__action" href="/quick-emom">Build a workout</a>
+  <!-- LIABILITY WAIVER — launch (new tab), status filled by JS -->
+  <a class="member-card mcard mcard--launch" id="card-waiver"
+     href="/synergize/intake" target="_blank" rel="noopener">
+    <span class="mcard__heading">
+      <span class="member-card__tag">Membership</span>
+      <span class="member-card__title">Liability Waiver</span>
+      <span class="mcard__sub" id="sub-waiver">Checking status…</span>
+    </span>
+    <span class="mcard__icon mcard__icon--ext" aria-hidden="true">&#8599;</span>
+  </a>
+
+  <!-- HOLIDAY HOURS — expandable -->
+  <article class="member-card mcard" data-card="expand">
+    <button class="mcard__header" type="button" aria-expanded="false" aria-controls="panel-holiday">
+      <span class="mcard__heading">
+        <span class="member-card__tag">Heads up</span>
+        <span class="member-card__title">Holiday hours</span>
+        <span class="mcard__sub" id="sub-holiday">Upcoming closures</span>
+      </span>
+      <span class="mcard__icon mcard__icon--chevron"></span>
+    </button>
+    <div class="mcard__panel" id="panel-holiday" hidden>
+      <div class="member-feed member-feed--placeholder" id="feed-holiday">
+        No closures scheduled.
+      </div>
+      <a class="member-card__action" href="/contact">Contact Scott</a>
+    </div>
   </article>
+
+  <!-- QUICK EMOM BUILDER — launch (new tab) -->
+  <a class="member-card mcard mcard--launch" href="/quick-emom" target="_blank" rel="noopener">
+    <span class="mcard__heading">
+      <span class="member-card__tag">Workout Builder</span>
+      <span class="member-card__title">Quick EMOM Builder</span>
+      <span class="mcard__sub">Build a balanced EMOM from your equipment in seconds</span>
+    </span>
+    <span class="mcard__icon mcard__icon--ext" aria-hidden="true">&#8599;</span>
+  </a>
 
 </section>
 
@@ -523,6 +602,23 @@ function reveal(contact) {
 const DATA_HANDLER =
   'https://yxndmpwqvdatkujcukdv.supabase.co/functions/v1/data-handler';
 
+// The mailer webapp publishes a PUBLIC fullscreen render of each workout at
+// /workouts/{slug}/display (sourced + rendered from Supabase). The "Today's
+// Workout" card resolves today's slug from the schedule guide below and opens
+// that render in a new tab — no workout content is duplicated here.
+const MAILER_BASE = 'https://app.crawford-coaching.ca';
+const workoutDisplayUrl = (slug) => `${MAILER_BASE}/workouts/${encodeURIComponent(slug)}/display`;
+
+// Date-keyed guide (which named workout runs each day), generated from the
+// Workout Schedule project's workout-log-2026.md. Regenerate when the log
+// changes. This is only the *guide*; the workout itself lives in Supabase.
+const WORKOUT_SCHEDULE_URL = '/synergize-workout-schedule.json';
+
+// The digital intake flow (health screen + waiver + policies) lives here once
+// built. Until then this opens the intake route; the status line below shows
+// "Not completed" because the intake table isn't populated yet.
+const WAIVER_URL = '/synergize/intake';
+
 // HOLIDAY CLOSURES are kept inline here, mirroring the canonical list at
 //   Coach-Scott-Bot/supabase/storage/website_assistant_knowledge/gym-holiday-closures.md
 // When a closure is added/removed there, update this array too. Per the
@@ -560,9 +656,189 @@ const HOLIDAY_CLOSURES = [
 
 async function loadFeeds() {
   // Run feeds independently — one failing shouldn't blank the others.
-  await Promise.allSettled([loadClassSchedule(), loadHolidayClosures()]);
-  // WOD remains a placeholder until data-handler has a workout_of_the_day
-  // action wired up. When it does, add a loadWod() here.
+  await Promise.allSettled([
+    loadClassSchedule(),
+    loadHolidayClosures(),
+    loadWorkout(),
+    loadWaiverStatus(),
+  ]);
+}
+
+// ── TODAY'S WORKOUT ───────────────────────────────────────
+function localDateStr(d) {
+  // YYYY-MM-DD in the viewer's local time (gym is in Ontario; members local).
+  return d.toLocaleDateString('en-CA'); // en-CA formats as YYYY-MM-DD
+}
+function prettyDate(dateStr) {
+  return new Date(dateStr + 'T00:00:00').toLocaleDateString('en-CA', {
+    weekday: 'short', month: 'short', day: 'numeric',
+  });
+}
+
+async function loadWorkout() {
+  const card = document.getElementById('card-workout');
+  try {
+    const res = await fetch(WORKOUT_SCHEDULE_URL, { cache: 'no-store' });
+    if (!res.ok) throw new Error('schedule HTTP ' + res.status);
+    const json = await res.json();
+    const schedule = json?.schedule || {};
+    const todayStr = localDateStr(new Date());
+    const today = schedule[todayStr];
+
+    if (today && !today.closed) {
+      // A training day with a workout on the books.
+      renderWorkoutCard(card, {
+        tag: 'Today',
+        name: today.name,
+        slug: today.renderable ? today.slug : null,
+        meta: today,
+        note: today.renderable ? null : 'Full workout not posted yet',
+      });
+      return;
+    }
+
+    // No session today (weekend or closure) — point to the next one.
+    const next = findNextSession(schedule, todayStr);
+    if (next) {
+      renderWorkoutCard(card, {
+        tag: today && today.closed ? 'Gym closed today' : 'No session today',
+        name: next.name,
+        slug: next.renderable ? next.slug : null,
+        meta: next.entry,
+        prefix: `Next session · ${prettyDate(next.date)}`,
+        note: next.renderable ? null : 'Full workout not posted yet',
+      });
+    } else {
+      renderStaticWorkout(card, 'No session today', 'No upcoming workout scheduled.');
+    }
+  } catch (err) {
+    renderStaticWorkout(card, 'Today', 'Workout schedule temporarily unavailable.');
+  }
+}
+
+function findNextSession(schedule, fromStr) {
+  const dates = Object.keys(schedule).filter((d) => d > fromStr).sort();
+  for (const d of dates) {
+    if (!schedule[d].closed) {
+      return { date: d, name: schedule[d].name, slug: schedule[d].slug, renderable: schedule[d].renderable, entry: schedule[d] };
+    }
+  }
+  return null;
+}
+
+function workoutMetaLine(meta) {
+  const bits = [];
+  if (meta.emphasis) bits.push(meta.emphasis);
+  if (meta.equipment) bits.push(meta.equipment);
+  return bits.join(' · ');
+}
+
+function renderWorkoutCard(card, opts) {
+  const subParts = [];
+  if (opts.prefix) subParts.push(opts.prefix);
+  const metaLine = workoutMetaLine(opts.meta || {});
+
+  // Renderable → whole card is a launch link to the mailer render (new tab).
+  if (opts.slug) {
+    card.className = 'member-card mcard mcard--launch';
+    // Replace the <article> contents with an anchor-style launch card.
+    card.innerHTML = `
+      <a class="mcard__header" href="${workoutDisplayUrl(opts.slug)}" target="_blank" rel="noopener"
+         style="padding:1.7rem 2rem;color:inherit;text-decoration:none;display:flex;align-items:center;justify-content:space-between;gap:1rem;width:100%;">
+        <span class="mcard__heading">
+          <span class="member-card__tag">${escapeHtml(opts.tag)}</span>
+          <span class="member-card__title">${escapeHtml(opts.name)}</span>
+          <span class="mcard__sub mcard__sub--strong">${escapeHtml([...subParts, metaLine].filter(Boolean).join(' — '))}</span>
+        </span>
+        <span class="mcard__icon mcard__icon--ext" aria-hidden="true">&#8599;</span>
+      </a>`;
+    return;
+  }
+
+  // Not renderable → expandable static card showing the summary in place.
+  const panelId = 'panel-workout';
+  card.className = 'member-card mcard';
+  card.setAttribute('data-card', 'expand');
+  card.innerHTML = `
+    <button class="mcard__header" type="button" aria-expanded="false" aria-controls="${panelId}">
+      <span class="mcard__heading">
+        <span class="member-card__tag">${escapeHtml(opts.tag)}</span>
+        <span class="member-card__title">${escapeHtml(opts.name)}</span>
+        <span class="mcard__sub mcard__sub--strong">${escapeHtml([...subParts, (opts.note || 'Tap for details')].filter(Boolean).join(' — '))}</span>
+      </span>
+      <span class="mcard__icon mcard__icon--chevron"></span>
+    </button>
+    <div class="mcard__panel" id="${panelId}" hidden>
+      <div class="member-feed">${escapeHtml((opts.meta && opts.meta.summary) || '')}</div>
+      ${metaLine ? `<p class="member-feed__hint">${escapeHtml(metaLine)}</p>` : ''}
+    </div>`;
+  wireAccordionCard(card);
+}
+
+function renderStaticWorkout(card, tag, msg) {
+  card.className = 'member-card mcard mcard--static';
+  card.innerHTML = `
+    <div class="mcard__header">
+      <span class="mcard__heading">
+        <span class="member-card__tag">${escapeHtml(tag)}</span>
+        <span class="member-card__title">Today's Workout</span>
+        <span class="mcard__sub">${escapeHtml(msg)}</span>
+      </span>
+    </div>`;
+}
+
+// ── WAIVER STATUS ─────────────────────────────────────────
+// Reads the member's latest liability-waiver record as the authenticated
+// user (anon key + RLS — members see only their own rows). Until the intake
+// table exists / is populated, this query errors or returns nothing and the
+// card shows "Not completed". This is the forward-compatible read path.
+async function loadWaiverStatus() {
+  const sub = document.getElementById('sub-waiver');
+  if (!sub) return;
+  try {
+    const client = await cc.getClient();
+    const { data, error } = await client
+      .from('intake_submissions')
+      .select('signed_at, doc_version')
+      .eq('doc_type', 'liability_waiver')
+      .order('signed_at', { ascending: false })
+      .limit(1)
+      .maybeSingle();
+    if (error) throw error;
+    if (data && data.signed_at) {
+      const when = new Date(data.signed_at).toLocaleDateString('en-CA', {
+        year: 'numeric', month: 'short', day: 'numeric',
+      });
+      sub.textContent = 'Last completed ' + when;
+      sub.className = 'mcard__sub mcard__sub--strong';
+      return;
+    }
+    setWaiverNotCompleted(sub);
+  } catch (err) {
+    setWaiverNotCompleted(sub);
+  }
+  // Point the card at the configured intake flow regardless of status.
+  document.getElementById('card-waiver')?.setAttribute('href', WAIVER_URL);
+}
+function setWaiverNotCompleted(sub) {
+  sub.textContent = 'NOT COMPLETED';
+  sub.className = 'mcard__sub mcard__sub--alert';
+}
+
+// ── ACCORDION ─────────────────────────────────────────────
+function wireAccordionCard(card) {
+  const header = card.querySelector('.mcard__header[aria-controls]');
+  if (!header || header.dataset.wired) return;
+  header.dataset.wired = '1';
+  header.addEventListener('click', () => {
+    const panel = document.getElementById(header.getAttribute('aria-controls'));
+    const open = header.getAttribute('aria-expanded') === 'true';
+    header.setAttribute('aria-expanded', String(!open));
+    if (panel) panel.hidden = open;
+  });
+}
+function initAccordion() {
+  document.querySelectorAll('.mcard[data-card="expand"]').forEach(wireAccordionCard);
 }
 
 async function loadClassSchedule() {
@@ -649,6 +925,9 @@ async function bindSignOut() {
   document.getElementById('signout-btn')?.addEventListener('click', handler);
   document.getElementById('signout-btn-mobile')?.addEventListener('click', handler);
 }
+
+// Wire the static expandable cards (class schedule, holiday hours) up front.
+initAccordion();
 
 (async () => {
   try {

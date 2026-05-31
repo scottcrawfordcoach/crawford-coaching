@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Synergize Fitness — Member Forms</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --orange:#e8700a;
+    --orange-soft:#f4923f;
+    --ink:#0e0f12;
+    --ink-2:#16181d;
+    --panel:#1b1e24;
+    --panel-2:#22262e;
+    --line:#2f343d;
+    --line-soft:#262b33;
+    --text:#e9e7e2;
+    --text-dim:#a7a39b;
+    --text-faint:#6f6b63;
+    --sage:#7a9e87;
+    --display:"Fraunces",Georgia,serif;
+    --body:"Archivo",-apple-system,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:
+      radial-gradient(1200px 600px at 80% -10%, rgba(232,112,10,.10), transparent 60%),
+      radial-gradient(900px 500px at -10% 110%, rgba(122,158,135,.06), transparent 55%),
+      var(--ink);
+    color:var(--text);
+    font-family:var(--body);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    min-height:100vh;
+  }
+  /* grain */
+  body::before{
+    content:"";position:fixed;inset:0;pointer-events:none;z-index:1;opacity:.04;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  .wrap{position:relative;z-index:2;max-width:760px;margin:0 auto;padding:0 24px 120px}
+
+  /* ---- top bar ---- */
+  header.bar{
+    position:sticky;top:0;z-index:20;
+    backdrop-filter:blur(14px);
+    background:linear-gradient(180deg, rgba(14,15,18,.92), rgba(14,15,18,.72));
+    border-bottom:1px solid var(--line-soft);
+  }
+  .bar-inner{max-width:760px;margin:0 auto;padding:16px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+  .brand{display:flex;align-items:center;gap:12px}
+  .mark{
+    width:34px;height:34px;border-radius:9px;flex:none;position:relative;overflow:hidden;
+    background:linear-gradient(135deg,var(--orange),#c85a00);
+    box-shadow:0 0 0 1px rgba(255,255,255,.06), 0 8px 24px rgba(232,112,10,.25);
+  }
+  .mark::after{
+    content:"";position:absolute;inset:0;
+    background:
+      radial-gradient(14px 14px at 30% 70%, rgba(255,255,255,.55), transparent 60%),
+      radial-gradient(20px 12px at 75% 35%, rgba(122,158,135,.6), transparent 65%);
+    mix-blend-mode:screen;
+  }
+  .brand-name{font-family:var(--display);font-weight:600;font-size:1.02rem;letter-spacing:.01em}
+  .brand-name span{color:var(--orange)}
+  .who{font-size:.72rem;color:var(--text-faint);text-align:right;line-height:1.35}
+  .who b{color:var(--text-dim);font-weight:500}
+
+  /* ---- doc switcher ---- */
+  nav.tabs{display:flex;gap:6px;margin:28px 0 8px;flex-wrap:wrap}
+  .tab{
+    font-family:var(--body);font-size:.78rem;font-weight:600;letter-spacing:.02em;
+    color:var(--text-dim);background:transparent;border:1px solid var(--line);
+    padding:9px 15px;border-radius:999px;cursor:pointer;transition:.18s;
+  }
+  .tab:hover{border-color:var(--orange);color:var(--text)}
+  .tab.active{background:var(--orange);border-color:var(--orange);color:#1a0d02}
+  .tab .n{opacity:.55;margin-right:6px}
+
+  .stepwrap{margin-top:14px}
+  .progress{height:3px;background:var(--line-soft);border-radius:2px;overflow:hidden;margin-bottom:34px}
+  .progress > span{display:block;height:100%;background:linear-gradient(90deg,var(--orange),var(--orange-soft));width:33%;transition:width .4s cubic-bezier(.4,0,.1,1)}
+
+  /* ---- doc panels ---- */
+  .doc{display:none;animation:rise .5s cubic-bezier(.2,.7,.2,1)}
+  .doc.show{display:block}
+  @keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+
+  .eyebrow{font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;color:var(--orange);font-weight:600;margin-bottom:14px}
+  h1{font-family:var(--display);font-weight:500;font-size:2.4rem;line-height:1.08;letter-spacing:-.01em;margin-bottom:14px}
+  h1 .it{font-style:italic;color:var(--text-dim)}
+  .lede{color:var(--text-dim);font-size:1.02rem;max-width:54ch;margin-bottom:8px}
+
+  section.card{
+    background:linear-gradient(180deg,var(--panel),var(--ink-2));
+    border:1px solid var(--line-soft);
+    border-radius:16px;padding:26px 26px 24px;margin-top:22px;
+    box-shadow:0 1px 0 rgba(255,255,255,.02) inset, 0 24px 60px -40px rgba(0,0,0,.9);
+  }
+  .card h2{font-family:var(--display);font-weight:500;font-size:1.28rem;margin-bottom:4px;display:flex;align-items:baseline;gap:10px}
+  .card h2 .part{font-family:var(--body);font-size:.68rem;font-weight:700;letter-spacing:.14em;color:var(--orange);text-transform:uppercase;background:rgba(232,112,10,.1);border:1px solid rgba(232,112,10,.25);padding:3px 8px;border-radius:6px}
+  .card .sub{color:var(--text-faint);font-size:.86rem;margin-bottom:18px}
+
+  /* fields */
+  .grid{display:grid;gap:14px}
+  .g2{grid-template-columns:1fr 1fr}
+  .g3{grid-template-columns:1.4fr .6fr .6fr}
+  .field label{display:block;font-size:.74rem;letter-spacing:.05em;text-transform:uppercase;color:var(--text-faint);margin-bottom:6px;font-weight:600}
+  .field input[type=text],.field input[type=email],.field input[type=number],.field textarea,.field select{
+    width:100%;background:var(--ink);border:1px solid var(--line);color:var(--text);
+    font-family:var(--body);font-size:.95rem;padding:11px 13px;border-radius:9px;transition:.16s;
+  }
+  .field textarea{resize:vertical;min-height:78px;line-height:1.55}
+  .field input:focus,.field textarea:focus,.field select:focus{outline:none;border-color:var(--orange);box-shadow:0 0 0 3px rgba(232,112,10,.14)}
+  .field input::placeholder,.field textarea::placeholder{color:var(--text-faint)}
+
+  /* yes/no rows */
+  .qrow{display:flex;align-items:flex-start;gap:14px;padding:13px 0;border-bottom:1px solid var(--line-soft)}
+  .qrow:last-child{border-bottom:0}
+  .qrow .qtext{flex:1;font-size:.94rem;color:var(--text)}
+  .qrow .qnum{color:var(--orange);font-weight:700;font-size:.86rem;flex:none;width:18px}
+  .yn{display:flex;gap:6px;flex:none}
+  .yn button{
+    font-family:var(--body);font-weight:600;font-size:.74rem;letter-spacing:.04em;
+    border:1px solid var(--line);background:var(--ink);color:var(--text-dim);
+    padding:7px 14px;border-radius:8px;cursor:pointer;transition:.14s;min-width:46px;
+  }
+  .yn button:hover{border-color:var(--text-dim);color:var(--text)}
+  .yn button.y.on{background:var(--orange);border-color:var(--orange);color:#1a0d02}
+  .yn button.n.on{background:var(--sage);border-color:var(--sage);color:#0c140e}
+
+  /* flag note */
+  .note{
+    margin-top:18px;border-left:3px solid var(--orange);background:rgba(232,112,10,.07);
+    padding:13px 16px;border-radius:0 10px 10px 0;font-size:.88rem;color:var(--text-dim);
+  }
+  .note b{color:var(--text);font-weight:600}
+
+  /* tag-style checklist for history/injury */
+  .chips{display:flex;flex-wrap:wrap;gap:9px;margin-top:4px}
+  .chip{
+    font-size:.84rem;color:var(--text-dim);background:var(--ink);border:1px solid var(--line);
+    padding:8px 13px;border-radius:9px;cursor:pointer;transition:.14s;user-select:none;
+  }
+  .chip:hover{border-color:var(--text-dim);color:var(--text)}
+  .chip.on{background:rgba(232,112,10,.14);border-color:var(--orange);color:var(--text)}
+  .chip.on::before{content:"✓ ";color:var(--orange);font-weight:700}
+
+  .injury-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+  .inj{display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--ink);border:1px solid var(--line-soft);border-radius:10px;padding:10px 13px}
+  .inj .lab{font-size:.9rem}
+  .inj .opts{display:flex;gap:5px}
+  .inj .opts button{font-size:.68rem;font-weight:600;border:1px solid var(--line);background:transparent;color:var(--text-faint);padding:4px 9px;border-radius:6px;cursor:pointer;transition:.14s}
+  .inj .opts button.on{background:var(--orange);border-color:var(--orange);color:#1a0d02}
+
+  /* waiver clauses */
+  .clause{
+    display:flex;gap:15px;padding:16px 0;border-bottom:1px solid var(--line-soft);align-items:flex-start;
+  }
+  .clause:last-of-type{border-bottom:0}
+  .ck{
+    flex:none;width:26px;height:26px;border-radius:7px;border:1.5px solid var(--line);
+    background:var(--ink);cursor:pointer;display:grid;place-items:center;transition:.16s;margin-top:2px;
+  }
+  .ck:hover{border-color:var(--orange)}
+  .ck.on{background:var(--orange);border-color:var(--orange)}
+  .ck svg{width:14px;height:14px;stroke:#1a0d02;stroke-width:3.2;fill:none;opacity:0;transform:scale(.5);transition:.16s}
+  .ck.on svg{opacity:1;transform:none}
+  .clause .ct{flex:1}
+  .clause .ct .ch{font-family:var(--display);font-size:1.02rem;font-weight:500;margin-bottom:3px;color:var(--text)}
+  .clause .ct .cb{font-size:.9rem;color:var(--text-dim);line-height:1.55}
+
+  /* elevated / conspicuous clause (assumption of risk) */
+  .clause.key{
+    background:linear-gradient(180deg,rgba(232,112,10,.08),rgba(232,112,10,.02));
+    border:1px solid rgba(232,112,10,.32);border-radius:12px;
+    padding:18px 18px 18px 16px;margin:8px 0;
+  }
+  .clause.key .ch{font-size:1.14rem;color:#fff}
+  .clause.key .cb{color:var(--text);font-size:.95rem}
+  .clause.key .readflag{
+    display:inline-block;font-family:var(--body);font-size:.62rem;font-weight:700;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--orange);background:rgba(232,112,10,.12);
+    border:1px solid rgba(232,112,10,.3);padding:3px 8px;border-radius:5px;margin-bottom:9px;
+  }
+
+  /* policies prose */
+  .prose p{color:var(--text-dim);margin-bottom:14px;font-size:.96rem}
+  .prose .ph{font-family:var(--display);font-size:1.12rem;color:var(--text);font-weight:500;margin:22px 0 10px}
+  .prose ul{list-style:none;margin:0 0 4px}
+  .prose li{position:relative;padding-left:20px;color:var(--text-dim);margin-bottom:9px;font-size:.93rem}
+  .prose li::before{content:"";position:absolute;left:2px;top:11px;width:6px;height:6px;border-radius:50%;background:var(--orange)}
+
+  /* signature block */
+  .sign{margin-top:24px;background:var(--ink);border:1px dashed var(--line);border-radius:13px;padding:20px}
+  .sign .sl{font-size:.74rem;letter-spacing:.05em;text-transform:uppercase;color:var(--text-faint);font-weight:600;margin-bottom:8px}
+  .sigfield{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  .sigfield input{flex:1;min-width:200px;background:transparent;border:0;border-bottom:1.5px solid var(--line);color:var(--text);font-family:var(--display);font-size:1.4rem;padding:6px 2px;font-style:italic}
+  .sigfield input:focus{outline:none;border-color:var(--orange)}
+  .sigmeta{font-size:.8rem;color:var(--text-faint)}
+  .sigmeta b{color:var(--text-dim);font-weight:500}
+
+  /* submit */
+  .actions{margin-top:30px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+  .ghosthint{font-size:.8rem;color:var(--text-faint);max-width:42ch}
+  .submit{
+    font-family:var(--body);font-weight:700;font-size:.92rem;letter-spacing:.02em;
+    background:var(--orange);color:#1a0d02;border:0;padding:14px 30px;border-radius:11px;cursor:pointer;
+    transition:.16s;box-shadow:0 12px 30px -12px rgba(232,112,10,.6);
+  }
+  .submit:hover{transform:translateY(-1px);box-shadow:0 16px 36px -12px rgba(232,112,10,.7)}
+  .submit:disabled{background:var(--panel-2);color:var(--text-faint);cursor:not-allowed;box-shadow:none;transform:none}
+
+  .deliver{margin-top:20px;display:flex;align-items:center;gap:10px;font-size:.84rem;color:var(--text-faint)}
+  .deliver svg{width:15px;height:15px;stroke:var(--sage);fill:none;stroke-width:1.8;flex:none}
+
+  footer.foot{margin-top:40px;text-align:center;font-size:.74rem;color:var(--text-faint);letter-spacing:.02em}
+  footer.foot .dot{margin:0 7px;opacity:.5}
+
+  @media(max-width:560px){
+    h1{font-size:1.9rem}
+    .g2,.g3{grid-template-columns:1fr}
+    .injury-grid{grid-template-columns:1fr}
+    .qrow{flex-wrap:wrap}
+    .bar-inner{padding:14px 18px}
+    .who{display:none}
+  }
+</style>
+</head>
+<body>
+
+<header class="bar">
+  <div class="bar-inner">
+    <div class="brand">
+      <div class="mark"></div>
+      <div class="brand-name">Synergize <span>Fitness</span></div>
+    </div>
+    <div class="who">Signed in as<br><b>jordan@example.com</b></div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <nav class="tabs">
+    <button class="tab active" data-doc="screen"><span class="n">01</span>Health Screen</button>
+    <button class="tab" data-doc="waiver"><span class="n">02</span>Liability Waiver</button>
+    <button class="tab" data-doc="policies"><span class="n">03</span>Group Policies</button>
+  </nav>
+
+  <div class="stepwrap">
+    <div class="progress"><span id="bar"></span></div>
+  </div>
+
+  <!-- ============ 1. HEALTH SCREEN ============ -->
+  <div class="doc show" id="doc-screen">
+    <div class="eyebrow">Member intake · Step 1 of 3</div>
+    <h1>Health <span class="it">Screen</span></h1>
+    <p class="lede">A few questions so we can coach you safely and adapt where you need it. Nothing here is a barrier to training — it just helps us understand you.</p>
+
+    <section class="card">
+      <h2>Your details</h2>
+      <div class="sub">Pre-filled from your member account — check it's right.</div>
+      <div class="grid g2">
+        <div class="field"><label>Name</label><input type="text" value="Jordan Avery" /></div>
+        <div class="field"><label>Email</label><input type="email" value="jordan@example.com" /></div>
+      </div>
+      <div class="grid g3" style="margin-top:14px">
+        <div class="field"><label>Age</label><input type="number" placeholder="—" /></div>
+        <div class="field"><label>Sex</label>
+          <select><option value="">—</option><option>Female</option><option>Male</option><option>Prefer not to say</option></select>
+        </div>
+        <div class="field"><label>Height</label><input type="text" placeholder="—" /></div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2><span class="part">Part A</span> Activity Readiness</h2>
+      <div class="sub">Tap Yes or No for each.</div>
+      <div id="parq"></div>
+      <div class="note"><b>If you answered "yes" to any of the above:</b> we ask that you speak with your doctor before beginning, and let your coach know. This isn't a barrier to training — it just helps us coach you safely and adapt where needed.</div>
+    </section>
+
+    <section class="card">
+      <h2><span class="part">Part B</span> Health History</h2>
+      <div class="sub">Tap any that currently apply, or have applied to you.</div>
+      <div class="chips" id="history"></div>
+      <div class="field" style="margin-top:16px"><label>Other — please describe</label><input type="text" placeholder="Anything else we should know about" /></div>
+    </section>
+
+    <section class="card">
+      <h2><span class="part">Part C</span> Injury Screen</h2>
+      <div class="sub">Flag any area affected — and whether it's a current strain/sprain or chronic.</div>
+      <div class="injury-grid" id="injury"></div>
+    </section>
+
+    <section class="card">
+      <h2><span class="part">Part D</span> You &amp; your goals</h2>
+      <div class="sub">The part I care about most.</div>
+      <div class="field" style="margin-bottom:14px"><label>What does your current activity or training look like?</label><textarea placeholder="Walking, the odd class, nothing lately — whatever's true"></textarea></div>
+      <div class="field" style="margin-bottom:14px"><label>What can I do to help you? What are your fitness &amp; health goals?</label><textarea placeholder="Be as specific as you can"></textarea></div>
+      <div class="field"><label>Anything else you'd like to add or ask?</label><textarea placeholder="Optional"></textarea></div>
+    </section>
+
+    <div class="actions">
+      <div class="ghosthint">Your responses are saved privately to your member record. Only your coach can see them.</div>
+      <button class="submit" onclick="next('waiver')">Save &amp; continue →</button>
+    </div>
+  </div>
+
+  <!-- ============ 2. WAIVER ============ -->
+  <div class="doc" id="doc-waiver">
+    <div class="eyebrow">Member intake · Step 2 of 3</div>
+    <h1>Physical Liability <span class="it">Waiver</span></h1>
+    <p class="lede">Please read each point and confirm you agree. Tap the box beside each one — the same as initialling, just tidier.</p>
+
+    <section class="card">
+      <div id="clauses"></div>
+    </section>
+
+    <div class="sign">
+      <div class="sl">Sign by typing your full name</div>
+      <div class="sigfield">
+        <input type="text" id="signame" placeholder="Your full name" />
+        <div class="sigmeta">Dated <b id="today"></b></div>
+      </div>
+    </div>
+
+    <div class="actions">
+      <div class="ghosthint" id="waiverhint">Confirm all seven points above to enable signing.</div>
+      <button class="submit" id="waiverbtn" disabled onclick="next('policies')">Agree &amp; continue →</button>
+    </div>
+  </div>
+
+  <!-- ============ 3. POLICIES ============ -->
+  <div class="doc" id="doc-policies">
+    <div class="eyebrow">Member intake · Step 3 of 3</div>
+    <h1>Group Training <span class="it">Policies</span></h1>
+    <p class="lede">How the group works, billing, and a few words on conduct. The short version of training here.</p>
+
+    <section class="card prose">
+      <p>Welcome to Synergize Fitness. We combine training with coaching principles to make exercise accessible, sustainable, and fun.</p>
+      <p>In our boutique, private gym space, we run small groups of up to eight people per session — occasionally extended in fair weather, when we can make good use of the outdoor space. The social side is an important part of building exercise into your life for good, and we work hard to build a strong group dynamic.</p>
+      <p>While clients may have personal goals to work on, the main focus of these sessions is regular, mobility-based strength and conditioning for healthy living — we don't generally track performance metrics.</p>
+      <p>Workouts are posted for each session, but these are not classes where you need to keep up with the group. You're welcome to train at your own pace and do what you can on any given day. Instruction, modifications, and correction are offered as needed.</p>
+
+      <div class="ph">Payments &amp; refunds</div>
+      <ul>
+        <li>Sessions are billed monthly, in advance.</li>
+        <li>With limited space, a pay-per-session model isn't generally practical.</li>
+        <li>E-transfer is preferred, but cheques or cash are also welcome.</li>
+        <li>Accountability to yourself and the group matters — missed sessions are forfeit.</li>
+        <li>If Synergize Fitness cancels a session, it will be rescheduled, refunded, or deducted from the next month's invoice. We make every effort to avoid cancelling.</li>
+        <li>Clients may request to skip a month and retain their place in the group, at Synergize Fitness's discretion.</li>
+        <li>Clients may withdraw at any time and receive a refund for the remaining sessions that month.</li>
+        <li>New clients who cancel after no more than three sessions are entitled to a full refund.</li>
+      </ul>
+
+      <div class="ph">Conduct</div>
+      <ul>
+        <li>Treat others respectfully — this goes without saying.</li>
+        <li>While friendly competition is sometimes welcome, Synergize Fitness is a non-competitive environment where everyone works at their own level and pace.</li>
+        <li>We work hard to coach each client according to their needs; the right amount and type of coaching varies greatly from person to person and day to day. We respectfully ask that clients avoid coaching or correcting one another.</li>
+        <li>Clients who don't conduct themselves respectfully, or who continually disrupt others' training, may be asked to leave the group. In that case, a refund is given for any remaining sessions.</li>
+      </ul>
+    </section>
+
+    <div class="sign">
+      <div class="sigfield" style="align-items:center">
+        <div class="ck" id="polck" onclick="togglePol()"><svg viewBox="0 0 18 18"><path d="M3 9l4 4 8-9"/></svg></div>
+        <div style="flex:1;min-width:200px"><div class="ch" style="font-family:var(--display);font-size:1.02rem;color:var(--text)">I understand and agree to the above.</div></div>
+        <div class="sigmeta">Dated <b class="today2"></b></div>
+      </div>
+    </div>
+
+    <div class="actions">
+      <div class="ghosthint" id="polhint">Confirm the acknowledgement to finish.</div>
+      <button class="submit" id="polbtn" disabled onclick="finish()">Complete intake ✓</button>
+    </div>
+
+    <div class="deliver">
+      <svg viewBox="0 0 24 24"><path d="M4 4h16v16H4z"/><path d="M4 7l8 6 8-6"/></svg>
+      A copy of all three completed documents will be emailed to you and saved to your member account.
+    </div>
+  </div>
+
+  <footer class="foot">
+    Synergize Fitness <span class="dot">·</span> crawford-coaching.ca/synergize <span class="dot">·</span> scott@crawford-coaching.ca <span class="dot">·</span> 613-329-3114
+  </footer>
+
+</div>
+
+<script>
+  // dates
+  const d = new Date().toLocaleDateString('en-CA',{year:'numeric',month:'long',day:'numeric'});
+  document.getElementById('today').textContent = d;
+  document.querySelectorAll('.today2').forEach(e=>e.textContent=d);
+
+  // ---- Part A questions ----
+  const parq = [
+    "Has a doctor ever told you that you have a heart condition, or that you should only do physical activity under medical supervision?",
+    "Do you experience chest pain when you are physically active?",
+    "In the past month, have you had chest pain when you were not being physically active?",
+    "Do you ever feel faint, lose your balance from dizziness, or lose consciousness?",
+    "Do you have a bone or joint problem that could be worsened by exercise?",
+    "Are you currently taking any medication prescribed for blood pressure or a heart condition?",
+    "Are you aware of any other reason you should not take part in physical activity?"
+  ];
+  const pq = document.getElementById('parq');
+  parq.forEach((q,i)=>{
+    const row=document.createElement('div');row.className='qrow';
+    row.innerHTML=`<div class="qnum">${i+1}</div><div class="qtext">${q}</div>
+      <div class="yn"><button class="y">Yes</button><button class="n">No</button></div>`;
+    const [yes,no]=row.querySelectorAll('button');
+    yes.onclick=()=>{yes.classList.add('on');no.classList.remove('on')};
+    no.onclick=()=>{no.classList.add('on');yes.classList.remove('on')};
+    pq.appendChild(row);
+  });
+
+  // ---- Part B history chips ----
+  const hist=["High / low blood pressure","History of heart disease","Heart disease","Diabetes","Asthma","Weight concerns","Osteoporosis","Arthritis","Fibromyalgia","Pregnancy","Depression"];
+  const hc=document.getElementById('history');
+  hist.forEach(h=>{const c=document.createElement('div');c.className='chip';c.textContent=h;c.onclick=()=>c.classList.toggle('on');hc.appendChild(c)});
+
+  // ---- Part C injuries ----
+  const inj=["Neck","Shoulder — L","Shoulder — R","Hip — L","Hip — R","Knee — L","Knee — R","Ankle — L","Ankle — R","Lower back"];
+  const ig=document.getElementById('injury');
+  inj.forEach(name=>{
+    const row=document.createElement('div');row.className='inj';
+    row.innerHTML=`<div class="lab">${name}</div><div class="opts">
+      <button data-t="acute">Strain</button><button data-t="chronic">Chronic</button></div>`;
+    const btns=row.querySelectorAll('button');
+    btns.forEach(b=>b.onclick=()=>{
+      if(b.classList.contains('on')){b.classList.remove('on')}
+      else{btns.forEach(x=>x.classList.remove('on'));b.classList.add('on')}
+    });
+    ig.appendChild(row);
+  });
+
+  // ---- Waiver clauses ----
+  const clauses=[
+    ["Voluntary participation","I am taking part in physical activity with Synergize Fitness of my own free will. I confirm that I am physically able to participate, and that where the health screen indicated I should seek medical advice, I have done so or accept responsibility for choosing to proceed."],
+    ["Accuracy of disclosure","I confirm that the information in my Synergize Fitness Health Screen is accurate and complete, and that I have disclosed all medical conditions, previous and current injuries, and any other issues that could be made worse by a guided fitness program, before beginning physical activity."],
+    ["Non-disclosure","I understand that Synergize Fitness, its coaches and staff cannot be held liable for injuries or complications arising from a pre-existing condition, injury, or medical issue that I failed to disclose."],
+    ["Assumption of risk","I understand that physical activity and fitness training carry inherent risks, and that these risks include — but are not limited to — muscle, joint, and ligament injuries; aggravation of pre-existing or undisclosed conditions; cardiac events; and, in rare cases, serious injury or death. I voluntarily accept these risks as a condition of participating. I agree that my coach, Synergize Fitness, and anyone associated with it will not be liable for injury, loss, or damage arising from my participation in physical and athletic training with Synergize Fitness, except where caused by gross negligence.","key"],
+    ["Supervision and questions","I recognize that Synergize Fitness operates an open-floor training program with a coach present to assist and supervise at all times. I understand it is my responsibility to raise any questions, comments, or concerns about specific exercises, and to seek guidance when I want it."],
+    ["Following safety guidance","I agree to follow the reasonable safety-related guidance of Synergize Fitness staff — including direction on exercise form, technique, and the safe performance of movements — recognizing that this guidance exists to keep me and others safe while I train at my own pace and ability."],
+    ["Termination of membership","I understand that Synergize Fitness reserves the right to end any membership at the owner's discretion."]
+  ];
+  const cc=document.getElementById('clauses');
+  let checked=0;
+  clauses.forEach((c)=>{
+    const row=document.createElement('div');row.className='clause'+(c[2]==='key'?' key':'');
+    const flag=c[2]==='key'?'<div class="readflag">Please read carefully</div>':'';
+    row.innerHTML=`<div class="ck"><svg viewBox="0 0 18 18"><path d="M3 9l4 4 8-9"/></svg></div>
+      <div class="ct">${flag}<div class="ch">${c[0]}</div><div class="cb">${c[1]}</div></div>`;
+    const box=row.querySelector('.ck');
+    box.onclick=()=>{
+      box.classList.toggle('on');
+      checked+=box.classList.contains('on')?1:-1;
+      updateWaiver();
+    };
+    cc.appendChild(row);
+  });
+  function updateWaiver(){
+    const name=document.getElementById('signame').value.trim();
+    const ok=checked===clauses.length && name.length>1;
+    const btn=document.getElementById('waiverbtn');
+    btn.disabled=!ok;
+    document.getElementById('waiverhint').textContent = checked<clauses.length
+      ? `Confirm all seven points above to enable signing — ${checked} of 7 done.`
+      : (name.length>1 ? "All set — signed and ready." : "Type your full name to sign.");
+  }
+  document.getElementById('signame').addEventListener('input',updateWaiver);
+
+  // policies
+  function togglePol(){
+    const ck=document.getElementById('polck');ck.classList.toggle('on');
+    const on=ck.classList.contains('on');
+    document.getElementById('polbtn').disabled=!on;
+    document.getElementById('polhint').textContent=on?"Ready to complete.":"Confirm the acknowledgement to finish.";
+  }
+
+  // ---- nav ----
+  const order=['screen','waiver','policies'];
+  function show(doc){
+    document.querySelectorAll('.doc').forEach(d=>d.classList.remove('show'));
+    document.getElementById('doc-'+doc).classList.add('show');
+    document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.dataset.doc===doc));
+    document.getElementById('bar').style.width=((order.indexOf(doc)+1)/3*100)+'%';
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+  function next(doc){show(doc)}
+  document.querySelectorAll('.tab').forEach(t=>t.onclick=()=>show(t.dataset.doc));
+  function finish(){
+    const btn=document.getElementById('polbtn');
+    btn.textContent="Submitting…";btn.disabled=true;
+    setTimeout(()=>{
+      document.getElementById('doc-policies').innerHTML=
+      `<div style="text-align:center;padding:60px 20px">
+        <div style="width:70px;height:70px;margin:0 auto 24px;border-radius:50%;background:linear-gradient(135deg,var(--orange),#c85a00);display:grid;place-items:center;box-shadow:0 16px 40px -12px rgba(232,112,10,.6)">
+          <svg viewBox="0 0 24 24" style="width:32px;height:32px;stroke:#1a0d02;stroke-width:3;fill:none"><path d="M5 13l4 4 10-11"/></svg>
+        </div>
+        <h1 style="margin-bottom:12px">You're all <span class="it">set</span>.</h1>
+        <p class="lede" style="margin:0 auto">All three documents are completed and saved to your member record. A copy is on its way to your inbox. See you on the floor.</p>
+      </div>`;
+      document.getElementById('bar').style.width='100%';
+    },900);
+  }
+</script>
+</body>
+</html>
