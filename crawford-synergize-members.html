@@ -610,6 +610,11 @@ const DATA_HANDLER =
 // are converted, with no schedule regeneration.
 const MAILER_BASE = 'https://app.crawford-coaching.ca';
 const workoutLookupUrl = (name) => `${MAILER_BASE}/workouts/lookup?name=${encodeURIComponent(name)}`;
+const SUPABASE_STORAGE = 'https://yxndmpwqvdatkujcukdv.supabase.co/storage/v1/object/public';
+const workoutDisplayUrl = (meta) =>
+  meta?.workout_id
+    ? `${SUPABASE_STORAGE}/workouts/${meta.workout_id}.html`
+    : workoutLookupUrl(meta?.name || '');
 
 // Date-keyed guide (which named workout runs each day), generated from the
 // Workout Schedule project's workout-log-2026.md. Regenerate when the log
@@ -742,13 +747,10 @@ function renderWorkoutCard(card, opts) {
   if (opts.prefix) subParts.push(opts.prefix);
   const metaLine = workoutMetaLine(opts.meta || {});
 
-  // Launchable → whole card is a link to the mailer render.
-  // Use the slug from the schedule JSON directly when available (reliable);
-  // fall back to the name-based lookup route only when slug is absent.
+  // Launchable → whole card is a link to the Supabase Storage render.
+  // Uses workout_id (uuid) from the schedule JSON for a stable, public URL.
   if (opts.canLaunch) {
-    const displayHref = (opts.meta && opts.meta.slug)
-      ? `${MAILER_BASE}/workouts/${encodeURIComponent(opts.meta.slug)}/display`
-      : workoutLookupUrl(opts.name);
+    const displayHref = workoutDisplayUrl(opts.meta);
     card.className = 'member-card mcard mcard--launch';
     // Replace the <article> contents with an anchor-style launch card.
     card.innerHTML = `
