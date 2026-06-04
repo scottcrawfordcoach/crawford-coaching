@@ -610,10 +610,9 @@ const DATA_HANDLER =
 // are converted, with no schedule regeneration.
 const MAILER_BASE = 'https://app.crawford-coaching.ca';
 const workoutLookupUrl = (name) => `${MAILER_BASE}/workouts/lookup?name=${encodeURIComponent(name)}`;
-const SUPABASE_STORAGE = 'https://yxndmpwqvdatkujcukdv.supabase.co/storage/v1/object/public';
 const workoutDisplayUrl = (meta) =>
-  meta?.workout_id
-    ? `${SUPABASE_STORAGE}/workouts/${meta.workout_id}.html`
+  meta?.slug
+    ? `${MAILER_BASE}/workouts/${encodeURIComponent(meta.slug)}/display`
     : workoutLookupUrl(meta?.name || '');
 
 // Date-keyed guide (which named workout runs each day), generated from the
