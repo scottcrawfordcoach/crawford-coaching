@@ -961,7 +961,9 @@ initAccordion();
       });
       return;
     }
+    const role = await cc.getRole();
     const allowed =
+      role === cc.ROLES.ADMIN ||
       contact.synergize_active === true ||
       contact.coaching_active === true ||
       contact.whole_active === true;

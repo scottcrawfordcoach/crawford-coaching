@@ -35,6 +35,7 @@ export const ROLES = Object.freeze({
   COACHING_CLIENT:     'coaching_client',
   WHOLE_PARTICIPANT:   'whole_participant',
   WHOLE_ALUMNI:        'whole_alumni',
+  ADMIN:               'admin',
 });
 
 let _clientPromise = null;
@@ -100,6 +101,7 @@ async function getContact({ force = false } = {}) {
         'growth_zone_subscribed',
         'whole_alumni_claimed',
         'whole_alumni_claim_date',
+        'contact_tags (tag, category)',
       ].join(',')
     )
     .eq('auth_user_id', session.user.id)
@@ -119,6 +121,9 @@ async function getRole() {
     const session = await getSession();
     return session ? ROLES.EMAIL_CAPTURED : ROLES.ANONYMOUS;
   }
+  // ADMIN supersedes all other roles.
+  const tags = (contact.contact_tags || []).map(t => t.tag);
+  if (tags.includes('ADMIN'))          return ROLES.ADMIN;
   // Precedence per spec v1.3 §5.2.
   if (contact.coaching_active)        return ROLES.COACHING_CLIENT;
   if (contact.whole_active)           return ROLES.WHOLE_PARTICIPANT;
