@@ -173,13 +173,13 @@
       "dow": "Friday",
       "name": "Hold It Right There",
       "closed": false,
-      "slug": "",
-      "workout_id": "",
+      "slug": "hold-it-right-there",
+      "workout_id": "a59b3cb6-c5a2-463d-ad8c-b2909f3b8a72",
       "summary": "All-isometric holds: KB carries, plate overhead, SB planks, wall sits",
       "emphasis": "Core, Strength, Full Body",
       "equipment": "KB, Plate, SB, Band, Mace, Steel Club, Indian Clubs",
       "status": "Unscheduled",
-      "renderable": false
+      "renderable": true
     },
     "2026-01-19": {
       "dow": "Monday",
@@ -209,37 +209,37 @@
       "dow": "Wednesday",
       "name": "What's All This, Then?",
       "closed": false,
-      "slug": "",
-      "workout_id": "",
+      "slug": "whats-all-this-then",
+      "workout_id": "7fd2e731-2fe9-41c4-ba4d-eb5af17e4541",
       "summary": "KB swings EMOM + slam ball EMOM + step work + heavy/med KB splits",
       "emphasis": "Kettlebell Focus, Conditioning, Strength",
       "equipment": "KB, Band, Mace, Slam Ball, Plyo Box",
       "status": "Unscheduled",
-      "renderable": false
+      "renderable": true
     },
     "2026-01-22": {
       "dow": "Thursday",
       "name": "What's All This, Then?",
       "closed": false,
-      "slug": "",
-      "workout_id": "",
+      "slug": "whats-all-this-then",
+      "workout_id": "7fd2e731-2fe9-41c4-ba4d-eb5af17e4541",
       "summary": "KB swings EMOM + slam ball EMOM + step work + heavy/med KB splits",
       "emphasis": "Kettlebell Focus, Conditioning, Strength",
       "equipment": "KB, Band, Mace, Slam Ball, Plyo Box",
       "status": "Unscheduled",
-      "renderable": false
+      "renderable": true
     },
     "2026-01-23": {
       "dow": "Friday",
       "name": "This Other One That I Found",
       "closed": false,
-      "slug": "",
-      "workout_id": "",
+      "slug": "this-other-one-that-i-found",
+      "workout_id": "bfebc45f-4059-48df-8c17-d0acff0f1dfa",
       "summary": "Mace lunges/squats/360 + SB core + push-ups/pull-ups + TGU",
       "emphasis": "Full Body, Mace/Club, Core",
       "equipment": "Mace, SB, DB, TRX",
       "status": "",
-      "renderable": false
+      "renderable": true
     },
     "2026-01-26": {
       "dow": "Monday",
@@ -329,25 +329,25 @@
       "dow": "Wednesday",
       "name": "Dirty Swingers",
       "closed": false,
-      "slug": "",
-      "workout_id": "",
+      "slug": "dirty-swingers",
+      "workout_id": "5f77b653-311a-44da-80a4-755576fb71b1",
       "summary": "40-min sustained effort: KB swings, mace 360s, TRX pendulums, pull-ups",
       "emphasis": "Full Body, Kettlebell Focus, Endurance",
       "equipment": "KB, Mace, TRX, Steel Club, Band, BB",
       "status": "",
-      "renderable": false
+      "renderable": true
     },
     "2026-02-05": {
       "dow": "Thursday",
       "name": "Dirty Swingers",
       "closed": false,
-      "slug": "",
-      "workout_id": "",
+      "slug": "dirty-swingers",
+      "workout_id": "5f77b653-311a-44da-80a4-755576fb71b1",
       "summary": "40-min sustained effort: KB swings, mace 360s, TRX pendulums, pull-ups",
       "emphasis": "Full Body, Kettlebell Focus, Endurance",
       "equipment": "KB, Mace, TRX, Steel Club, Band, BB",
       "status": "",
-      "renderable": false
+      "renderable": true
     },
     "2026-02-06": {
       "dow": "Friday",
@@ -389,25 +389,25 @@
       "dow": "Wednesday",
       "name": "Tummy Trouble",
       "closed": false,
-      "slug": "",
-      "workout_id": "",
+      "slug": "tummy-trouble",
+      "workout_id": "e3b60611-b908-49e7-a0af-f1b71943c960",
       "summary": "KB carries + SB core circuits + TRX rows/chest + core-heavy focus",
       "emphasis": "Core, Kettlebell Focus, TRX/Suspension",
       "equipment": "KB, SB, DB, TRX, Band, Steel Club, Indian Clubs",
       "status": "Unscheduled",
-      "renderable": false
+      "renderable": true
     },
     "2026-02-12": {
       "dow": "Thursday",
       "name": "Tummy Trouble",
       "closed": false,
-      "slug": "",
-      "workout_id": "",
+      "slug": "tummy-trouble",
+      "workout_id": "e3b60611-b908-49e7-a0af-f1b71943c960",
       "summary": "KB carries + SB core circuits + TRX rows/chest + core-heavy focus",
       "emphasis": "Core, Kettlebell Focus, TRX/Suspension",
       "equipment": "KB, SB, DB, TRX, Band, Steel Club, Indian Clubs",
       "status": "Unscheduled",
-      "renderable": false
+      "renderable": true
     },
     "2026-02-13": {
       "dow": "Friday",
@@ -449,37 +449,37 @@
       "dow": "Wednesday",
       "name": "Bands, Bells and An Awkward Tension",
       "closed": false,
-      "slug": "",
-      "workout_id": "",
+      "slug": "bands-bells",
+      "workout_id": "f7ae2e30-21aa-4236-8b68-7fe951116b4a",
       "summary": "Banded movements + DB/KB work + TRX exercises + awkward holds",
       "emphasis": "Full Body, Resistance Band, TRX/Suspension",
       "equipment": "Band, KB, DB, TRX",
       "status": "Fair Weather",
-      "renderable": false
+      "renderable": true
     },
     "2026-02-19": {
       "dow": "Thursday",
       "name": "Bands, Bells and An Awkward Tension",
       "closed": false,
-      "slug": "",
-      "workout_id": "",
+      "slug": "bands-bells",
+      "workout_id": "f7ae2e30-21aa-4236-8b68-7fe951116b4a",
       "summary": "Banded movements + DB/KB work + TRX exercises + awkward holds",
       "emphasis": "Full Body, Resistance Band, TRX/Suspension",
       "equipment": "Band, KB, DB, TRX",
       "status": "Fair Weather",
-      "renderable": false
+      "renderable": true
     },
     "2026-02-20": {
       "dow": "Friday",
       "name": "Hey I Think I Like This One",
       "closed": false,
-      "slug": "",
-      "workout_id": "",
+      "slug": "hey-i-think-i-like-this-one",
+      "workout_id": "16303a72-d7bb-443d-8a05-6624a6b53df3",
       "summary": "Plate carries/holds + ViPR thrusters + TRX jumps + bodyweight movements",
       "emphasis": "Full Body, Conditioning, Core",
       "equipment": "Plate, TRX, ViPR",
       "status": "Unscheduled",
-      "renderable": false
+      "renderable": true
     },
     "2026-02-23": {
       "dow": "Monday",
@@ -593,13 +593,13 @@
       "dow": "Friday",
       "name": "Grace Kelly",
       "closed": false,
-      "slug": "",
-      "workout_id": "",
+      "slug": "grace-kelly",
+      "workout_id": "2f286e90-029e-43e2-a548-64ada5760a36",
       "summary": "DB lunges/thrusters/chest press + band lat pull + slam ball",
       "emphasis": "Full Body, Upper Push, Upper Pull",
       "equipment": "DB, SB, Band, Slam Ball",
       "status": "Unscheduled",
-      "renderable": false
+      "renderable": true
     },
     "2026-03-09": {
       "dow": "Monday",
@@ -689,13 +689,13 @@
       "dow": "Wednesday",
       "name": "The Mournfulness Of A Monday Morn",
       "closed": false,
-      "slug": "",
-      "workout_id": "",
+      "slug": "the-mournfulness-of-a-monday-morn",
+      "workout_id": "64fdc4f7-4ac9-41c6-b6f1-cb2b148831bf",
       "summary": "KB deadlifts/rows + SB core work + TRX circuits + Monday motivation",
       "emphasis": "Full Body, Kettlebell Focus, TRX/Suspension",
       "equipment": "KB, DB, SB, TRX, Band",
       "status": "Unscheduled",
-      "renderable": false
+      "renderable": true
     },
     "2026-03-19": {
       "dow": "Thursday",
@@ -963,243 +963,243 @@
     },
     "2026-04-20": {
       "dow": "Monday",
-      "name": "6-Circuit-1",
+      "name": "Six Appeal",
       "closed": false,
-      "slug": "",
-      "workout_id": "",
+      "slug": "six-appeal",
+      "workout_id": "df1625d8-0f1d-4b2f-a7ef-1af09a79bc12",
       "summary": "6-station timed circuit, 2 rounds",
       "emphasis": "Full Body, Conditioning",
       "equipment": "KB, TRX, DB, Ski Erg, BlazePod, Sled, Tire, Assault Bike / Blitz Bike",
       "status": "",
-      "renderable": false
+      "renderable": true
     },
     "2026-04-21": {
       "dow": "Tuesday",
       "name": "Well, Isn't This Nice?",
       "closed": false,
-      "slug": "",
-      "workout_id": "",
+      "slug": "well-isnt-this-nice",
+      "workout_id": "943482c9-5281-4ecd-a645-a3567b5bfd1c",
       "summary": "KB tall sits/windmills/goblet squats + SB Russian twists + jump rope",
       "emphasis": "Full Body, Kettlebell Focus, Core",
       "equipment": "KB, SB, TRX, DB, Jump Rope",
       "status": "",
-      "renderable": false
+      "renderable": true
     },
     "2026-04-22": {
       "dow": "Wednesday",
       "name": "Dirty Swingers",
       "closed": false,
-      "slug": "",
-      "workout_id": "",
+      "slug": "dirty-swingers",
+      "workout_id": "5f77b653-311a-44da-80a4-755576fb71b1",
       "summary": "40-min sustained effort: KB swings, mace 360s, TRX pendulums, pull-ups",
       "emphasis": "Full Body, Kettlebell Focus, Endurance",
       "equipment": "KB, Mace, TRX, Steel Club, Band, BB",
       "status": "",
-      "renderable": false
+      "renderable": true
     },
     "2026-04-23": {
       "dow": "Thursday",
       "name": "Rage Room!",
       "closed": false,
-      "slug": "",
-      "workout_id": "",
+      "slug": "rage-room",
+      "workout_id": "c24d47ae-2a3f-4fdc-9bab-9e3d3f8f78bd",
       "summary": "All-out effort \"rage\" circuit: slams, battle rope, tantrums, tire slams",
       "emphasis": "Conditioning",
       "equipment": "Slam Ball, BlazePod, Battle Rope, Mace, Tire",
       "status": "",
-      "renderable": false
+      "renderable": true
     },
     "2026-04-24": {
       "dow": "Friday",
       "name": "What's All This, Then?",
       "closed": false,
-      "slug": "",
-      "workout_id": "",
+      "slug": "whats-all-this-then",
+      "workout_id": "7fd2e731-2fe9-41c4-ba4d-eb5af17e4541",
       "summary": "KB swings EMOM + slam ball EMOM + step work + heavy/med KB splits",
       "emphasis": "Kettlebell Focus, Conditioning, Strength",
       "equipment": "KB, Band, Mace, Slam Ball, Plyo Box",
       "status": "Unscheduled",
-      "renderable": false
+      "renderable": true
     },
     "2026-04-27": {
       "dow": "Monday",
-      "name": "6-Circuit-2",
+      "name": "Sixth Gear",
       "closed": false,
-      "slug": "",
-      "workout_id": "",
+      "slug": "sixth-gear",
+      "workout_id": "495697f2-73c0-47b3-91ed-fab369e219d0",
       "summary": "6-station timed circuit, 3 rounds",
       "emphasis": "Full Body, Conditioning",
       "equipment": "KB, TRX, SB, Ski Erg, Plyo Box",
       "status": "",
-      "renderable": false
+      "renderable": true
     },
     "2026-04-28": {
       "dow": "Tuesday",
       "name": "Tag Team",
       "closed": false,
-      "slug": "",
-      "workout_id": "",
+      "slug": "tag-team",
+      "workout_id": "49008424-7314-41cb-ba91-d553588b27f4",
       "summary": "Partner tag-team AMRAP circuit",
       "emphasis": "Full Body, Conditioning",
       "equipment": "Battle Rope, KB, Band, TRX, Slam Ball",
       "status": "",
-      "renderable": false
+      "renderable": true
     },
     "2026-04-29": {
       "dow": "Wednesday",
       "name": "New Friends!",
       "closed": false,
-      "slug": "",
-      "workout_id": "",
+      "slug": "new-friends",
+      "workout_id": "a70c16ce-d4a7-4c0b-9e86-75bef75fd7ec",
       "summary": "TRX + slam ball + mace; beginner-friendly",
       "emphasis": "Full Body, TRX/Suspension, Mace/Club",
       "equipment": "TRX, Slam Ball, Mace, BlazePod",
       "status": "Unscheduled",
-      "renderable": false
+      "renderable": true
     },
     "2026-04-30": {
       "dow": "Thursday",
       "name": "The 410",
       "closed": false,
-      "slug": "",
-      "workout_id": "",
+      "slug": "the-410",
+      "workout_id": "66204f85-7be0-4673-8655-74da246eea29",
       "summary": "High-volume EMOM: 100 swings, 100 cleans, 50 OH press, 10 TGU, 100 halos",
       "emphasis": "Kettlebell Focus, Endurance, Full Body",
       "equipment": "KB, Steel Club",
       "status": "",
-      "renderable": false
+      "renderable": true
     },
     "2026-05-01": {
       "dow": "Friday",
       "name": "What The......?",
       "closed": false,
-      "slug": "",
-      "workout_id": "",
+      "slug": "what-the",
+      "workout_id": "05987deb-dbd1-41f0-9fe7-88b4786e0cc2",
       "summary": "KB rows/windmills + slam ball carries/slams + TRX work + surprise elements",
       "emphasis": "Full Body, Conditioning, Kettlebell Focus",
       "equipment": "KB, Slam Ball, TRX",
       "status": "Unscheduled",
-      "renderable": false
+      "renderable": true
     },
     "2026-05-04": {
       "dow": "Monday",
       "name": "This Other One That I Found",
       "closed": false,
-      "slug": "",
-      "workout_id": "",
+      "slug": "this-other-one-that-i-found",
+      "workout_id": "bfebc45f-4059-48df-8c17-d0acff0f1dfa",
       "summary": "Mace lunges/squats/360 + SB core + push-ups/pull-ups + TGU",
       "emphasis": "Full Body, Mace/Club, Core",
       "equipment": "Mace, SB, DB, TRX",
       "status": "",
-      "renderable": false
+      "renderable": true
     },
     "2026-05-05": {
       "dow": "Tuesday",
       "name": "Mannequin Challenge",
       "closed": false,
-      "slug": "",
-      "workout_id": "",
+      "slug": "mannequin-challenge",
+      "workout_id": "ff61d66c-9930-4053-8512-5c675e2295cf",
       "summary": "All-isometric holds: plate OH, KB racked/suitcase, pallof, wall sit",
       "emphasis": "Core, Strength",
       "equipment": "Plate, KB, SB, Band",
       "status": "",
-      "renderable": false
+      "renderable": true
     },
     "2026-05-06": {
       "dow": "Wednesday",
       "name": "Hold It Right There",
       "closed": false,
-      "slug": "",
-      "workout_id": "",
+      "slug": "hold-it-right-there",
+      "workout_id": "a59b3cb6-c5a2-463d-ad8c-b2909f3b8a72",
       "summary": "All-isometric holds: KB carries, plate overhead, SB planks, wall sits",
       "emphasis": "Core, Strength, Full Body",
       "equipment": "KB, Plate, SB, Band, Mace, Steel Club, Indian Clubs",
       "status": "Unscheduled",
-      "renderable": false
+      "renderable": true
     },
     "2026-05-07": {
       "dow": "Thursday",
       "name": "In And Out Burger",
       "closed": false,
-      "slug": "",
-      "workout_id": "",
+      "slug": "in-and-out-burger",
+      "workout_id": "f9ca06d9-6244-454b-a7b9-57363389b046",
       "summary": "3x15-min carry and run blocks: farmers/waiter/racked carries + exercises",
       "emphasis": "Full Body, Conditioning, Kettlebell Focus",
       "equipment": "KB, TRX",
       "status": "",
-      "renderable": false
+      "renderable": true
     },
     "2026-05-08": {
       "dow": "Friday",
       "name": "Holla At Me In The Club",
       "closed": false,
-      "slug": "",
-      "workout_id": "",
+      "slug": "holla-at-me-in-the-club",
+      "workout_id": "e4b7521c-e55d-495b-b251-9dc3aef5e9bf",
       "summary": "Club-focused: heavy club squats/lateral lunges, Persian meel turns",
       "emphasis": "Mace/Club, Lower Body",
       "equipment": "Steel Club, Indian Clubs, SB",
       "status": "Fair Weather",
-      "renderable": false
+      "renderable": true
     },
     "2026-05-11": {
       "dow": "Monday",
       "name": "Top Half 1",
       "closed": false,
-      "slug": "",
-      "workout_id": "",
+      "slug": "top-half-1",
+      "workout_id": "ff0df472-e9a2-4370-a801-779384e3da59",
       "summary": "Classic upper body split: chest press, rows, curls, tricep ext, OH press",
       "emphasis": "Upper Push, Upper Pull, Strength",
       "equipment": "DB, KB",
       "status": "Fair Weather",
-      "renderable": false
+      "renderable": true
     },
     "2026-05-12": {
       "dow": "Tuesday",
       "name": "Hey. I Think I Like This One",
       "closed": false,
-      "slug": "",
-      "workout_id": "",
+      "slug": "hey-i-think-i-like-this-one",
+      "workout_id": "16303a72-d7bb-443d-8a05-6624a6b53df3",
       "summary": "Plate carries/holds + ViPR thrusters + TRX jumps + bodyweight movements",
       "emphasis": "Full Body, Conditioning, Core",
       "equipment": "Plate, TRX, ViPR",
       "status": "Unscheduled",
-      "renderable": false
+      "renderable": true
     },
     "2026-05-13": {
       "dow": "Wednesday",
       "name": "A Handful Of Favourites",
       "closed": false,
-      "slug": "",
-      "workout_id": "",
+      "slug": "a-handful-of-favourites",
+      "workout_id": "c85a9731-2525-4710-ac98-89d93ebb14d4",
       "summary": "Mace H2H lunges/squats + slam/carries + SB core + battle rope finisher",
       "emphasis": "Full Body, Mace/Club, Conditioning",
       "equipment": "Mace, KB, Med Ball, SB, Battle Rope",
       "status": "Unscheduled",
-      "renderable": false
+      "renderable": true
     },
     "2026-05-14": {
       "dow": "Thursday",
       "name": "The Suspense Is Killing Me",
       "closed": false,
-      "slug": "",
-      "workout_id": "",
+      "slug": "the-suspense-is-killing-me",
+      "workout_id": "35859ca9-5ad0-42df-8fdc-de9c9c5033bd",
       "summary": "Heavy TRX focus + suspended movements + banded pulls + hamstring work",
       "emphasis": "TRX/Suspension, Upper Pull, Full Body",
       "equipment": "TRX, KB, Band, SB",
       "status": "Fair Weather",
-      "renderable": false
+      "renderable": true
     },
     "2026-05-15": {
       "dow": "Friday",
       "name": "Tummy Trouble",
       "closed": false,
-      "slug": "",
-      "workout_id": "",
+      "slug": "tummy-trouble",
+      "workout_id": "e3b60611-b908-49e7-a0af-f1b71943c960",
       "summary": "KB carries + SB core circuits + TRX rows/chest + core-heavy focus",
       "emphasis": "Core, Kettlebell Focus, TRX/Suspension",
       "equipment": "KB, SB, DB, TRX, Band, Steel Club, Indian Clubs",
       "status": "Unscheduled",
-      "renderable": false
+      "renderable": true
     },
     "2026-05-18": {
       "dow": "Monday",
@@ -1217,73 +1217,73 @@
       "dow": "Tuesday",
       "name": "Log-A-Rhythm",
       "closed": false,
-      "slug": "",
-      "workout_id": "",
+      "slug": "log-a-rhythm",
+      "workout_id": "2cfa44d4-0fbf-411b-a837-f98acdcb9052",
       "summary": "Outdoor carry + mini-circuit with log squats, slams, push-ups, 40 min",
       "emphasis": "Full Body, Conditioning",
       "equipment": "Log, Slam Ball, BW",
       "status": "",
-      "renderable": false
+      "renderable": true
     },
     "2026-05-20": {
       "dow": "Wednesday",
       "name": "Compound Interest",
       "closed": false,
-      "slug": "",
-      "workout_id": "",
+      "slug": "compound-interest",
+      "workout_id": "e57f798e-d651-4a83-ac06-75773000136b",
       "summary": "6-station compound circuit at 7.5 min each",
       "emphasis": "Full Body, Strength, Endurance",
       "equipment": "KB, DB, BW",
       "status": "",
-      "renderable": false
+      "renderable": true
     },
     "2026-05-21": {
       "dow": "Thursday",
       "name": "Is This As Tough As It Sounds?",
       "closed": false,
-      "slug": "",
-      "workout_id": "",
+      "slug": "is-this-as-tough-as-it-sounds",
+      "workout_id": "f198f482-8b79-40ae-a0f8-ff68dc8db6b7",
       "summary": "Multi-weight KB work + TRX skaters + plank progressions + carries",
       "emphasis": "Full Body, Conditioning, Kettlebell Focus",
       "equipment": "KB, TRX",
       "status": "Unscheduled",
-      "renderable": false
+      "renderable": true
     },
     "2026-05-22": {
       "dow": "Friday",
       "name": "A-Mace-ing Grace",
       "closed": false,
-      "slug": "",
-      "workout_id": "",
+      "slug": "a-mace-ing-grace",
+      "workout_id": "d7f34fd4-3b71-476d-baf8-e283d877024c",
       "summary": "All-mace: lunges, 360s, shovellers, tire slams, overhead holds",
       "emphasis": "Mace/Club, Full Body",
       "equipment": "Mace, Sledgehammer, Tire",
       "status": "",
-      "renderable": false
+      "renderable": true
     },
     "2026-05-25": {
       "dow": "Monday",
       "name": "Bands, Bells and an Awkward Tension",
       "closed": false,
-      "slug": "",
-      "workout_id": "",
+      "slug": "bands-bells",
+      "workout_id": "f7ae2e30-21aa-4236-8b68-7fe951116b4a",
       "summary": "Banded movements + DB/KB work + TRX exercises + awkward holds",
       "emphasis": "Full Body, Resistance Band, TRX/Suspension",
       "equipment": "Band, KB, DB, TRX",
       "status": "Fair Weather",
-      "renderable": false
+      "renderable": true
     },
     "2026-05-26": {
       "dow": "Tuesday",
       "name": "Please, Not My Legs",
       "closed": false,
-      "slug": "",
-      "workout_id": "",
+      "slug": "please-not-my-legs",
+      "workout_id": "67b507f1-c832-4a88-a631-4b430fd068eb",
       "summary": "Upper body focus + TRX push/pull + slam ball + avoid legs",
       "emphasis": "Upper Push, Upper Pull, Core",
       "equipment": "TRX, Band, Slam Ball, Mace, Steel Club, Indian Clubs",
       "status": "Fair Weather",
-      "renderable": false
+      "renderable": true
     },
     "2026-05-27": {
       "dow": "Wednesday",
@@ -1313,13 +1313,13 @@
       "dow": "Friday",
       "name": "Seriously Tho?",
       "closed": false,
-      "slug": "",
-      "workout_id": "",
+      "slug": "seriously-tho",
+      "workout_id": "002881cd-8646-4d29-98e7-3aea6e7d7ec8",
       "summary": "Mace lunges/squats/360s + BlazePod + 2KB deadlifts + KB twist & press",
       "emphasis": "Full Body, Mace/Club, Kettlebell Focus",
       "equipment": "Mace, KB, Club, SB, BlazePod",
       "status": "Unscheduled",
-      "renderable": false
+      "renderable": true
     },
     "2026-06-01": {
       "dow": "Monday",
@@ -1373,25 +1373,25 @@
       "dow": "Friday",
       "name": "The Mournfulness Of A Monday Morn",
       "closed": false,
-      "slug": "",
-      "workout_id": "",
+      "slug": "the-mournfulness-of-a-monday-morn",
+      "workout_id": "64fdc4f7-4ac9-41c6-b6f1-cb2b148831bf",
       "summary": "KB deadlifts/rows + SB core work + TRX circuits + Monday motivation",
       "emphasis": "Full Body, Kettlebell Focus, TRX/Suspension",
       "equipment": "KB, DB, SB, TRX, Band",
       "status": "Unscheduled",
-      "renderable": false
+      "renderable": true
     },
     "2026-06-08": {
       "dow": "Monday",
       "name": "Grace Kelly",
       "closed": false,
-      "slug": "",
-      "workout_id": "",
+      "slug": "grace-kelly",
+      "workout_id": "2f286e90-029e-43e2-a548-64ada5760a36",
       "summary": "DB lunges/thrusters/chest press + band lat pull + slam ball",
       "emphasis": "Full Body, Upper Push, Upper Pull",
       "equipment": "DB, SB, Band, Slam Ball",
       "status": "Unscheduled",
-      "renderable": false
+      "renderable": true
     },
     "2026-06-09": {
       "dow": "Tuesday",
@@ -1649,13 +1649,13 @@
       "dow": "Wednesday",
       "name": "The 410",
       "closed": false,
-      "slug": "",
-      "workout_id": "",
+      "slug": "the-410",
+      "workout_id": "66204f85-7be0-4673-8655-74da246eea29",
       "summary": "High-volume EMOM: 100 swings, 100 cleans, 50 OH press, 10 TGU, 100 halos",
       "emphasis": "Kettlebell Focus, Endurance, Full Body",
       "equipment": "KB, Steel Club",
       "status": "",
-      "renderable": false
+      "renderable": true
     },
     "2026-07-09": {
       "dow": "Thursday",
@@ -1733,13 +1733,13 @@
       "dow": "Friday",
       "name": "Rage Room!",
       "closed": false,
-      "slug": "",
-      "workout_id": "",
+      "slug": "rage-room",
+      "workout_id": "c24d47ae-2a3f-4fdc-9bab-9e3d3f8f78bd",
       "summary": "All-out effort \"rage\" circuit: slams, battle rope, tantrums, tire slams",
       "emphasis": "Conditioning",
       "equipment": "Slam Ball, BlazePod, Battle Rope, Mace, Tire",
       "status": "",
-      "renderable": false
+      "renderable": true
     },
     "2026-07-20": {
       "dow": "Monday",
@@ -1781,25 +1781,25 @@
       "dow": "Thursday",
       "name": "The Suspense Is Killing Me",
       "closed": false,
-      "slug": "",
-      "workout_id": "",
+      "slug": "the-suspense-is-killing-me",
+      "workout_id": "35859ca9-5ad0-42df-8fdc-de9c9c5033bd",
       "summary": "Heavy TRX focus + suspended movements + banded pulls + hamstring work",
       "emphasis": "TRX/Suspension, Upper Pull, Full Body",
       "equipment": "TRX, KB, Band, SB",
       "status": "Fair Weather",
-      "renderable": false
+      "renderable": true
     },
     "2026-07-24": {
       "dow": "Friday",
       "name": "This Other One That I Found",
       "closed": false,
-      "slug": "",
-      "workout_id": "",
+      "slug": "this-other-one-that-i-found",
+      "workout_id": "bfebc45f-4059-48df-8c17-d0acff0f1dfa",
       "summary": "Mace lunges/squats/360 + SB core + push-ups/pull-ups + TGU",
       "emphasis": "Full Body, Mace/Club, Core",
       "equipment": "Mace, SB, DB, TRX",
       "status": "",
-      "renderable": false
+      "renderable": true
     },
     "2026-07-27": {
       "dow": "Monday",
@@ -1973,13 +1973,13 @@
       "dow": "Friday",
       "name": "Is This As Tough As It Sounds?",
       "closed": false,
-      "slug": "",
-      "workout_id": "",
+      "slug": "is-this-as-tough-as-it-sounds",
+      "workout_id": "f198f482-8b79-40ae-a0f8-ff68dc8db6b7",
       "summary": "Multi-weight KB work + TRX skaters + plank progressions + carries",
       "emphasis": "Full Body, Conditioning, Kettlebell Focus",
       "equipment": "KB, TRX",
       "status": "Unscheduled",
-      "renderable": false
+      "renderable": true
     },
     "2026-08-17": {
       "dow": "Monday",
@@ -2021,13 +2021,13 @@
       "dow": "Thursday",
       "name": "A Handful Of Favourites",
       "closed": false,
-      "slug": "",
-      "workout_id": "",
+      "slug": "a-handful-of-favourites",
+      "workout_id": "c85a9731-2525-4710-ac98-89d93ebb14d4",
       "summary": "Mace H2H lunges/squats + slam/carries + SB core + battle rope finisher",
       "emphasis": "Full Body, Mace/Club, Conditioning",
       "equipment": "Mace, KB, Med Ball, SB, Battle Rope",
       "status": "Unscheduled",
-      "renderable": false
+      "renderable": true
     },
     "2026-08-21": {
       "dow": "Friday",
@@ -2057,13 +2057,13 @@
       "dow": "Tuesday",
       "name": "Well, Isn't This Nice?",
       "closed": false,
-      "slug": "",
-      "workout_id": "",
+      "slug": "well-isnt-this-nice",
+      "workout_id": "943482c9-5281-4ecd-a645-a3567b5bfd1c",
       "summary": "KB tall sits/windmills/goblet squats + SB Russian twists + jump rope",
       "emphasis": "Full Body, Kettlebell Focus, Core",
       "equipment": "KB, SB, TRX, DB, Jump Rope",
       "status": "",
-      "renderable": false
+      "renderable": true
     },
     "2026-08-26": {
       "dow": "Wednesday",
@@ -2081,13 +2081,13 @@
       "dow": "Thursday",
       "name": "Mannequin Challenge",
       "closed": false,
-      "slug": "",
-      "workout_id": "",
+      "slug": "mannequin-challenge",
+      "workout_id": "ff61d66c-9930-4053-8512-5c675e2295cf",
       "summary": "All-isometric holds: plate OH, KB racked/suitcase, pallof, wall sit",
       "emphasis": "Core, Strength",
       "equipment": "Plate, KB, SB, Band",
       "status": "",
-      "renderable": false
+      "renderable": true
     },
     "2026-08-28": {
       "dow": "Friday",
@@ -2177,25 +2177,25 @@
       "dow": "Tuesday",
       "name": "Dirty Swingers",
       "closed": false,
-      "slug": "",
-      "workout_id": "",
+      "slug": "dirty-swingers",
+      "workout_id": "5f77b653-311a-44da-80a4-755576fb71b1",
       "summary": "40-min sustained effort: KB swings, mace 360s, TRX pendulums, pull-ups",
       "emphasis": "Full Body, Kettlebell Focus, Endurance",
       "equipment": "KB, Mace, TRX, Steel Club, Band, BB",
       "status": "",
-      "renderable": false
+      "renderable": true
     },
     "2026-09-09": {
       "dow": "Wednesday",
       "name": "Hold It Right There",
       "closed": false,
-      "slug": "",
-      "workout_id": "",
+      "slug": "hold-it-right-there",
+      "workout_id": "a59b3cb6-c5a2-463d-ad8c-b2909f3b8a72",
       "summary": "All-isometric holds: KB carries, plate overhead, SB planks, wall sits",
       "emphasis": "Core, Strength, Full Body",
       "equipment": "KB, Plate, SB, Band, Mace, Steel Club, Indian Clubs",
       "status": "Unscheduled",
-      "renderable": false
+      "renderable": true
     },
     "2026-09-10": {
       "dow": "Thursday",
@@ -2225,13 +2225,13 @@
       "dow": "Monday",
       "name": "Hey. I Think I Like This One",
       "closed": false,
-      "slug": "",
-      "workout_id": "",
+      "slug": "hey-i-think-i-like-this-one",
+      "workout_id": "16303a72-d7bb-443d-8a05-6624a6b53df3",
       "summary": "Plate carries/holds + ViPR thrusters + TRX jumps + bodyweight movements",
       "emphasis": "Full Body, Conditioning, Core",
       "equipment": "Plate, TRX, ViPR",
       "status": "Unscheduled",
-      "renderable": false
+      "renderable": true
     },
     "2026-09-15": {
       "dow": "Tuesday",
@@ -2405,13 +2405,13 @@
       "dow": "Monday",
       "name": "The Suspense Is Killing Me",
       "closed": false,
-      "slug": "",
-      "workout_id": "",
+      "slug": "the-suspense-is-killing-me",
+      "workout_id": "35859ca9-5ad0-42df-8fdc-de9c9c5033bd",
       "summary": "Heavy TRX focus + suspended movements + banded pulls + hamstring work",
       "emphasis": "TRX/Suspension, Upper Pull, Full Body",
       "equipment": "TRX, KB, Band, SB",
       "status": "Fair Weather",
-      "renderable": false
+      "renderable": true
     },
     "2026-10-06": {
       "dow": "Tuesday",
@@ -2549,25 +2549,25 @@
       "dow": "Wednesday",
       "name": "Please, Not My Legs",
       "closed": false,
-      "slug": "",
-      "workout_id": "",
+      "slug": "please-not-my-legs",
+      "workout_id": "67b507f1-c832-4a88-a631-4b430fd068eb",
       "summary": "Upper body focus + TRX push/pull + slam ball + avoid legs",
       "emphasis": "Upper Push, Upper Pull, Core",
       "equipment": "TRX, Band, Slam Ball, Mace, Steel Club, Indian Clubs",
       "status": "Fair Weather",
-      "renderable": false
+      "renderable": true
     },
     "2026-10-22": {
       "dow": "Thursday",
       "name": "Rage Room!",
       "closed": false,
-      "slug": "",
-      "workout_id": "",
+      "slug": "rage-room",
+      "workout_id": "c24d47ae-2a3f-4fdc-9bab-9e3d3f8f78bd",
       "summary": "All-out effort \"rage\" circuit: slams, battle rope, tantrums, tire slams",
       "emphasis": "Conditioning",
       "equipment": "Slam Ball, BlazePod, Battle Rope, Mace, Tire",
       "status": "",
-      "renderable": false
+      "renderable": true
     },
     "2026-10-23": {
       "dow": "Friday",
@@ -2777,13 +2777,13 @@
       "dow": "Tuesday",
       "name": "What's All This, Then?",
       "closed": false,
-      "slug": "",
-      "workout_id": "",
+      "slug": "whats-all-this-then",
+      "workout_id": "7fd2e731-2fe9-41c4-ba4d-eb5af17e4541",
       "summary": "KB swings EMOM + slam ball EMOM + step work + heavy/med KB splits",
       "emphasis": "Kettlebell Focus, Conditioning, Strength",
       "equipment": "KB, Band, Mace, Slam Ball, Plyo Box",
       "status": "Unscheduled",
-      "renderable": false
+      "renderable": true
     },
     "2026-11-18": {
       "dow": "Wednesday",
@@ -2813,25 +2813,25 @@
       "dow": "Friday",
       "name": "Seriously Tho?",
       "closed": false,
-      "slug": "",
-      "workout_id": "",
+      "slug": "seriously-tho",
+      "workout_id": "002881cd-8646-4d29-98e7-3aea6e7d7ec8",
       "summary": "Mace lunges/squats/360s + BlazePod + 2KB deadlifts + KB twist & press",
       "emphasis": "Full Body, Mace/Club, Kettlebell Focus",
       "equipment": "Mace, KB, Club, SB, BlazePod",
       "status": "Unscheduled",
-      "renderable": false
+      "renderable": true
     },
     "2026-11-23": {
       "dow": "Monday",
       "name": "The 410",
       "closed": false,
-      "slug": "",
-      "workout_id": "",
+      "slug": "the-410",
+      "workout_id": "66204f85-7be0-4673-8655-74da246eea29",
       "summary": "High-volume EMOM: 100 swings, 100 cleans, 50 OH press, 10 TGU, 100 halos",
       "emphasis": "Kettlebell Focus, Endurance, Full Body",
       "equipment": "KB, Steel Club",
       "status": "",
-      "renderable": false
+      "renderable": true
     },
     "2026-11-24": {
       "dow": "Tuesday",
@@ -2849,13 +2849,13 @@
       "dow": "Wednesday",
       "name": "A-Mace-ing Grace",
       "closed": false,
-      "slug": "",
-      "workout_id": "",
+      "slug": "a-mace-ing-grace",
+      "workout_id": "d7f34fd4-3b71-476d-baf8-e283d877024c",
       "summary": "All-mace: lunges, 360s, shovellers, tire slams, overhead holds",
       "emphasis": "Mace/Club, Full Body",
       "equipment": "Mace, Sledgehammer, Tire",
       "status": "",
-      "renderable": false
+      "renderable": true
     },
     "2026-11-26": {
       "dow": "Thursday",
@@ -2945,13 +2945,13 @@
       "dow": "Monday",
       "name": "What The......?",
       "closed": false,
-      "slug": "",
-      "workout_id": "",
+      "slug": "what-the",
+      "workout_id": "05987deb-dbd1-41f0-9fe7-88b4786e0cc2",
       "summary": "KB rows/windmills + slam ball carries/slams + TRX work + surprise elements",
       "emphasis": "Full Body, Conditioning, Kettlebell Focus",
       "equipment": "KB, Slam Ball, TRX",
       "status": "Unscheduled",
-      "renderable": false
+      "renderable": true
     },
     "2026-12-08": {
       "dow": "Tuesday",
@@ -3041,13 +3041,13 @@
       "dow": "Thursday",
       "name": "Hold It Right There",
       "closed": false,
-      "slug": "",
-      "workout_id": "",
+      "slug": "hold-it-right-there",
+      "workout_id": "a59b3cb6-c5a2-463d-ad8c-b2909f3b8a72",
       "summary": "All-isometric holds: KB carries, plate overhead, SB planks, wall sits",
       "emphasis": "Core, Strength, Full Body",
       "equipment": "KB, Plate, SB, Band, Mace, Steel Club, Indian Clubs",
       "status": "Unscheduled",
-      "renderable": false
+      "renderable": true
     },
     "2026-12-18": {
       "dow": "Friday",
