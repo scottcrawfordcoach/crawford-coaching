@@ -709,10 +709,10 @@ async function loadWorkout() {
       renderWorkoutCard(card, {
         tag: today && today.closed ? 'Gym closed today' : 'No session today',
         name: next.name,
-        canLaunch: true,
+        canLaunch: next.renderable,
         meta: next.entry,
         prefix: `Next session · ${prettyDate(next.date)}`,
-        note: null,
+        note: next.renderable ? null : 'Full workout not posted yet',
       });
     } else {
       renderStaticWorkout(card, 'No session today', 'No upcoming workout scheduled.');
@@ -723,12 +723,12 @@ async function loadWorkout() {
 }
 
 function findNextSession(schedule, fromStr) {
-  // Find the next day that is both open and has a published render, so the
-  // "no session today" card always links to a real workout (never a 404).
+  // Find the next open training day, whether or not its workout is built yet.
+  // Unbuilt days fall back to the self-healing lookup page, so this never 404s.
   const dates = Object.keys(schedule).filter((d) => d > fromStr).sort();
   for (const d of dates) {
-    if (!schedule[d].closed && schedule[d].renderable) {
-      return { date: d, name: schedule[d].name, slug: schedule[d].slug, renderable: true, entry: schedule[d] };
+    if (!schedule[d].closed) {
+      return { date: d, name: schedule[d].name, slug: schedule[d].slug, renderable: schedule[d].renderable, entry: schedule[d] };
     }
   }
   return null;

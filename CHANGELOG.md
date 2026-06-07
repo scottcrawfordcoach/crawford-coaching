@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 
 The format is based on Keep a Changelog principles and uses reverse chronological order.
 
+## [2026-06-06]
+
+### Fixed — Today's Workout "next session" now shows the real upcoming day, not the next *built* one
+
+- [crawford-synergize-members.html](crawford-synergize-members.html) `findNextSession()` no longer requires `renderable` — it returns the next *open* training day regardless of whether that workout has been built in the mailer yet. Previously it skipped every scheduled-but-unbuilt day, so with only a handful of workouts converted the "No session today" card leapt past ~two months of real sessions to the next published render (on Sat 6 Jun it showed "Next session · Tue, Aug 4 — Spicy Meatball" instead of Mon 8 Jun — Grace Kelly).
+- The no-session render branch now mirrors the Today branch: `canLaunch: next.renderable` plus a `Full workout not posted yet` note for unbuilt days. The card shows the correct upcoming workout name + date as a soft fallback (summary in the expandable panel) and becomes a launch link automatically once that day's workout is converted. This intentionally supersedes the earlier "open *and* renderable" rule (2026-05-31) — safe because unbuilt names resolve to the mailer's branded "not posted yet" lookup page, not a 404.
+
 ## [2026-05-31]
 
 ### Changed — Synergize members cards redesigned as neat titled cards; Today's Workout + Liability Waiver wired up
