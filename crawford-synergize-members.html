@@ -900,18 +900,22 @@ function renderClassSchedule(el, rows) {
   el.innerHTML = html.join('');
 }
 
+// Expanded "Holiday hours" view looks ahead 30 days and lists every closure
+// in that window (no cap) so a full multi-day vacation is never truncated.
+// Anything further out is handled by the assistant.
+const CLOSURE_LOOKAHEAD_DAYS = 30;
+
 function loadHolidayClosures() {
   const el = document.getElementById('feed-holiday');
   const today = new Date(); today.setHours(0, 0, 0, 0);
-  const windowEnd = new Date(today.getTime() + 60 * 24 * 60 * 60 * 1000);
+  const windowEnd = new Date(today.getTime() + CLOSURE_LOOKAHEAD_DAYS * 24 * 60 * 60 * 1000);
   const upcoming = HOLIDAY_CLOSURES
     .map((c) => ({ ...c, when: new Date(c.date + 'T00:00:00') }))
     .filter((c) => c.when >= today && c.when <= windowEnd)
-    .sort((a, b) => a.when - b.when)
-    .slice(0, 4);
+    .sort((a, b) => a.when - b.when);
 
   if (!upcoming.length) {
-    el.textContent = 'No closures in the next 60 days.';
+    el.textContent = 'No closures in the next 30 days.';
     return;
   }
   el.classList.remove('member-feed--placeholder');
@@ -920,7 +924,8 @@ function loadHolidayClosures() {
       weekday: 'short', month: 'short', day: 'numeric',
     });
     return `<li><span class="member-feed__when">${escapeHtml(label)}</span>${escapeHtml(c.reason)}</li>`;
-  }).join('') + '</ul>';
+  }).join('') + '</ul>'
+    + '<p class="member-feed__hint">Ask the assistant about dates beyond this.</p>';
 }
 
 function escapeHtml(s) {
