@@ -2095,6 +2095,12 @@ document.addEventListener('keydown', (e) => {
   window.__ccAuthToken = null;
   cc.getSession().then((s) => { window.__ccAuthToken = s?.access_token || null; }).catch(() => {});
 </script>
+<!-- Members-only UX gate (paid Growth-Zone tool). Authoritative spend/PII gate
+     is server-side in api/exercise-report.js; this blocks casual/anonymous use. -->
+<script type="module">
+  import { gateTool } from '/auth/tool-gate.js';
+  gateTool('gz_paid_tools', { toolName: 'Motivation & Self-Determination' });
+</script>
 <script src="https://website-assistant-sandy.vercel.app/chat-widget.js"></script>
 </body>
 </html>

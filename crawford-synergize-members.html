@@ -305,6 +305,10 @@ a.mcard--launch {
   font-family: inherit;
   transition: background 0.2s;
 }
+/* Launch cards are the OUTER <a> (vs the inner header of expandable/workout
+   cards), so the shared `background:none` above defeated .member-card's slate
+   and let the near-black page show through. Restore the slate for consistency. */
+a.mcard--launch { background: var(--slate); }
 .mcard__header:hover,
 a.mcard--launch:hover { background: rgba(255,255,255,0.025); }
 .mcard__heading { display: flex; flex-direction: column; gap: 0.4rem; min-width: 0; }

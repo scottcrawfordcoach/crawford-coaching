@@ -6,6 +6,19 @@ The format is based on Keep a Changelog principles and uses reverse chronologica
 
 ## [2026-06-08]
 
+### Fixed — Members-area launch cards rendered near-black instead of slate
+
+- [crawford-synergize-members.html](crawford-synergize-members.html): the Interval Timer, Liability Waiver, and Quick EMOM launch cards showed a near-black (`--ink`) background while the expandable/workout cards were slate (`--slate`). Cause: the shared `.mcard__header, a.mcard--launch { background: none }` rule. On expandable/workout cards `a.mcard--launch` is the *inner* element so the `<article>.member-card` slate shows through; but the three static launch cards use `<a class="member-card mcard mcard--launch">` as the *outer* element, where `a.mcard--launch` (element+class specificity) overrides `.member-card`'s slate and the page background bleeds through. Added a dedicated `a.mcard--launch { background: var(--slate); }` rule to restore consistency; hover state unchanged. **Needs a Vercel deploy to go live.**
+
+### Added — Client-side member gate on the paid Growth-Zone tool pages
+
+The paid tool pages (`/motivation`, `/optimism`, `/task-triage`) loaded `auth.js` **only** to attach the session token to the report request — so `api/exercise-report.js` server-enforced the AI-report generation (spend + PII), but the page and the interactive exercise itself were fully open to anyone, including anonymous/private-browser visitors. The "Members" tier chip was cosmetic with nothing behind it.
+
+- **Added** [auth/tool-gate.js](auth/tool-gate.js) — a shared `gateTool(capability, { toolName })` module that drops a full-screen veil on load, resolves capabilities via `cc.getCapabilities()`, and either removes the veil (entitled) or shows a "Members only" gate with sign-in (anon) / upgrade (signed-in non-member) CTAs. Brand-styled, self-contained (inline styles, no page-CSS dependency).
+- **Changed** [crawford-motivation.html](crawford-motivation.html), [crawford-optimism.html](crawford-optimism.html), [crawford-task-triage.html](crawford-task-triage.html): each now calls `gateTool('gz_paid_tools', …)` after the existing token-attach script.
+- **Scope/Security:** this is the **UX layer** — it stops casual/anonymous use and makes the page match the card labelling, but the exercise HTML is still in page source, so it is **not** a hard boundary. The authoritative gate for spend + PII stays the server check in `api/exercise-report.js`. True page-level enforcement would require serving these pages behind an authenticated function (the Phase-3 static→Next.js migration). **Needs a Vercel deploy to go live.**
+- **Left open by design:** the *Email Required* tier (`/core-values`, `/strengths`, `/feelings`) is not gated — those are email-capture tools, not member-only. Flagged for Scott in case he wants those gated too.
+
 ### Added/Changed — Surface a single Interval Timer entry point in the members area + Growth Zone
 
 Step 5 added the `custom_timer` UX gate on the timer page itself (`#modeCustomTimerBtn` locks for non-members; `cc.hasCapability('custom_timer')` unlocks it), but never surfaced a way for members to *reach* the timer from their member areas. Now that the full custom builder is auth-gated on the timer page, a single un-gated "Interval Timer" card that links to `/timer` is enough — no separate locked custom-timer card needed.
