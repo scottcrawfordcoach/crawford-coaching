@@ -6,6 +6,13 @@ The format is based on Keep a Changelog principles and uses reverse chronologica
 
 ## [2026-06-07]
 
+### Added — Capability resolver in `auth.js` (Capability Model Step 1, UX layer)
+
+- [auth/auth.js](auth/auth.js): added the client capability resolver per `crawford-coaching-mailer/CAPABILITY-REGISTRY.md`. New surface on `cc`: `getCapabilities()` / `hasCapability(name)` (async, current user), `resolveCapabilities(contact)` / `coarseRole(contact)` (pure), and `getCoarseRole()`. Resolution is **additive over every active membership** (not off winner-take-all `getRole()`): `SYNERGIZE_SUITE` ∪ `GZ_PAID_SUITE` ∪ `GZ_EMAIL_SUITE` ∪ admin bundles ∪ stripped `CAP_*` tags.
+- **Synergize/coaching access is billing-derived:** a new `hasServiceAccess()` helper prefers the `*_billed_through` month-stamp (`>= current month`, so access auto-expires when unbilled even if a sync run is missed) and falls back to `*_active` only when there's no stamp — i.e. a deliberate comp/manual grant. `getContact()` now also selects `synergize_billed_through` / `coaching_billed_through`.
+- **No UI wired yet** — this is the resolver only; consumers (members-area cards, EMOM builder, Growth-Zone card states) come in Step 2. `hasCapability()` is UX-only for every capability except `custom_timer` / `waiver` / `gz_paid_tools`, which get server enforcement in Steps 4–5.
+- Verified with 11 unit checks (Node): synergize-only → full `SYNERGIZE_SUITE`; coaching+synergize stays additive; `CAP_CUSTOM_TIMER` on a non-member → `custom_timer`; lapsed stamp → empty; comp (active, no stamp) → suite; ADMIN superset; coarseRole public/member/admin; anon → empty.
+
 ### Changed — Synergize members "Holiday hours" card lists all closures in a 30-day window
 
 - [crawford-synergize-members.html](crawford-synergize-members.html) `loadHolidayClosures()` now looks ahead **30 days** (was 60) via a named `CLOSURE_LOOKAHEAD_DAYS` constant, and **drops the previous 4-item cap** (`.slice(0, 4)`) so a full multi-day vacation is never truncated. The empty-state message updates to "No closures in the next 30 days," and a `member-feed__hint` line — "Ask the assistant about dates beyond this." — points members to the assistant for closures further out.

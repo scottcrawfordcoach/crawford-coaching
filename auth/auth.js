@@ -38,6 +38,45 @@ export const ROLES = Object.freeze({
   ADMIN:               'admin',
 });
 
+// ---------------------------------------------------------------------------
+// Capability model (canonical names: crawford-coaching-mailer/CAPABILITY-REGISTRY.md).
+//
+// A capability is granted if any active membership bundle includes it OR an
+// explicit CAP_<NAME> tag is set. Resolution is ADDITIVE over every active
+// membership — never derived from the single winning getRole() (which is
+// winner-take-all and would drop overlapping memberships).
+//
+// IMPORTANT: hasCapability() is a UX convenience for every capability EXCEPT
+// custom_timer, waiver, and gz_paid_tools — those are enforced server-side
+// (Steps 4–5). A client check is never the real boundary for them.
+// ---------------------------------------------------------------------------
+const SYNERGIZE_SUITE = ['wod', 'custom_timer', 'emom_builder', 'waiver', 'gz_email_tools'];
+const GZ_EMAIL_SUITE  = ['gz_email_tools'];
+const GZ_PAID_SUITE   = ['gz_email_tools', 'gz_paid_tools'];                 // superset of email
+const ADMIN_WORKOUTS_CAPS   = ['workouts'];
+const ADMIN_NEWSLETTER_CAPS = ['newsletter', 'email', 'analytics'];
+const ADMIN_BLOG_CAPS       = ['blog'];
+// Full ADMIN = every member-side capability ∪ every admin capability.
+const ADMIN_ALL_CAPS = [
+  ...SYNERGIZE_SUITE, 'gz_paid_tools',
+  ...ADMIN_WORKOUTS_CAPS, ...ADMIN_NEWSLETTER_CAPS, ...ADMIN_BLOG_CAPS,
+];
+
+// Current calendar month as 'YYYY-MM' (matches contacts.*_billed_through).
+function currentMonth() {
+  return new Date().toISOString().slice(0, 7);
+}
+
+// Billing-derived access for a service. Prefers the billed_through month-stamp
+// (so access auto-expires when a member isn't billed for the current month,
+// even if a sync run is missed); falls back to the *_active boolean only when
+// there is no stamp — i.e. a deliberate comp/manual grant (e.g. a test account).
+function hasServiceAccess(contact, service) {
+  const stamp = contact[`${service}_billed_through`];
+  if (stamp) return stamp >= currentMonth();
+  return contact[`${service}_active`] === true;
+}
+
 let _clientPromise = null;
 let _contactCache = null;
 
@@ -96,7 +135,9 @@ async function getContact({ force = false } = {}) {
         'last_name',
         'tier',
         'synergize_active',
+        'synergize_billed_through',
         'coaching_active',
+        'coaching_billed_through',
         'whole_active',
         'growth_zone_subscribed',
         'whole_alumni_claimed',
@@ -131,6 +172,61 @@ async function getRole() {
   if (contact.synergize_active)       return ROLES.SYNERGIZE_MEMBER;
   if (contact.whole_alumni_claimed)   return ROLES.WHOLE_ALUMNI;
   return ROLES.EMAIL_CAPTURED;
+}
+
+// Coarse 3-role view (reporting/UI façade only — getRole() stays authoritative
+// for the fine-grained enum). public | member | admin.
+function coarseRole(contact) {
+  if (!contact) return 'public';
+  const tags = (contact.contact_tags || []).map(t => t.tag);
+  if (tags.some(t => t === 'ADMIN' || t.startsWith('ADMIN_'))) return 'admin';
+  const isMember =
+    hasServiceAccess(contact, 'synergize') ||
+    hasServiceAccess(contact, 'coaching') ||
+    contact.whole_active === true ||
+    contact.growth_zone_subscribed === true ||
+    contact.whole_alumni_claimed === true;
+  return isMember ? 'member' : 'public';
+}
+
+// Resolve the additive capability set for a contact (registry §6). Pass a
+// contact to resolve synchronously, or omit to resolve the current user.
+function resolveCapabilities(contact) {
+  const caps = new Set();
+  if (!contact) return caps;
+  const add = (list) => list.forEach(c => caps.add(c));
+
+  // Membership bundles — additive over every active flag (NOT off getRole()).
+  if (hasServiceAccess(contact, 'synergize')) add(SYNERGIZE_SUITE);
+  if (contact.growth_zone_subscribed === true) add(GZ_PAID_SUITE);
+  if (contact.tier === 'email_captured') add(GZ_EMAIL_SUITE);
+
+  // Admin tag bundles.
+  const tags = (contact.contact_tags || []).map(t => t.tag);
+  if (tags.includes('ADMIN')) add(ADMIN_ALL_CAPS);
+  if (tags.includes('ADMIN_WORKOUTS')) add(ADMIN_WORKOUTS_CAPS);
+  if (tags.includes('ADMIN_NEWSLETTER')) add(ADMIN_NEWSLETTER_CAPS);
+  if (tags.includes('ADMIN_BLOG')) add(ADMIN_BLOG_CAPS);
+
+  // À-la-carte CAP_<NAME> tags → name (stripped, lowercased).
+  for (const tag of tags) {
+    if (tag.startsWith('CAP_')) caps.add(tag.slice(4).toLowerCase());
+  }
+  return caps;
+}
+
+async function getCapabilities() {
+  return resolveCapabilities(await getContact());
+}
+
+// UX-only for every capability except custom_timer / waiver / gz_paid_tools,
+// which are enforced server-side (Steps 4–5). Never the boundary for those.
+async function hasCapability(name) {
+  return (await getCapabilities()).has(name);
+}
+
+async function getCoarseRole() {
+  return coarseRole(await getContact());
 }
 
 async function signInWithEmail({ email, redirectTo } = {}) {
@@ -228,6 +324,11 @@ export const cc = {
   getUser,
   getContact,
   getRole,
+  getCoarseRole,
+  coarseRole,              // pure: coarseRole(contact)
+  getCapabilities,
+  resolveCapabilities,     // pure: resolveCapabilities(contact) -> Set
+  hasCapability,
   signInWithEmail,
   completeCallback,
   signOut,
