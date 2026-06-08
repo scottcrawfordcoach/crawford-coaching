@@ -306,9 +306,12 @@ a.mcard--launch {
   transition: background 0.2s;
 }
 /* Launch cards are the OUTER <a> (vs the inner header of expandable/workout
-   cards), so the shared `background:none` above defeated .member-card's slate
-   and let the near-black page show through. Restore the slate for consistency. */
-a.mcard--launch { background: var(--slate); }
+   cards), so they pick up two things from .member-card that the inner-header
+   cards don't: (1) `background:none` here defeated .member-card's slate, letting
+   the near-black page show through; (2) `flex-direction:column` made
+   align-items:center centre the text and drop the arrow below. Restore the slate
+   and force a row so content is left-aligned with the arrow at the right. */
+a.mcard--launch { background: var(--slate); flex-direction: row; }
 .mcard__header:hover,
 a.mcard--launch:hover { background: rgba(255,255,255,0.025); }
 .mcard__heading { display: flex; flex-direction: column; gap: 0.4rem; min-width: 0; }
