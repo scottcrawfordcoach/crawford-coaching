@@ -6,9 +6,22 @@ The format is based on Keep a Changelog principles and uses reverse chronologica
 
 ## [2026-06-08]
 
-### Fixed — Members-area launch cards rendered near-black instead of slate
+### Added — Synergize digital intake: backend (phases 1–4 of the build handoff)
 
-- [crawford-synergize-members.html](crawford-synergize-members.html): the Interval Timer, Liability Waiver, and Quick EMOM launch cards showed a near-black (`--ink`) background while the expandable/workout cards were slate (`--slate`). Cause: the shared `.mcard__header, a.mcard--launch { background: none }` rule. On expandable/workout cards `a.mcard--launch` is the *inner* element so the `<article>.member-card` slate shows through; but the three static launch cards use `<a class="member-card mcard mcard--launch">` as the *outer* element, where `a.mcard--launch` (element+class specificity) overrides `.member-card`'s slate and the page background bleeds through. Added a dedicated `a.mcard--launch { background: var(--slate); }` rule to restore consistency; hover state unchanged. **Needs a Vercel deploy to go live.**
+Stands up the storage + write path for the 3-document member intake (Health Screen, Liability Waiver, Group Policies), per [`synergize-intake-build-handoff.md`](synergize-intake-build-handoff.md). **Backend only — the on-site form, the `/synergize/intake` route, and members-area gating (phases 5–6) are not wired yet**, so nothing is user-facing until they are. Two 🚩 gated production steps (apply the migration; redeploy `data-handler`) must run before this path is live.
+
+- **Canonical text + hashing source of truth** — new [`intake/v1.0/documents.js`](intake/v1.0/documents.js): the exact v1.0 wording (Part-A PAR-Q, 7 waiver clauses with the elevated assumption-of-risk clause, group policies) as one module the form renders from *and* the server hashes, so the shown text and `doc_text_hash` are byte-identical by construction. Human-readable mirrors in [`intake/v1.0/health_screen.md`](intake/v1.0/health_screen.md), [`liability_waiver.md`](intake/v1.0/liability_waiver.md), [`group_policies.md`](intake/v1.0/group_policies.md).
+- **Schema (phase 1–2)** — new [`migrations/2026-06-intake-submissions.sql`](migrations/2026-06-intake-submissions.sql): Option-A single `intake_submissions` table (typed by `intake_doc_type` enum, with the reserved future `online_activity_disclaimer`), all §1 capture columns, RLS (`intake_self_select`/`intake_self_insert` scoped to `auth_user_id = auth.uid()`), and an immutability trigger freezing the signed columns after insert. Idempotent. **Not yet applied (🚩 gated).**
+- **Write endpoint (phase 4)** — new [`api/intake-submit.js`](api/intake-submit.js): verifies the Supabase session, **requires the `waiver` capability** (server-side membership enforcement — the write-path gate the capability design flagged), resolves `contact_id` from the trusted session (never the body), validates completeness per doc, server-computes `doc_text_hash`/`flagged`/`expires_at`, captures IP + user-agent, and writes the immutable row via the new `data-handler` `intake_submit` action.
+- [`api/_capabilities.js`](api/_capabilities.js): `capabilitiesFromToken()` now also returns the trusted `userId` (token auth uid) for the record's `auth_user_id`, avoiding a second token verification.
+
+### Fixed — Members-area launch cards: near-black background + centred text
+
+Both issues had one root cause: the three static launch cards (Interval Timer, Liability Waiver, Quick EMOM) use `<a class="member-card mcard mcard--launch">` as the **outer** element, so the anchor inherits `.member-card` properties that the expandable/workout cards avoid (their `.member-card` is a `display:block` `<article>` with the launch styling on an inner element).
+
+- **Background:** the shared `.mcard__header, a.mcard--launch { background: none }` rule (element+class specificity) overrode `.member-card`'s slate on the outer anchor, so the near-black page (`--ink`) bled through. Fixed with `a.mcard--launch { background: var(--slate); }`.
+- **Alignment:** the anchor also inherited `flex-direction: column` from `.member-card`, so the anchor's `align-items:center` centred the text horizontally and `justify-content:space-between` pushed the arrow to the bottom. Fixed by forcing `a.mcard--launch { flex-direction: row; }` — text now left-aligned with the arrow on the right, matching the workout/expandable cards.
+- [crawford-synergize-members.html](crawford-synergize-members.html); hover state unchanged. **Needs a Vercel deploy to go live.**
 
 ### Added — Client-side member gate on the paid Growth-Zone tool pages
 

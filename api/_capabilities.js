@@ -72,6 +72,7 @@ export async function capabilitiesFromToken(accessToken, env) {
 
   // 1. Who is this token? (Supabase validates signature + expiry.)
   let email = null;
+  let userId = null;
   try {
     const whoRes = await fetch(`${supabaseUrl}/auth/v1/user`, {
       headers: { Authorization: `Bearer ${accessToken}`, apikey: supabaseAnon },
@@ -79,6 +80,7 @@ export async function capabilitiesFromToken(accessToken, env) {
     if (!whoRes.ok) return { ok: false, status: 401, error: 'Invalid session' };
     const who = await whoRes.json();
     email = (who?.email || '').toLowerCase().trim();
+    userId = who?.id || null;
   } catch {
     return { ok: false, status: 401, error: 'Invalid session' };
   }
@@ -100,7 +102,7 @@ export async function capabilitiesFromToken(accessToken, env) {
   }
   if (!contact) return { ok: false, status: 403, error: 'No account on file' };
 
-  return { ok: true, status: 200, email, contact, caps: resolveCapabilities(contact) };
+  return { ok: true, status: 200, email, userId, contact, caps: resolveCapabilities(contact) };
 }
 
 export function bearerFrom(req) {
