@@ -887,7 +887,7 @@ img { max-width: 100%; display: block; vertical-align: top; }
         </div>
 
         <!-- MOTIVATION (paid) -->
-        <div class="tool-card tool-card--paid">
+        <div class="tool-card tool-card--paid" data-cap="gz_paid_tools" data-launch-label="Start exercise">
           <span class="tool-card__tier tool-card__tier--paid">Members</span>
           <div class="tool-card__icon">🔥</div>
           <h3 class="tool-card__title">Motivation &amp; Self-Determination</h3>
@@ -896,7 +896,7 @@ img { max-width: 100%; display: block; vertical-align: top; }
         </div>
 
         <!-- OPTIMISM (paid) -->
-        <div class="tool-card tool-card--paid">
+        <div class="tool-card tool-card--paid" data-cap="gz_paid_tools" data-launch-label="Start exercise">
           <span class="tool-card__tier tool-card__tier--paid">Members</span>
           <div class="tool-card__icon">🔭</div>
           <h3 class="tool-card__title">Optimism &amp; Explanatory Style</h3>
@@ -923,7 +923,7 @@ img { max-width: 100%; display: block; vertical-align: top; }
         </div>
 
         <!-- TASK TRIAGE (paid) -->
-        <div class="tool-card tool-card--paid">
+        <div class="tool-card tool-card--paid" data-cap="gz_paid_tools" data-launch-label="Open tool">
           <span class="tool-card__tier tool-card__tier--paid">Members</span>
           <div class="tool-card__icon">🔀</div>
           <h3 class="tool-card__title">Task Triage</h3>
@@ -1107,6 +1107,31 @@ document.addEventListener('keydown', function(e) {
 document.getElementById('trust-modal').addEventListener('click', function(e) {
   if (e.target === this) closeTrust();
 });
+</script>
+
+<!-- Capability Model Step 2 (UX): unlock paid Growth-Zone cards for entitled
+     members. Non-members keep the locked card + upgrade CTA (decision 6).
+     UX-only — gz_paid_tools is enforced server-side later (Step 4). -->
+<script type="module">
+  import { cc } from '/auth/auth.js';
+  (async () => {
+    try {
+      const caps = await cc.getCapabilities();
+      if (!caps.size) return; // anon / no entitlements → leave locked CTAs as-is
+      document.querySelectorAll('.tool-card[data-cap]').forEach((card) => {
+        if (!caps.has(card.getAttribute('data-cap'))) return;
+        card.classList.remove('tool-card--paid');
+        const tier = card.querySelector('.tool-card__tier');
+        if (tier) { tier.textContent = 'Unlocked'; tier.classList.add('tool-card__tier--open'); }
+        const link = card.querySelector('.tool-card__link');
+        const label = card.getAttribute('data-launch-label');
+        if (link && label) link.textContent = label;
+      });
+    } catch (e) {
+      // Never block the page on auth — locked CTAs remain the safe default.
+      console.warn('[gz] capability upgrade skipped', e);
+    }
+  })();
 </script>
 
 <script src="https://website-assistant-sandy.vercel.app/chat-widget.js"></script>

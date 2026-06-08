@@ -15,13 +15,21 @@
  *   MAIL_SENDER_BEARER_TOKEN
  */
 
+import { capabilitiesFromToken, bearerFrom } from './_capabilities.js';
+
 const DATA_HANDLER = 'https://yxndmpwqvdatkujcukdv.supabase.co/functions/v1/data-handler';
 const MAIL_SENDER = 'https://yxndmpwqvdatkujcukdv.supabase.co/functions/v1/mail-sender';
+
+// Paid Growth-Zone exercises (gz_paid_tools). These trigger AI/report spend, so
+// they are gated server-side — a forged/missing client flag must never reach the
+// generation step. Email-tier exercises (core_values, character_strengths,
+// feelings) stay open (email capture).
+const PAID_EXERCISES = new Set(['motivation', 'optimism', 'task_triage']);
 
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
 
   if (req.method === 'OPTIONS') return res.status(204).end();
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
@@ -48,6 +56,22 @@ export default async function handler(req, res) {
 
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     return res.status(400).json({ error: 'Invalid email format' });
+  }
+
+  // ── Step 4 enforcement: paid exercises require a signed-in, entitled member.
+  //     Verified server-side from the Supabase token + service-role contact
+  //     lookup BEFORE any contact upsert or AI spend. The request body is never
+  //     trusted for entitlement.
+  if (PAID_EXERCISES.has(exercise_type)) {
+    const auth = await capabilitiesFromToken(bearerFrom(req), {
+      supabaseUrl: process.env.SUPABASE_URL,
+      supabaseAnon: process.env.SUPABASE_ANON_KEY,
+      dataHandlerKey: dhToken,
+    });
+    if (!auth.ok) return res.status(auth.status).json({ error: auth.error });
+    if (!auth.caps.has('gz_paid_tools')) {
+      return res.status(403).json({ error: 'This report requires a Growth Zone subscription.' });
+    }
   }
 
   const cleanEmail = email.toLowerCase().trim();

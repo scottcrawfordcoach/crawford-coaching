@@ -2216,7 +2216,26 @@
     const modeEmomWorkoutBtn = document.getElementById('modeEmomWorkoutBtn');
     if (modeEmomWorkoutBtn) modeEmomWorkoutBtn.addEventListener('click', switchToEmomConfig);
     document.getElementById('modeEmomTimerBtn').addEventListener('click', switchToEmomTimerConfig);
-    document.getElementById('modeCustomTimerBtn').addEventListener('click', switchToCustomTimer);
+    // custom_timer is capability-gated (Capability Model Step 5 — UX entry gate).
+    // The base timer (clock/countdown/quick-EMOM) stays fully public; only this
+    // "Create Custom Timer" mode is members-only. Fail-closed: locked until the
+    // auth module calls window.__setCustomTimerAccess(true). Not sensitive code —
+    // if productized, rebuild as a server-enforced standalone app.
+    let customTimerAllowed = false;
+    const customBtn = document.getElementById('modeCustomTimerBtn');
+    function renderCustomLock() {
+      const sub = customBtn.querySelector('.mode-sub');
+      customBtn.style.opacity = customTimerAllowed ? '' : '0.6';
+      if (sub) sub.textContent = customTimerAllowed
+        ? 'Custom intervals, work/rest periods & rounds'
+        : '🔒 Members only — included with Synergize';
+    }
+    window.__setCustomTimerAccess = function (allowed) { customTimerAllowed = !!allowed; renderCustomLock(); };
+    renderCustomLock();
+    customBtn.addEventListener('click', function () {
+      if (customTimerAllowed) switchToCustomTimer();
+      else window.location.href = '/synergize#custom-timer';
+    });
     const modeSavedBtn = document.getElementById('modeSavedBtn');
     if (modeSavedBtn) modeSavedBtn.addEventListener('click', switchToSavedWorkouts);
     document.getElementById('modeClockBtn').addEventListener('click', () => { window.location.href = 'clock.html'; });
@@ -2738,6 +2757,16 @@
 
     etStartBtn.addEventListener('click', startEmomTimer);
 
+  </script>
+  <!-- Capability Model Step 5: UX-gate the 'Create Custom Timer' entry. Base
+       timer stays public; the custom mode unlocks only for members holding
+       custom_timer (Synergize suite / CAP_CUSTOM_TIMER / ADMIN). Convenience
+       UI, not sensitive — a stricter boundary would live in a standalone app. -->
+  <script type="module">
+    import { cc } from '/auth/auth.js';
+    cc.hasCapability('custom_timer')
+      .then((ok) => window.__setCustomTimerAccess && window.__setCustomTimerAccess(ok))
+      .catch(() => {});
   </script>
   <script src="https://website-assistant-sandy.vercel.app/chat-widget.js"></script>
 </body>

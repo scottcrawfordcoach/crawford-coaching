@@ -484,7 +484,7 @@ img { max-width: 100%; display: block; vertical-align: top; }
   </article>
 
   <!-- QUICK EMOM BUILDER — launch (new tab) -->
-  <a class="member-card mcard mcard--launch" href="/quick-emom" target="_blank" rel="noopener">
+  <a class="member-card mcard mcard--launch" id="card-emom" href="/quick-emom" target="_blank" rel="noopener">
     <span class="mcard__heading">
       <span class="member-card__tag">Workout Builder</span>
       <span class="member-card__title">Quick EMOM Builder</span>
@@ -593,7 +593,24 @@ function reveal(contact) {
   if (contact?.first_name) greetingName.textContent = ', ' + contact.first_name;
   memberPage.classList.add('is-ready');
   gate.style.display = 'none';
+  applyCapabilityGates(contact);
   loadFeeds().catch((err) => console.warn('[members] feed load failed', err));
+}
+
+// Show only the launch cards the member is entitled to (Capability Model
+// Step 2, UX layer). Members in the area via coaching/whole status don't hold
+// the Synergize suite, so those cards are hidden for them. Class schedule and
+// holiday hours are informational (area-gated only) and always shown.
+// NOTE: waiver is also enforced server-side later (Step 4) — this is UX sugar.
+function applyCapabilityGates(contact) {
+  const caps = cc.resolveCapabilities(contact);
+  const gateCard = (id, capName) => {
+    const el = document.getElementById(id);
+    if (el && !caps.has(capName)) el.style.display = 'none';
+  };
+  gateCard('card-workout', 'wod');
+  gateCard('card-waiver', 'waiver');
+  gateCard('card-emom', 'emom_builder');
 }
 
 // ── Data sources ──────────────────────────────────────────

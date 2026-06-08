@@ -6,6 +6,32 @@ The format is based on Keep a Changelog principles and uses reverse chronologica
 
 ## [2026-06-07]
 
+### Added — Capability resolver in `auth.js` (Capability Model Step 1, UX layer)
+
+- [auth/auth.js](auth/auth.js): added the client capability resolver per `crawford-coaching-mailer/CAPABILITY-REGISTRY.md`. New surface on `cc`: `getCapabilities()` / `hasCapability(name)` (async, current user), `resolveCapabilities(contact)` / `coarseRole(contact)` (pure), and `getCoarseRole()`. Resolution is **additive over every active membership** (not off winner-take-all `getRole()`): `SYNERGIZE_SUITE` ∪ `GZ_PAID_SUITE` ∪ `GZ_EMAIL_SUITE` ∪ admin bundles ∪ stripped `CAP_*` tags.
+- **Synergize/coaching access is billing-derived:** a new `hasServiceAccess()` helper prefers the `*_billed_through` month-stamp (`>= current month`, so access auto-expires when unbilled even if a sync run is missed) and falls back to `*_active` only when there's no stamp — i.e. a deliberate comp/manual grant. `getContact()` now also selects `synergize_billed_through` / `coaching_billed_through`.
+- **No UI wired yet** — this is the resolver only; consumers (members-area cards, EMOM builder, Growth-Zone card states) come in Step 2. `hasCapability()` is UX-only for every capability except `custom_timer` / `waiver` / `gz_paid_tools`, which get server enforcement in Steps 4–5.
+- Verified with 11 unit checks (Node): synergize-only → full `SYNERGIZE_SUITE`; coaching+synergize stays additive; `CAP_CUSTOM_TIMER` on a non-member → `custom_timer`; lapsed stamp → empty; comp (active, no stamp) → suite; ADMIN superset; coarseRole public/member/admin; anon → empty.
+
+### Added — Capability-gated card presentation (Capability Model Step 2, UX layer)
+
+- [crawford-synergize-members.html](crawford-synergize-members.html): `reveal()` now calls `applyCapabilityGates(contact)` (uses `cc.resolveCapabilities`) to show only the launch cards the member is entitled to — `card-workout`→`wod`, `card-waiver`→`waiver`, `card-emom`→`emom_builder`. Members who enter via coaching/whole status (no Synergize suite) no longer see Synergize-only cards; class schedule + holiday hours stay (informational, area-gated). Added `id="card-emom"`.
+- [crawford-growth-zone.html](crawford-growth-zone.html): the three paid cards (Motivation, Optimism, Task Triage) are tagged `data-cap="gz_paid_tools"`; a new auth module upgrades them to a live launch (drops `tool-card--paid`, badge → "Unlocked", CTA → the real action) **only** for entitled members. Non-members keep the locked card + "Unlock with Growth Zone" CTA (decision 6 — shown, not hidden). Auth failure is non-blocking (locked stays the safe default).
+- **`custom_timer` intentionally NOT gated here** — it waits for the Step 5 server-enforced endpoint. These checks are UX-only; `waiver` / `gz_paid_tools` get real enforcement in Step 4.
+
+### Added — Server enforcement for `gz_paid_tools` (Capability Model Step 4)
+
+- **Added** [api/_capabilities.js](api/_capabilities.js) — server-side capability resolver (underscore-prefixed → not a Vercel route). Verifies the Supabase access token (`/auth/v1/user`), then resolves capabilities from the **service-role `contact_lookup`** (via `data-handler`), never from the request body. Mirrors the client resolver, billing-aware (`*_billed_through`).
+- **Changed** [api/exercise-report.js](api/exercise-report.js): paid exercises (`motivation`, `optimism`, `task_triage`) now require a signed-in member with `gz_paid_tools` — checked **before** any contact upsert or AI/report generation. Missing/invalid token → 401; valid token without the capability → 403. Email-tier exercises (`core_values`, `character_strengths`, `feelings`) stay open (email capture). Added `Authorization` to allowed CORS headers.
+- **Changed** the three paid exercise pages ([crawford-motivation.html](crawford-motivation.html), [crawford-optimism.html](crawford-optimism.html), [crawford-task-triage.html](crawford-task-triage.html)): attach the member's session token to the `exercise-report` POST so entitled members pass the server check.
+- **No `data-handler` deploy required** — used the existing `contact_lookup` (returns `*` incl. `growth_zone_subscribed` / `*_billed_through` / tags). Verified: resolver parity (server vs client), and the no-token guard returns 401 with no network call / no spend. Cross-project note in `../CHANGELOG.md` (shared access contract).
+- **`waiver` (the other Step 4 capability):** the read is already protected by Supabase RLS (`contacts_self_select` / per-user row policy), and the intake **write** flow (`/synergize/intake`) isn't built yet — so no waiver code change here beyond readiness. When the intake endpoint is built it must use `capabilitiesFromToken()` to verify session + `waiver` server-side. Deferred, not skipped.
+
+### Changed — `custom_timer` UX-gated at the entry (Capability Model Step 5)
+
+- [crawford-timer.html](crawford-timer.html): the "Create Custom Timer" mode is now **members-only** — gated client-side via `cc.hasCapability('custom_timer')`. **Fail-closed:** locked by default (dimmed, "🔒 Members only — included with Synergize"); a module unlocks it only when the resolver confirms `custom_timer` (Synergize suite / `CAP_CUSTOM_TIMER` / ADMIN). Non-entitled clicks route to `/synergize#custom-timer`. The **open base timer (clock, countdown, Quick EMOM) is untouched and fully public.**
+- **Deliberate decision change (logged):** decision 4's "server-enforced" requirement is **downgraded to UX-gated** for `custom_timer` — it's a non-sensitive convenience UI woven into a fragile public monolith, so the strict "code never sent" extraction isn't worth the regression risk to the open timer (the real paid/PII surfaces are already protected: `gz_paid_tools` server-gated, `waiver` via RLS). If productized, rebuild as a server-enforced standalone app. See registry §3 + design §8.6. No engine refactor; no server/data-handler change.
+
 ### Changed — Synergize members "Holiday hours" card lists all closures in a 30-day window
 
 - [crawford-synergize-members.html](crawford-synergize-members.html) `loadHolidayClosures()` now looks ahead **30 days** (was 60) via a named `CLOSURE_LOOKAHEAD_DAYS` constant, and **drops the previous 4-item cap** (`.slice(0, 4)`) so a full multi-day vacation is never truncated. The empty-state message updates to "No closures in the next 30 days," and a `member-feed__hint` line — "Ask the assistant about dates beyond this." — points members to the assistant for closures further out.
