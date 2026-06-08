@@ -13,6 +13,12 @@ The format is based on Keep a Changelog principles and uses reverse chronologica
 - **No UI wired yet** — this is the resolver only; consumers (members-area cards, EMOM builder, Growth-Zone card states) come in Step 2. `hasCapability()` is UX-only for every capability except `custom_timer` / `waiver` / `gz_paid_tools`, which get server enforcement in Steps 4–5.
 - Verified with 11 unit checks (Node): synergize-only → full `SYNERGIZE_SUITE`; coaching+synergize stays additive; `CAP_CUSTOM_TIMER` on a non-member → `custom_timer`; lapsed stamp → empty; comp (active, no stamp) → suite; ADMIN superset; coarseRole public/member/admin; anon → empty.
 
+### Added — Capability-gated card presentation (Capability Model Step 2, UX layer)
+
+- [crawford-synergize-members.html](crawford-synergize-members.html): `reveal()` now calls `applyCapabilityGates(contact)` (uses `cc.resolveCapabilities`) to show only the launch cards the member is entitled to — `card-workout`→`wod`, `card-waiver`→`waiver`, `card-emom`→`emom_builder`. Members who enter via coaching/whole status (no Synergize suite) no longer see Synergize-only cards; class schedule + holiday hours stay (informational, area-gated). Added `id="card-emom"`.
+- [crawford-growth-zone.html](crawford-growth-zone.html): the three paid cards (Motivation, Optimism, Task Triage) are tagged `data-cap="gz_paid_tools"`; a new auth module upgrades them to a live launch (drops `tool-card--paid`, badge → "Unlocked", CTA → the real action) **only** for entitled members. Non-members keep the locked card + "Unlock with Growth Zone" CTA (decision 6 — shown, not hidden). Auth failure is non-blocking (locked stays the safe default).
+- **`custom_timer` intentionally NOT gated here** — it waits for the Step 5 server-enforced endpoint. These checks are UX-only; `waiver` / `gz_paid_tools` get real enforcement in Step 4.
+
 ### Changed — Synergize members "Holiday hours" card lists all closures in a 30-day window
 
 - [crawford-synergize-members.html](crawford-synergize-members.html) `loadHolidayClosures()` now looks ahead **30 days** (was 60) via a named `CLOSURE_LOOKAHEAD_DAYS` constant, and **drops the previous 4-item cap** (`.slice(0, 4)`) so a full multi-day vacation is never truncated. The empty-state message updates to "No closures in the next 30 days," and a `member-feed__hint` line — "Ask the assistant about dates beyond this." — points members to the assistant for closures further out.
