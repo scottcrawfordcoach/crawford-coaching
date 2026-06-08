@@ -6,6 +6,15 @@ The format is based on Keep a Changelog principles and uses reverse chronologica
 
 ## [2026-06-08]
 
+### Added — `custom_timer` member-facing entry points (finishes Capability Model Step 5)
+
+Step 5 added the `custom_timer` UX gate on the timer page itself (`#modeCustomTimerBtn` locks for non-members; `cc.hasCapability('custom_timer')` unlocks it), but never surfaced a way for members to *reach* it from their member areas. Added the two missing launch cards:
+
+- [crawford-synergize-members.html](crawford-synergize-members.html): new **Create Custom Timer** launch card (`id="card-custom-timer"`, → `/timer`, new tab), mirroring the Quick EMOM Builder card. Gated by `applyCapabilityGates()` via a new `gateCard('card-custom-timer', 'custom_timer')` line, so it shows only for members entitled to `custom_timer` (Synergize suite / ADMIN) and is hidden for coaching/whole-only members — same pattern as `card-emom`/`card-waiver`.
+- [crawford-growth-zone.html](crawford-growth-zone.html): new **Create Custom Timer** tool card in *Working Tools* next to the open Interval Timer card. Uses the existing Step-2 paid-card pattern (`tool-card--paid` + `data-cap="custom_timer"` + `data-launch-label="Launch custom timer"`): non-members see a locked "Members" card; the Step-2 upgrade module unlocks it to a live launch for entitled members. Link → `/timer`.
+- **No new gating logic or capability names** — reuses the shipped `custom_timer` capability and the existing client resolver. UX-only surfacing; the authoritative gate remains the timer page's `hasCapability` check. **Needs a Vercel deploy to go live.**
+- **Note:** `custom_timer` is in the Synergize suite, not `gz_paid_tools`, so the Growth-Zone card unlocks for Synergize members/ADMIN — **not** for plain Growth-Zone-only subscribers. Flagged for Scott in case GZ subscribers should also get it.
+
 ### Fixed — Magic-link sign-in from the members/Growth-Zone areas landed on the admin app
 
 - **Root cause (Supabase Auth URL config, shared project `yxndmpwqvdatkujcukdv`):** the site canonicalises to `www.crawford-coaching.ca`, so `signInWithEmail()` builds `redirectTo = https://www.crawford-coaching.ca/auth/callback?next=…`. The Redirect URLs allow-list held only the **exact** `https://www.crawford-coaching.ca/auth/callback` (no wildcard), which does **not** match a URL carrying a `?next=` query string (Supabase separators are `.` and `/`; only `**` matches a query). On no match, Supabase silently falls back to the **Site URL** (`https://app.crawford-coaching.ca`, the admin app) — so every crawford-site magic link landed in the admin area, and the session never reached the `www` origin (hence the members area never granted access on a fresh machine). Confirmed via auth logs: all recent `/otp` + `/verify` events had `referer: app.crawford-coaching.ca`.

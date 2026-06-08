@@ -493,6 +493,16 @@ img { max-width: 100%; display: block; vertical-align: top; }
     <span class="mcard__icon mcard__icon--ext" aria-hidden="true">&#8599;</span>
   </a>
 
+  <!-- CREATE CUSTOM TIMER — launch (new tab); unlocks on the timer page via custom_timer -->
+  <a class="member-card mcard mcard--launch" id="card-custom-timer" href="/timer" target="_blank" rel="noopener">
+    <span class="mcard__heading">
+      <span class="member-card__tag">Timer</span>
+      <span class="member-card__title">Create Custom Timer</span>
+      <span class="mcard__sub">Build custom intervals, work/rest periods &amp; rounds — included with your membership</span>
+    </span>
+    <span class="mcard__icon mcard__icon--ext" aria-hidden="true">&#8599;</span>
+  </a>
+
 </section>
 
 <!-- ── GROWTH ZONE CROSS-PROMO ── -->
@@ -611,6 +621,7 @@ function applyCapabilityGates(contact) {
   gateCard('card-workout', 'wod');
   gateCard('card-waiver', 'waiver');
   gateCard('card-emom', 'emom_builder');
+  gateCard('card-custom-timer', 'custom_timer');
 }
 
 // ── Data sources ──────────────────────────────────────────
