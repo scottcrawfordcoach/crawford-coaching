@@ -1938,7 +1938,7 @@ function requestReport() {
 
   fetch('/api/exercise-report', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: Object.assign({ 'Content-Type': 'application/json' }, window.__ccAuthToken ? { Authorization: 'Bearer ' + window.__ccAuthToken } : {}),
     body: JSON.stringify(payload),
   })
     .then(res => res.json())
@@ -2088,6 +2088,13 @@ document.addEventListener('keydown', (e) => {
 })();
 </script>
 
+<!-- Step 4: attach the member's session token so the server can verify the
+     gz_paid_tools entitlement before generating this paid report. -->
+<script type="module">
+  import { cc } from '/auth/auth.js';
+  window.__ccAuthToken = null;
+  cc.getSession().then((s) => { window.__ccAuthToken = s?.access_token || null; }).catch(() => {});
+</script>
 <script src="https://website-assistant-sandy.vercel.app/chat-widget.js"></script>
 </body>
 </html>
