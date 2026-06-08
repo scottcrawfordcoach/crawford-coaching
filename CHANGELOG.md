@@ -6,6 +6,18 @@ The format is based on Keep a Changelog principles and uses reverse chronologica
 
 ## [2026-06-07]
 
+### Status — Capability Model Steps 1–5 merged & live in production (PR #1)
+
+The capability work below (Steps 1, 2, 4, 5) shipped via **PR #1 → `main` (`31f4123`)** and is **live in production** (deploy READY 2026-06-07). Member access is billing-derived (see migration 003 + the `*_billed_through` sync in the mailer repo's log).
+
+- **Verified on prod:** forged `/api/exercise-report` requests for paid exercises are rejected *before* any AI spend — no token → `401`, invalid token → `401`. The `gz_paid_tools` server gate works live. Resolver unit tests (11/11) and server↔client parity confirmed.
+- **Step 3** (admin gating) confirmed already-correct — no code change.
+
+**Still to come (not blocking):**
+- Human walkthrough on prod of member vs non-member states (members-area cards, custom-timer mode, Growth-Zone upsells) — needs sign-in.
+- **`waiver` write-path enforcement** when the `/synergize/intake` flow is built — use `api/_capabilities.js` `capabilitiesFromToken()` to verify session + `waiver` server-side (read is already RLS-protected).
+- Monthly **billing → access sync** must be re-run each month — see `Accounts - AI/invoicing/MONTHLY-BILLING-SYNC.md` and the recurring calendar reminder (1st of each month).
+
 ### Added — Capability resolver in `auth.js` (Capability Model Step 1, UX layer)
 
 - [auth/auth.js](auth/auth.js): added the client capability resolver per `crawford-coaching-mailer/CAPABILITY-REGISTRY.md`. New surface on `cc`: `getCapabilities()` / `hasCapability(name)` (async, current user), `resolveCapabilities(contact)` / `coarseRole(contact)` (pure), and `getCoarseRole()`. Resolution is **additive over every active membership** (not off winner-take-all `getRole()`): `SYNERGIZE_SUITE` ∪ `GZ_PAID_SUITE` ∪ `GZ_EMAIL_SUITE` ∪ admin bundles ∪ stripped `CAP_*` tags.
