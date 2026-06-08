@@ -118,16 +118,36 @@ function fail(message) {
   document.querySelector('.spinner')?.remove();
 }
 
+// Only ever redirect to a safe, same-origin path. Rejects absolute URLs and
+// protocol-relative ("//evil.com") values, plus the two routes that would loop.
+function safeNext(raw) {
+  if (!raw) return null;
+  if (!raw.startsWith('/') || raw.startsWith('//')) return null;
+  if (raw === '/sign-in' || raw === '/auth/callback') return null;
+  return raw;
+}
+
 (async () => {
   try {
     await cc.completeCallback();
+
+    // Belt-and-suspenders against the Site-URL fallback loop: completeCallback
+    // resolves once it parses a token, but confirm a session actually landed on
+    // THIS origin before routing onward. If a misconfigured redirect ever sends
+    // the magic link to a different address (e.g. the admin app), there will be
+    // no session here — surface that clearly instead of bouncing the user into
+    // an endless sign-in loop.
+    const session = await cc.getSession();
+    if (!session) {
+      fail('Your sign-in didn’t complete on this site — the link may have opened on a different address. Request a new link and open it on this page.');
+      return;
+    }
+
     msg.textContent = 'Routing you to the right place.';
 
-    const url  = new URL(window.location.href);
-    const next = url.searchParams.get('next');
-    if (next && next.startsWith('/') && next !== '/sign-in' && next !== '/auth/callback') {
-      window.location.replace(next); return;
-    }
+    const next = safeNext(new URL(window.location.href).searchParams.get('next'));
+    if (next) { window.location.replace(next); return; }
+
     const role = await cc.getRole();
     let target = '/growth-zone';
     if (role === cc.ROLES.SYNERGIZE_MEMBER ||

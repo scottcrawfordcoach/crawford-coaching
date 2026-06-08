@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 
 The format is based on Keep a Changelog principles and uses reverse chronological order.
 
+## [2026-06-08]
+
+### Fixed — Magic-link sign-in from the members/Growth-Zone areas landed on the admin app
+
+- **Root cause (Supabase Auth URL config, shared project `yxndmpwqvdatkujcukdv`):** the site canonicalises to `www.crawford-coaching.ca`, so `signInWithEmail()` builds `redirectTo = https://www.crawford-coaching.ca/auth/callback?next=…`. The Redirect URLs allow-list held only the **exact** `https://www.crawford-coaching.ca/auth/callback` (no wildcard), which does **not** match a URL carrying a `?next=` query string (Supabase separators are `.` and `/`; only `**` matches a query). On no match, Supabase silently falls back to the **Site URL** (`https://app.crawford-coaching.ca`, the admin app) — so every crawford-site magic link landed in the admin area, and the session never reached the `www` origin (hence the members area never granted access on a fresh machine). Confirmed via auth logs: all recent `/otp` + `/verify` events had `referer: app.crawford-coaching.ca`.
+- **Fix (dashboard):** added two globstar Redirect URLs — `https://www.crawford-coaching.ca/auth/callback**` (the operative fix) and `https://crawford-coaching.ca/auth/callback**` (apex insurance). Existing entries and the Site URL left unchanged. **Live immediately** (GoTrue config, no deploy).
+- **Hardening** [crawford-auth-callback.html](crawford-auth-callback.html): after `completeCallback()`, confirm a session actually exists on this origin before routing — if not (e.g. a future Site-URL fallback), show a clear "open the link on this page / request a new one" message instead of bouncing into a sign-in loop. Added `safeNext()` to restrict the post-login redirect to same-origin root-relative paths (rejects absolute + protocol-relative `//host` values). **Needs a Vercel deploy to go live.**
+
 ## [2026-06-07]
 
 ### Status — Capability Model Steps 1–5 merged & live in production (PR #1)
