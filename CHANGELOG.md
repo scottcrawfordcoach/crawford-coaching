@@ -6,14 +6,13 @@ The format is based on Keep a Changelog principles and uses reverse chronologica
 
 ## [2026-06-08]
 
-### Added — `custom_timer` member-facing entry points (finishes Capability Model Step 5)
+### Added/Changed — Surface a single Interval Timer entry point in the members area + Growth Zone
 
-Step 5 added the `custom_timer` UX gate on the timer page itself (`#modeCustomTimerBtn` locks for non-members; `cc.hasCapability('custom_timer')` unlocks it), but never surfaced a way for members to *reach* it from their member areas. Added the two missing launch cards:
+Step 5 added the `custom_timer` UX gate on the timer page itself (`#modeCustomTimerBtn` locks for non-members; `cc.hasCapability('custom_timer')` unlocks it), but never surfaced a way for members to *reach* the timer from their member areas. Now that the full custom builder is auth-gated on the timer page, a single un-gated "Interval Timer" card that links to `/timer` is enough — no separate locked custom-timer card needed.
 
-- [crawford-synergize-members.html](crawford-synergize-members.html): new **Create Custom Timer** launch card (`id="card-custom-timer"`, → `/timer`, new tab), mirroring the Quick EMOM Builder card. Gated by `applyCapabilityGates()` via a new `gateCard('card-custom-timer', 'custom_timer')` line, so it shows only for members entitled to `custom_timer` (Synergize suite / ADMIN) and is hidden for coaching/whole-only members — same pattern as `card-emom`/`card-waiver`.
-- [crawford-growth-zone.html](crawford-growth-zone.html): new **Create Custom Timer** tool card in *Working Tools* next to the open Interval Timer card. Uses the existing Step-2 paid-card pattern (`tool-card--paid` + `data-cap="custom_timer"` + `data-launch-label="Launch custom timer"`): non-members see a locked "Members" card; the Step-2 upgrade module unlocks it to a live launch for entitled members. Link → `/timer`.
-- **No new gating logic or capability names** — reuses the shipped `custom_timer` capability and the existing client resolver. UX-only surfacing; the authoritative gate remains the timer page's `hasCapability` check. **Needs a Vercel deploy to go live.**
-- **Note:** `custom_timer` is in the Synergize suite, not `gz_paid_tools`, so the Growth-Zone card unlocks for Synergize members/ADMIN — **not** for plain Growth-Zone-only subscribers. Flagged for Scott in case GZ subscribers should also get it.
+- [crawford-synergize-members.html](crawford-synergize-members.html): new **Interval Timer** launch card (`id="card-timer"`, → `/timer`, new tab), mirroring the Quick EMOM Builder card; Synergize-orange tag label per the existing `.member-card__tag` style. Intentionally **ungated** (no `gateCard` line) — the timer page is public and gates its own custom-builder mode. Provides a card entry point alongside the existing nav-menu link.
+- [crawford-growth-zone.html](crawford-growth-zone.html): consolidated to **one** timer card. Kept the orange-branded open **Interval Timer** card (`tool-card__link--physical` → `/timer`) and refreshed its copy to point members at the auth-gated full builder on the timer page; removed the redundant second "Create Custom Timer" paid card.
+- **No new gating logic or capability names** — the authoritative gate remains the timer page's `hasCapability('custom_timer')` check. **Needs a Vercel deploy to go live.**
 
 ### Fixed — Magic-link sign-in from the members/Growth-Zone areas landed on the admin app
 
