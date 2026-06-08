@@ -1,3 +1,10 @@
+# Normalize line endings: store text as LF in the repo, regardless of each
+# contributor's core.autocrlf setting. This makes git's diff/status consistent
+# across environments (e.g. Git-for-Windows with autocrlf=true vs. a Linux/CI
+# checkout with autocrlf unset), so a CRLF working tree no longer shows every
+# file as "modified". Working-tree endings are still platform-native on checkout.
+* text=auto
+
 # Treat all image/binary files as binary — no line ending transforms
 *.webp  binary
 *.jpg   binary
