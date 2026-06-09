@@ -865,7 +865,14 @@ async function loadWaiverStatus() {
     const started = !!(latest['health_screen'] || latest['liability_waiver'] || latest['group_policies']);
 
     if (cleared) {
-      sub.textContent = 'Completed — you’re cleared to train';
+      // Neutral wording: state completion only, not a medical/clearance judgement
+      // on the disclosed health info. Date = when the last required doc was signed.
+      const completedAt = ['health_screen', 'liability_waiver', 'group_policies']
+        .map((t) => latest[t] && latest[t].signed_at).filter(Boolean).sort().pop();
+      const when = completedAt
+        ? new Date(completedAt).toLocaleDateString('en-CA', { year: 'numeric', month: 'short', day: 'numeric' })
+        : '';
+      sub.textContent = when ? 'Completed on ' + when : 'Completed';
       sub.className = 'mcard__sub mcard__sub--strong';
     } else if (started) {
       sub.textContent = 'In progress — finish your intake';

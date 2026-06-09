@@ -6,6 +6,10 @@ The format is based on Keep a Changelog principles and uses reverse chronologica
 
 ## [2026-06-08]
 
+### Changed — Intake status wording: "Completed on [date]", not "cleared to train"
+
+[`crawford-synergize-members.html`](crawford-synergize-members.html): the completed-intake card said "Completed — you're cleared to train," which could read as a medical/fitness clearance judgement on the member's disclosed health info. Now shows the neutral "Completed on [date]" (date = when the last required document was signed). The underlying gating logic is unchanged.
+
 ### Fixed — Intake submit returned 401 "Invalid session" (stale cached token)
 
 [`synergize-forms.html`](synergize-forms.html) captured the Supabase session **once at page load** and reused that access token for all three submits. Across a multi-step form (and a long-lived sign-in), supabase-js auto-refreshes the token in the background or it simply expires, so the cached token went stale and `api/intake-submit.js`'s server-side verify rejected it with 401 — and every retry re-sent the *same* stale token (the giveaway was repeated identical 401s in the logs). Confirmed not an env issue: `/api/auth-config` serves the correct project anon key. Fix: `submitDoc()` now resolves a **fresh** session via `cc.getSession()` immediately before each request (and routes to sign-in if the session is fully gone).
