@@ -4,6 +4,18 @@ All notable changes to this project will be documented in this file.
 
 The format is based on Keep a Changelog principles and uses reverse chronological order.
 
+## [2026-06-09]
+
+### Added — Synergize intake: copy-of-record PDF + auto-email on completion (phase 7)
+
+When a member finishes the final intake document, the system now generates a combined **copy-of-record PDF** of all three documents and emails it to them.
+
+- **First dependency on the site** — added [`package.json`](package.json) (`"type":"module"`, `pdf-lib`). The API functions were already ESM (no CommonJS), so this is consistent; static pages are unaffected.
+- **PDF builder** — new [`api/_intake-pdf.js`](api/_intake-pdf.js): renders a branded, paginated PDF **from the stored rows** (so the artifact provably matches the immutable records) — masthead, member, a completion block ("Completed electronically … on [date], from [IP]"), the actual health-screen responses, each waiver clause with its affirmation, and the acknowledged policy text.
+- **Finalize flow** — [`api/intake-submit.js`](api/intake-submit.js): on the `group_policies` submit, reads all three records (`data-handler intake_records`), builds the PDF, stores it privately, emails it via `mail-sender` (attachment support), and stamps `pdf_storage_path` / `record_emailed_at` (`data-handler intake_stamp`). **Best-effort**: the signed record is already persisted, so any PDF/storage/email failure is logged and swallowed — a signature is never lost to an SMTP/Storage hiccup (spec §7).
+- **Storage** — new **private** Supabase bucket `intake_records` (service-role access only; members receive the PDF by email, not a public link).
+- **Auto-email is now on** (you approved the SMTP gate): each completed intake sends one transactional email to the member via Resend. Requires `MAIL_SENDER_BEARER_TOKEN` (already set for exercise reports); email is skipped cleanly if unset.
+
 ## [2026-06-08]
 
 ### Changed — Intake status wording: "Completed on [date]", not "cleared to train"

@@ -1,0 +1,10 @@
+{
+  "name": "crawford-site",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Crawford Coaching public site — static HTML + Vercel serverless API functions.",
+  "dependencies": {
+    "pdf-lib": "^1.17.1"
+  }
+}
