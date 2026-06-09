@@ -6,6 +6,14 @@ The format is based on Keep a Changelog principles and uses reverse chronologica
 
 ## [2026-06-09]
 
+### Added — Flagged health-screen admin review (intake phase 8)
+
+An ADMIN-only surface to review health screens that flagged a Part-A "yes" (spec §5) — the one piece of intake admin that's operationally important (a "yes" on a cardiac question shouldn't sit silently).
+
+- **Page** — new [`crawford-synergize-intake-review.html`](crawford-synergize-intake-review.html) at route `/synergize/intake-review` (`vercel.json`): lists flagged screens (awaiting-review first, then reviewed), shows the member, the exact Part-A questions they answered "yes," and the full health context (history / injuries / goals) in a collapsible. Each has a note field + "Mark reviewed". `noindex`.
+- **Server gate** — new [`api/intake-admin.js`](api/intake-admin.js): verifies the session and **requires the `ADMIN` tag** before returning any data (health-screen responses are PII; the client gate is convenience only). `GET` lists flagged screens via `data-handler intake_flagged`; `POST {id, note}` marks one reviewed via `intake_review` (records `reviewed_by` = the verified caller, `reviewed_at`, `review_note` — operational columns the immutability trigger permits).
+- Reads go through the service-role gateway (members' RLS only exposes their own rows; admin cross-member reads must be service-role, per the design). No schema change.
+
 ### Added — Synergize intake v1.1: medical-advice notes + required Media Consent
 
 New version of the intake documents per `SYNERGIZE-INTAKE-v1.1-BUILD-BRIEF.md`. **v1.0 is untouched** — v1.1 is a new folder ([`intake/v1.1/`](intake/v1.1/)) and `DOC_VERSION` is bumped to `1.1`; existing signed rows keep their v1.0 hash, only new signers get v1.1.

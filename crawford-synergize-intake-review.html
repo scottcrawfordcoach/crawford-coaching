@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow">
+<title>Flagged Health Screens — Synergize Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0e0f10; --slate:#1c2330; --fog:#3d4a58; --mist:#a4b6c8; --pale:#dde8f2;
+    --white:#ffffff; --brand-blue:#2d86c4; --alert:#e8632b; --ok:#7a9e87;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--ink);color:var(--pale);font-family:'Jost',system-ui,sans-serif;line-height:1.55;padding:0 0 80px}
+  .wrap{max-width:840px;margin:0 auto;padding:0 22px}
+  header{border-bottom:1px solid var(--fog);padding:26px 0 18px;margin-bottom:24px}
+  h1{font-size:1.5rem;font-weight:600;color:var(--white)}
+  .sub{color:var(--mist);font-size:.9rem;margin-top:4px}
+  #status{padding:40px 0;color:var(--mist);text-align:center}
+  .count{color:var(--mist);font-size:.85rem;margin-bottom:16px}
+  .card{background:var(--slate);border:1px solid var(--fog);border-radius:12px;padding:18px 20px;margin-bottom:16px}
+  .card.reviewed{opacity:.62}
+  .chead{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap}
+  .who{font-weight:600;color:var(--white);font-size:1.05rem}
+  .meta{color:var(--mist);font-size:.82rem;margin-top:2px}
+  .badge{font-size:.7rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase;padding:4px 9px;border-radius:6px;white-space:nowrap}
+  .badge.need{background:rgba(232,99,43,.15);color:var(--alert);border:1px solid rgba(232,99,43,.4)}
+  .badge.done{background:rgba(122,158,135,.15);color:var(--ok);border:1px solid rgba(122,158,135,.4)}
+  .flags{margin:14px 0;border-left:3px solid var(--alert);background:rgba(232,99,43,.07);padding:11px 14px;border-radius:0 8px 8px 0}
+  .flags .lab{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--alert);font-weight:600;margin-bottom:6px}
+  .flags li{margin:0 0 5px 18px;font-size:.9rem;color:var(--pale)}
+  details{margin-top:8px}
+  summary{cursor:pointer;color:var(--mist);font-size:.84rem;user-select:none}
+  .ctx{margin-top:10px;font-size:.86rem;color:var(--pale)}
+  .ctx .k{color:var(--mist);font-size:.74rem;text-transform:uppercase;letter-spacing:.05em;margin-top:8px}
+  .review{margin-top:14px;border-top:1px solid var(--fog);padding-top:14px}
+  textarea{width:100%;background:var(--ink);border:1px solid var(--fog);color:var(--pale);border-radius:8px;padding:9px 11px;font-family:inherit;font-size:.9rem;min-height:54px;resize:vertical}
+  button{font-family:inherit;font-weight:600;font-size:.86rem;background:var(--brand-blue);color:#fff;border:0;padding:9px 18px;border-radius:8px;cursor:pointer;margin-top:10px}
+  button:disabled{opacity:.5;cursor:not-allowed}
+  .donenote{margin-top:10px;font-size:.86rem;color:var(--mist)}
+  .err{color:var(--alert);font-size:.82rem;margin-top:8px}
+  a.back{color:var(--mist);font-size:.85rem;text-decoration:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <a class="back" href="/synergize/members">← Members area</a>
+    <h1 style="margin-top:8px">Flagged Health Screens</h1>
+    <div class="sub">Screens with a "yes" on Part A (Activity Readiness) — review before the member trains.</div>
+  </header>
+  <div id="status">Loading…</div>
+  <div id="count" class="count" hidden></div>
+  <div id="list"></div>
+</div>
+
+<script type="module">
+  import { cc } from '/auth/auth.js';
+  import { PARQ } from '/intake/v1.1/documents.js';
+
+  const SIGN_IN = '/sign-in?next=' + encodeURIComponent('/synergize/intake-review');
+  const statusEl = document.getElementById('status');
+  const listEl = document.getElementById('list');
+  const countEl = document.getElementById('count');
+
+  function esc(s){ return String(s ?? '').replace(/[&<>"]/g, (c) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+  function fmt(iso){ try { return new Date(iso).toLocaleDateString('en-CA',{year:'numeric',month:'short',day:'numeric'}); } catch { return iso || ''; } }
+
+  let token = null;
+
+  (async () => {
+    const session = await cc.getSession();
+    if (!session) { location.replace(SIGN_IN); return; }
+    token = session.access_token;
+    try {
+      const res = await fetch('/api/intake-admin', { headers: { Authorization: 'Bearer ' + token } });
+      if (res.status === 403) { statusEl.textContent = 'This page is for administrators only.'; return; }
+      const data = await res.json();
+      if (!res.ok || !data.ok) throw new Error(data.error || ('Error ' + res.status));
+      render(data.flagged || []);
+    } catch (e) {
+      statusEl.textContent = 'Could not load: ' + e.message;
+    }
+  })();
+
+  function render(items){
+    statusEl.hidden = true;
+    const pending = items.filter((i) => !i.reviewed_at);
+    const reviewed = items.filter((i) => i.reviewed_at);
+    countEl.hidden = false;
+    countEl.textContent = `${pending.length} awaiting review · ${reviewed.length} reviewed · ${items.length} flagged total`;
+    if (!items.length) { listEl.innerHTML = '<div class="card">No flagged screens. 🎉</div>'; return; }
+    listEl.innerHTML = '';
+    [...pending, ...reviewed].forEach((it) => listEl.appendChild(cardFor(it)));
+  }
+
+  function cardFor(it){
+    const r = it.responses || {};
+    const c = it.contacts || {};
+    const name = [c.first_name, c.last_name].filter(Boolean).join(' ') || (r.details && r.details.name) || 'Member';
+    const email = c.email || (r.details && r.details.email) || '';
+    const reviewed = !!it.reviewed_at;
+
+    const a = r.partA || {};
+    const yes = PARQ.map((q, i) => (a[`a${i + 1}`] === true ? q : null)).filter(Boolean);
+    const b = r.partB || {}, cInj = r.partC || {}, dG = r.partD || {}, det = r.details || {};
+    const injuries = Object.entries(cInj).map(([k, v]) => `${k}: ${v}`).join(' · ');
+
+    const card = document.createElement('div');
+    card.className = 'card' + (reviewed ? ' reviewed' : '');
+    card.innerHTML = `
+      <div class="chead">
+        <div>
+          <div class="who">${esc(name)}</div>
+          <div class="meta">${esc(email)} · signed ${fmt(it.signed_at)} · v${esc(it.doc_version)}</div>
+        </div>
+        <span class="badge ${reviewed ? 'done' : 'need'}">${reviewed ? 'Reviewed ' + fmt(it.reviewed_at) : 'Needs review'}</span>
+      </div>
+      <div class="flags">
+        <div class="lab">Answered "yes" to</div>
+        <ul>${yes.map((q) => `<li>${esc(q)}</li>`).join('') || '<li>(no Part-A detail on record)</li>'}</ul>
+      </div>
+      <details>
+        <summary>Full health context</summary>
+        <div class="ctx">
+          <div class="k">Details</div>Age ${esc(det.age || '—')} · ${esc(det.sex || '—')} · ${esc(det.height || '—')}
+          <div class="k">Health history</div>${esc((b.conditions || []).join(', ') || 'none selected')}${b.other ? ' · Other: ' + esc(b.other) : ''}
+          <div class="k">Injuries</div>${esc(injuries || 'none reported')}
+          <div class="k">Current activity</div>${esc(dG.current || '—')}
+          <div class="k">Goals</div>${esc(dG.goals || '—')}
+          ${dG.extra ? '<div class="k">Anything else</div>' + esc(dG.extra) : ''}
+        </div>
+      </details>`;
+
+    if (reviewed) {
+      const note = document.createElement('div');
+      note.className = 'donenote';
+      note.textContent = it.review_note ? 'Note: ' + it.review_note : 'Reviewed — no note.';
+      card.appendChild(note);
+    } else {
+      const rv = document.createElement('div');
+      rv.className = 'review';
+      rv.innerHTML = `<textarea placeholder="Review note (optional) — e.g. spoke with member, cleared by doctor…"></textarea>
+        <button>Mark reviewed</button><div class="err" hidden></div>`;
+      const ta = rv.querySelector('textarea'), btn = rv.querySelector('button'), err = rv.querySelector('.err');
+      btn.onclick = async () => {
+        btn.disabled = true; btn.textContent = 'Saving…'; err.hidden = true;
+        try {
+          const res = await fetch('/api/intake-admin', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + token },
+            body: JSON.stringify({ id: it.id, note: ta.value }),
+          });
+          const data = await res.json();
+          if (!res.ok || !data.ok) throw new Error(data.error || ('Error ' + res.status));
+          card.classList.add('reviewed');
+          rv.remove();
+          const note = document.createElement('div');
+          note.className = 'donenote';
+          note.textContent = ta.value.trim() ? 'Note: ' + ta.value.trim() : 'Reviewed — no note.';
+          card.appendChild(note);
+          card.querySelector('.badge').className = 'badge done';
+          card.querySelector('.badge').textContent = 'Reviewed ' + fmt(new Date().toISOString());
+        } catch (e) {
+          err.hidden = false; err.textContent = e.message;
+          btn.disabled = false; btn.textContent = 'Mark reviewed';
+        }
+      };
+      card.appendChild(rv);
+    }
+    return card;
+  }
+</script>
+</body>
+</html>

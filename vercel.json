@@ -37,6 +37,10 @@
       "destination": "/synergize-forms.html"
     },
     {
+      "source": "/synergize/intake-review",
+      "destination": "/crawford-synergize-intake-review.html"
+    },
+    {
       "source": "/sign-in",
       "destination": "/crawford-sign-in.html"
     },
