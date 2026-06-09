@@ -6,6 +6,15 @@ The format is based on Keep a Changelog principles and uses reverse chronologica
 
 ## [2026-06-08]
 
+### Added — Synergize digital intake: front-end + go-live (phases 5–6)
+
+Wires the intake flow end-to-end and takes it live. With the backend (below) in place, members can now complete the 3-document intake and the members area reflects their status.
+
+- **Route** — [`vercel.json`](vercel.json): `/synergize/intake` → `synergize-forms.html` (the members-area `card-waiver` already linked here).
+- **Form** — [`synergize-forms.html`](synergize-forms.html): the approved mockup is now wired. It imports the canonical [`intake/v1.0/documents.js`](intake/v1.0/documents.js) and **renders the PAR-Q, the 7 waiver clauses, and the policies from it** (so the shown text matches the hashed text), gates on a Supabase session (redirects to `/sign-in?next=…` if signed out), prefills name/email from the member's contact, collects the full structured payload per part, and **submits one immutable record per document** to `POST /api/intake-submit` with the session token (health screen → waiver → policies). The "emailed copy" promise was removed (PDF/email is phase 7).
+- **Gating** — [`crawford-synergize-members.html`](crawford-synergize-members.html): `loadWaiverStatus()` now reads all three docs and computes **cleared-to-train** per spec §5 (current-version waiver + policies, plus a current, non-expired, reviewed-if-flagged health screen). The card shows *Completed — cleared to train* / *In progress* / *NOT COMPLETED*. Soft status, not a hard redirect (the re-consent campaign is a fast-follow).
+- **Gateway deployed** — `data-handler` redeployed with the `intake_submit` action (version 30 → 31). Gateway health verified post-deploy (public actions 200; `intake_submit` 401 unauthenticated). The flow is now **live**.
+
 ### Added — Synergize digital intake: backend (phases 1–4 of the build handoff)
 
 Stands up the storage + write path for the 3-document member intake (Health Screen, Liability Waiver, Group Policies), per [`synergize-intake-build-handoff.md`](synergize-intake-build-handoff.md). **Backend only — the on-site form, the `/synergize/intake` route, and members-area gating (phases 5–6) are not wired yet**, so nothing is user-facing until they are. Two 🚩 gated production steps (apply the migration; redeploy `data-handler`) must run before this path is live.

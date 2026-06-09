@@ -833,11 +833,14 @@ function renderStaticWorkout(card, tag, msg) {
     </div>`;
 }
 
-// ── WAIVER STATUS ─────────────────────────────────────────
-// Reads the member's latest liability-waiver record as the authenticated
-// user (anon key + RLS — members see only their own rows). Until the intake
-// table exists / is populated, this query errors or returns nothing and the
-// card shows "Not completed". This is the forward-compatible read path.
+// ── INTAKE / "CLEARED TO TRAIN" STATUS ────────────────────
+// Reads the member's intake records as the authenticated user (anon key + RLS
+// — members see only their own rows) and computes cleared-to-train per the
+// build spec §5: a current-version liability_waiver AND group_policies exist,
+// AND a current-version health_screen exists that is not expired and (if
+// flagged) reviewed. Soft-wall: the card reflects status and points at the
+// intake flow; we don't hard-redirect (re-consent campaign is a fast-follow).
+const INTAKE_DOC_VERSION = '1.0';
 async function loadWaiverStatus() {
   const sub = document.getElementById('sub-waiver');
   if (!sub) return;
@@ -845,25 +848,35 @@ async function loadWaiverStatus() {
     const client = await cc.getClient();
     const { data, error } = await client
       .from('intake_submissions')
-      .select('signed_at, doc_version')
-      .eq('doc_type', 'liability_waiver')
-      .order('signed_at', { ascending: false })
-      .limit(1)
-      .maybeSingle();
+      .select('doc_type, doc_version, signed_at, expires_at, flagged, reviewed_at')
+      .order('signed_at', { ascending: false });
     if (error) throw error;
-    if (data && data.signed_at) {
-      const when = new Date(data.signed_at).toLocaleDateString('en-CA', {
-        year: 'numeric', month: 'short', day: 'numeric',
-      });
-      sub.textContent = 'Last completed ' + when;
+
+    // Latest record per doc_type.
+    const latest = {};
+    for (const r of (data || [])) { if (!latest[r.doc_type]) latest[r.doc_type] = r; }
+
+    const current = (t) => latest[t] && latest[t].doc_version === INTAKE_DOC_VERSION;
+    const screen = latest['health_screen'];
+    const screenOk = current('health_screen')
+      && (!screen.expires_at || new Date(screen.expires_at) > new Date())
+      && (!screen.flagged || !!screen.reviewed_at);
+    const cleared = current('liability_waiver') && current('group_policies') && screenOk;
+    const started = !!(latest['health_screen'] || latest['liability_waiver'] || latest['group_policies']);
+
+    if (cleared) {
+      sub.textContent = 'Completed — you’re cleared to train';
       sub.className = 'mcard__sub mcard__sub--strong';
-      return;
+    } else if (started) {
+      sub.textContent = 'In progress — finish your intake';
+      sub.className = 'mcard__sub mcard__sub--alert';
+    } else {
+      setWaiverNotCompleted(sub);
     }
-    setWaiverNotCompleted(sub);
   } catch (err) {
     setWaiverNotCompleted(sub);
   }
-  // Point the card at the configured intake flow regardless of status.
+  // Point the card at the intake flow regardless of status.
   document.getElementById('card-waiver')?.setAttribute('href', WAIVER_URL);
 }
 function setWaiverNotCompleted(sub) {

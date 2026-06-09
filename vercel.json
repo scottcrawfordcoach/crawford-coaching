@@ -33,6 +33,10 @@
       "destination": "/crawford-synergize-members.html"
     },
     {
+      "source": "/synergize/intake",
+      "destination": "/synergize-forms.html"
+    },
+    {
       "source": "/sign-in",
       "destination": "/crawford-sign-in.html"
     },

@@ -240,7 +240,7 @@
       <div class="mark"></div>
       <div class="brand-name">Synergize <span>Fitness</span></div>
     </div>
-    <div class="who">Signed in as<br><b>jordan@example.com</b></div>
+    <div class="who">Signed in as<br><b id="who-email">…</b></div>
   </div>
 </header>
 
@@ -266,15 +266,15 @@
       <h2>Your details</h2>
       <div class="sub">Pre-filled from your member account — check it's right.</div>
       <div class="grid g2">
-        <div class="field"><label>Name</label><input type="text" value="Jordan Avery" /></div>
-        <div class="field"><label>Email</label><input type="email" value="jordan@example.com" /></div>
+        <div class="field"><label>Name</label><input type="text" id="hs-name" placeholder="Your name" /></div>
+        <div class="field"><label>Email</label><input type="email" id="hs-email" placeholder="you@example.com" /></div>
       </div>
       <div class="grid g3" style="margin-top:14px">
-        <div class="field"><label>Age</label><input type="number" placeholder="—" /></div>
+        <div class="field"><label>Age</label><input type="number" id="hs-age" placeholder="—" /></div>
         <div class="field"><label>Sex</label>
-          <select><option value="">—</option><option>Female</option><option>Male</option><option>Prefer not to say</option></select>
+          <select id="hs-sex"><option value="">—</option><option>Female</option><option>Male</option><option>Prefer not to say</option></select>
         </div>
-        <div class="field"><label>Height</label><input type="text" placeholder="—" /></div>
+        <div class="field"><label>Height</label><input type="text" id="hs-height" placeholder="—" /></div>
       </div>
     </section>
 
@@ -289,7 +289,7 @@
       <h2><span class="part">Part B</span> Health History</h2>
       <div class="sub">Tap any that currently apply, or have applied to you.</div>
       <div class="chips" id="history"></div>
-      <div class="field" style="margin-top:16px"><label>Other — please describe</label><input type="text" placeholder="Anything else we should know about" /></div>
+      <div class="field" style="margin-top:16px"><label>Other — please describe</label><input type="text" id="hs-history-other" placeholder="Anything else we should know about" /></div>
     </section>
 
     <section class="card">
@@ -301,14 +301,14 @@
     <section class="card">
       <h2><span class="part">Part D</span> You &amp; your goals</h2>
       <div class="sub">The part I care about most.</div>
-      <div class="field" style="margin-bottom:14px"><label>What does your current activity or training look like?</label><textarea placeholder="Walking, the odd class, nothing lately — whatever's true"></textarea></div>
-      <div class="field" style="margin-bottom:14px"><label>What can I do to help you? What are your fitness &amp; health goals?</label><textarea placeholder="Be as specific as you can"></textarea></div>
-      <div class="field"><label>Anything else you'd like to add or ask?</label><textarea placeholder="Optional"></textarea></div>
+      <div class="field" style="margin-bottom:14px"><label>What does your current activity or training look like?</label><textarea id="hs-current" placeholder="Walking, the odd class, nothing lately — whatever's true"></textarea></div>
+      <div class="field" style="margin-bottom:14px"><label>What can I do to help you? What are your fitness &amp; health goals?</label><textarea id="hs-goals" placeholder="Be as specific as you can"></textarea></div>
+      <div class="field"><label>Anything else you'd like to add or ask?</label><textarea id="hs-extra" placeholder="Optional"></textarea></div>
     </section>
 
     <div class="actions">
-      <div class="ghosthint">Your responses are saved privately to your member record. Only your coach can see them.</div>
-      <button class="submit" onclick="next('waiver')">Save &amp; continue →</button>
+      <div class="ghosthint" id="hshint">Your responses are saved privately to your member record. Only your coach can see them.</div>
+      <button class="submit" id="hsbtn">Save &amp; continue →</button>
     </div>
   </div>
 
@@ -332,7 +332,7 @@
 
     <div class="actions">
       <div class="ghosthint" id="waiverhint">Confirm all seven points above to enable signing.</div>
-      <button class="submit" id="waiverbtn" disabled onclick="next('policies')">Agree &amp; continue →</button>
+      <button class="submit" id="waiverbtn" disabled>Agree &amp; continue →</button>
     </div>
   </div>
 
@@ -371,7 +371,7 @@
 
     <div class="sign">
       <div class="sigfield" style="align-items:center">
-        <div class="ck" id="polck" onclick="togglePol()"><svg viewBox="0 0 18 18"><path d="M3 9l4 4 8-9"/></svg></div>
+        <div class="ck" id="polck"><svg viewBox="0 0 18 18"><path d="M3 9l4 4 8-9"/></svg></div>
         <div style="flex:1;min-width:200px"><div class="ch" style="font-family:var(--display);font-size:1.02rem;color:var(--text)">I understand and agree to the above.</div></div>
         <div class="sigmeta">Dated <b class="today2"></b></div>
       </div>
@@ -379,12 +379,12 @@
 
     <div class="actions">
       <div class="ghosthint" id="polhint">Confirm the acknowledgement to finish.</div>
-      <button class="submit" id="polbtn" disabled onclick="finish()">Complete intake ✓</button>
+      <button class="submit" id="polbtn" disabled>Complete intake ✓</button>
     </div>
 
     <div class="deliver">
       <svg viewBox="0 0 24 24"><path d="M4 4h16v16H4z"/><path d="M4 7l8 6 8-6"/></svg>
-      A copy of all three completed documents will be emailed to you and saved to your member account.
+      Your completed documents are saved privately to your member account.
     </div>
   </div>
 
@@ -394,123 +394,184 @@
 
 </div>
 
-<script>
+<script type="module">
+  import { cc } from '/auth/auth.js';
+  import { PARQ, HISTORY_CONDITIONS, INJURY_AREAS, WAIVER_CLAUSES } from '/intake/v1.0/documents.js';
+
+  const INTAKE_API = '/api/intake-submit';
+  const SIGN_IN = '/sign-in?next=' + encodeURIComponent('/synergize/intake');
+
   // dates
   const d = new Date().toLocaleDateString('en-CA',{year:'numeric',month:'long',day:'numeric'});
   document.getElementById('today').textContent = d;
   document.querySelectorAll('.today2').forEach(e=>e.textContent=d);
 
-  // ---- Part A questions ----
-  const parq = [
-    "Has a doctor ever told you that you have a heart condition, or that you should only do physical activity under medical supervision?",
-    "Do you experience chest pain when you are physically active?",
-    "In the past month, have you had chest pain when you were not being physically active?",
-    "Do you ever feel faint, lose your balance from dizziness, or lose consciousness?",
-    "Do you have a bone or joint problem that could be worsened by exercise?",
-    "Are you currently taking any medication prescribed for blood pressure or a heart condition?",
-    "Are you aware of any other reason you should not take part in physical activity?"
-  ];
+  // ── collected state ──
+  const state = { partA:{}, history:new Set(), injury:{}, clauses:{}, signature:'' };
+
+  // ── auth gate + prefill ──
+  let session = null;
+  (async () => {
+    session = await cc.getSession();
+    if (!session) { location.replace(SIGN_IN); return; }
+    const user = await cc.getUser();
+    const email = user?.email || '';
+    document.getElementById('who-email').textContent = email || 'your account';
+    const emailEl = document.getElementById('hs-email');
+    if (email && !emailEl.value) emailEl.value = email;
+    const contact = await cc.getContact();
+    if (contact) {
+      const full = [contact.first_name, contact.last_name].filter(Boolean).join(' ');
+      const nameEl = document.getElementById('hs-name');
+      if (full && !nameEl.value) nameEl.value = full;
+    }
+  })();
+
+  // ── Part A — Activity Readiness (from canonical source) ──
   const pq = document.getElementById('parq');
-  parq.forEach((q,i)=>{
+  PARQ.forEach((q,i)=>{
+    const key = 'a'+(i+1);
     const row=document.createElement('div');row.className='qrow';
     row.innerHTML=`<div class="qnum">${i+1}</div><div class="qtext">${q}</div>
       <div class="yn"><button class="y">Yes</button><button class="n">No</button></div>`;
     const [yes,no]=row.querySelectorAll('button');
-    yes.onclick=()=>{yes.classList.add('on');no.classList.remove('on')};
-    no.onclick=()=>{no.classList.add('on');yes.classList.remove('on')};
+    yes.onclick=()=>{yes.classList.add('on');no.classList.remove('on');state.partA[key]=true;};
+    no.onclick=()=>{no.classList.add('on');yes.classList.remove('on');state.partA[key]=false;};
     pq.appendChild(row);
   });
 
-  // ---- Part B history chips ----
-  const hist=["High / low blood pressure","History of heart disease","Heart disease","Diabetes","Asthma","Weight concerns","Osteoporosis","Arthritis","Fibromyalgia","Pregnancy","Depression"];
+  // ── Part B — Health History ──
   const hc=document.getElementById('history');
-  hist.forEach(h=>{const c=document.createElement('div');c.className='chip';c.textContent=h;c.onclick=()=>c.classList.toggle('on');hc.appendChild(c)});
+  HISTORY_CONDITIONS.forEach(h=>{
+    const c=document.createElement('div');c.className='chip';c.textContent=h;
+    c.onclick=()=>{c.classList.toggle('on'); c.classList.contains('on')?state.history.add(h):state.history.delete(h);};
+    hc.appendChild(c);
+  });
 
-  // ---- Part C injuries ----
-  const inj=["Neck","Shoulder — L","Shoulder — R","Hip — L","Hip — R","Knee — L","Knee — R","Ankle — L","Ankle — R","Lower back"];
+  // ── Part C — Injury Screen ──
   const ig=document.getElementById('injury');
-  inj.forEach(name=>{
+  INJURY_AREAS.forEach(name=>{
     const row=document.createElement('div');row.className='inj';
     row.innerHTML=`<div class="lab">${name}</div><div class="opts">
       <button data-t="acute">Strain</button><button data-t="chronic">Chronic</button></div>`;
     const btns=row.querySelectorAll('button');
     btns.forEach(b=>b.onclick=()=>{
-      if(b.classList.contains('on')){b.classList.remove('on')}
-      else{btns.forEach(x=>x.classList.remove('on'));b.classList.add('on')}
+      if(b.classList.contains('on')){b.classList.remove('on'); delete state.injury[name];}
+      else{btns.forEach(x=>x.classList.remove('on'));b.classList.add('on'); state.injury[name]=b.dataset.t;}
     });
     ig.appendChild(row);
   });
 
-  // ---- Waiver clauses ----
-  const clauses=[
-    ["Voluntary participation","I am taking part in physical activity with Synergize Fitness of my own free will. I confirm that I am physically able to participate, and that where the health screen indicated I should seek medical advice, I have done so or accept responsibility for choosing to proceed."],
-    ["Accuracy of disclosure","I confirm that the information in my Synergize Fitness Health Screen is accurate and complete, and that I have disclosed all medical conditions, previous and current injuries, and any other issues that could be made worse by a guided fitness program, before beginning physical activity."],
-    ["Non-disclosure","I understand that Synergize Fitness, its coaches and staff cannot be held liable for injuries or complications arising from a pre-existing condition, injury, or medical issue that I failed to disclose."],
-    ["Assumption of risk","I understand that physical activity and fitness training carry inherent risks, and that these risks include — but are not limited to — muscle, joint, and ligament injuries; aggravation of pre-existing or undisclosed conditions; cardiac events; and, in rare cases, serious injury or death. I voluntarily accept these risks as a condition of participating. I agree that my coach, Synergize Fitness, and anyone associated with it will not be liable for injury, loss, or damage arising from my participation in physical and athletic training with Synergize Fitness, except where caused by gross negligence.","key"],
-    ["Supervision and questions","I recognize that Synergize Fitness operates an open-floor training program with a coach present to assist and supervise at all times. I understand it is my responsibility to raise any questions, comments, or concerns about specific exercises, and to seek guidance when I want it."],
-    ["Following safety guidance","I agree to follow the reasonable safety-related guidance of Synergize Fitness staff — including direction on exercise form, technique, and the safe performance of movements — recognizing that this guidance exists to keep me and others safe while I train at my own pace and ability."],
-    ["Termination of membership","I understand that Synergize Fitness reserves the right to end any membership at the owner's discretion."]
-  ];
-  const cc=document.getElementById('clauses');
+  // ── Waiver clauses (rendered from canonical source = hash source) ──
+  const clausesEl=document.getElementById('clauses');
   let checked=0;
-  clauses.forEach((c)=>{
-    const row=document.createElement('div');row.className='clause'+(c[2]==='key'?' key':'');
-    const flag=c[2]==='key'?'<div class="readflag">Please read carefully</div>':'';
+  WAIVER_CLAUSES.forEach((c)=>{
+    const row=document.createElement('div');row.className='clause'+(c.elevated?' key':'');
+    const flag=c.elevated?'<div class="readflag">Please read carefully</div>':'';
     row.innerHTML=`<div class="ck"><svg viewBox="0 0 18 18"><path d="M3 9l4 4 8-9"/></svg></div>
-      <div class="ct">${flag}<div class="ch">${c[0]}</div><div class="cb">${c[1]}</div></div>`;
+      <div class="ct">${flag}<div class="ch">${c.heading}</div><div class="cb">${c.body}</div></div>`;
     const box=row.querySelector('.ck');
     box.onclick=()=>{
       box.classList.toggle('on');
-      checked+=box.classList.contains('on')?1:-1;
+      const on=box.classList.contains('on');
+      if(on) state.clauses[c.key]=true; else delete state.clauses[c.key];
+      checked+=on?1:-1;
       updateWaiver();
     };
-    cc.appendChild(row);
+    clausesEl.appendChild(row);
   });
   function updateWaiver(){
-    const name=document.getElementById('signame').value.trim();
-    const ok=checked===clauses.length && name.length>1;
-    const btn=document.getElementById('waiverbtn');
-    btn.disabled=!ok;
-    document.getElementById('waiverhint').textContent = checked<clauses.length
-      ? `Confirm all seven points above to enable signing — ${checked} of 7 done.`
-      : (name.length>1 ? "All set — signed and ready." : "Type your full name to sign.");
+    state.signature=document.getElementById('signame').value.trim();
+    const ok=checked===WAIVER_CLAUSES.length && state.signature.length>1;
+    document.getElementById('waiverbtn').disabled=!ok;
+    document.getElementById('waiverhint').textContent = checked<WAIVER_CLAUSES.length
+      ? `Confirm all seven points above to enable signing — ${checked} of ${WAIVER_CLAUSES.length} done.`
+      : (state.signature.length>1 ? "All set — signed and ready." : "Type your full name to sign.");
   }
   document.getElementById('signame').addEventListener('input',updateWaiver);
 
-  // policies
-  function togglePol(){
+  // ── policies acknowledgement ──
+  document.getElementById('polck').onclick=()=>{
     const ck=document.getElementById('polck');ck.classList.toggle('on');
     const on=ck.classList.contains('on');
     document.getElementById('polbtn').disabled=!on;
     document.getElementById('polhint').textContent=on?"Ready to complete.":"Confirm the acknowledgement to finish.";
-  }
+  };
 
-  // ---- nav ----
+  // ── nav ──
   const order=['screen','waiver','policies'];
   function show(doc){
-    document.querySelectorAll('.doc').forEach(d=>d.classList.remove('show'));
+    document.querySelectorAll('.doc').forEach(el=>el.classList.remove('show'));
     document.getElementById('doc-'+doc).classList.add('show');
     document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.dataset.doc===doc));
     document.getElementById('bar').style.width=((order.indexOf(doc)+1)/3*100)+'%';
     window.scrollTo({top:0,behavior:'smooth'});
   }
-  function next(doc){show(doc)}
   document.querySelectorAll('.tab').forEach(t=>t.onclick=()=>show(t.dataset.doc));
-  function finish(){
+
+  // ── submit (one immutable record per doc_type) ──
+  async function submitDoc(docType, responses, signatureName){
+    if (!session) { location.replace(SIGN_IN); throw new Error('Please sign in again.'); }
+    const res = await fetch(INTAKE_API, {
+      method:'POST',
+      headers:{ 'Content-Type':'application/json', 'Authorization':'Bearer '+session.access_token },
+      body: JSON.stringify({ doc_type: docType, responses, signature_name: signatureName }),
+    });
+    const data = await res.json().catch(()=>({}));
+    if (!res.ok || !data.ok) throw new Error(data.error || ('Could not save ('+res.status+'). Please try again.'));
+    return data;
+  }
+  function setBusy(btn, on){ btn.disabled=on; if(on){ btn.dataset.label=btn.textContent; btn.textContent='Saving…'; } else { btn.textContent=btn.dataset.label||btn.textContent; } }
+  function setHint(id, msg, err){ const h=document.getElementById(id); if(h){ h.textContent=msg; h.style.color=err?'var(--orange)':''; } }
+
+  // Health screen → liability waiver
+  document.getElementById('hsbtn').onclick=async()=>{
+    const btn=document.getElementById('hsbtn');
+    const name=document.getElementById('hs-name').value.trim();
+    if(!name){ setHint('hshint','Please enter your name.',true); return; }
+    if(!PARQ.every((_,i)=>typeof state.partA['a'+(i+1)]==='boolean')){ setHint('hshint','Please answer Yes or No to all Part A questions.',true); return; }
+    const responses={
+      details:{ name, email:document.getElementById('hs-email').value.trim(),
+        age:document.getElementById('hs-age').value.trim(), sex:document.getElementById('hs-sex').value,
+        height:document.getElementById('hs-height').value.trim() },
+      partA: state.partA,
+      partB:{ conditions:[...state.history], other:document.getElementById('hs-history-other').value.trim() },
+      partC: state.injury,
+      partD:{ current:document.getElementById('hs-current').value.trim(),
+        goals:document.getElementById('hs-goals').value.trim(), extra:document.getElementById('hs-extra').value.trim() },
+    };
+    setBusy(btn,true);
+    try { await submitDoc('health_screen', responses); show('waiver'); }
+    catch(e){ setHint('hshint', e.message, true); }
+    finally { setBusy(btn,false); }
+  };
+
+  // Liability waiver → policies
+  document.getElementById('waiverbtn').onclick=async()=>{
+    const btn=document.getElementById('waiverbtn');
+    setBusy(btn,true);
+    try { await submitDoc('liability_waiver', { clauses: state.clauses }, state.signature); show('policies'); }
+    catch(e){ setHint('waiverhint', e.message, true); }
+    finally { setBusy(btn,false); }
+  };
+
+  // Group policies → done
+  document.getElementById('polbtn').onclick=async()=>{
     const btn=document.getElementById('polbtn');
-    btn.textContent="Submitting…";btn.disabled=true;
-    setTimeout(()=>{
+    setBusy(btn,true);
+    try {
+      await submitDoc('group_policies', { acknowledged: true });
       document.getElementById('doc-policies').innerHTML=
       `<div style="text-align:center;padding:60px 20px">
         <div style="width:70px;height:70px;margin:0 auto 24px;border-radius:50%;background:linear-gradient(135deg,var(--orange),#c85a00);display:grid;place-items:center;box-shadow:0 16px 40px -12px rgba(232,112,10,.6)">
           <svg viewBox="0 0 24 24" style="width:32px;height:32px;stroke:#1a0d02;stroke-width:3;fill:none"><path d="M5 13l4 4 10-11"/></svg>
         </div>
         <h1 style="margin-bottom:12px">You're all <span class="it">set</span>.</h1>
-        <p class="lede" style="margin:0 auto">All three documents are completed and saved to your member record. A copy is on its way to your inbox. See you on the floor.</p>
+        <p class="lede" style="margin:0 auto">All three documents are completed and saved to your member record. See you on the floor.</p>
       </div>`;
       document.getElementById('bar').style.width='100%';
-    },900);
-  }
+    } catch(e){ setHint('polhint', e.message, true); setBusy(btn,false); }
+  };
 </script>
 </body>
 </html>
