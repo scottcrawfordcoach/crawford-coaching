@@ -1397,13 +1397,13 @@
       "dow": "Tuesday",
       "name": "Let's Get At It",
       "closed": false,
-      "slug": "",
-      "workout_id": "",
+      "slug": "lets-get-at-it",
+      "workout_id": "2c1edf7b-6d22-407b-9094-e71d1bf89ba8",
       "summary": "KB halos + SB core circuits + plate holds + movement flows",
       "emphasis": "Full Body, Core, Conditioning",
       "equipment": "KB, DB, Plate, SB",
       "status": "Unscheduled",
-      "renderable": false
+      "renderable": true
     },
     "2026-06-10": {
       "dow": "Wednesday",
@@ -2717,13 +2717,13 @@
       "dow": "Tuesday",
       "name": "Let's Get At It",
       "closed": false,
-      "slug": "",
-      "workout_id": "",
+      "slug": "lets-get-at-it",
+      "workout_id": "2c1edf7b-6d22-407b-9094-e71d1bf89ba8",
       "summary": "KB halos + SB core circuits + plate holds + movement flows",
       "emphasis": "Full Body, Core, Conditioning",
       "equipment": "KB, DB, Plate, SB",
       "status": "Unscheduled",
-      "renderable": false
+      "renderable": true
     },
     "2026-11-11": {
       "dow": "Wednesday",

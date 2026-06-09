@@ -6,6 +6,10 @@ The format is based on Keep a Changelog principles and uses reverse chronologica
 
 ## [2026-06-09]
 
+### Fixed — Today's Workout card showed the name but no launch link (stale schedule snapshot)
+
+The members-area "Today's Workout" card reads the static [`synergize-workout-schedule.json`](synergize-workout-schedule.json) snapshot and only offers a launch link when that day's `renderable` is true. "Let's Get At It" (2026-06-09) was built + resolved in the live `workout_schedule` table (`built: true`, with `slug`/`workout_id`), but the snapshot was last generated 2026-06-06, so it still had `renderable: false` / empty `slug`+`workout_id` — the name showed, but the card fell back to the static "not posted yet" panel. Regenerated the JSON from the authoritative live table (same `build_json` logic as `schedule_sync.py`, JSON-only — no table/markdown changes). Forward-only refresh: 2 days flipped to launchable (2026-06-09 + one Nov day), zero regressions. Canonical refresh remains `schedule_sync.py --apply` in the Workout Schedule-AI project after building/scheduling a workout.
+
 ### Added — Flagged health-screen admin review (intake phase 8)
 
 An ADMIN-only surface to review health screens that flagged a Part-A "yes" (spec §5) — the one piece of intake admin that's operationally important (a "yes" on a cardiac question shouldn't sit silently).
