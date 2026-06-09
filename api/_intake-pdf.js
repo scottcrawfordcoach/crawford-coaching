@@ -14,7 +14,7 @@
 import { PDFDocument, StandardFonts, rgb } from 'pdf-lib';
 import {
   DOC_VERSION, PARQ, WAIVER_CLAUSES, POLICIES,
-} from '../intake/v1.0/documents.js';
+} from '../intake/v1.1/documents.js';
 
 const ORANGE = rgb(0.910, 0.388, 0.169);  // ~#e8632b
 const INK    = rgb(0.055, 0.059, 0.063);
@@ -151,6 +151,16 @@ export async function buildIntakePdf({ records, member, meta }) {
     POLICIES.payments.forEach((t) => para(`•  ${t}`, { size: 9, color: GREY, indent: 8, gap: 2 }));
     label('Conduct');
     POLICIES.conduct.forEach((t) => para(`•  ${t}`, { size: 9, color: GREY, indent: 8, gap: 2 }));
+
+    // Media consent — the member's recorded choice (v1.1).
+    if (POLICIES.media) {
+      label(POLICIES.media.heading);
+      const choice = gp.responses && gp.responses.media_consent;
+      const opt = (POLICIES.media.options || []).find((o) => o.key === choice);
+      para(`Choice: ${choice || '—'}`, { f: bold, size: 9, gap: 1 });
+      para(opt ? opt.text : 'No choice recorded', { size: 9, color: GREY, gap: 4 });
+    }
+
     para(`Acknowledged: ${fmtDate(gp.signed_at)}`, { size: 9, color: GREY, gap: 4 });
   }
 

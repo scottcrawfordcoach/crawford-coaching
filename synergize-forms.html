@@ -290,12 +290,14 @@
       <div class="sub">Tap any that currently apply, or have applied to you.</div>
       <div class="chips" id="history"></div>
       <div class="field" style="margin-top:16px"><label>Other — please describe</label><input type="text" id="hs-history-other" placeholder="Anything else we should know about" /></div>
+      <div class="note" id="note-partb"></div>
     </section>
 
     <section class="card">
       <h2><span class="part">Part C</span> Injury Screen</h2>
       <div class="sub">Flag any area affected — and whether it's a current strain/sprain or chronic.</div>
       <div class="injury-grid" id="injury"></div>
+      <div class="note" id="note-partc"></div>
     </section>
 
     <section class="card">
@@ -369,6 +371,13 @@
       </ul>
     </section>
 
+    <section class="card">
+      <h2 id="media-heading">Media Consent</h2>
+      <div class="sub">Please choose one — required.</div>
+      <div id="media-intro" style="margin-bottom:6px"></div>
+      <div id="media-options"></div>
+    </section>
+
     <div class="sign">
       <div class="sigfield" style="align-items:center">
         <div class="ck" id="polck"><svg viewBox="0 0 18 18"><path d="M3 9l4 4 8-9"/></svg></div>
@@ -396,7 +405,7 @@
 
 <script type="module">
   import { cc } from '/auth/auth.js';
-  import { PARQ, HISTORY_CONDITIONS, INJURY_AREAS, WAIVER_CLAUSES } from '/intake/v1.0/documents.js';
+  import { PARQ, HISTORY_CONDITIONS, HISTORY_FLAG_NOTE, INJURY_AREAS, INJURY_FLAG_NOTE, WAIVER_CLAUSES, POLICIES } from '/intake/v1.1/documents.js';
 
   const INTAKE_API = '/api/intake-submit';
   const SIGN_IN = '/sign-in?next=' + encodeURIComponent('/synergize/intake');
@@ -407,7 +416,7 @@
   document.querySelectorAll('.today2').forEach(e=>e.textContent=d);
 
   // ── collected state ──
-  const state = { partA:{}, history:new Set(), injury:{}, clauses:{}, signature:'' };
+  const state = { partA:{}, history:new Set(), injury:{}, clauses:{}, signature:'', media:'' };
 
   // ── auth gate + prefill ──
   let session = null;
@@ -462,6 +471,34 @@
     ig.appendChild(row);
   });
 
+  // ── v1.1 medical-advice notes (rendered from canonical constants = hash source) ──
+  document.getElementById('note-partb').textContent = HISTORY_FLAG_NOTE;
+  document.getElementById('note-partc').textContent = INJURY_FLAG_NOTE;
+
+  // ── v1.1 Media Consent — required single choice (rendered from canonical source) ──
+  const media = POLICIES.media;
+  document.getElementById('media-heading').textContent = media.heading;
+  const mIntro = document.getElementById('media-intro');
+  media.intro.forEach((t) => {
+    const p = document.createElement('p');
+    p.style.cssText = 'color:var(--text-dim);font-size:.92rem;margin-bottom:8px;line-height:1.55';
+    p.textContent = t; mIntro.appendChild(p);
+  });
+  const mOpts = document.getElementById('media-options');
+  media.options.forEach((o) => {
+    const row = document.createElement('div'); row.className = 'clause'; row.style.cursor = 'pointer';
+    row.innerHTML = `<div class="ck"><svg viewBox="0 0 18 18"><path d="M3 9l4 4 8-9"/></svg></div>
+      <div class="ct"><div class="cb" style="color:var(--text)">${o.text}</div></div>`;
+    const box = row.querySelector('.ck');
+    row.onclick = () => {
+      state.media = o.key;
+      mOpts.querySelectorAll('.ck').forEach((b) => b.classList.remove('on'));
+      box.classList.add('on');
+      refreshPol();
+    };
+    mOpts.appendChild(row);
+  });
+
   // ── Waiver clauses (rendered from canonical source = hash source) ──
   const clausesEl=document.getElementById('clauses');
   let checked=0;
@@ -490,12 +527,19 @@
   }
   document.getElementById('signame').addEventListener('input',updateWaiver);
 
-  // ── policies acknowledgement ──
+  // ── policies acknowledgement + media consent gating ──
+  let polAck = false;
+  function refreshPol(){
+    const ok = polAck && !!state.media;
+    document.getElementById('polbtn').disabled = !ok;
+    document.getElementById('polhint').textContent = ok
+      ? 'Ready to complete.'
+      : (!polAck ? 'Confirm the acknowledgement to finish.' : 'Choose a media consent option to finish.');
+  }
   document.getElementById('polck').onclick=()=>{
     const ck=document.getElementById('polck');ck.classList.toggle('on');
-    const on=ck.classList.contains('on');
-    document.getElementById('polbtn').disabled=!on;
-    document.getElementById('polhint').textContent=on?"Ready to complete.":"Confirm the acknowledgement to finish.";
+    polAck=ck.classList.contains('on');
+    refreshPol();
   };
 
   // ── nav ──
@@ -569,7 +613,7 @@
     const btn=document.getElementById('polbtn');
     setBusy(btn,true);
     try {
-      await submitDoc('group_policies', { acknowledged: true });
+      await submitDoc('group_policies', { acknowledged: true, media_consent: state.media });
       document.getElementById('doc-policies').innerHTML=
       `<div style="text-align:center;padding:60px 20px">
         <div style="width:70px;height:70px;margin:0 auto 24px;border-radius:50%;background:linear-gradient(135deg,var(--orange),#c85a00);display:grid;place-items:center;box-shadow:0 16px 40px -12px rgba(232,112,10,.6)">
