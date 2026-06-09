@@ -22,7 +22,7 @@
 
 import { createHash } from 'node:crypto';
 import { capabilitiesFromToken, bearerFrom } from './_capabilities.js';
-import { canonicalText, DOC_VERSION, WAIVER_CLAUSE_KEYS, PARQ } from '../intake/v1.0/documents.js';
+import { canonicalText, DOC_VERSION, WAIVER_CLAUSE_KEYS, PARQ, MEDIA_CONSENT_KEYS } from '../intake/v1.1/documents.js';
 import { buildIntakePdf } from './_intake-pdf.js';
 
 const DATA_HANDLER = 'https://yxndmpwqvdatkujcukdv.supabase.co/functions/v1/data-handler';
@@ -240,6 +240,7 @@ function validate(docType, responses, signatureName) {
   }
   if (docType === 'group_policies') {
     if (responses.acknowledged !== true) return 'Acknowledgement is required';
+    if (!MEDIA_CONSENT_KEYS.includes(responses.media_consent)) return 'A media consent choice is required';
     return null;
   }
   if (docType === 'health_screen') {

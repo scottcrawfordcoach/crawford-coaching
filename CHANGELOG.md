@@ -6,6 +6,16 @@ The format is based on Keep a Changelog principles and uses reverse chronologica
 
 ## [2026-06-09]
 
+### Added — Synergize intake v1.1: medical-advice notes + required Media Consent
+
+New version of the intake documents per `SYNERGIZE-INTAKE-v1.1-BUILD-BRIEF.md`. **v1.0 is untouched** — v1.1 is a new folder ([`intake/v1.1/`](intake/v1.1/)) and `DOC_VERSION` is bumped to `1.1`; existing signed rows keep their v1.0 hash, only new signers get v1.1.
+
+- **Medical-advice notes (Change 1):** Health Screen now shows a doctor/physio note under **Part B** (`HISTORY_FLAG_NOTE`) and **Part C** (`INJURY_FLAG_NOTE`), mirroring the existing Part A note. Rendered in [`synergize-forms.html`](synergize-forms.html) from the canonical constants (not re-typed), so the shown text and the hashed text stay byte-identical.
+- **Media Consent (Change 2):** Group Policies gains a **required** single-choice media-consent section (`none` / `background` / `any`) with Scott's verbatim copy. The choice rides inside the existing `group_policies` `responses` JSON as `media_consent` — **no `data-handler` or schema change**. "Complete intake" is gated on both the acknowledgement **and** a media choice; the server (`api/intake-submit.js`) rejects a missing/invalid value.
+- **Re-versioning note:** `DOC_VERSION` is one constant across all three docs, so the **liability waiver re-versions to 1.1 with identical body text** and a freshly-computed (identical-input) hash. Expected.
+- **Importers repointed to v1.1:** `synergize-forms.html`, `api/intake-submit.js`, and `api/_intake-pdf.js` (the copy-of-record PDF now also renders the recorded media-consent choice).
+- Built on branch `feature/intake-v1.1`; verified on a Vercel preview before merge.
+
 ### Added — Synergize intake: copy-of-record PDF + auto-email on completion (phase 7)
 
 When a member finishes the final intake document, the system now generates a combined **copy-of-record PDF** of all three documents and emails it to them.
