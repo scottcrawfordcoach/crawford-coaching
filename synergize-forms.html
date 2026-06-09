@@ -511,7 +511,16 @@
 
   // ── submit (one immutable record per doc_type) ──
   async function submitDoc(docType, responses, signatureName){
-    if (!session) { location.replace(SIGN_IN); throw new Error('Please sign in again.'); }
+    // Resolve a FRESH token per submit. Caching the session at page load goes
+    // stale once supabase-js auto-refreshes (or the access token expires) while
+    // the member works through the multi-step form — the server then rejects it
+    // with 401 "Invalid session". getSession() returns the current (refreshed)
+    // token; if the session is fully gone, send them back to sign in.
+    session = await cc.getSession();
+    if (!session || !session.access_token) {
+      location.replace(SIGN_IN);
+      throw new Error('Your session expired — please sign in again.');
+    }
     const res = await fetch(INTAKE_API, {
       method:'POST',
       headers:{ 'Content-Type':'application/json', 'Authorization':'Bearer '+session.access_token },
