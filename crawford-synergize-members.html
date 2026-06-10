@@ -651,10 +651,13 @@ const workoutDisplayUrl = (meta) =>
     ? `${MAILER_BASE}/workouts/${encodeURIComponent(meta.slug)}/display`
     : workoutLookupUrl(meta?.name || '');
 
-// Date-keyed guide (which named workout runs each day), generated from the
-// Workout Schedule project's workout-log-2026.md. Regenerate when the log
-// changes. This is only the *guide*; the workout itself lives in Supabase.
-const WORKOUT_SCHEDULE_URL = '/synergize-workout-schedule.json';
+// Today's Workout reads the LIVE workout_schedule table directly via the public
+// data-handler action (the table is the source of truth — no auth needed for
+// this read). No static snapshot, so a day lights up to a launchable card the
+// moment its workout is built/resolved, with no schedule regeneration. The
+// static synergize-workout-schedule.json is retained only as a generated backup.
+const WORKOUT_SCHEDULE_API =
+  'https://yxndmpwqvdatkujcukdv.supabase.co/functions/v1/data-handler?action=workout_schedule';
 
 // The digital intake flow (health screen + waiver + policies) lives here once
 // built. Until then this opens the intake route; the status line below shows
@@ -720,11 +723,29 @@ function prettyDate(dateStr) {
 async function loadWorkout() {
   const card = document.getElementById('card-workout');
   try {
-    const res = await fetch(WORKOUT_SCHEDULE_URL, { cache: 'no-store' });
+    const todayStr = localDateStr(new Date());
+    // Live read from the workout_schedule table (source of truth), today forward.
+    // Transform rows into the date-keyed shape the rest of this code expects,
+    // deriving `renderable` from the table's `built` flag.
+    const res = await fetch(`${WORKOUT_SCHEDULE_API}&from=${todayStr}`, { cache: 'no-store' });
     if (!res.ok) throw new Error('schedule HTTP ' + res.status);
     const json = await res.json();
-    const schedule = json?.schedule || {};
-    const todayStr = localDateStr(new Date());
+    const rows = json?.data?.schedule || [];
+    const schedule = {};
+    for (const r of rows) {
+      schedule[r.date] = {
+        dow: r.dow,
+        name: r.workout_name,
+        closed: !!r.closed,
+        slug: r.slug || '',
+        workout_id: r.workout_id || '',
+        summary: r.summary,
+        emphasis: r.emphasis,
+        equipment: r.equipment,
+        status: r.status,
+        renderable: !!r.built && !r.closed,
+      };
+    }
     const today = schedule[todayStr];
 
     if (today && !today.closed) {

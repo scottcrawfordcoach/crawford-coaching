@@ -6,6 +6,10 @@ The format is based on Keep a Changelog principles and uses reverse chronologica
 
 ## [2026-06-09]
 
+### Changed — Today's Workout card now reads the live schedule table (no more stale snapshot)
+
+Durable fix for the staleness bug below: [`crawford-synergize-members.html`](crawford-synergize-members.html) `loadWorkout()` now fetches the **live `workout_schedule` table** via the public `data-handler` action (`?action=workout_schedule&from=<today>`, CORS-open, no auth) instead of the static `synergize-workout-schedule.json` snapshot. Rows are transformed into the same date-keyed shape the rest of the card logic uses, deriving `renderable` from the table's `built` flag — so a day becomes a launchable card the moment its workout is built/resolved, with **no schedule regeneration needed**. The static JSON is retained as a generated backup but no longer drives the card. `findNextSession()`/`renderWorkoutCard()` unchanged.
+
 ### Fixed — Today's Workout card showed the name but no launch link (stale schedule snapshot)
 
 The members-area "Today's Workout" card reads the static [`synergize-workout-schedule.json`](synergize-workout-schedule.json) snapshot and only offers a launch link when that day's `renderable` is true. "Let's Get At It" (2026-06-09) was built + resolved in the live `workout_schedule` table (`built: true`, with `slug`/`workout_id`), but the snapshot was last generated 2026-06-06, so it still had `renderable: false` / empty `slug`+`workout_id` — the name showed, but the card fell back to the static "not posted yet" panel. Regenerated the JSON from the authoritative live table (same `build_json` logic as `schedule_sync.py`, JSON-only — no table/markdown changes). Forward-only refresh: 2 days flipped to launchable (2026-06-09 + one Nov day), zero regressions. Canonical refresh remains `schedule_sync.py --apply` in the Workout Schedule-AI project after building/scheduling a workout.
