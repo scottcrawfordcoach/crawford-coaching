@@ -6,6 +6,17 @@ The format is based on Keep a Changelog principles and uses reverse chronologica
 
 ## [2026-06-10]
 
+### Changed — Synergize members area is now an open onboarding page (waiver + email consents for everyone)
+
+Reworked the members area so it can be sent to **every** client — paying or not, current or lapsed — to complete their waiver and set email preferences. The premium training cards stay visible but greyed, demonstrating what an active membership unlocks.
+
+- **Open gate** — [`crawford-synergize-members.html`](crawford-synergize-members.html): the entry gate no longer requires an active membership; any signed-in contact may enter. (The DB already auto-creates a `contacts` row for any new magic-link email via the `on_auth_user_created` trigger, so "enter your email → you're in" Just Works.)
+- **Greyed premium cards** — Today's Workout, Quick EMOM Builder, and Interval Timer are now **shown but greyed with a "Sign up for the month to unlock" prompt** for members without current access (capabilities `wod` / `emom_builder` / `custom_timer`), instead of being hidden. Launching the day's workout at home, the EMOM builder, and the full custom timer are the visible perks. The Interval Timer card's copy is reworded when locked (the custom builder is members-only). Class schedule, holiday hours, and the Waiver card stay active for everyone. Full members and ADMIN see everything unlocked exactly as before.
+- **Server gate relaxed** — [`api/intake-submit.js`](api/intake-submit.js) no longer requires the `waiver` capability; any verified session with a resolved contact may submit **their own** intake (identity still comes only from the trusted session, never the body — a caller can only ever write their own immutable records). This is the access change that lets not-yet/lapsed members complete onboarding. Validation, hashing, immutability, and the copy-of-record email are unchanged.
+- **Email consents** — new "Email preferences" section with two checkboxes: *newsletter* and *offers/services from Crawford Coaching and Synergize Fitness*. Saved via a new authenticated [`api/member-consent.js`](api/member-consent.js) that derives the email from the verified session (never the body) and proxies the existing `subscription_lookup` / `subscription_update` data-handler actions — **no schema or data-handler change**. Mapping: newsletter → `newsletter`; offers → `marketing_synergize` + `marketing_coaching`; either sets the master `email_consent`. Prefilled from current state.
+- **Future note (not built):** class/day selection at billing time, so clients can change attendance days for billing.
+- **Needs a Vercel deploy to go live.**
+
 ### Fixed — Completed intake (v1.1) showed as "in progress" on the members area
 
 [`crawford-synergize-members.html`](crawford-synergize-members.html) gated waiver completion on `doc_version === INTAKE_DOC_VERSION`, but that constant was still `'1.0'` while [`api/intake-submit.js`](api/intake-submit.js) writes `doc_version: '1.1'` (it imports `DOC_VERSION` from [`intake/v1.1/documents.js`](intake/v1.1/documents.js)). So a current (v1.1) intake could never match and the card stayed on "in progress" / "NOT COMPLETED" even though the records saved and the copy-of-record email sent. Bumped the constant to `'1.1'` (added a note to keep it in lockstep with the intake docs). Records were never lost — purely a display gate. **Needs a Vercel deploy to go live.**

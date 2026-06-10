@@ -8,8 +8,10 @@
  *
  * Order of operations (spec §7 / handoff §4):
  *   1. Verify the Supabase access token  → trusted user.id + email (401 if not).
- *   2. Require the `waiver` capability    → members only (403 if not).
- *   3. Resolve contact_id from the trusted session (never from the body).
+ *      Onboarding is open — no capability gate; any verified session with a
+ *      resolved contact may submit their own intake (a verified-session +
+ *      own-records-only write, never trusting the body for identity).
+ *   2. Resolve contact_id from the trusted session (never from the body).
  *   4. Validate completeness for the submitted doc_type.
  *   5. Server-compute doc_text_hash (SHA-256 of the canonical v1.0 text),
  *      `flagged` (health screen Part-A any yes), `expires_at` (screen + 12mo).
@@ -48,14 +50,15 @@ export default async function handler(req, res) {
     return res.status(500).json({ error: 'Server misconfigured' });
   }
 
-  // 1-2. Verify session + require membership (the `waiver` capability).
+  // 1. Verify session. Onboarding is open: any verified session with a resolved
+  // contact may submit THEIR OWN intake (the waiver/health screen is universal
+  // onboarding, not a paid feature — not-yet/lapsed members must be able to
+  // complete it). Identity is still taken only from the trusted session below,
+  // never the body, so a caller can only ever write their own records.
   const auth = await capabilitiesFromToken(bearerFrom(req), env);
   if (!auth.ok) return res.status(auth.status).json({ error: auth.error });
-  if (!auth.caps.has('waiver')) {
-    return res.status(403).json({ error: 'Membership required to submit intake documents' });
-  }
 
-  // 3. Trusted identity — from the session, never the body.
+  // 2. Trusted identity — from the session, never the body.
   const contactId = auth.contact?.id;
   const authUserId = auth.userId || auth.contact?.auth_user_id || null;
   if (!contactId || !authUserId) {

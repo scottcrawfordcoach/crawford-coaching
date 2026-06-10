@@ -341,6 +341,42 @@ a.mcard--launch:hover .mcard__icon { color: var(--pale); }
 .mcard--static .mcard__header { cursor: default; }
 .mcard--static .mcard__header:hover { background: none; }
 
+/* Locked launch cards — shown but greyed for members without the capability
+   (e.g. anyone not billed for the current month). The card content is muted
+   while the "unlock" prompt stays bright so the call-to-action reads. */
+.mcard--locked { cursor: default; }
+.mcard--locked:hover,
+.mcard--locked .mcard__header:hover { background: var(--slate); }
+.mcard--locked .member-card__title,
+.mcard--locked .mcard__sub { color: var(--mist); }
+.mcard--locked .mcard__icon { color: var(--mist); }
+.mcard__lock {
+  margin-top: 0.55rem;
+  display: inline-flex; align-items: center; gap: 0.45rem;
+  font-family: var(--sans); font-weight: 400;
+  font-size: 0.66rem; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--syn-orange);
+}
+
+/* ─── EMAIL PREFERENCES (onboarding consents) ─────────── */
+.consent { padding: 0 3.5rem 4rem; max-width: 780px; }
+.consent__tag {
+  font-family: var(--sans); font-weight: 400;
+  font-size: 0.66rem; letter-spacing: 0.24em; text-transform: uppercase;
+  color: var(--syn-orange); margin-bottom: 0.9rem;
+}
+.consent__title { font-family: var(--serif-display); font-weight: 400; font-size: 1.8rem; color: var(--white); margin-bottom: 0.5rem; }
+.consent__lead { font-family: var(--serif-body); color: var(--pale); line-height: 1.6; margin-bottom: 1.4rem; }
+.consent__row {
+  display: flex; gap: 0.8rem; align-items: flex-start;
+  padding: 0.7rem 0; cursor: pointer;
+  font-family: var(--serif-body); color: var(--pale); line-height: 1.5;
+}
+.consent__row input { margin-top: 0.2rem; width: 18px; height: 18px; accent-color: var(--syn-orange); flex-shrink: 0; }
+.consent__actions { display: flex; align-items: center; gap: 1.2rem; margin-top: 1.3rem; flex-wrap: wrap; }
+.consent__status { font-family: var(--sans); font-size: 0.8rem; color: var(--mist); }
+@media (max-width: 900px) { .consent { padding: 0 1.8rem 3rem; } }
+
 /* ─── FOOTER ─────────────────────────── */
 .footer {
   padding: 3rem 3.5rem;
@@ -422,7 +458,7 @@ img { max-width: 100%; display: block; vertical-align: top; }
   <p class="hero__eyebrow">Synergize Members</p>
   <h1 class="hero__title">Welcome back<span id="greeting-name"></span>.</h1>
   <p class="hero__lead">
-    Your member area. Class schedule, workout of the day, holiday hours, the full timer, and a few coaching tools we've unlocked for you as part of your membership.
+    Your member area. Class schedule, workout of the day, holiday hours, your membership paperwork, and the training tools that come with an active Synergize membership.
   </p>
 </section>
 
@@ -510,6 +546,25 @@ img { max-width: 100%; display: block; vertical-align: top; }
     <span class="mcard__icon mcard__icon--ext" aria-hidden="true">&#8599;</span>
   </a>
 
+</section>
+
+<!-- ── EMAIL PREFERENCES (onboarding consents, open to everyone) ── -->
+<section class="consent" id="consent-section" aria-labelledby="consent-title">
+  <p class="consent__tag">Stay in touch</p>
+  <h2 class="consent__title" id="consent-title">Email preferences</h2>
+  <p class="consent__lead">Tell us what you'd like to hear about. You can change these any time.</p>
+  <label class="consent__row">
+    <input type="checkbox" id="consent-newsletter">
+    <span>I want to receive the Crawford Coaching Newsletter.</span>
+  </label>
+  <label class="consent__row">
+    <input type="checkbox" id="consent-offers">
+    <span>I'm happy to receive emails about offers and services from Crawford Coaching and Synergize Fitness.</span>
+  </label>
+  <div class="consent__actions">
+    <button class="gate__btn" id="consent-save" type="button">Save preferences</button>
+    <span class="consent__status" id="consent-status" role="status" aria-live="polite"></span>
+  </div>
 </section>
 
 <!-- ── GROWTH ZONE CROSS-PROMO ── -->
@@ -608,30 +663,72 @@ function showGateError({ title, msg, primaryLabel, primaryHref }) {
   gateActions.style.display = 'flex';
 }
 
+// Resolved once at reveal; read by loadWorkout() and the lock logic below.
+let memberCaps = new Set();
+
 function reveal(contact) {
   if (contact?.first_name) greetingName.textContent = ', ' + contact.first_name;
+  memberCaps = cc.resolveCapabilities(contact);
   memberPage.classList.add('is-ready');
   gate.style.display = 'none';
-  applyCapabilityGates(contact);
+  applyCapabilityGates();
+  bindConsents();
   loadFeeds().catch((err) => console.warn('[members] feed load failed', err));
 }
 
-// Show only the launch cards the member is entitled to (Capability Model
-// Step 2, UX layer). Members in the area via coaching/whole status don't hold
-// the Synergize suite, so those cards are hidden for them. Class schedule and
-// holiday hours are informational (area-gated only) and always shown.
-// NOTE: waiver is also enforced server-side later (Step 4) — this is UX sugar.
-function applyCapabilityGates(contact) {
-  const caps = cc.resolveCapabilities(contact);
-  const gateCard = (id, capName) => {
-    const el = document.getElementById(id);
-    if (el && !caps.has(capName)) el.style.display = 'none';
-  };
-  gateCard('card-workout', 'wod');
-  gateCard('card-waiver', 'waiver');
-  gateCard('card-emom', 'emom_builder');
-  // card-timer (Interval Timer) is intentionally ungated — the timer page is
-  // public and gates its own custom-builder mode via custom_timer.
+// Onboarding model: everyone gets into the area. The premium training cards are
+// GREYED (not hidden) with an "unlock" prompt for anyone without current access,
+// so the value of an active membership is visible. The waiver + email
+// preferences are open to all. The workout card is locked inside loadWorkout()
+// (it loads async); the two static launch cards are locked here.
+// NOTE: the waiver write is also enforced server-side (api/intake-submit.js),
+// now relaxed to any verified session — these client gates are UX only.
+function applyCapabilityGates() {
+  if (!memberCaps.has('emom_builder')) {
+    lockLaunchCard(document.getElementById('card-emom'));
+  }
+  if (!memberCaps.has('custom_timer')) {
+    lockLaunchCard(document.getElementById('card-timer'),
+      'The full custom timer builder is part of an active Synergize membership.');
+  }
+  // card-waiver stays active for everyone (it's the onboarding action).
+  // card-workout is handled in loadWorkout() once it resolves.
+}
+
+// Grey out a launch card (<a>): mute it, kill the link, swap the ↗ for a lock,
+// and append the unlock prompt. Optionally replace the sub copy.
+function lockLaunchCard(el, subText) {
+  if (!el) return;
+  el.classList.add('mcard--locked');
+  el.removeAttribute('href');
+  el.removeAttribute('target');
+  el.setAttribute('aria-disabled', 'true');
+  el.addEventListener('click', (e) => e.preventDefault());
+  const icon = el.querySelector('.mcard__icon--ext');
+  if (icon) icon.innerHTML = '&#128274;'; // 🔒
+  const sub = el.querySelector('.mcard__sub');
+  if (sub && subText) sub.textContent = subText;
+  const heading = el.querySelector('.mcard__heading');
+  if (heading && !heading.querySelector('.mcard__lock')) {
+    const note = document.createElement('span');
+    note.className = 'mcard__lock';
+    note.textContent = 'Sign up for the month to unlock';
+    heading.appendChild(note);
+  }
+}
+
+// Locked variant of the Today's Workout card (member lacks the wod capability).
+function renderLockedWorkout(card) {
+  card.className = 'member-card mcard mcard--static mcard--locked';
+  card.innerHTML = `
+    <div class="mcard__header">
+      <span class="mcard__heading">
+        <span class="member-card__tag">Today's Workout</span>
+        <span class="member-card__title">Today's Workout</span>
+        <span class="mcard__sub">Opening the day's workout at home is a member perk.</span>
+        <span class="mcard__lock">Sign up for the month to unlock</span>
+      </span>
+    </div>`;
 }
 
 // ── Data sources ──────────────────────────────────────────
@@ -708,6 +805,7 @@ async function loadFeeds() {
     loadHolidayClosures(),
     loadWorkout(),
     loadWaiverStatus(),
+    loadConsents(),
   ]);
 }
 
@@ -724,6 +822,9 @@ function prettyDate(dateStr) {
 
 async function loadWorkout() {
   const card = document.getElementById('card-workout');
+  // Greyed for members without current access — launching the day's workout at
+  // home is the perk. Skip the fetch entirely.
+  if (!memberCaps.has('wod')) { renderLockedWorkout(card); return; }
   try {
     const todayStr = localDateStr(new Date());
     // Live read from the workout_schedule table (source of truth), today forward.
@@ -919,6 +1020,52 @@ function setWaiverNotCompleted(sub) {
   sub.className = 'mcard__sub mcard__sub--alert';
 }
 
+// ── EMAIL PREFERENCES (consents) ──────────────────────────
+// Reads/writes through /api/member-consent, which derives identity from the
+// verified session (never a body-supplied email) and proxies the existing
+// subscription_lookup / subscription_update data-handler actions.
+async function consentAuthHeaders() {
+  const session = await cc.getSession();
+  return session ? { Authorization: 'Bearer ' + session.access_token } : {};
+}
+async function loadConsents() {
+  const nl = document.getElementById('consent-newsletter');
+  const off = document.getElementById('consent-offers');
+  if (!nl || !off) return;
+  try {
+    const res = await fetch('/api/member-consent', { headers: await consentAuthHeaders() });
+    if (!res.ok) return;
+    const { data } = await res.json();
+    nl.checked = !!data?.newsletter;
+    off.checked = !!data?.offers;
+  } catch { /* leave unchecked */ }
+}
+function bindConsents() {
+  const btn = document.getElementById('consent-save');
+  const status = document.getElementById('consent-status');
+  if (!btn || btn.dataset.wired) return;
+  btn.dataset.wired = '1';
+  btn.addEventListener('click', async () => {
+    btn.disabled = true;
+    status.textContent = 'Saving…';
+    try {
+      const res = await fetch('/api/member-consent', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', ...(await consentAuthHeaders()) },
+        body: JSON.stringify({
+          newsletter: document.getElementById('consent-newsletter').checked,
+          offers: document.getElementById('consent-offers').checked,
+        }),
+      });
+      status.textContent = res.ok ? 'Saved.' : 'Could not save — please try again.';
+    } catch {
+      status.textContent = 'Could not save — please try again.';
+    } finally {
+      btn.disabled = false;
+    }
+  });
+}
+
 // ── ACCORDION ─────────────────────────────────────────────
 function wireAccordionCard(card) {
   const header = card.querySelector('.mcard__header[aria-controls]');
@@ -1043,28 +1190,19 @@ initAccordion();
     const contact = await cc.getContact();
     if (!contact) {
       showGateError({
-        title: "We can't find your record",
-        msg: 'Your sign-in worked, but we couldn’t match this email to a Synergize membership. Email Scott and he’ll sort it.',
+        title: "We couldn't load your account",
+        msg: 'Your sign-in worked, but we couldn’t load your account just now. Please try again, or email Scott and he’ll sort it.',
         primaryLabel: 'Email Scott',
         primaryHref: 'mailto:scott@crawford-coaching.ca?subject=Members%20Area%20access',
       });
       return;
     }
-    const role = await cc.getRole();
-    const allowed =
-      role === cc.ROLES.ADMIN ||
-      contact.synergize_active === true ||
-      contact.coaching_active === true ||
-      contact.whole_active === true;
-    if (!allowed) {
-      showGateError({
-        title: 'This area is for active Synergize members',
-        msg: "Your sign-in is good, but your membership isn't currently active. If that doesn't sound right, get in touch and we'll check.",
-        primaryLabel: 'About Synergize',
-        primaryHref: '/synergize',
-      });
-      return;
-    }
+    // Open onboarding model: any signed-in contact may enter so that
+    // not-yet / lapsed / between-months members can complete their waiver and
+    // set email preferences. The premium training cards (workout, EMOM, timer)
+    // are capability-gated INSIDE reveal() — shown but greyed with an unlock
+    // prompt for anyone without current Synergize access. The waiver write is
+    // also open to any verified session server-side (api/intake-submit.js).
     bindSignOut();
     reveal(contact);
   } catch (err) {
