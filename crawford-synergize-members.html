@@ -972,7 +972,9 @@ function renderStaticWorkout(card, tag, msg) {
 const INTAKE_DOC_VERSION = '1.1';
 async function loadWaiverStatus() {
   const sub = document.getElementById('sub-waiver');
+  const card = document.getElementById('card-waiver');
   if (!sub) return;
+  let done = false;   // complete or under review → don't invite re-submission
   try {
     const client = await cc.getClient();
     const { data, error } = await client
@@ -987,15 +989,17 @@ async function loadWaiverStatus() {
 
     const current = (t) => latest[t] && latest[t].doc_version === INTAKE_DOC_VERSION;
     const screen = latest['health_screen'];
-    const screenOk = current('health_screen')
-      && (!screen.expires_at || new Date(screen.expires_at) > new Date())
-      && (!screen.flagged || !!screen.reviewed_at);
-    const cleared = current('liability_waiver') && current('group_policies') && screenOk;
+    const screenCurrent = current('health_screen')
+      && (!screen.expires_at || new Date(screen.expires_at) > new Date());
+    // All three documents submitted at the current version (health not expired).
+    const allSubmitted = current('liability_waiver') && current('group_policies') && screenCurrent;
+    // Everything is in, but a flagged health screen is awaiting Scott's review.
+    const pendingReview = allSubmitted && !!screen.flagged && !screen.reviewed_at;
+    const cleared = allSubmitted && !pendingReview;   // unflagged, or flagged-and-reviewed
     const started = !!(latest['health_screen'] || latest['liability_waiver'] || latest['group_policies']);
 
     if (cleared) {
-      // Neutral wording: state completion only, not a medical/clearance judgement
-      // on the disclosed health info. Date = when the last required doc was signed.
+      // Neutral wording: state completion only, not a medical/clearance judgement.
       const completedAt = ['health_screen', 'liability_waiver', 'group_policies']
         .map((t) => latest[t] && latest[t].signed_at).filter(Boolean).sort().pop();
       const when = completedAt
@@ -1003,6 +1007,13 @@ async function loadWaiverStatus() {
         : '';
       sub.textContent = when ? 'Completed on ' + when : 'Completed';
       sub.className = 'mcard__sub mcard__sub--strong';
+      done = true;
+    } else if (pendingReview) {
+      // All forms are in — reassure. Do NOT imply it's incomplete, or the
+      // member may needlessly re-submit the whole intake.
+      sub.textContent = 'Thank you for completing — your intake is under review';
+      sub.className = 'mcard__sub mcard__sub--strong';
+      done = true;
     } else if (started) {
       sub.textContent = 'In progress — finish your intake';
       sub.className = 'mcard__sub mcard__sub--alert';
@@ -1012,8 +1023,21 @@ async function loadWaiverStatus() {
   } catch (err) {
     setWaiverNotCompleted(sub);
   }
-  // Point the card at the intake flow regardless of status.
-  document.getElementById('card-waiver')?.setAttribute('href', WAIVER_URL);
+
+  // Complete / under review → make the card informational so it can't be
+  // re-opened and re-submitted by accident. Otherwise point it at the flow.
+  if (card) {
+    if (done) {
+      card.removeAttribute('href');
+      card.removeAttribute('target');
+      card.setAttribute('aria-disabled', 'true');
+      card.style.cursor = 'default';
+      const icon = card.querySelector('.mcard__icon--ext');
+      if (icon) icon.innerHTML = '&#10003;';   // ✓
+    } else {
+      card.setAttribute('href', WAIVER_URL);
+    }
+  }
 }
 function setWaiverNotCompleted(sub) {
   sub.textContent = 'NOT COMPLETED';

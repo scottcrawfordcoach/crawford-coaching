@@ -6,6 +6,10 @@ The format is based on Keep a Changelog principles and uses reverse chronologica
 
 ## [2026-06-10]
 
+### Fixed — Waiver card no longer reads "in progress" for a completed-but-under-review intake
+
+A member who finished all three intake docs but whose health screen flagged a Part-A "yes" saw the waiver card say **"In progress — finish your intake"** while it awaited admin review — which reads as *incomplete* and risks them re-submitting the whole intake. [`crawford-synergize-members.html`](crawford-synergize-members.html) `loadWaiverStatus()` now distinguishes a fourth state: all docs submitted (current version, health not expired) + health screen flagged + not yet reviewed → **"Thank you for completing — your intake is under review"** (neutral/positive, not an alert). Genuinely incomplete intakes still say "In progress". Also, once **complete or under review**, the card is made informational (href/launch arrow removed, ✓ shown) so it can't be accidentally re-opened and re-submitted. Client-facing — shipping ahead of an intake send today.
+
 ### Added — Health-screen data separation migration (drafted; gated apply)
 
 New [`migrations/2026-06-health-screen-split.sql`](migrations/2026-06-health-screen-split.sql) separates sensitive health-screen answers into a dedicated `public.health_screen_responses` table (1:1 with `intake_submissions`, RLS on / no policy), so they're never co-mingled or exposed incidentally. Paired with a standing "AI: do not read this table" rule in `CLAUDE.md`. Includes an **atomic** `intake_submit_record()` writer (the `intake_submissions` immutability trigger blocks `DELETE`, so a two-step insert could orphan a row), a backfill + verify, and a **gated** blanking step that must toggle the immutability trigger. **Not yet applied** — operator runs it in the Supabase SQL editor, ordered: sections 1–3 → deploy the `data-handler` change (mailer repo) → test → blanking section 4. Companion runbook `intake-security-spec.md` + `intake-data-handling-note.md` live at the projects root. No app code in this repo changed (the data-handler abstracts the table change); `api/intake-submit.js` / `api/intake-admin.js` are unaffected.
