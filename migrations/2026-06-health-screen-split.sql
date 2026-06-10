@@ -46,15 +46,17 @@ create index if not exists health_screen_responses_contact_idx
   on public.health_screen_responses (contact_id);
 
 -- RLS on, no policy: members never read it (the members page reads only
--- non-sensitive status columns from intake_submissions). Service role bypasses
--- RLS by design; ai_connector has no grant, so it is walled regardless.
+-- non-sensitive status columns from intake_submissions). Only the service role
+-- (which bypasses RLS by design) reads/writes it; AI assistants are instructed
+-- not to read it (standing rule in CLAUDE.md).
 alter table public.health_screen_responses enable row level security;
 
 
 -- ---------------------------------------------------------------------------
 -- 2. Atomic writer — insert a submission and (for health screens) its responses
---    in ONE transaction. SECURITY INVOKER: runs with the caller's privileges,
---    so only the service role (not ai_connector) can use it for health rows.
+--    in ONE transaction. SECURITY INVOKER (default): runs with the caller's
+--    privileges, so it can only write health rows when called by the service
+--    role (the data-handler) — not by a lower-privilege connector.
 -- ---------------------------------------------------------------------------
 create or replace function public.intake_submit_record(
   p_contact_id    uuid,
