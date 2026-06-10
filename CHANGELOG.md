@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 The format is based on Keep a Changelog principles and uses reverse chronological order.
 
+## [2026-06-10]
+
+### Changed — Temporarily hid the Growth Zone cross-promo card on the members area
+
+Shipping the Synergize members area to clients today, but the Growth Zone isn't client-ready yet. Hid the `.gz-banner` cross-promo section in [`crawford-synergize-members.html`](crawford-synergize-members.html) with the native `hidden` attribute (markup preserved, consistent with the project's temporary-UI-state convention — remove `hidden` to re-enable). The Growth Zone links in the members-area nav/footer were left in place (they're standard site nav, not the cross-promo). **Needs a Vercel deploy to go live.**
+
 ## [2026-06-09]
 
 ### Changed — Today's Workout card now reads the live schedule table (no more stale snapshot)
