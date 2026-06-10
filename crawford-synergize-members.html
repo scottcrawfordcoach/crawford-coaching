@@ -436,7 +436,7 @@ img { max-width: 100%; display: block; vertical-align: top; }
   <article class="member-card mcard" id="card-workout">
     <div class="mcard__header" aria-hidden="true">
       <span class="mcard__heading">
-        <span class="member-card__tag">Today</span>
+        <span class="member-card__tag">Today's Workout</span>
         <span class="member-card__title">Today's Workout</span>
         <span class="mcard__sub" id="sub-workout">Loading today's workout…</span>
       </span>
@@ -753,7 +753,7 @@ async function loadWorkout() {
     if (today && !today.closed) {
       // A training day with a workout on the books.
       renderWorkoutCard(card, {
-        tag: 'Today',
+        tag: "Today's Workout",
         name: today.name,
         canLaunch: today.renderable,
         meta: today,
@@ -863,7 +863,12 @@ function renderStaticWorkout(card, tag, msg) {
 // AND a current-version health_screen exists that is not expired and (if
 // flagged) reviewed. Soft-wall: the card reflects status and points at the
 // intake flow; we don't hard-redirect (re-consent campaign is a fast-follow).
-const INTAKE_DOC_VERSION = '1.0';
+// Must match the version api/intake-submit.js writes (it imports DOC_VERSION
+// from intake/v1.1/documents.js). When the intake docs re-version, bump this in
+// lockstep, or completed intakes read as "in progress". (Bumped 1.0 → 1.1 to
+// match the 2026-06-09 v1.1 intake; the v1.0 constant silently broke the
+// completion display for v1.1 signers.)
+const INTAKE_DOC_VERSION = '1.1';
 async function loadWaiverStatus() {
   const sub = document.getElementById('sub-waiver');
   if (!sub) return;

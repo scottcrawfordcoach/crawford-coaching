@@ -6,6 +6,14 @@ The format is based on Keep a Changelog principles and uses reverse chronologica
 
 ## [2026-06-10]
 
+### Fixed — Completed intake (v1.1) showed as "in progress" on the members area
+
+[`crawford-synergize-members.html`](crawford-synergize-members.html) gated waiver completion on `doc_version === INTAKE_DOC_VERSION`, but that constant was still `'1.0'` while [`api/intake-submit.js`](api/intake-submit.js) writes `doc_version: '1.1'` (it imports `DOC_VERSION` from [`intake/v1.1/documents.js`](intake/v1.1/documents.js)). So a current (v1.1) intake could never match and the card stayed on "in progress" / "NOT COMPLETED" even though the records saved and the copy-of-record email sent. Bumped the constant to `'1.1'` (added a note to keep it in lockstep with the intake docs). Records were never lost — purely a display gate. **Needs a Vercel deploy to go live.**
+
+### Changed — Today's Workout card tag now reads "Today's Workout" (was "Today")
+
+[`crawford-synergize-members.html`](crawford-synergize-members.html): the daily workout card's tag chip said "Today"; it now reads "Today's Workout" (static placeholder + the live `loadWorkout()` tag for today's session). Weekend/closure variants ("No session today", "Gym closed today") are unchanged. **Needs a Vercel deploy to go live.**
+
 ### Changed — Temporarily hid the Growth Zone cross-promo card on the members area
 
 Shipping the Synergize members area to clients today, but the Growth Zone isn't client-ready yet. Hid the `.gz-banner` cross-promo section in [`crawford-synergize-members.html`](crawford-synergize-members.html) with the native `hidden` attribute (markup preserved, consistent with the project's temporary-UI-state convention — remove `hidden` to re-enable). The Growth Zone links in the members-area nav/footer were left in place (they're standard site nav, not the cross-promo). **Needs a Vercel deploy to go live.**
