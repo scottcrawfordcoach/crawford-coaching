@@ -6,6 +6,10 @@ The format is based on Keep a Changelog principles and uses reverse chronologica
 
 ## [2026-06-10]
 
+### Added — Health-screen data separation migration (drafted; gated apply)
+
+New [`migrations/2026-06-health-screen-split.sql`](migrations/2026-06-health-screen-split.sql) separates sensitive health-screen answers into a dedicated `public.health_screen_responses` table (1:1 with `intake_submissions`, RLS on / no policy), so they're never co-mingled or exposed incidentally. Paired with a standing "AI: do not read this table" rule in `CLAUDE.md`. Includes an **atomic** `intake_submit_record()` writer (the `intake_submissions` immutability trigger blocks `DELETE`, so a two-step insert could orphan a row), a backfill + verify, and a **gated** blanking step that must toggle the immutability trigger. **Not yet applied** — operator runs it in the Supabase SQL editor, ordered: sections 1–3 → deploy the `data-handler` change (mailer repo) → test → blanking section 4. Companion runbook `intake-security-spec.md` + `intake-data-handling-note.md` live at the projects root. No app code in this repo changed (the data-handler abstracts the table change); `api/intake-submit.js` / `api/intake-admin.js` are unaffected.
+
 ### Changed — Synergize members area is now an open onboarding page (waiver + email consents for everyone)
 
 Reworked the members area so it can be sent to **every** client — paying or not, current or lapsed — to complete their waiver and set email preferences. The premium training cards stay visible but greyed, demonstrating what an active membership unlocks.

@@ -200,6 +200,7 @@ All pages share the same CSS token set defined inline per file (no shared styles
 - **Keep pages in sync** — when changing a shared UI pattern (nav, footer, token values, favicon), apply the change across all affected pages in the same pass. Changes to one `crawford-*.html` that affect a shared pattern usually need to be replicated to the others.
 - **Validate at mobile breakpoints** — after any layout change, check that the 900px hamburger breakpoint and small-screen readability are intact.
 - **Prefer small, verifiable steps** — make focused changes per page rather than sweeping multi-page edits in a single tool call.
+- **Sensitive health data — AI do not read.** Client health-screen answers live in `public.health_screen_responses` (separate from `intake_submissions`). Never `SELECT` from it, read it through a connector, or echo its rows. Help write/maintain the intake code that manages it; debug with synthetic rows only. Real health data is read/managed by the operator, deliberately. See the root `CLAUDE.md` and `intake-data-handling-note.md`.
 
 ---
 
