@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 The format is based on Keep a Changelog principles and uses reverse chronological order.
 
+## [2026-06-11]
+
+### Fixed — EMOM Focus filter bypassed because "Full Body" stayed selected
+
+On the [`/quick-emom`](crawford-quick-emom.html) EMOM builder, the Focus chip group defaulted to **Full Body** active, and selecting **Upper / Lower / Core** simply added to it rather than replacing it — so "Full Body" remained selected and the generator pulled from the full exercise pool, silently bypassing the Focus filter. Restored mutual-exclusivity in `wireChips()`: choosing Full Body now clears Upper/Lower/Core, and choosing any of Upper/Lower/Core clears Full Body, so the selected focus actually filters the exercise selection. **Needs a Vercel deploy to go live.**
+
 ## [2026-06-10]
 
 ### Fixed — Waiver card no longer reads "in progress" for a completed-but-under-review intake
