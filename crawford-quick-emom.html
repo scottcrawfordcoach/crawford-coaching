@@ -838,10 +838,21 @@ function wireChips() {
   ['emomEquip', 'emomDiff', 'emomFocus'].forEach(groupId => {
     const container = document.getElementById(groupId);
     if (!container) return;
+    const isFocusGroup = container.id === 'emomFocus';
     container.addEventListener('click', (e) => {
       const chip = e.target.closest('.emom-chip');
       if (!chip) return;
       chip.classList.toggle('active');
+      // Focus group: Full Body is mutually exclusive with Upper/Lower/Core
+      if (isFocusGroup) {
+        const val = chip.dataset.val;
+        if (val === 'Full Body' && chip.classList.contains('active')) {
+          container.querySelectorAll('.emom-chip').forEach(c => { if (c.dataset.val !== 'Full Body') c.classList.remove('active'); });
+        } else if (val !== 'Full Body' && chip.classList.contains('active')) {
+          const fb = container.querySelector('.emom-chip[data-val="Full Body"]');
+          if (fb) fb.classList.remove('active');
+        }
+      }
     });
   });
 }
